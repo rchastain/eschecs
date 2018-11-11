@@ -1,8 +1,8 @@
-{ This file was automatically created by Typhon IDE. Do not edit!
+{ This file was automatically created by Lazarus. Do not edit!
   This source is only used to compile and install the package.
  }
 
-unit BGRAbitmap4fpGUI;
+unit BGRABitmapPack4fpGUI;
 
 {$warn 5023 off : no warning about unused units}
 interface
@@ -21,14 +21,10 @@ uses
   BGRAReadBmpMioMap, BGRAArrow, BGRAGraphics, BGRAUTF8, BGRAfpGUIBitmap, 
   BGRATypewriter, BGRASVG, BGRASVGShapes, BGRASVGType, BGRAPalette, 
   BGRAColorQuantization, BGRADithering, BGRAFreeType, BGRACustomTextFX, 
-  BGRAWritePNG, BGRAGifFormat, TyphonPackageIntf;
+  BGRAWritePNG, BGRAGifFormat, BGRASceneTypes, BGRARenderer3D, 
+  BGRAWriteBmpMioMap, BGRAPhoxo, BGRAFilterScanner, BGRAFilterType, 
+  BGRAFilterBlur, BGRAMultiFileType, BGRAWinResource, BGRAUnicode;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('pl_BGRAbitmap4fpGUI', @Register);
 end.

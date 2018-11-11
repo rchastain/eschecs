@@ -31,7 +31,12 @@ implementation
 
 const
   RUNTIME_COLORS = 'colors.txt';
+  
+  {$IFDEF windows}
   PICTURES_FOLDER = 'images\%s\%d';
+  {$else}
+  PICTURES_FOLDER = 'images/%s/%d';
+  {$endif}
   
 procedure LoadColors();
 var
@@ -193,7 +198,7 @@ begin
       s := Concat(
         ExtractFilePath(ParamStr(0)),
         Format(PICTURES_FOLDER, [gStyleData[gStyle].font, gStyleData[gStyle].scale]),
-        '\',
+       directoryseparator,
         COLORCHARS[c],
         TYPECHARS[k],
         gStyleData[gStyle].imgext
@@ -213,7 +218,8 @@ begin
       vPieceImage[c, k, ocWhite].ReplaceColor(CSSGray, CSSWhite);
     end;
   
-  s := ExtractFilePath(ParamStr(0)) + Format(PICTURES_FOLDER, [gStyleData[gStyle].font, gStyleData[gStyle].scale]) + '\ds.bmp';
+  s := ExtractFilePath(ParamStr(0)) + Format(PICTURES_FOLDER, [gStyleData[gStyle].font, gStyleData[gStyle].scale])
+   + directoryseparator + 'ds.bmp';
   Assert(FileExists(s));
   vDarkSquare := TBGRABitmap.Create(s);
   vDarkSquare.ReplaceColor(CSSMidnightBlue, BGRAPixelTransparent);

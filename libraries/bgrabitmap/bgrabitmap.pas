@@ -64,16 +64,12 @@ uses
 			{$IFDEF LCLqt}
 		BGRAQtBitmap,
 			{$ELSE}
-      {$IFDEF LCLQT5}   //=== ct9999 =====
-    BGRAQt5Bitmap,
-      {$ELSE}                        
-      {$IFDEF DARWIN}
-    BGRAMacBitmap,
-      {$ELSE}
+              {$IFDEF DARWIN}
+        BGRAMacBitmap,
+              {$ELSE}
 		BGRALCLBitmap,
+              {$ENDIF}
 			{$ENDIF}
-      {$ENDIF}
-		  {$ENDIF}
 		  {$ENDIF}
 		{$ENDIF}
 	  {$ENDIF}
@@ -100,16 +96,12 @@ type
             {$IFDEF LCLqt}
         TBGRABitmap = class(TBGRAQtBitmap);
             {$ELSE}
-            {$IFDEF LCLQT5}   //=== ct9999 =====
-        TBGRABitmap = class(TBGRAQtBitmap);
-            {$ELSE}
-            {$IFDEF DARWIN}
+              {$IFDEF DARWIN}
         TBGRABitmap = class(TBGRAMacBitmap);
-            {$ELSE}
+              {$ELSE}
         TBGRABitmap = class(TBGRALCLBitmap);
+              {$ENDIF}
             {$ENDIF}
-          {$ENDIF}
-          {$ENDIF}
           {$ENDIF}
         {$ENDIF}
       {$ENDIF}

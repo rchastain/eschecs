@@ -6,8 +6,13 @@
 program Eschecs;
 
 {$mode objfpc}{$H+}
+{$DEFINE UseCThreads}
 
 uses
+{$IFDEF UNIX}
+  cthreads, 
+  cwstring, 
+{$ENDIF}
   Classes,
   SysUtils,
   StrUtils,

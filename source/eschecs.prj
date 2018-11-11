@@ -165,7 +165,7 @@ options=114
  value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=3
+ index=2
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=814
  width0=47
@@ -213,14 +213,13 @@ targetfile=${PROJECTDIR}/${PROJECTNAME}
 messageoutputfile=
 makecommand=${COMPILER}
 makedir=
-unitdirs=12
+unitdirs=11
  ../libraries/lazutils
  ./*
  ../libraries/bass
  ../libraries
  ../libraries/bgrabitmap
  ../libraries/fpgui
- /home/fred/fpGUI-maint/src/corelib/gdi
  ../libraries/fpgui/src/corelib/gdi
  ../libraries/fpgui/src
  ../libraries/fpgui/src/corelib/x11
@@ -246,10 +245,10 @@ makeoptpurpose=8
  Define Object Pascal
  Exe path to /.
  Output to /units
- 
+ Debug
  Re-build all
  Optimizations
- 
+ BGRABITMAP
  Verbosity
 compilerused=29
  ${COMPILER} (Default)
@@ -506,14 +505,13 @@ project_time=01:54:38
 project_date=11/11/2016
 project_comment=
 aftcommandon=0
-unitdirson=12
+unitdirson=11
  196735
  987135
  200703
  200703
  200703
  196735
- 987135
  64
  196735
  196671
@@ -761,8 +759,9 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=PICTURES_FOLDER
-findhistory=12
+finddtext=\
+findhistory=13
+ \
  PICTURES_FOLDER
  wp.png
  .create
@@ -776,26 +775,46 @@ findhistory=12
  sort
  uses
 findoptions=1
-editpos=4
- 0,782
- 0,7
- 0,4
- 0,24
+editpos=8
+ 0,12
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
-sourcefiles=4
+bookmarks4=0
+bookmarks5=0
+bookmarks6=0
+bookmarks7=0
+sourcefiles=8
  ${PROJECTDIR}/eschecs.pas
  /home/fred/fpGUI-maint/src/corelib/gdi/fpg_impl.pas
  ${PROJECTDIR}/images.pas
  /home/fred/fpGUI-maint/src/corelib/x11/fpg_impl.pas
-relpaths=4
+ ${PROJECTDIR}/eschecs.pas
+ /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
+ /home/fred/ultibotest/ultibo_fpgui1.pas
+ /home/fred/uos/examples/consoleplay.pas
+relpaths=8
  eschecs.pas
- ../fpGUI-maint/src/corelib/gdi/fpg_impl.pas
+ fpGUI-maint/src/corelib/gdi/fpg_impl.pas
  images.pas
- ../fpGUI-maint/src/corelib/x11/fpg_impl.pas
-ismoduletexts=4
+ fpGUI-maint/src/corelib/x11/fpg_impl.pas
+ eschecs.pas
+ libraries/bgrabitmap/bgrafpguibitmap.pas
+ ultibotest/ultibo_fpgui1.pas
+ uos/examples/consoleplay.pas
+ismoduletexts=8
+ 0
+ 0
+ 0
+ 0
  0
  0
  0
@@ -805,15 +824,19 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=4
+order=8
  0
+ 5
  2
  3
+ 4
+ 6
  1
+ 7
 firsttab=0
-index=1
+index=0
 [layout]
-windowlayout=590
+windowlayout=564
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -827,13 +850,13 @@ windowlayout=590
  ny=0
  ncx=0
  ncy=0
- x=0
+ x=3
  y=29
- cx=1366
+ cx=1360
  cy=706
  rcx=0
  rcy=0
- wsize=6
+ wsize=0
  active=1
  visible=1
  [targetconsolefo]
@@ -921,7 +944,7 @@ windowlayout=590
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=targetconsolefo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1161,7 +1184,7 @@ windowlayout=590
  ncy=0
  x=0
  y=526
- cx=1356
+ cx=1350
  cy=164
  rcx=0
  rcy=0
@@ -1261,7 +1284,7 @@ windowlayout=590
  ncy=0
  x=0
  y=0
- cx=1356
+ cx=1350
  cy=58
  rcx=0
  rcy=0
@@ -1273,11 +1296,11 @@ windowlayout=590
  mdistate=0
  nx=0
  ny=0
- ncx=1356
+ ncx=1350
  ncy=61
  x=0
  y=0
- cx=1356
+ cx=1350
  cy=61
  rcx=0
  rcy=0
@@ -1288,14 +1311,16 @@ windowlayout=590
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/images.pas
- history=50
+ value=/home/fred/eschecs/source/eschecs.pas
+ history=20
+  /home/fred/eschecs/source/eschecs.pas
+  /home/fred/ultibotest/ultibo_fpgui1.pas
+  /home/fred/eschecs/source/images.pas
   /home/fred/eschecs/libraries/bgrabitmap/bgrabitmap.pas
   /home/fred/moustique_git/moustique/version.inc
   /home/fred/ideu/README.TXT
   /home/fred/ideu/src/mseconsts.pas
   /home/fred/openmax-master/uos_ultibo_test.pas
-  /home/fred/ultibotest/ultibo_fpgui1.pas
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
   /home/fred/ultibotest/helloworld_ultibo.pas
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
@@ -1308,40 +1333,8 @@ windowlayout=590
   /home/fred/eschecs/source/validator/validator.pas
   /home/fred/uoslib/src/uoslib.pas
   /home/fred/eschecs/source/sound_uos.pas
-  /home/fred/eschecs/source/sound.pas
-  /home/fred/eschecs/source/chessboard.pas
-  /home/fred/eschecs/source/eschecs.pas
-  /home/fred/moustique/validator_dyn.pas
-  /home/fred/moustique/parser.pas
-  /home/fred/fpGUI-maint/examples/corelib/aggcanvas/agg_canvas_test.pas
-  /home/fred/fpGUI-maint/examples/corelib/aggcanvas/agg_canvas_test.lpr
-  /home/fred/fpGUI-maint/examples/corelib/aggcanvas/agg_canvas_test.lpi
-  /home/fred/designer_ext/src/designer_ext.pas
-  /home/fred/designer_ext/src/runonce_postit.pas
-  /home/fred/designer_ext/src/cthreads.pas
-  /home/fred/designer_ext/src/pthreads.pp
-  /home/fred/designer_ext/src/frm_multiselect.pas
-  /home/fred/designer_ext/src/fpg_style_anim_chrome_silver_vert_flatmenu.pas
-  /home/fred/designer_ext/src/plugmanager.pas
-  /home/fred/designer_ext/src/runonce_postit2.pas
-  /home/fred/ideu/src/plugmanager.pas
-  /home/fred/ideu/src/conffpgui.pas
-  /home/fred/ideu/src/confideu.pas
-  /home/fred/ideu/src/ideusettings.pas
-  /home/fred/ideu/src/make.pas
-  /home/fred/designer_ext/src/frm_colorpicker.pas
-  /home/fred/designer_ext/src/fpg_main.pas
-  /home/fred/designer_ext/src/develop_dynX11/fpg_main.pas
-  /home/fred/fpGUI-develop/src/corelib/fpg_main.pas
-  /home/fred/designer_ext/src/maint_dynX11/fpg_main.pas
-  /home/fred/designer_ext/src/runonce_postitold.pas
-  /home/fred/fpGUI-maint/src/corelib/fpg_main.pas
-  /home/fred/fpGUI-maint/src/corelib/fpg_base.pas
-  /home/fred/designer_ext/src/develop_dynX11/fpg_x11.pas
-  /home/fred/designer_ext/src/xdynload.pas
-  /home/fred/designer_ext/src/xext.pas
  [debuggerfo.project_options]
- value=5
+ value=1
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1356,18 +1349,22 @@ windowlayout=590
  ncy=0
  x=208
  y=0
- cx=1148
+ cx=1142
  cy=462
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=4
+ order=8
   0
+  5
   2
   3
+  4
+  6
   1
+  7
  firsttab=0
- index=1
+ index=0
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
@@ -1400,7 +1397,7 @@ windowlayout=590
  ncy=0
  x=0
  y=61
- cx=1356
+ cx=1350
  cy=462
  rcx=0
  rcy=0
