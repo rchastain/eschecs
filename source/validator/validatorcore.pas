@@ -1,6 +1,8 @@
 
 unit validatorcore;
 
+{$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -77,7 +79,7 @@ begin
       begin
         s := b[i];
         repeat
-          s := e.Replace(s, ExpandEmptySquares());
+          s := e.Replace(s, @ExpandEmptySquares);
         until not ExecRegExpr('\d', s);
         (*
         ToLog(Format('%s %s', [{$I %LINE%}, s]));

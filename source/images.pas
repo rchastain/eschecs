@@ -40,6 +40,7 @@ var
   vByte: byte;
 begin
   Assert(FileExists(RUNTIME_COLORS));
+ 
   AssignFile(vFile, RUNTIME_COLORS);
   Reset(vFile);
   for vOutline := ocGreen to ocRed do

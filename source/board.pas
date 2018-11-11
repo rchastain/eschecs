@@ -1,6 +1,8 @@
 
 unit Board;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
