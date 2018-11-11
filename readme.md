@@ -1,7 +1,5 @@
 
-*Eschecs* is a free chess playing program for the Windows system.
-
-*Eschecs* uses the [UCI protocol](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with UCI chess engines.
+*Eschecs* is a free chess playing program, which uses the [UCI protocol](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with UCI chess engines.
 
 *Eschecs* includes an original UCI engine called *Moustique*.
 

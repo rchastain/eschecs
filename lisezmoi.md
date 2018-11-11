@@ -1,7 +1,5 @@
 
-*Eschecs* est un jeu d'échecs gratuit pour le système d'exploitation Windows.
-
-*Eschecs* utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des modules externes qui sont autant d'adversaires pour l'utilisateur.
+*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des modules externes qui sont autant d'adversaires pour l'utilisateur.
 
 *Eschecs* inclut un module original, appelé *Moustique*.
 
