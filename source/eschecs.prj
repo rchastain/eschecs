@@ -19,7 +19,7 @@ order16=0
 [projectoptions]
 projectdir=/home/fred/eschecs/source
 projectfilename=/home/fred/eschecs/source/eschecs.prj
-findinfiledialog=54
+findinfiledialog=57
  [findinfileadialogfo.subdirs]
  value=1
  [findinfileadialogfo.incurrentfile]
@@ -29,32 +29,35 @@ findinfiledialog=54
  [findinfileadialogfo.wholeword]
  value=0
  [findinfileadialogfo.inprojectdir]
- value=1
+ value=0
  [findinfileadialogfo.casesensitive]
  value=0
  [findinfileadialogfo.indirectories]
- value=0
+ value=1
  [findinfileadialogfo.mask]
- value="*.pas" "*.pp" "*.inc" "*.*"
- history=2
+ value="*.pas" "*.pp" "*.inc" 
+ history=3
+  "*.pas" "*.pp" "*.inc" 
   "*.pas" "*.pp" "*.inc" "*.*"
   "*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.dir]
  filenames=1
-  /home/fred/ideu/
+  /home/fred/designer_ext/src/
  filecolwidth=174
  x=0
  y=0
  cx=0
  cy=0
- filehistory=2
+ filehistory=3
+  /home/fred/designer_ext/src/
   /home/fred/ideu/
   /home/fred/
  filefilterindex=0
- filefilter="*.pas" "*.pp" "*.inc"
+ filefilter="*.pas" "*.pp" "*.inc" "*.*"
  [findinfileadialogfo.findtext]
- value=workingDirectory
- history=13
+ value=fpg_form
+ history=14
+  fpg_form
   workingDirectory
   vEngines
   fexepa
@@ -191,7 +194,7 @@ options=114
  index=0
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=1
+ index=2
  [projectoptionsfo]
  stackedunder=
  x=323
@@ -351,7 +354,7 @@ stripmessageesc=0
 copymessages=0
 closemessages=0
 enablepurpose=1
-enablesource=1
+enablesource=0
 checkmethods=1
 colorerror=-1610612717
 colorwarning=-1610612712
@@ -770,8 +773,9 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=MENU_BAR_HEIGHT
+finddtext=cns_
 findhistory=20
+ cns_
  MENU_BAR_HEIGHT
  FTimer
  addmenuitem
@@ -791,61 +795,15 @@ findhistory=20
  30005
  NewView
  images
- Sort
 findoptions=1
-editpos=10
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,20
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
+editpos=1
+ 0,11
 bookmarks0=0
-bookmarks1=0
-bookmarks2=0
-bookmarks3=0
-bookmarks4=0
-bookmarks5=0
-bookmarks6=0
-bookmarks7=0
-bookmarks8=0
-bookmarks9=0
-sourcefiles=10
+sourcefiles=1
  ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/images.pas
- /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
- ${PROJECTDIR}/engines.pas
- /home/fred/uos/examples/deviceinfos_fpGUI.pas
- ${PROJECTDIR}/settings.pas
- ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/eschecs.pas
- /home/fred/eschecs (copy 1)/source/eschecs.pas
- ${PROJECTDIR}/eschecs.pas
-relpaths=10
+relpaths=1
  eschecs.pas
- images.pas
- libraries/bgrabitmap/bgrafpguibitmap.pas
- engines.pas
- uos/examples/deviceinfos_fpGUI.pas
- settings.pas
- eschecs.pas
- eschecs.pas
- eschecs (copy 1)/source/eschecs.pas
- eschecs.pas
-ismoduletexts=10
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
+ismoduletexts=1
  0
 modules=0
 moduleoptions=0
@@ -853,7 +811,7 @@ visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
 firsttab=0
-index=6
+index=0
 [layout]
 windowlayout=555
  [mainfo.basedock]
@@ -963,7 +921,7 @@ windowlayout=555
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1324,7 +1282,7 @@ windowlayout=555
  rcx=0
  rcy=0
  [debuggerfo.edit_options]
- value=X
+ value=1
  [debuggerfo.edit_compilernum]
  value=0
  [debuggerfo.edit_compiler]
@@ -1353,7 +1311,7 @@ windowlayout=555
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/build_ultibo.bat
   /home/fred/eschecs/source/validator/validator.pas
  [debuggerfo.project_options]
- value=5
+ value=1
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1374,12 +1332,12 @@ windowlayout=555
  rcy=0
  [sourcefo.files_tab]
  firsttab=0
- index=6
+ index=0
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=findinfilefo
  parent=
  mdistate=0
  nx=0

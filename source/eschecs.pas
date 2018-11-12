@@ -9,7 +9,7 @@ program Eschecs;
 {$DEFINE UseCThreads}
 
 uses
-  {$IFDEF UNIX}
+{$IFDEF UNIX}
   cthreads, 
   cwstring, 
 {$ENDIF}
