@@ -5,7 +5,14 @@
 
 program Eschecs;
 
+{$mode objfpc}{$H+}
+{$DEFINE UseCThreads}
+
 uses
+{$IFDEF UNIX}
+  cthreads, 
+  cwstring, 
+{$ENDIF}
   Classes,
   SysUtils,
   StrUtils,
@@ -40,9 +47,11 @@ uses
   Engines,
   Log;
 
-{$R ESCHECS.RES}
+{$R eschecs.res}
+
+
 {$WARN 5024 OFF}
-{$I VERSION.INC}
+{$I version.inc}
 
 type
   TNavigation = (nvPrevious, nvNext, nvLast, nvFirst);
@@ -181,13 +190,14 @@ var
   vIndex: integer;
   vFileName: TFileName;
 begin
+
   if ExtractFileExt(ParamStr(1)) = '.json' then
     vFileName := ParamStr(1)
   else
     vFileName := 'engines.json';
   LoadEnginesData(vFileName);
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex);
-  
+ 
   vMarble := TRUE; // <---
   
   FValidator := TValidator.Create;
@@ -198,6 +208,7 @@ begin
     FPositionHistory.LoadfromFile(vFENPath)
   else
     FPositionHistory.Append(FENSTARTPOSITION);
+  
   Name := 'MainForm';
   SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24 + 8 * gStyleData[gStyle].scale + 24);
   WindowTitle := DEFAULT_TITLE;
@@ -205,18 +216,19 @@ begin
   WindowPosition := wpOneThirdDown;
   MinWidth := 8 * gStyleData[gStyle].scale;
   MinHeight := 24 + 8 * gStyleData[gStyle].scale + 24;
+
   FChessboardWidget := TfpgWidget.Create(self);
   with FChessboardWidget do
   begin
     Name := 'FChessboardWidget';
     SetPosition(0, MENU_BAR_HEIGHT, 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
     BackgroundColor := clNone;
-	  OnPaint := WidgetPaint;
-    OnMouseDown := WidgetMouseDown;
-    OnMouseUp := WidgetMouseUp;
-    OnMouseMove := WidgetMouseMove;
-    OnMouseEnter := WidgetMouseEnter;
-    OnMouseExit := WidgetMouseExit;
+	  OnPaint := @WidgetPaint;
+    OnMouseDown := @WidgetMouseDown;
+    OnMouseUp := @WidgetMouseUp;
+    OnMouseMove := @WidgetMouseMove;
+    OnMouseEnter := @WidgetMouseEnter;
+    OnMouseExit := @WidgetMouseExit;
   end;
   FStatusBar := TfpgPanel.Create(self);
   with FStatusBar do
@@ -233,7 +245,7 @@ begin
     BackgroundColor := $FFFFFF;
   end;
   FTimer := TfpgTimer.Create(10);
-  FTimer.OnTimer := InternalTimerFired;
+  FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
   FMenuBar := TfpgMenuBar.Create(self);
   with FMenuBar do
@@ -247,19 +259,19 @@ begin
   begin
     Name := 'FEschecsSubMenu';{
     AddMenuItem(TEXTS[txHelp], '', OtherItemClicked);}
-    AddMenuItem(TEXTS[txQuit], 'Esc', ItemExitClicked);
+    AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
     AddMenuItem('-', '', nil);
-    AddMenuItem(TEXTS[txAbout], '', OtherItemClicked);
+    AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
   end;
   FMovesSubMenu := TfpgPopupMenu.Create(self);
   with FMovesSubMenu do
   begin
     Name := 'FMovesSubMenu';
-    AddMenuItem(TEXTS[txComputerMove], '', OtherItemClicked);
-    AddMenuItem(TEXTS[txAutoPlay], '', OtherItemClicked).Checked := vAutoPlay;
+    AddMenuItem(TEXTS[txComputerMove], '', @OtherItemClicked);
+    AddMenuItem(TEXTS[txAutoPlay], '', @OtherItemClicked).Checked := vAutoPlay;
     AddMenuItem('-', '', nil);
     for vIndex := 0 to High(vEngines) do
-      with AddMenuItem(vEngines[vIndex].vName, '', OtherItemClicked) do
+      with AddMenuItem(vEngines[vIndex].vName, '', @OtherItemClicked) do
       begin
         Enabled := vEngines[vIndex].vExists;
         Checked := FALSE;
@@ -269,8 +281,8 @@ begin
   with FBoardSubMenu do
   begin
     Name := 'FBoardSubMenu';
-    AddMenuItem(TEXTS[txNew], '', ItemNewGameClicked);
-    AddMenuItem(TEXTS[txFlip], '', OtherItemClicked);
+    AddMenuItem(TEXTS[txNew], '', @ItemNewGameClicked);
+    AddMenuItem(TEXTS[txFlip], '', @OtherItemClicked);
   end;
   (*
   FOptionsSubMenu := TfpgPopupMenu.Create(self);
@@ -285,10 +297,10 @@ begin
   with FPromotionSubMenu do
   begin
     Name := 'FPromotionSubMenu';
-    AddMenuItem(TEXTS[txKnight], '', OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txBishop], '', OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txRook], '', OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txQueen], '', OtherItemClicked).Checked := TRUE;
+    AddMenuItem(TEXTS[txKnight], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txBishop], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txRook], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txQueen], '', @OtherItemClicked).Checked := TRUE;
   end;
   with FMenuBar do
   begin
@@ -298,6 +310,8 @@ begin
     //AddMenuItem(TEXTS[txOptions], nil).SubMenu := FOptionsSubMenu;
     AddMenuItem(TEXTS[txPromotion], nil).SubMenu := FPromotionSubMenu;
   end;
+  
+
   FBoardStyle := TBoardStyle(Ord(vMarble));
   FBGRAChessboard := TBGRAChessboard.Create(FBoardStyle, FUpsideDown, vCurrentPosition);
   FGame := TChessGame.Create(vCurrentPosition);
@@ -313,6 +327,7 @@ begin
   FWaitingForAnimationEnd := FALSE;
   FWaitingForReadyOk := 0;
   TLog.Append(Format('Eschecs %s %s %s FPC %s', [VERSION, {$I %DATE%}, {$I %TIME%}, {$I %FPCVERSION%}]));
+
 end;
 
 procedure TMainForm.WidgetPaint(Sender: TObject);
@@ -743,8 +758,8 @@ const
 begin
   while not Terminated do
   begin
-    FEngineMessage := ReadProcessOutput; if FEngineMessage <> '' then Synchronize(OnEngineMessage);
-    FEngineMessage := ReadProcessError;  if FEngineMessage <> '' then Synchronize(OnEngineMessage);
+    FEngineMessage := ReadProcessOutput; if FEngineMessage <> '' then Synchronize(@OnEngineMessage);
+    FEngineMessage := ReadProcessError;  if FEngineMessage <> '' then Synchronize(@OnEngineMessage);
     Sleep(DELAY);
   end;
 end;
@@ -799,12 +814,13 @@ const
   UCI_LOG = 'eschecs.debug';
   
 begin
+
   Assign(vUCILog, UCI_LOG);
   if FileExists(UCI_LOG) then
     Append(vUCILog)
   else
     Rewrite(vUCILog);
-    
+   
   fpgApplication.Initialize;
   frm := TMainForm.Create(nil);
   frm.Show;

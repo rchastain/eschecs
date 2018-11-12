@@ -33,7 +33,13 @@ const
   DEFAULT_AUTOPLAY = 'TRUE';
   DEFAULT_UPSIDEDOWN = 'FALSE';
   DEFAULT_MARBLE = 'FALSE';
+  
+  {$IFDEF WINDOWS}
   DEFAULT_EXEPATH = 'engines\fruit\fruit_21.exe';
+  {$else}
+  DEFAULT_EXEPATH = '/home/fred/eschecs/source/engines/moustique/01/moustique';
+  {$ENDIF}
+  
   DEFAULT_HISTORY = '';
   DEFAULT_INDEX = 0;
   
@@ -53,7 +59,7 @@ begin
     aAutoPlay := ReadString(SECTION, 'autoplay', DEFAULT_AUTOPLAY) = 'TRUE';
     aUpsideDown := ReadString(SECTION, 'upsidedown', DEFAULT_UPSIDEDOWN) = 'TRUE';
     aMarble := ReadString(SECTION, 'marble', DEFAULT_MARBLE) = 'TRUE';
-    aExePath := ReadString(SECTION, 'engine', Concat(ExtractFilePath(ParamStr(0)), DEFAULT_EXEPATH));
+    aExePath := ReadString(SECTION, 'engine', Concat(ExtractFilePath(ParamStr(0)),DEFAULT_EXEPATH));
     aHistory := ReadString(SECTION, 'history', DEFAULT_HISTORY);
     aIndex := ReadInteger(SECTION, 'index', DEFAULT_INDEX)
   finally
