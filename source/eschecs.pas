@@ -9,7 +9,7 @@ program Eschecs;
 {$DEFINE UseCThreads}
 
 uses
-{$IFDEF UNIX}
+  {$IFDEF UNIX}
   cthreads, 
   cwstring, 
 {$ENDIF}
@@ -49,7 +49,6 @@ uses
 
 {$R eschecs.res}
 
-
 {$WARN 5024 OFF}
 {$I version.inc}
 
@@ -87,7 +86,7 @@ type
     FCastlingFlag: boolean;
     FWaitingForAnimationEnd: boolean;
     FWaitingForReadyOk: integer;
-    procedure HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean); override;
+      procedure HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean); override;
   public
     destructor Destroy; override;
     procedure AfterCreate; override;
@@ -98,15 +97,17 @@ type
     procedure WidgetMouseMove(Sender: TObject; AShift: TShiftState; const AMousePos: TPoint);
     procedure WidgetMouseUp(Sender: TObject; AButton: TMouseButton; AShift: TShiftState; const AMousePos: TPoint);
   private
+    {@VFD_HEAD_BEGIN: MainForm}
     FChessboardWidget: TfpgWidget;
     FStatusBar: TfpgPanel;
-    FTimer: TfpgTimer;
     FMenuBar: TfpgMenuBar;
-    FEschecsSubMenu,
-    FMovesSubMenu,
-    FBoardSubMenu,
-    //FOptionsSubMenu,
+    FEschecsSubMenu: TfpgPopupMenu;
+    FMovesSubMenu: TfpgPopupMenu;
+    FBoardSubMenu: TfpgPopupMenu;
+    FOptionsSubMenu: TfpgPopupMenu;
     FPromotionSubMenu: TfpgPopupMenu;
+    {@VFD_HEAD_END: MainForm}
+    FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
     procedure OtherItemClicked(Sender: TObject);
@@ -122,6 +123,10 @@ type
     procedure PlaySound(const aSound: TSound);
 {$ENDIF}
   end;
+  
+{@VFD_NEWFORM_DECL}
+
+{@VFD_NEWFORM_IMPL}
 
 var
   vListener: TThread;
@@ -190,8 +195,108 @@ var
   vIndex: integer;
   vFileName: TFileName;
 begin
+ {%region 'Auto-generated GUI code' -fold}
+  {@VFD_BODY_BEGIN: MainForm}
+  Name := 'MainForm';
+  SetPosition(351, 150, 640, 495);
+  WindowTitle := 'Eschecs';
+  IconName := '';
+  BackGroundColor := $80000001;
+  Hint := '';
+  WindowPosition := wpOneThirdDown;
 
-  if ExtractFileExt(ParamStr(1)) = '.json' then
+  FChessboardWidget := TfpgWidget.Create(self);
+  with FChessboardWidget do
+  begin
+    Name := 'FChessboardWidget';
+    SetPosition(0, 0, 640, 472);
+    BackgroundColor := clNone;
+    OnPaint := @WidgetPaint;
+    OnMouseDown := @WidgetMouseDown;
+    OnMouseUp := @WidgetMouseUp;
+    OnMouseMove := @WidgetMouseMove;
+    OnMouseEnter := @WidgetMouseEnter;
+    OnMouseExit := @WidgetMouseExit;
+  end;
+
+  FStatusBar := TfpgPanel.Create(self);
+  with FStatusBar do
+  begin
+    Name := 'FStatusBar';
+    SetPosition(0, 471, 640, 24);
+    Align := alBottom;
+    Alignment := taLeftJustify;
+    BackgroundColor := TfpgColor($FFFFFF);
+    FontDesc := '#Label1';
+    ParentShowHint := False;
+    Style := bsLowered;
+    Text := '';
+    TextColor := TfpgColor($000000);
+    Hint := '';
+  end;
+
+  FMenuBar := TfpgMenuBar.Create(self);
+  with FMenuBar do
+  begin
+    Name := 'FMenuBar';
+    SetPosition(0, 0, 640, 28);
+    Align := alTop;
+  end;
+
+  FEschecsSubMenu := TfpgPopupMenu.Create(self);
+  with FEschecsSubMenu do
+  begin
+    Name := 'FEschecsSubMenu';
+    SetPosition(68, 56, 228, 28);
+    AddMenuItem(TEXTS[txHelp], '', @OtherItemClicked);
+    AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
+    AddMenuItem('-', '', nil);
+    AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
+  end;
+
+  FMovesSubMenu := TfpgPopupMenu.Create(self);
+  with FMovesSubMenu do
+  begin
+    Name := 'FMovesSubMenu';
+    SetPosition(68, 268, 228, 28);
+    AddMenuItem(TEXTS[txComputerMove], '', @OtherItemClicked);
+    AddMenuItem(TEXTS[txAutoPlay], '', @OtherItemClicked).Checked := vAutoPlay;
+    AddMenuItem('-', '', nil);
+  end;
+
+  FBoardSubMenu := TfpgPopupMenu.Create(self);
+  with FBoardSubMenu do
+  begin
+    Name := 'FBoardSubMenu';
+    SetPosition(68, 220, 228, 28);
+    AddMenuItem(TEXTS[txNew], '', @ItemNewGameClicked);
+    AddMenuItem(TEXTS[txFlip], '', @OtherItemClicked);
+  end;
+
+  FOptionsSubMenu := TfpgPopupMenu.Create(self);
+  with FOptionsSubMenu do
+  begin
+    Name := 'FOptionsSubMenu';
+    SetPosition(68, 168, 228, 28);
+    AddMenuItem(TEXTS[txMarble], '', @OtherItemClicked).Checked := vMarble;
+    AddMenuItem(TEXTS[txSound], '', @OtherItemClicked).Checked := FALSE;
+  end;
+
+  FPromotionSubMenu := TfpgPopupMenu.Create(self);
+  with FPromotionSubMenu do
+  begin
+    Name := 'FPromotionSubMenu';
+    SetPosition(68, 112, 228, 28);
+    AddMenuItem(TEXTS[txKnight], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txBishop], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txRook], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txQueen], '', @OtherItemClicked).Checked := TRUE;
+  end;
+
+  {@VFD_BODY_END: MainForm}
+ {%endregion}  
+  
+   if ExtractFileExt(ParamStr(1)) = '.json' then
     vFileName := ParamStr(1)
   else
     vFileName := 'engines.json';
@@ -208,100 +313,7 @@ begin
     FPositionHistory.LoadfromFile(vFENPath)
   else
     FPositionHistory.Append(FENSTARTPOSITION);
-  
-  Name := 'MainForm';
-  SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24 + 8 * gStyleData[gStyle].scale + 24);
-  WindowTitle := DEFAULT_TITLE;
-  Hint := '';
-  WindowPosition := wpOneThirdDown;
-  MinWidth := 8 * gStyleData[gStyle].scale;
-  MinHeight := 24 + 8 * gStyleData[gStyle].scale + 24;
-
-  FChessboardWidget := TfpgWidget.Create(self);
-  with FChessboardWidget do
-  begin
-    Name := 'FChessboardWidget';
-    SetPosition(0, MENU_BAR_HEIGHT, 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
-    BackgroundColor := clNone;
-	  OnPaint := @WidgetPaint;
-    OnMouseDown := @WidgetMouseDown;
-    OnMouseUp := @WidgetMouseUp;
-    OnMouseMove := @WidgetMouseMove;
-    OnMouseEnter := @WidgetMouseEnter;
-    OnMouseExit := @WidgetMouseExit;
-  end;
-  FStatusBar := TfpgPanel.Create(self);
-  with FStatusBar do
-  begin
-    Name := 'FStatusBar';
-    SetPosition(0, 24 + 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale, 24);
-    Alignment := taLeftJustify;
-    FontDesc := '#Label1';
-    Hint := '';
-    Style := bsLowered;
-    Text := '';
-    Align := alBottom;
-    TextColor := $000000;
-    BackgroundColor := $FFFFFF;
-  end;
-  FTimer := TfpgTimer.Create(10);
-  FTimer.OnTimer := @InternalTimerFired;
-  FTimer.Enabled := TRUE;
-  FMenuBar := TfpgMenuBar.Create(self);
-  with FMenuBar do
-  begin
-    Name := 'FMenuBar';
-    SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24);
-    Align := alTop;
-  end;
-  FEschecsSubMenu := TfpgPopupMenu.Create(self);
-  with FEschecsSubMenu do
-  begin
-    Name := 'FEschecsSubMenu';{
-    AddMenuItem(TEXTS[txHelp], '', OtherItemClicked);}
-    AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
-    AddMenuItem('-', '', nil);
-    AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
-  end;
-  FMovesSubMenu := TfpgPopupMenu.Create(self);
-  with FMovesSubMenu do
-  begin
-    Name := 'FMovesSubMenu';
-    AddMenuItem(TEXTS[txComputerMove], '', @OtherItemClicked);
-    AddMenuItem(TEXTS[txAutoPlay], '', @OtherItemClicked).Checked := vAutoPlay;
-    AddMenuItem('-', '', nil);
-    for vIndex := 0 to High(vEngines) do
-      with AddMenuItem(vEngines[vIndex].vName, '', @OtherItemClicked) do
-      begin
-        Enabled := vEngines[vIndex].vExists;
-        Checked := FALSE;
-      end;
-  end;
-  FBoardSubMenu := TfpgPopupMenu.Create(self);
-  with FBoardSubMenu do
-  begin
-    Name := 'FBoardSubMenu';
-    AddMenuItem(TEXTS[txNew], '', @ItemNewGameClicked);
-    AddMenuItem(TEXTS[txFlip], '', @OtherItemClicked);
-  end;
-  (*
-  FOptionsSubMenu := TfpgPopupMenu.Create(self);
-  with FOptionsSubMenu do
-  begin
-    Name := 'FOptionsSubMenu';
-    AddMenuItem(TEXTS[txMarble], '', OtherItemClicked).Checked := vMarble;
-    AddMenuItem(TEXTS[txSound], '', OtherItemClicked).Checked := FALSE;
-  end;
-  *)
-  FPromotionSubMenu := TfpgPopupMenu.Create(self);
-  with FPromotionSubMenu do
-  begin
-    Name := 'FPromotionSubMenu';
-    AddMenuItem(TEXTS[txKnight], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txBishop], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txRook], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txQueen], '', @OtherItemClicked).Checked := TRUE;
-  end;
+    
   with FMenuBar do
   begin
     AddMenuItem(TEXTS[txEschecs], nil).SubMenu := FEschecsSubMenu;
@@ -309,11 +321,29 @@ begin
     AddMenuItem(TEXTS[txBoard], nil).SubMenu := FBoardSubMenu;
     //AddMenuItem(TEXTS[txOptions], nil).SubMenu := FOptionsSubMenu;
     AddMenuItem(TEXTS[txPromotion], nil).SubMenu := FPromotionSubMenu;
-  end;
+  end;   
+    
+ with FMovesSubMenu do
+  begin    for vIndex := 0 to High(vEngines) do
+    with AddMenuItem(vEngines[vIndex].vName, '', @OtherItemClicked) do
+    begin
+    Enabled := vEngines[vIndex].vExists;
+    Checked := FALSE;
+    end;
+  end;  
   
-
+  SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24 + 8 * gStyleData[gStyle].scale + 24);
+  WindowTitle := DEFAULT_TITLE;
+  MinWidth := 8 * gStyleData[gStyle].scale;
+  MinHeight := 24 + 8 * gStyleData[gStyle].scale + 24;
+  
+  FChessboardWidget.SetPosition(0, MENU_BAR_HEIGHT, 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
+  FStatusBar.SetPosition(0, 24 + 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale, 24);
+  FMenuBar.SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24);
+     
   FBoardStyle := TBoardStyle(Ord(vMarble));
   FBGRAChessboard := TBGRAChessboard.Create(FBoardStyle, FUpsideDown, vCurrentPosition);
+ 
   FGame := TChessGame.Create(vCurrentPosition);
   FUserMove := '';
   FRookMove := '';
@@ -327,6 +357,10 @@ begin
   FWaitingForAnimationEnd := FALSE;
   FWaitingForReadyOk := 0;
   TLog.Append(Format('Eschecs %s %s %s FPC %s', [VERSION, {$I %DATE%}, {$I %TIME%}, {$I %FPCVERSION%}]));
+  
+  FTimer := TfpgTimer.Create(10);
+  FTimer.OnTimer := @InternalTimerFired;
+  FTimer.Enabled := TRUE;
 
 end;
 
