@@ -191,7 +191,7 @@ options=114
  index=0
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=2
+ index=1
  [projectoptionsfo]
  stackedunder=
  x=323
@@ -436,7 +436,7 @@ makeoptionson=9
  4095
  4095
  4088
- 122
+ 126
  4084
  3971
  4095
@@ -659,8 +659,9 @@ beforeload=
 afterload=
 beforerun=
 sourcebase=
-sourcedirs=11
+sourcedirs=12
  ${FPCSRCDIR}/
+ /home/fred/eschecs/libraries/bgrabitmap/
  ${FPGUIDIR}/src/corelib/gdi/
  /home/fred/eschecs/libraries/fpgui/src/corelib/gdi/
  ${FPCSRCDIR}/*/
@@ -792,12 +793,12 @@ findhistory=19
  uses
 findoptions=1
 editpos=6
- 12,13
+ 0,11
  0,-1073741823
- 0,0
- 0,40
- 0,6
- 0,0
+ 0,267
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -830,17 +831,10 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=6
- 0
- 8
- 2
- 6
- 5
- 7
 firsttab=0
-index=0
+index=2
 [layout]
-windowlayout=544
+windowlayout=585
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1315,10 +1309,58 @@ windowlayout=544
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
- history=2
+ value=/home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
+ history=50
+  /home/fred/uos/examples/consoleplay.pas
+  /home/fred/ultibotest/ultibo_fpgui1.pas
+  /home/fred/eschecs/source/images.pas
+  /home/fred/eschecs/libraries/bgrabitmap/bgrabitmap.pas
+  /home/fred/moustique_git/moustique/version.inc
+  /home/fred/ideu/README.TXT
+  /home/fred/ideu/src/mseconsts.pas
+  /home/fred/openmax-master/uos_ultibo_test.pas
+  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
+  /home/fred/ultibotest/helloworld_ultibo.pas
+  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
+  /home/fred/ultibo/core/tools/Makefile.fpc
+  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test_ultibo.lpr
+  /home/fred/fpGUI-ultibo/examples/corelib/canvastest/fpgcanvas_ultibo.lpr
+  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test.lpr
+  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/build_ultibo.bat
+  /home/fred/eschecs/source/validator/validator.pas
+  /home/fred/uoslib/src/uoslib.pas
+  /home/fred/eschecs/source/sound_uos.pas
+  /home/fred/eschecs/source/sound.pas
+  /home/fred/eschecs/source/chessboard.pas
   /home/fred/eschecs/source/eschecs.pas
-  ${PROJECTDIR}/main.pas
+  /home/fred/moustique/validator_dyn.pas
+  /home/fred/moustique/parser.pas
+  /home/fred/fpGUI-maint/examples/corelib/aggcanvas/agg_canvas_test.pas
+  /home/fred/fpGUI-maint/examples/corelib/aggcanvas/agg_canvas_test.lpr
+  /home/fred/fpGUI-maint/examples/corelib/aggcanvas/agg_canvas_test.lpi
+  /home/fred/designer_ext/src/designer_ext.pas
+  /home/fred/designer_ext/src/runonce_postit.pas
+  /home/fred/designer_ext/src/cthreads.pas
+  /home/fred/designer_ext/src/pthreads.pp
+  /home/fred/designer_ext/src/frm_multiselect.pas
+  /home/fred/designer_ext/src/fpg_style_anim_chrome_silver_vert_flatmenu.pas
+  /home/fred/designer_ext/src/plugmanager.pas
+  /home/fred/designer_ext/src/runonce_postit2.pas
+  /home/fred/ideu/src/plugmanager.pas
+  /home/fred/ideu/src/conffpgui.pas
+  /home/fred/ideu/src/confideu.pas
+  /home/fred/ideu/src/ideusettings.pas
+  /home/fred/ideu/src/make.pas
+  /home/fred/designer_ext/src/frm_colorpicker.pas
+  /home/fred/designer_ext/src/fpg_main.pas
+  /home/fred/designer_ext/src/develop_dynX11/fpg_main.pas
+  /home/fred/fpGUI-develop/src/corelib/fpg_main.pas
+  /home/fred/designer_ext/src/maint_dynX11/fpg_main.pas
+  /home/fred/designer_ext/src/runonce_postitold.pas
+  /home/fred/fpGUI-maint/src/corelib/fpg_main.pas
+  /home/fred/fpGUI-maint/src/corelib/fpg_base.pas
+  /home/fred/designer_ext/src/develop_dynX11/fpg_x11.pas
+  /home/fred/designer_ext/src/xdynload.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1340,15 +1382,8 @@ windowlayout=544
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=6
-  0
-  8
-  2
-  6
-  5
-  7
  firsttab=0
- index=0
+ index=2
  [cpuc86_64fo]
  irqoff=0
  splitdir=0

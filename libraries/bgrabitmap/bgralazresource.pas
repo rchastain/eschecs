@@ -53,9 +53,7 @@ type
 
 implementation
 
-uses
-  LResources,
-  BGRAUTF8;
+uses LResources, BGRAUTF8;
 
 { TFormDataEntry }
 

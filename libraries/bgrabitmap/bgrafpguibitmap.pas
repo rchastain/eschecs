@@ -45,10 +45,10 @@ type
       ALineOrder: TRawImageLineOrder; AWidth, AHeight: integer); override;
     procedure TakeScreenshot({%H-}ARect: TRect); override; //not available
     procedure TakeScreenshotOfPrimaryMonitor; override; //not available
-    { Not work for Linux. no method in ancestor class.
+    {$IFDEF windows}
     procedure LoadFromDevice({%H-}DC: System.THandle); override; //not available
     procedure LoadFromDevice({%H-}DC: System.THandle; {%H-}ARect: TRect); override; //not available
-    }   
+    {$endif} 
     property BitmapTransparent: boolean read GetBitmapTransparent write SetBitmapTransparent;
     property Canvas: TBGRACanvas read GetPseudoCanvas;
   end;
@@ -255,7 +255,7 @@ begin
   NotAvailable;
 end;
 
- { Not work for Linux. no method in ancestor class.
+{$IFDEF windows}
 procedure TBGRAfpGUIBitmap.LoadFromDevice(DC: System.THandle);
 begin
   NotAvailable;
@@ -265,7 +265,7 @@ procedure TBGRAfpGUIBitmap.LoadFromDevice(DC: System.THandle; ARect: TRect);
 begin
   NotAvailable;
 end;
-}
+{$endif}
 
 end.
 
