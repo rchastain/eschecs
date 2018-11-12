@@ -28,11 +28,5 @@
     "name" : "Moustique",
     "protocol" : "uci",
     "workingDirectory" : "\\engines\\moustique\\0.1\\"
-  },
-  {
-    "command" : "Uralochka11d.exe",
-    "name" : "Uralochka",
-    "protocol" : "uci",
-    "workingDirectory" : "\\engines\\uralochka\\"
   }
 ]

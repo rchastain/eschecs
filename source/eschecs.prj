@@ -19,7 +19,7 @@ order16=0
 [projectoptions]
 projectdir=/home/fred/eschecs/source
 projectfilename=/home/fred/eschecs/source/eschecs.prj
-findinfiledialog=49
+findinfiledialog=54
  [findinfileadialogfo.subdirs]
  value=1
  [findinfileadialogfo.incurrentfile]
@@ -29,14 +29,15 @@ findinfiledialog=49
  [findinfileadialogfo.wholeword]
  value=0
  [findinfileadialogfo.inprojectdir]
- value=0
+ value=1
  [findinfileadialogfo.casesensitive]
  value=0
  [findinfileadialogfo.indirectories]
- value=1
+ value=0
  [findinfileadialogfo.mask]
- value="*.pas" "*.pp" "*.inc"
- history=1
+ value="*.pas" "*.pp" "*.inc" "*.*"
+ history=2
+  "*.pas" "*.pp" "*.inc" "*.*"
   "*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.dir]
  filenames=1
@@ -52,8 +53,12 @@ findinfiledialog=49
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=directoryseparator
- history=9
+ value=workingDirectory
+ history=13
+  workingDirectory
+  vEngines
+  fexepa
+  json
   directoryseparator
   directorydelimiter
   mark\60\wp.png
@@ -189,8 +194,8 @@ options=114
  index=2
  [projectoptionsfo]
  stackedunder=
- x=204
- y=57
+ x=323
+ y=159
  cx=863
  cy=573
 settings=8
@@ -220,7 +225,7 @@ unitdirs=11
  ../libraries
  ../libraries/bgrabitmap
  ../libraries/fpgui
- ../libraries/fpgui/src/corelib/gdi
+ /home/fred/eschecs/libraries/fpgui/src/corelib/gdi
  ../libraries/fpgui/src
  ../libraries/fpgui/src/corelib/x11
  ../libraries/fpgui/src/gui
@@ -232,22 +237,24 @@ objpref=-Fo
 targpref=-o
 befcommand=0
 aftcommand=0
-makeoptions=8
+makeoptions=9
  -l -Mobjfpc -Schi
  -FE.
  -FUunits
  -gl
  -B
  -O2 -XX -Xs -CX
+ -dDEBUG
  -dBGRABITMAP_USE_FPGUI
  -vewnhibq
-makeoptpurpose=8
+makeoptpurpose=9
  Define Object Pascal
  Exe path to /.
  Output to /units
  Debug
  Re-build all
  Optimizations
+ Debug
  BGRABITMAP
  Verbosity
 compilerused=29
@@ -346,8 +353,8 @@ closemessages=0
 enablepurpose=1
 enablesource=1
 checkmethods=1
-colorerror=-1610612712
-colorwarning=-1610612717
+colorerror=-1610612717
+colorwarning=-1610612712
 colornote=-1610612716
 usercolors=30
  0
@@ -424,15 +431,16 @@ modulenames=0
 moduletypes=0
 modulefiles=0
 befcommandon=0
-makeoptionson=8
+makeoptionson=9
  4095
  4095
  4095
- 4092
- 22
- 4080
+ 4088
+ 122
+ 4084
+ 3971
  4095
- 4095
+ 4091
 compilerusedon=29
  4031
  0
@@ -506,17 +514,17 @@ project_date=11/11/2016
 project_comment=
 aftcommandon=0
 unitdirson=11
- 196735
+ 196863
  987135
  200703
  200703
  200703
- 196735
- 64
- 196735
+ 196863
+ 196800
+ 196863
  196671
- 196735
- 196735
+ 196863
+ 196863
 macroon=5
  1
  3
@@ -651,8 +659,10 @@ beforeload=
 afterload=
 beforerun=
 sourcebase=
-sourcedirs=9
+sourcedirs=11
  ${FPCSRCDIR}/
+ ${FPGUIDIR}/src/corelib/gdi/
+ /home/fred/eschecs/libraries/fpgui/src/corelib/gdi/
  ${FPCSRCDIR}/*/
  ${FPCSRCDIR}/*/*/
  ${FPCSRCDIR}/*/*/*/
@@ -671,7 +681,7 @@ stoponexception=0
 valuehints=1
 activateonbreak=1
 raiseonbreak=1
-showconsole=1
+showconsole=0
 externalconsole=0
 settty=1
 gdbdownload=0
@@ -759,8 +769,14 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=\
-findhistory=13
+finddtext=SetCurrentDir
+findhistory=19
+ SetCurrentDir
+ aexepath
+ DSTCOPY
+ DEFAULT_EXEPATH
+ aExePath
+ ReadFromINIFile
  \
  PICTURES_FOLDER
  wp.png
@@ -775,44 +791,34 @@ findhistory=13
  sort
  uses
 findoptions=1
-editpos=8
- 0,12
+editpos=6
+ 12,13
  0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
+ 0,0
+ 0,40
+ 0,6
+ 0,0
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
 bookmarks4=0
 bookmarks5=0
-bookmarks6=0
-bookmarks7=0
-sourcefiles=8
+sourcefiles=6
  ${PROJECTDIR}/eschecs.pas
- /home/fred/fpGUI-maint/src/corelib/gdi/fpg_impl.pas
  ${PROJECTDIR}/images.pas
- /home/fred/fpGUI-maint/src/corelib/x11/fpg_impl.pas
- ${PROJECTDIR}/eschecs.pas
  /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
- /home/fred/ultibotest/ultibo_fpgui1.pas
- /home/fred/uos/examples/consoleplay.pas
-relpaths=8
+ ${PROJECTDIR}/engines.pas
+ ${PROJECTDIR}/engines.json
+ ${PROJECTDIR}/settings.pas
+relpaths=6
  eschecs.pas
- fpGUI-maint/src/corelib/gdi/fpg_impl.pas
  images.pas
- fpGUI-maint/src/corelib/x11/fpg_impl.pas
- eschecs.pas
  libraries/bgrabitmap/bgrafpguibitmap.pas
- ultibotest/ultibo_fpgui1.pas
- uos/examples/consoleplay.pas
-ismoduletexts=8
- 0
- 0
+ engines.pas
+ engines.json
+ settings.pas
+ismoduletexts=6
  0
  0
  0
@@ -824,19 +830,17 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=8
+order=6
  0
- 5
+ 8
  2
- 3
- 4
  6
- 1
+ 5
  7
 firsttab=0
 index=0
 [layout]
-windowlayout=564
+windowlayout=544
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -850,10 +854,10 @@ windowlayout=564
  ny=0
  ncx=0
  ncy=0
- x=3
- y=29
- cx=1360
- cy=706
+ x=125
+ y=46
+ cx=1157
+ cy=621
  rcx=0
  rcy=0
  wsize=0
@@ -868,15 +872,15 @@ windowlayout=564
  ny=0
  ncx=0
  ncy=0
- x=707
- y=189
+ x=377
+ y=396
  cx=497
  cy=314
  rcx=0
  rcy=0
  wsize=0
  active=0
- visible=1
+ visible=0
  [threadsfo]
  splitdir=0
  useroptions=268451945
@@ -951,8 +955,8 @@ windowlayout=564
  ny=0
  ncx=0
  ncy=0
- x=576
- y=271
+ x=239
+ y=115
  cx=678
  cy=414
  rcx=0
@@ -970,7 +974,7 @@ windowlayout=564
  x=0
  y=0
  cx=205
- cy=462
+ cy=456
  rcx=0
  rcy=0
  [projecttreefo.grid]
@@ -980,8 +984,8 @@ windowlayout=564
  width1=82
  sortdescend1=0
  sorted=0
- col=0
- row=1
+ col=1
+ row=-1073741823
  rowheight=16
  [stackfo]
  splitdir=0
@@ -1000,7 +1004,7 @@ windowlayout=564
  rcy=0
  wsize=0
  active=0
- visible=1
+ visible=0
  [watchpointsfo]
  splitdir=0
  useroptions=268451945
@@ -1183,9 +1187,9 @@ windowlayout=564
  ncx=0
  ncy=0
  x=0
- y=526
- cx=1350
- cy=164
+ y=513
+ cx=1147
+ cy=92
  rcx=0
  rcy=0
  [componentstorefo]
@@ -1284,8 +1288,8 @@ windowlayout=564
  ncy=0
  x=0
  y=0
- cx=1350
- cy=58
+ cx=1147
+ cy=51
  rcx=0
  rcy=0
  [debuggerfo.basedock]
@@ -1296,12 +1300,12 @@ windowlayout=564
  mdistate=0
  nx=0
  ny=0
- ncx=1350
- ncy=61
+ ncx=1147
+ ncy=54
  x=0
  y=0
- cx=1350
- cy=61
+ cx=1147
+ cy=54
  rcx=0
  rcy=0
  [debuggerfo.edit_options]
@@ -1312,27 +1316,9 @@ windowlayout=564
  value=Pascal
  [debuggerfo.file_history]
  value=/home/fred/eschecs/source/eschecs.pas
- history=20
+ history=2
   /home/fred/eschecs/source/eschecs.pas
-  /home/fred/ultibotest/ultibo_fpgui1.pas
-  /home/fred/eschecs/source/images.pas
-  /home/fred/eschecs/libraries/bgrabitmap/bgrabitmap.pas
-  /home/fred/moustique_git/moustique/version.inc
-  /home/fred/ideu/README.TXT
-  /home/fred/ideu/src/mseconsts.pas
-  /home/fred/openmax-master/uos_ultibo_test.pas
-  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
-  /home/fred/ultibotest/helloworld_ultibo.pas
-  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
-  /home/fred/ultibo/core/tools/Makefile.fpc
-  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test_ultibo.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/canvastest/fpgcanvas_ultibo.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/build_ultibo.bat
-  /home/fred/uos/examples/consoleplay.pas
-  /home/fred/eschecs/source/validator/validator.pas
-  /home/fred/uoslib/src/uoslib.pas
-  /home/fred/eschecs/source/sound_uos.pas
+  ${PROJECTDIR}/main.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1349,19 +1335,17 @@ windowlayout=564
  ncy=0
  x=208
  y=0
- cx=1142
- cy=462
+ cx=939
+ cy=456
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=8
+ order=6
   0
-  5
+  8
   2
-  3
-  4
   6
-  1
+  5
   7
  firsttab=0
  index=0
@@ -1369,7 +1353,7 @@ windowlayout=564
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=stackfo
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1396,9 +1380,9 @@ windowlayout=564
  ncx=0
  ncy=0
  x=0
- y=61
- cx=1350
- cy=462
+ y=54
+ cx=1147
+ cy=456
  rcx=0
  rcy=0
 [targetconsole]
