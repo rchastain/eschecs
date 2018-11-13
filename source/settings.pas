@@ -37,7 +37,7 @@ const
   {$IFDEF WINDOWS}
   DEFAULT_EXEPATH = 'engines\fruit\fruit_21.exe';
   {$else}
-  DEFAULT_EXEPATH = '/home/fred/eschecs/source/engines/moustique/01/moustique';
+  DEFAULT_EXEPATH = '/engines/moustique/0.1/moustique';
   {$ENDIF}
   
   DEFAULT_HISTORY = '';
