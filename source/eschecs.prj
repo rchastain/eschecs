@@ -19,7 +19,7 @@ order16=0
 [projectoptions]
 projectdir=/home/fred/eschecs/source
 projectfilename=/home/fred/eschecs/source/eschecs.prj
-findinfiledialog=54
+findinfiledialog=57
  [findinfileadialogfo.subdirs]
  value=1
  [findinfileadialogfo.incurrentfile]
@@ -29,32 +29,35 @@ findinfiledialog=54
  [findinfileadialogfo.wholeword]
  value=0
  [findinfileadialogfo.inprojectdir]
- value=1
+ value=0
  [findinfileadialogfo.casesensitive]
  value=0
  [findinfileadialogfo.indirectories]
- value=0
+ value=1
  [findinfileadialogfo.mask]
- value="*.pas" "*.pp" "*.inc" "*.*"
- history=2
+ value="*.pas" "*.pp" "*.inc" 
+ history=3
+  "*.pas" "*.pp" "*.inc" 
   "*.pas" "*.pp" "*.inc" "*.*"
   "*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.dir]
  filenames=1
-  /home/fred/ideu/
+  /home/fred/designer_ext/src/
  filecolwidth=174
  x=0
  y=0
  cx=0
  cy=0
- filehistory=2
+ filehistory=3
+  /home/fred/designer_ext/src/
   /home/fred/ideu/
   /home/fred/
  filefilterindex=0
- filefilter="*.pas" "*.pp" "*.inc"
+ filefilter="*.pas" "*.pp" "*.inc" "*.*"
  [findinfileadialogfo.findtext]
- value=workingDirectory
- history=13
+ value=fpg_form
+ history=14
+  fpg_form
   workingDirectory
   vEngines
   fexepa
@@ -179,7 +182,7 @@ options=114
  sortdescend1=0
  [projectoptionsfo.ttabwidget1]
  firsttab=0
- index=1
+ index=0
  [projectoptionsfo.filefiltergrid]
  propcolwidthref=722
  width0=112
@@ -191,7 +194,7 @@ options=114
  index=0
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=1
+ index=0
  [projectoptionsfo]
  stackedunder=
  x=323
@@ -435,8 +438,8 @@ makeoptionson=9
  4095
  4095
  4095
- 4088
- 126
+ 4024
+ 118
  4084
  3971
  4095
@@ -472,12 +475,12 @@ compilerusedon=29
  0
  0
 debuggerusedon=6
- 4095
+ 3843
  0
  0
  0
  0
- 0
+ 252
 exeusedon=14
  4031
  0
@@ -770,8 +773,14 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=SetCurrentDir
-findhistory=19
+finddtext=THandle
+findhistory=20
+ THandle
+ System.THandle 
+ cns_
+ MENU_BAR_HEIGHT
+ FTimer
+ addmenuitem
  SetCurrentDir
  aexepath
  DSTCOPY
@@ -786,44 +795,19 @@ findhistory=19
  fred
  res=
  30005
- NewView
- images
- Sort
- sort
- uses
 findoptions=1
-editpos=6
- 0,11
- 0,-1073741823
- 0,267
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
+editpos=2
+ 0,0
+ 0,264
 bookmarks0=0
 bookmarks1=0
-bookmarks2=0
-bookmarks3=0
-bookmarks4=0
-bookmarks5=0
-sourcefiles=6
+sourcefiles=2
  ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/images.pas
  /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
- ${PROJECTDIR}/engines.pas
- ${PROJECTDIR}/engines.json
- ${PROJECTDIR}/settings.pas
-relpaths=6
+relpaths=2
  eschecs.pas
- images.pas
  libraries/bgrabitmap/bgrafpguibitmap.pas
- engines.pas
- engines.json
- settings.pas
-ismoduletexts=6
- 0
- 0
- 0
- 0
+ismoduletexts=2
  0
  0
 modules=0
@@ -832,7 +816,7 @@ visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
 firsttab=0
-index=2
+index=1
 [layout]
 windowlayout=585
  [mainfo.basedock]
@@ -848,10 +832,10 @@ windowlayout=585
  ny=0
  ncx=0
  ncy=0
- x=125
- y=46
- cx=1157
- cy=621
+ x=3
+ y=29
+ cx=1360
+ cy=706
  rcx=0
  rcy=0
  wsize=0
@@ -968,7 +952,7 @@ windowlayout=585
  x=0
  y=0
  cx=205
- cy=456
+ cy=521
  rcx=0
  rcy=0
  [projecttreefo.grid]
@@ -1181,9 +1165,9 @@ windowlayout=585
  ncx=0
  ncy=0
  x=0
- y=513
- cx=1147
- cy=92
+ y=585
+ cx=1350
+ cy=105
  rcx=0
  rcy=0
  [componentstorefo]
@@ -1282,8 +1266,8 @@ windowlayout=585
  ncy=0
  x=0
  y=0
- cx=1147
- cy=51
+ cx=1350
+ cy=58
  rcx=0
  rcy=0
  [debuggerfo.basedock]
@@ -1294,16 +1278,16 @@ windowlayout=585
  mdistate=0
  nx=0
  ny=0
- ncx=1147
- ncy=54
+ ncx=1350
+ ncy=61
  x=0
  y=0
- cx=1147
- cy=54
+ cx=1350
+ cy=61
  rcx=0
  rcy=0
  [debuggerfo.edit_options]
- value=X
+ value=1
  [debuggerfo.edit_compilernum]
  value=0
  [debuggerfo.edit_compiler]
@@ -1311,6 +1295,9 @@ windowlayout=585
  [debuggerfo.file_history]
  value=/home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
  history=50
+  /home/fred/eschecs (copy 1)/source/eschecs.pas
+  /home/fred/eschecs/source/eschecs.pas
+  /home/fred/uos/examples/deviceinfos_fpGUI.pas
   /home/fred/uos/examples/consoleplay.pas
   /home/fred/ultibotest/ultibo_fpgui1.pas
   /home/fred/eschecs/source/images.pas
@@ -1332,7 +1319,6 @@ windowlayout=585
   /home/fred/eschecs/source/sound_uos.pas
   /home/fred/eschecs/source/sound.pas
   /home/fred/eschecs/source/chessboard.pas
-  /home/fred/eschecs/source/eschecs.pas
   /home/fred/moustique/validator_dyn.pas
   /home/fred/moustique/parser.pas
   /home/fred/fpGUI-maint/examples/corelib/aggcanvas/agg_canvas_test.pas
@@ -1359,10 +1345,8 @@ windowlayout=585
   /home/fred/designer_ext/src/runonce_postitold.pas
   /home/fred/fpGUI-maint/src/corelib/fpg_main.pas
   /home/fred/fpGUI-maint/src/corelib/fpg_base.pas
-  /home/fred/designer_ext/src/develop_dynX11/fpg_x11.pas
-  /home/fred/designer_ext/src/xdynload.pas
  [debuggerfo.project_options]
- value=1
+ value=5
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1377,13 +1361,13 @@ windowlayout=585
  ncy=0
  x=208
  y=0
- cx=939
- cy=456
+ cx=1142
+ cy=521
  rcx=0
  rcy=0
  [sourcefo.files_tab]
  firsttab=0
- index=2
+ index=1
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
@@ -1415,9 +1399,9 @@ windowlayout=585
  ncx=0
  ncy=0
  x=0
- y=54
- cx=1147
- cy=456
+ y=61
+ cx=1350
+ cy=521
  rcx=0
  rcy=0
 [targetconsole]
