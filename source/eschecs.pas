@@ -49,7 +49,9 @@ uses
   {%endunits}
   ;
 
+{$IFDEF windows}
 {$R eschecs.res}
+{$ENDIF}
 
 {$WARN 5024 OFF}
 {$I version.inc}
@@ -131,6 +133,8 @@ type
 
 {@VFD_NEWFORM_IMPL}
 
+{$I icon.inc} 
+
 var
   vListener: TThread;
   vUCILog: text;
@@ -190,12 +194,15 @@ end;
 
 procedure TMainForm.AfterCreate;
  begin
+  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs,
+    sizeof(vfd_eschecs), 0, 0);
+ 
  {%region 'Auto-generated GUI code' -fold}
   {@VFD_BODY_BEGIN: MainForm}
   Name := 'MainForm';
   SetPosition(351, 150, 640, 495);
   WindowTitle := 'Eschecs';
-  IconName := '';
+  IconName := 'vfd.eschecs';
   BackGroundColor := $80000001;
   Hint := '';
   WindowPosition := wpOneThirdDown;
