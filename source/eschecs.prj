@@ -19,7 +19,7 @@ order16=0
 [projectoptions]
 projectdir=/home/fred/eschecs/source
 projectfilename=/home/fred/eschecs/source/eschecs.prj
-findinfiledialog=58
+findinfiledialog=65
  [findinfileadialogfo.subdirs]
  value=1
  [findinfileadialogfo.incurrentfile]
@@ -29,17 +29,17 @@ findinfiledialog=58
  [findinfileadialogfo.wholeword]
  value=0
  [findinfileadialogfo.inprojectdir]
- value=1
+ value=0
  [findinfileadialogfo.casesensitive]
  value=0
  [findinfileadialogfo.indirectories]
- value=0
+ value=1
  [findinfileadialogfo.mask]
- value="*.pas" "*.pp" "*.inc" 
+ value="*.pas" "*.pp" "*.inc"
  history=3
+  "*.pas" "*.pp" "*.inc"
   "*.pas" "*.pp" "*.inc" 
   "*.pas" "*.pp" "*.inc" "*.*"
-  "*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.dir]
  filenames=1
   /home/fred/designer_ext/src/
@@ -48,30 +48,37 @@ findinfiledialog=58
  y=0
  cx=0
  cy=0
- filehistory=3
+ filehistory=5
   /home/fred/designer_ext/src/
+  /home/fred/fpGUI-maint/
+  /home/fred/designer_ext/
   /home/fred/ideu/
   /home/fred/
  filefilterindex=0
- filefilter="*.pas" "*.pp" "*.inc" "*.*"
+ filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=tprocess
- history=15
-  tprocess
-  fpg_form
-  workingDirectory
-  vEngines
-  fexepa
-  json
-  directoryseparator
-  directorydelimiter
-  mark\60\wp.png
-  source/images\mark\60\wp.png
-  wp.png
-  external
-  bgrafpguibitmap
-  LoadFromDevice
-  
+ value=imagename
+ history=20
+  imagename
+  IconName
+  stdimg
+  vfd.
+  {$I 
+  {$I
+  pgui_logo1
+  pthrlinux
+  freebsd
+  sched_param =
+  sched_param
+  psched_param
+  X_G
+  X_GetProperty
+  TfpgDrag
+  DoInitImageMask
+  'clos
+  ATimer
+  StartMessage
+  writeln
  [findinfileadialogfo]
  stackedunder=
  x=268
@@ -198,8 +205,8 @@ options=114
  index=2
  [projectoptionsfo]
  stackedunder=
- x=323
- y=159
+ x=278
+ y=145
  cx=863
  cy=573
 settings=8
@@ -777,8 +784,16 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=DEFAULT_EXEPATH
+finddtext=vfd.assit
 findhistory=20
+ vfd.assit
+ vfd_assit
+ close
+ open
+ implem
+ icon
+ Imagename
+ GetImage
  DEFAULT_EXEPATH
  THandle
  System.THandle 
@@ -791,35 +806,67 @@ findhistory=20
  DSTCOPY
  aExePath
  ReadFromINIFile
- \
- PICTURES_FOLDER
- wp.png
- .create
- LoadFromDevice
- fred
- res=
- 30005
 findoptions=1
-editpos=4
+editpos=12
+ 0,52
  0,-1073741823
- 0,39
  0,-1073741823
- 0,0
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
-sourcefiles=4
+bookmarks4=0
+bookmarks5=0
+bookmarks6=0
+bookmarks7=0
+bookmarks8=0
+bookmarks9=0
+bookmarks10=0
+bookmarks11=0
+sourcefiles=12
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/settings.pas
  ${PROJECTDIR}/connect.pas
  ${PROJECTDIR}/eschecs.pas
-relpaths=4
+ ${PROJECTDIR}/eschecs.pas
+ ${PROJECTDIR}/develop_dynX11/fpg_x11.pas
+ /home/fred/fpGUI-maint/src/corelib/fpg_main.pas
+ ${PROJECTDIR}/eschecs.res
+ ${PROJECTDIR}/frm_main_designer.pas
+ /home/fred/fpGUI-maint/docs/xml/gui/examples/fpg_trayicon_usage.pas
+ /home/fred/eschecs/stdimages.inc
+ ${PROJECTDIR}/stdima.inc
+relpaths=12
  eschecs.pas
  settings.pas
  connect.pas
  eschecs.pas
-ismoduletexts=4
+ eschecs.pas
+ designer_ext/src/develop_dynX11/fpg_x11.pas
+ fpGUI-maint/src/corelib/fpg_main.pas
+ eschecs.res
+ designer_ext/src/frm_main_designer.pas
+ fpGUI-maint/docs/xml/gui/examples/fpg_trayicon_usage.pas
+ stdimages.inc
+ stdima.inc
+ismoduletexts=12
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
  0
  0
  0
@@ -829,15 +876,23 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=4
+order=12
  0
- 1
+ 10
+ 9
+ 6
+ 11
  3
+ 4
+ 1
  2
+ 8
+ 7
+ 5
 firsttab=0
-index=2
+index=0
 [layout]
-windowlayout=560
+windowlayout=568
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -952,10 +1007,10 @@ windowlayout=560
  ny=0
  ncx=0
  ncy=0
- x=239
- y=115
- cx=678
- cy=414
+ x=3
+ y=29
+ cx=1360
+ cy=706
  rcx=0
  rcy=0
  [projecttreefo]
@@ -1314,10 +1369,11 @@ windowlayout=560
  [debuggerfo.file_history]
  value=/home/fred/eschecs/source/eschecs.pas
  history=20
+  /home/fred/eschecs/source/eschecs.pas
+  ${PROJECTDIR}/maint_dynX11/fpg_x11.pas
   /home/fred/eschecs/source/settings.pas
   /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
   /home/fred/eschecs (copy 1)/source/eschecs.pas
-  /home/fred/eschecs/source/eschecs.pas
   /home/fred/uos/examples/deviceinfos_fpGUI.pas
   /home/fred/uos/examples/consoleplay.pas
   /home/fred/ultibotest/ultibo_fpgui1.pas
@@ -1333,7 +1389,6 @@ windowlayout=560
   /home/fred/ultibo/core/tools/Makefile.fpc
   /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test_ultibo.lpr
   /home/fred/fpGUI-ultibo/examples/corelib/canvastest/fpgcanvas_ultibo.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test.lpr
  [debuggerfo.project_options]
  value=5
  [debuggerfo.hints]
@@ -1355,13 +1410,21 @@ windowlayout=560
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=4
+ order=12
   0
-  1
+  10
+  9
+  6
+  11
   3
+  4
+  1
   2
+  8
+  7
+  5
  firsttab=0
- index=2
+ index=0
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
