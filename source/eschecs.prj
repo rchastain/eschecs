@@ -194,7 +194,7 @@ options=114
  index=0
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=2
+ index=0
  [projectoptionsfo]
  stackedunder=
  x=323
@@ -354,7 +354,7 @@ stripmessageesc=0
 copymessages=0
 closemessages=0
 enablepurpose=1
-enablesource=0
+enablesource=1
 checkmethods=1
 colorerror=-1610612717
 colorwarning=-1610612712
@@ -439,7 +439,7 @@ makeoptionson=9
  4095
  4095
  4024
- 126
+ 118
  4084
  3971
  4095
@@ -796,22 +796,17 @@ findhistory=20
  NewView
  images
 findoptions=1
-editpos=1
- 0,11
-bookmarks0=0
-sourcefiles=1
- ${PROJECTDIR}/eschecs.pas
-relpaths=1
- eschecs.pas
-ismoduletexts=1
- 0
+editpos=0
+sourcefiles=0
+relpaths=0
+ismoduletexts=0
 modules=0
 moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
 firsttab=0
-index=0
+index=-1
 [layout]
 windowlayout=555
  [mainfo.basedock]
@@ -921,7 +916,7 @@ windowlayout=555
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1288,10 +1283,10 @@ windowlayout=555
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
+ value=/home/fred/fpGUI-maint/src/corelib/fpg_main.pas
  history=20
   /home/fred/eschecs/source/eschecs.pas
-  /home/fred/eschecs/source/settings.pas
+  /home/fred/eschecs (copy 1)/source/eschecs.pas
   /home/fred/uos/examples/deviceinfos_fpGUI.pas
   /home/fred/uos/examples/consoleplay.pas
   /home/fred/ultibotest/ultibo_fpgui1.pas
@@ -1332,12 +1327,12 @@ windowlayout=555
  rcy=0
  [sourcefo.files_tab]
  firsttab=0
- index=0
+ index=-1
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=findinfilefo
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0

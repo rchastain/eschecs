@@ -9,7 +9,7 @@ program Eschecs;
 {$DEFINE UseCThreads}
 
 uses
-{$IFDEF UNIX}
+  {$IFDEF UNIX}
   cthreads, 
   cwstring, 
 {$ENDIF}
@@ -17,35 +17,37 @@ uses
   SysUtils,
   StrUtils,
   RegExpr,
-{$IFDEF DEBUG}
-  TypInfo,
-{$ENDIF}
   fpg_base,
   fpg_main,
-  fpg_form,
+  fpg_dialogs,
   fpg_menu,
   fpg_widget,
-  fpg_panel,
-  fpg_dialogs,
   Board,
   Style,
   Utils,
   Language,
   Connect,
-{$IFDEF OPT_SOUND}
-  Sound,
-{$ENDIF}
   Settings,
   ValidatorCore,
   ChessTypes,
   ChessGame,
-{$IFDEF OPT_ECO}
-  ECO,
-{$ENDIF}
   UCI,
   FEN,
   Engines,
-  Log;
+  Log,
+  {$IFDEF DEBUG}
+  TypInfo,
+  {$ENDIF}
+  {$IFDEF OPT_SOUND}
+  Sound,
+  {$ENDIF}
+  {$IFDEF OPT_ECO}
+  ECO,
+  {$ENDIF}
+  {%units 'Auto-generated GUI code'}
+  fpg_form, fpg_panel
+  {%endunits}
+  ;
 
 {$R eschecs.res}
 
@@ -90,6 +92,7 @@ type
   public
     destructor Destroy; override;
     procedure AfterCreate; override;
+    procedure InitForm; 
     procedure WidgetPaint(Sender: TObject);
     procedure WidgetMouseDown(Sender: TObject; AButton: TMouseButton; AShift: TShiftState; const AMousePos: TPoint);
     procedure WidgetMouseEnter(Sender: TObject);
@@ -186,15 +189,7 @@ begin
 end;
 
 procedure TMainForm.AfterCreate;
-const
-  MENU_BAR_HEIGHT = 24;
-  DEFAULT_TITLE = 'Eschecs';
-var
-  vCurrentPosition: string;
-  vAutoPlay, vMarble: boolean;
-  vIndex: integer;
-  vFileName: TFileName;
-begin
+ begin
  {%region 'Auto-generated GUI code' -fold}
   {@VFD_BODY_BEGIN: MainForm}
   Name := 'MainForm';
@@ -248,10 +243,6 @@ begin
   begin
     Name := 'FEschecsSubMenu';
     SetPosition(68, 56, 228, 28);
-    AddMenuItem(TEXTS[txHelp], '', @OtherItemClicked);
-    AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
-    AddMenuItem('-', '', nil);
-    AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
   end;
 
   FMovesSubMenu := TfpgPopupMenu.Create(self);
@@ -259,9 +250,6 @@ begin
   begin
     Name := 'FMovesSubMenu';
     SetPosition(68, 268, 228, 28);
-    AddMenuItem(TEXTS[txComputerMove], '', @OtherItemClicked);
-    AddMenuItem(TEXTS[txAutoPlay], '', @OtherItemClicked).Checked := vAutoPlay;
-    AddMenuItem('-', '', nil);
   end;
 
   FBoardSubMenu := TfpgPopupMenu.Create(self);
@@ -269,8 +257,6 @@ begin
   begin
     Name := 'FBoardSubMenu';
     SetPosition(68, 220, 228, 28);
-    AddMenuItem(TEXTS[txNew], '', @ItemNewGameClicked);
-    AddMenuItem(TEXTS[txFlip], '', @OtherItemClicked);
   end;
 
   FOptionsSubMenu := TfpgPopupMenu.Create(self);
@@ -278,8 +264,6 @@ begin
   begin
     Name := 'FOptionsSubMenu';
     SetPosition(68, 168, 228, 28);
-    AddMenuItem(TEXTS[txMarble], '', @OtherItemClicked).Checked := vMarble;
-    AddMenuItem(TEXTS[txSound], '', @OtherItemClicked).Checked := FALSE;
   end;
 
   FPromotionSubMenu := TfpgPopupMenu.Create(self);
@@ -287,15 +271,25 @@ begin
   begin
     Name := 'FPromotionSubMenu';
     SetPosition(68, 112, 228, 28);
-    AddMenuItem(TEXTS[txKnight], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txBishop], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txRook], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txQueen], '', @OtherItemClicked).Checked := TRUE;
   end;
 
   {@VFD_BODY_END: MainForm}
  {%endregion}  
   
+InitForm;
+
+end;
+
+procedure TMainForm.InitForm; 
+const
+  MENU_BAR_HEIGHT = 24;
+  DEFAULT_TITLE = 'Eschecs';
+var
+  vCurrentPosition: string;
+  vAutoPlay, vMarble: boolean;
+  vIndex: integer;
+  vFileName: TFileName;
+begin
    if ExtractFileExt(ParamStr(1)) = '.json' then
     vFileName := ParamStr(1)
   else
@@ -309,6 +303,7 @@ begin
   Assert(FValidator.IsFEN(vCurrentPosition));
   FTimeAvailable := 1000;
   FPositionHistory := TStringList.Create;
+ 
   if FileExists(vFENPath) then
     FPositionHistory.LoadfromFile(vFENPath)
   else
@@ -321,16 +316,48 @@ begin
     AddMenuItem(TEXTS[txBoard], nil).SubMenu := FBoardSubMenu;
     //AddMenuItem(TEXTS[txOptions], nil).SubMenu := FOptionsSubMenu;
     AddMenuItem(TEXTS[txPromotion], nil).SubMenu := FPromotionSubMenu;
-  end;   
-    
- with FMovesSubMenu do
-  begin    for vIndex := 0 to High(vEngines) do
+  end;  
+  
+  with FEschecsSubMenu do
+  begin
+    AddMenuItem(TEXTS[txHelp], '', @OtherItemClicked);
+    AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
+    AddMenuItem('-', '', nil);
+    AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
+  end;
+  
+  with FOptionsSubMenu do
+  begin
+    AddMenuItem(TEXTS[txMarble], '', @OtherItemClicked).Checked := vMarble;
+    AddMenuItem(TEXTS[txSound], '', @OtherItemClicked).Checked := FALSE;
+  end; 
+  
+  with FBoardSubMenu do
+  begin
+    AddMenuItem(TEXTS[txNew], '', @ItemNewGameClicked);
+    AddMenuItem(TEXTS[txFlip], '', @OtherItemClicked);
+  end;
+  
+  with FMovesSubMenu do
+  begin
+    AddMenuItem(TEXTS[txComputerMove], '', @OtherItemClicked);
+    AddMenuItem(TEXTS[txAutoPlay], '', @OtherItemClicked).Checked := vAutoPlay;
+    AddMenuItem('-', '', nil);
+    for vIndex := 0 to High(vEngines) do
     with AddMenuItem(vEngines[vIndex].vName, '', @OtherItemClicked) do
     begin
-    Enabled := vEngines[vIndex].vExists;
-    Checked := FALSE;
+     Enabled := vEngines[vIndex].vExists;
+     Checked := FALSE;
     end;
   end;  
+  
+  with FPromotionSubMenu do
+  begin
+    AddMenuItem(TEXTS[txKnight], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txBishop], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txRook], '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(TEXTS[txQueen], '', @OtherItemClicked).Checked := TRUE;
+  end;
   
   SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24 + 8 * gStyleData[gStyle].scale + 24);
   WindowTitle := DEFAULT_TITLE;
@@ -361,7 +388,6 @@ begin
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
-
 end;
 
 procedure TMainForm.WidgetPaint(Sender: TObject);
