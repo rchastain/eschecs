@@ -293,7 +293,7 @@ const
   DEFAULT_TITLE = 'Eschecs';
 var
   vCurrentPosition: string;
-  vAutoPlay, vMarble, EngineConnect: boolean;
+  vAutoPlay, vMarble: boolean;
   vIndex: integer;
   vFileName: TFileName;
 begin

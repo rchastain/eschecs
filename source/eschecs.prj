@@ -784,8 +784,9 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=aText
+finddtext=EngineConnect
 findhistory=20
+ EngineConnect
  aText
  exec
  FEngineMessage
@@ -805,36 +806,45 @@ findhistory=20
  DEFAULT_EXEPATH
  THandle
  System.THandle 
- cns_
 findoptions=1
-editpos=6
- 0,87
- 0,102
+editpos=8
+ 0,-1073741823
+ 0,88
  0,-1073741823
  0,65
- 0,827
- 0,7
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,80
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
 bookmarks4=0
 bookmarks5=0
-sourcefiles=6
+bookmarks6=0
+bookmarks7=0
+sourcefiles=8
  ${PROJECTDIR}/connect.pas
  ${PROJECTDIR}/uci/uci.pas
  ${PROJECTDIR}/chess/pgn/pgn.pas
  ${PROJECTDIR}/validator/validatorcore.pas
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/connect.win.pas
-relpaths=6
+ ${PROJECTDIR}/settings.pas
+ ${PROJECTDIR}/eschecs.pas
+relpaths=8
  connect.pas
  uci/uci.pas
  chess/pgn/pgn.pas
  validator/validatorcore.pas
  eschecs.pas
  connect.win.pas
-ismoduletexts=6
+ settings.pas
+ eschecs.pas
+ismoduletexts=8
+ 0
+ 0
  0
  0
  0
@@ -846,17 +856,19 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=6
- 1
+order=8
  4
- 0
  5
- 2
+ 1
  3
+ 7
+ 2
+ 0
+ 6
 firsttab=0
 index=2
 [layout]
-windowlayout=562
+windowlayout=564
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -964,7 +976,7 @@ windowlayout=562
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1316,7 +1328,7 @@ windowlayout=562
  mdistate=0
  nx=0
  ny=0
- ncx=1350
+ ncx=1356
  ncy=61
  x=0
  y=0
@@ -1331,8 +1343,9 @@ windowlayout=562
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/connect.pas
+ value=/home/fred/eschecs/source/uci/uci.pas
  history=20
+  /home/fred/eschecs/source/validator/validatorcore.pas
   /home/fred/eschecs/source/uci/uci.pas
   /home/fred/eschecs/stdimages.inc
   /home/fred/eschecs/source/eschecs.res
@@ -1352,7 +1365,6 @@ windowlayout=562
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
   /home/fred/ultibotest/helloworld_ultibo.pas
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
-  /home/fred/ultibo/core/tools/Makefile.fpc
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1374,20 +1386,22 @@ windowlayout=562
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=6
-  1
+ order=8
   4
-  0
   5
-  2
+  1
   3
+  7
+  2
+  0
+  6
  firsttab=0
  index=2
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=findinfilefo
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
