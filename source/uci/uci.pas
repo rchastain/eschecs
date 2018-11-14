@@ -71,11 +71,16 @@ begin
 end;
 
 function IsMsgUciOk(const aMsg: string; out aEngineName, aAuthor: string): boolean;
+var 
+bmsg : string;
 begin
+  
     with TRegExpr.Create('id name ([^\r\n]+).+id author ([^\r\n]+).+uciok') do
-    begin
-      result := Exec(aMsg);
-      if result then
+    
+     begin
+       result := Exec(aMsg);
+   
+         if result then
       begin
         aEngineName := Trim(Match[1]);
         aAuthor := Trim(Match[2]);
@@ -86,6 +91,7 @@ begin
       end;
       Free;
     end;
+  
 end;
 
 function IsMsgBestMove(const aMsg: string; out aBestMove, aPromotion: string): boolean;

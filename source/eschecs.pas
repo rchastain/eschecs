@@ -293,7 +293,7 @@ const
   DEFAULT_TITLE = 'Eschecs';
 var
   vCurrentPosition: string;
-  vAutoPlay, vMarble: boolean;
+  vAutoPlay, vMarble, EngineConnect: boolean;
   vIndex: integer;
   vFileName: TFileName;
 begin
@@ -303,8 +303,8 @@ begin
     vFileName := 'engines.json';
   LoadEnginesData(vFileName);
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex);
- 
-  vMarble := TRUE; // <---
+  
+    vMarble := TRUE; // <---
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
@@ -839,7 +839,7 @@ begin
   UCILogAppend(FEngineMessage, '>');
   
   if IsMsgUciOk(FEngineMessage, vName, vAuthor) then
-  begin
+   begin
     TLog.Append(Format('Protocole accepté. Moteur "%s". Auteur "%s".', [vName, vAuthor]));
     //WriteProcessInput_(MsgNewGame());
     frm.WindowTitle := vName;
