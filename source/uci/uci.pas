@@ -73,8 +73,8 @@ end;
 function IsMsgUciOk(const aMsg: string; out aEngineName, aAuthor: string): boolean;
 begin
     with TRegExpr.Create('id name ([^\r\n]+).+id author ([^\r\n]+).+uciok') do
-    begin
-      result := Exec(aMsg);
+     begin
+       result := Exec(aMsg);
       if result then
       begin
         aEngineName := Trim(Match[1]);

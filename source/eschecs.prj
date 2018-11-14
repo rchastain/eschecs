@@ -29,11 +29,11 @@ findinfiledialog=65
  [findinfileadialogfo.wholeword]
  value=0
  [findinfileadialogfo.inprojectdir]
- value=0
+ value=1
  [findinfileadialogfo.casesensitive]
  value=0
  [findinfileadialogfo.indirectories]
- value=1
+ value=0
  [findinfileadialogfo.mask]
  value="*.pas" "*.pp" "*.inc"
  history=3
@@ -57,8 +57,18 @@ findinfiledialog=65
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=imagename
+ value=ReadProcessOutput
  history=20
+  ReadProcessOutput
+  FEngineMessage
+  IsMsgUciOk
+  TRegExpr
+  exec
+  id name
+  message
+  if EngineConnect then
+  txMoves
+  coup
   imagename
   IconName
   stdimg
@@ -69,16 +79,6 @@ findinfiledialog=65
   pthrlinux
   freebsd
   sched_param =
-  sched_param
-  psched_param
-  X_G
-  X_GetProperty
-  TfpgDrag
-  DoInitImageMask
-  'clos
-  ATimer
-  StartMessage
-  writeln
  [findinfileadialogfo]
  stackedunder=
  x=268
@@ -784,8 +784,17 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=vfd.assit
+finddtext=EngineConnect
 findhistory=20
+ EngineConnect
+ aText
+ exec
+ FEngineMessage
+ message
+ Log.Append('Connexion établie.');
+ OtherItemClicked
+ FMovesSubMenu
+ txMoves
  vfd.assit
  vfd_assit
  close
@@ -797,29 +806,16 @@ findhistory=20
  DEFAULT_EXEPATH
  THandle
  System.THandle 
- cns_
- MENU_BAR_HEIGHT
- FTimer
- addmenuitem
- SetCurrentDir
- aexepath
- DSTCOPY
- aExePath
- ReadFromINIFile
 findoptions=1
-editpos=12
- 0,52
+editpos=8
+ 0,-1073741823
+ 0,88
+ 0,-1073741823
+ 0,65
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
+ 0,80
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -828,41 +824,25 @@ bookmarks4=0
 bookmarks5=0
 bookmarks6=0
 bookmarks7=0
-bookmarks8=0
-bookmarks9=0
-bookmarks10=0
-bookmarks11=0
-sourcefiles=12
- ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/settings.pas
+sourcefiles=8
  ${PROJECTDIR}/connect.pas
+ ${PROJECTDIR}/uci/uci.pas
+ ${PROJECTDIR}/chess/pgn/pgn.pas
+ ${PROJECTDIR}/validator/validatorcore.pas
  ${PROJECTDIR}/eschecs.pas
+ ${PROJECTDIR}/connect.win.pas
+ ${PROJECTDIR}/settings.pas
  ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/develop_dynX11/fpg_x11.pas
- /home/fred/fpGUI-maint/src/corelib/fpg_main.pas
- ${PROJECTDIR}/eschecs.res
- ${PROJECTDIR}/frm_main_designer.pas
- /home/fred/fpGUI-maint/docs/xml/gui/examples/fpg_trayicon_usage.pas
- /home/fred/eschecs/stdimages.inc
- ${PROJECTDIR}/stdima.inc
-relpaths=12
- eschecs.pas
- settings.pas
+relpaths=8
  connect.pas
+ uci/uci.pas
+ chess/pgn/pgn.pas
+ validator/validatorcore.pas
  eschecs.pas
+ connect.win.pas
+ settings.pas
  eschecs.pas
- designer_ext/src/develop_dynX11/fpg_x11.pas
- fpGUI-maint/src/corelib/fpg_main.pas
- eschecs.res
- designer_ext/src/frm_main_designer.pas
- fpGUI-maint/docs/xml/gui/examples/fpg_trayicon_usage.pas
- stdimages.inc
- stdima.inc
-ismoduletexts=12
- 0
- 0
- 0
- 0
+ismoduletexts=8
  0
  0
  0
@@ -876,23 +856,19 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=12
- 0
- 10
- 9
- 6
- 11
- 3
+order=8
  4
- 1
- 2
- 8
- 7
  5
+ 1
+ 3
+ 7
+ 2
+ 0
+ 6
 firsttab=0
-index=0
+index=2
 [layout]
-windowlayout=568
+windowlayout=564
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -906,13 +882,13 @@ windowlayout=568
  ny=0
  ncx=0
  ncy=0
- x=3
+ x=0
  y=29
- cx=1360
+ cx=1366
  cy=706
  rcx=0
  rcy=0
- wsize=0
+ wsize=6
  active=1
  visible=1
  [targetconsolefo]
@@ -1240,7 +1216,7 @@ windowlayout=568
  ncy=0
  x=0
  y=585
- cx=1350
+ cx=1356
  cy=105
  rcx=0
  rcy=0
@@ -1340,7 +1316,7 @@ windowlayout=568
  ncy=0
  x=0
  y=0
- cx=1350
+ cx=1356
  cy=58
  rcx=0
  rcy=0
@@ -1352,11 +1328,11 @@ windowlayout=568
  mdistate=0
  nx=0
  ny=0
- ncx=1350
+ ncx=1356
  ncy=61
  x=0
  y=0
- cx=1350
+ cx=1356
  cy=61
  rcx=0
  rcy=0
@@ -1367,13 +1343,16 @@ windowlayout=568
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
+ value=/home/fred/eschecs/source/uci/uci.pas
  history=20
-  /home/fred/eschecs/source/eschecs.pas
-  ${PROJECTDIR}/maint_dynX11/fpg_x11.pas
+  /home/fred/eschecs/source/validator/validatorcore.pas
+  /home/fred/eschecs/source/uci/uci.pas
+  /home/fred/eschecs/stdimages.inc
+  /home/fred/eschecs/source/eschecs.res
   /home/fred/eschecs/source/settings.pas
   /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
   /home/fred/eschecs (copy 1)/source/eschecs.pas
+  /home/fred/eschecs/source/eschecs.pas
   /home/fred/uos/examples/deviceinfos_fpGUI.pas
   /home/fred/uos/examples/consoleplay.pas
   /home/fred/ultibotest/ultibo_fpgui1.pas
@@ -1386,11 +1365,8 @@ windowlayout=568
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
   /home/fred/ultibotest/helloworld_ultibo.pas
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
-  /home/fred/ultibo/core/tools/Makefile.fpc
-  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test_ultibo.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/canvastest/fpgcanvas_ultibo.lpr
  [debuggerfo.project_options]
- value=5
+ value=1
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1405,26 +1381,22 @@ windowlayout=568
  ncy=0
  x=208
  y=0
- cx=1142
+ cx=1148
  cy=521
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=12
-  0
-  10
-  9
-  6
-  11
-  3
+ order=8
   4
-  1
-  2
-  8
-  7
   5
+  1
+  3
+  7
+  2
+  0
+  6
  firsttab=0
- index=0
+ index=2
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
@@ -1457,7 +1429,7 @@ windowlayout=568
  ncy=0
  x=0
  y=61
- cx=1350
+ cx=1356
  cy=521
  rcx=0
  rcy=0

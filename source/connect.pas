@@ -85,7 +85,7 @@ var
 begin
   if vProcess.Running then
   begin
-    s := aStr + #13#10;
+    s := aStr + #10;
     vProcess.Input.Write(s[1], Length(s));
   end;
 end;
