@@ -7,5 +7,4 @@ eschecs.exe
 eschecs.fen
 eschecs.ini
 eschecs.log
-source/eschecs.prj
 *.cmd

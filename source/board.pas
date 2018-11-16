@@ -91,13 +91,8 @@ var
 *)
 begin
   inherited Create;
-  (*
-  if aBoardStyle <> vCurrentStyle then
-  begin
-    vChessboard.Free;
-    vChessboard := CreateChessboard(aBoardStyle);
-  end;
-  *)
+  Assert((gStyleData[gStyle].scale mod 2 = 0) and (gStyleData[gStyle].scale mod 5 = 0));
+  CreatePictures();
   fVirtualScreen := TBGRABitmap.Create(8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
   fPieceBackground := nil;
   fScreenshot := nil;
@@ -120,6 +115,7 @@ begin
     fPieceBackground.Free;
   if Assigned(fScreenshot) then
     fScreenshot.Free;
+  FreePictures;
   inherited Destroy;
 end;
 
@@ -623,7 +619,6 @@ begin
 end;
 
 initialization
-  Assert((gStyleData[gStyle].scale mod 2 = 0) and (gStyleData[gStyle].scale mod 5 = 0));
   vMoveToBeHighlighted := '';
   vComputerCastlingFlag := FALSE;
   vKingIndex := 0;

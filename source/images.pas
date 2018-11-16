@@ -26,6 +26,8 @@ var
   end;
 
 function CreateChessboard(const aBoardStyle: TBoardStyle): TBGRABitmap;
+procedure FreePictures();
+procedure CreatePictures();
 
 implementation
 
@@ -246,11 +248,5 @@ begin
   WriteLn(Format('Création des images en %d ms.', [Trunc(1000 * SECSPERDAY * d)]));
 {$ENDIF}
 end;
-
-initialization
-  CreatePictures();
-
-finalization
-  FreePictures;
 
 end.

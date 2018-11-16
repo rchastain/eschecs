@@ -12,10 +12,11 @@ type
     boardstyle: TBoardStyle;
     imgext: string;
   end;
+  TStyle = 0..4;
   
 var
-  gStyle: byte;
-  gStyleData: array[0..4] of TStyleData = (
+  gStyle: TStyle;
+  gStyleData: array[TStyle] of TStyleData = (
     (scale: 40; font: 'fritz';  boardstyle: bsOriginal; imgext: '.bmp'),
     (scale: 60; font: 'mark';   boardstyle: bsSimple;   imgext: '.png'),
     (scale: 60; font: 'mark';   boardstyle: bsMarble;   imgext: '.png'),
@@ -25,26 +26,4 @@ var
   
 implementation
 
-uses
-  SysUtils;
-  
-procedure LoadStyle();
-const
-  STYLE_FILE = 'style.txt';
-var
-  vFile: TextFile;
-  vByte: byte;
-begin
-  Assert(FileExists(STYLE_FILE));
- 
-  AssignFile(vFile, STYLE_FILE);
-  Reset(vFile);
-  ReadLn(vFile, vByte);
-  CloseFile(vFile);
-  
-  gStyle := vByte;
-end;
-
-begin
-  LoadStyle();
 end.

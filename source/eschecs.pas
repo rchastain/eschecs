@@ -44,6 +44,7 @@ uses
   {$IFDEF OPT_ECO}
   ECO,
   {$ENDIF}
+  rcmdline,
   {%units 'Auto-generated GUI code'}
   fpg_form, fpg_panel
   {%endunits}
@@ -318,6 +319,14 @@ var
   vAutoPlay, vMarble: boolean;
   vIndex: integer;
 begin
+  with TCommandLineReader.Create do
+  try
+    DeclareInt('style', '', 3);
+    Parse(CmdLine);
+    gStyle := ReadInt('style');
+  finally
+    Free;
+  end;
   LoadEnginesData('engines.json');
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine);
   
