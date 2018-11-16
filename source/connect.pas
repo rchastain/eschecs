@@ -34,7 +34,7 @@ var
       while BytesAvailable > 0 do
       begin
         SetLength(Buffer, BytesAvailable);
-        BytesRead := aProcess.OutPut.Read(Buffer[1], BytesAvailable);
+        BytesRead := aProcess.Output.Read(Buffer[1], BytesAvailable);
         result := result + Copy(Buffer, 1, BytesRead);
         BytesAvailable := aProcess.Output.NumBytesAvailable;
         NoMoreOutput := FALSE;
@@ -59,7 +59,7 @@ begin
   result := FALSE;
   
   vProcess := TProcess.Create(nil);
-  vProcess.Options := [poUsePipes, poStderrToOutPut, poNoConsole];
+  vProcess.Options := [poUsePipes, poStdErrToOutput, poNoConsole];
   
   if not vProcess.Running then
   begin

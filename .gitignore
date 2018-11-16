@@ -1,3 +1,16 @@
 
 .msegitrepo.sta
 comspec.cmd
+engines
+units
+eschecs.debug
+eschecs.exe
+eschecs.fen
+eschecs.ini
+eschecs.log
+source/eschecs.prj
+source/eschecs.prj
+source/eschecs.prj
+source/eschecs.prj
+clean.cmd
+source/eschecs.prj

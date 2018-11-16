@@ -78,6 +78,7 @@ type
     FComputerColor: TChessPieceColorEx;
     FWaiting: boolean;
     FExePath: string;
+    FEngine: integer;
     FEngineConnected: boolean;
     FMoveHistory: string;
     FPositionHistory: TStringList;
@@ -90,7 +91,7 @@ type
     FCastlingFlag: boolean;
     FWaitingForAnimationEnd: boolean;
     FWaitingForReadyOk: integer;
-      procedure HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean); override;
+    procedure HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean); override;
   public
     destructor Destroy; override;
     procedure AfterCreate; override;
@@ -193,11 +194,10 @@ begin
 end;
 
 procedure TMainForm.AfterCreate;
- begin
-  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs,
-    sizeof(vfd_eschecs), 0, 0);
+begin
+  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
  
- {%region 'Auto-generated GUI code' -fold}
+  {%region 'Auto-generated GUI code' -fold}
   {@VFD_BODY_BEGIN: MainForm}
   Name := 'MainForm';
   SetPosition(351, 150, 640, 495);
@@ -281,10 +281,9 @@ procedure TMainForm.AfterCreate;
   end;
 
   {@VFD_BODY_END: MainForm}
- {%endregion}  
+  {%endregion}  
   
-InitForm;
-
+  InitForm;
 end;
 
 procedure TMainForm.InitForm; 
@@ -302,9 +301,7 @@ begin
   else
     vFileName := 'engines.json';
   LoadEnginesData(vFileName);
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex);
-  
-    vMarble := TRUE; // <---
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine);
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
@@ -377,7 +374,7 @@ begin
      
   FBoardStyle := TBoardStyle(Ord(vMarble));
   FBGRAChessboard := TBGRAChessboard.Create(FBoardStyle, FUpsideDown, vCurrentPosition);
- 
+  
   FGame := TChessGame.Create(vCurrentPosition);
   FUserMove := '';
   FRookMove := '';
@@ -395,6 +392,9 @@ begin
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
+  
+  with FMovesSubMenu do if MenuItem(1).Checked and MenuItem(FEngine).Enabled then
+    OtherItemClicked(MenuItem(FEngine));
 end;
 
 procedure TMainForm.WidgetPaint(Sender: TObject);
@@ -506,10 +506,11 @@ begin
     FGame.FENRecord,
     FMovesSubMenu.MenuItem(1).Checked,
     FUpsideDown,
-    FBoardStyle = bsMarble1,
+    FBoardStyle = bsMarble,
     FExePath,
     FMoveHistory,
-    FCurrPosIndex
+    FCurrPosIndex,
+    FEngine
   );
   FPositionHistory.SaveToFile(vFENPath);
   Close;
@@ -571,7 +572,8 @@ begin
       if (Text = TEXTS[txKnight])
       or (Text = TEXTS[txBishop])
       or (Text = TEXTS[txRook])
-      or (Text = TEXTS[txQueen]) then begin
+      or (Text = TEXTS[txQueen]) then
+      begin
         for i := 0 to 3 do
           FPromotionSubMenu.MenuItem(i).Checked := FALSE;
         Checked := TRUE;
@@ -595,6 +597,7 @@ begin
             TLog.Append('Connexion établie.');
             vListener.Start;
             WriteProcessInput_(MsgUCI());
+            FEngine := i + 3;
           end else
             ShowMessage(TEXTS[txConnectionFailure]);
         end;
@@ -881,7 +884,6 @@ const
   UCI_LOG = 'eschecs.debug';
   
 begin
-
   Assign(vUCILog, UCI_LOG);
   if FileExists(UCI_LOG) then
     Append(vUCILog)

@@ -85,13 +85,19 @@ var
 implementation
 
 constructor TBGRAChessboard.Create(const aBoardStyle: TBoardStyle; const aUpsideDown: boolean; const aPiecePlacement: string);
+(*
+var
+  vCapture: TBGRABitmap;
+*)
 begin
   inherited Create;
+  (*
   if aBoardStyle <> vCurrentStyle then
   begin
     vChessboard.Free;
     vChessboard := CreateChessboard(aBoardStyle);
   end;
+  *)
   fVirtualScreen := TBGRABitmap.Create(8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
   fPieceBackground := nil;
   fScreenshot := nil;
@@ -99,6 +105,12 @@ begin
   fUpsideDown := aUpsideDown;
   EraseBoard();
   ReadPlacement(aPiecePlacement);
+  (*
+  vCapture := TBGRABitmap.Create(2 * gStyleData[gStyle].scale, 2 * gStyleData[gStyle].scale);
+  BGRAReplace(vCapture, fVirtualScreen.GetPart(RectWithSize(0, 0, 2 * gStyleData[gStyle].scale, 2 * gStyleData[gStyle].scale)));
+  vCapture.SaveToFile(Format('%d.png', [gStyle]));
+  vCapture.Free;
+  *)
 end;
 
 destructor TBGRAChessboard.Destroy;

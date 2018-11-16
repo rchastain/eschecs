@@ -39,6 +39,9 @@ const
     'go movetime %d',
     'quit'
   );
+
+var
+  vExpr: TRegExpr;
   
 function MsgUCI(): string;
 begin
@@ -72,20 +75,16 @@ end;
 
 function IsMsgUciOk(const aMsg: string; out aEngineName, aAuthor: string): boolean;
 begin
-    with TRegExpr.Create('id name ([^\r\n]+).+id author ([^\r\n]+).+uciok') do
-     begin
-       result := Exec(aMsg);
-      if result then
-      begin
-        aEngineName := Trim(Match[1]);
-        aAuthor := Trim(Match[2]);
-      end else
-      begin
-        aEngineName := '';
-        aAuthor := '';
-      end;
-      Free;
-    end;
+  result := vExpr.Exec(aMsg);
+  if result then
+  begin
+    aEngineName := Trim(vExpr.Match[1]);
+    aAuthor := Trim(vExpr.Match[2]);
+  end else
+  begin
+    aEngineName := '';
+    aAuthor := '';
+  end;
 end;
 
 function IsMsgBestMove(const aMsg: string; out aBestMove, aPromotion: string): boolean;
@@ -117,4 +116,14 @@ begin
   result := Pos('readyok', aMsg) = 1;
 end;
 
+const
+  MSG_UCIOK_PATTERN = 'id name ([^\r\n]+).+id author ([^\r\n]+).+uciok';
+  MSG_UCIOK_PATTERN_ACCEPT_TRUNCATED = 'id name ([^\r\n]+).+id author ([^\r\n]+)';
+  
+initialization
+  vExpr := TRegExpr.Create(MSG_UCIOK_PATTERN_ACCEPT_TRUNCATED);
+  
+finalization
+  vExpr.Free;
+  
 end.

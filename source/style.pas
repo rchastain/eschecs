@@ -4,9 +4,8 @@ unit Style;
 interface
 
 type
-  TBoardStyle = (bsOriginal, bsMarble1, bsMarble2, bsWood, bsMetal);
+  TBoardStyle = (bsOriginal, bsSimple, bsMarble, bsNew, bsWood);
   TOutlineColor = (ocWhite, ocGreen, ocRed, ocTransparent);
-  TPieceStyle = (psOriginal, psCondal60, psMark60);
   TStyleData = record
     scale: integer;
     font: string;
@@ -15,15 +14,37 @@ type
   end;
   
 var
-  gStyle: TPieceStyle;
-  gStyleData: array[TPieceStyle] of TStyleData = (
-    (scale: 40; font: 'fritz'; boardstyle: bsOriginal; imgext: '.bmp'),
-    (scale: 60; font: 'condal'; boardstyle: bsMarble1; imgext: '.png'),
-    (scale: 60; font: 'mark'; boardstyle: bsMarble2; imgext: '.png')
+  gStyle: byte;
+  gStyleData: array[0..4] of TStyleData = (
+    (scale: 40; font: 'fritz';  boardstyle: bsOriginal; imgext: '.bmp'),
+    (scale: 60; font: 'mark';   boardstyle: bsSimple;   imgext: '.png'),
+    (scale: 60; font: 'mark';   boardstyle: bsMarble;   imgext: '.png'),
+    (scale: 60; font: 'mark';   boardstyle: bsNew;      imgext: '.png'),
+    (scale: 80; font: 'wood';   boardstyle: bsWood;     imgext: '.png')
   );
   
 implementation
 
+uses
+  SysUtils;
+  
+procedure LoadStyle();
+const
+  STYLE_FILE = 'style.txt';
+var
+  vFile: TextFile;
+  vByte: byte;
 begin
-  gStyle := psMark60;
+  Assert(FileExists(STYLE_FILE));
+ 
+  AssignFile(vFile, STYLE_FILE);
+  Reset(vFile);
+  ReadLn(vFile, vByte);
+  CloseFile(vFile);
+  
+  gStyle := vByte;
+end;
+
+begin
+  LoadStyle();
 end.

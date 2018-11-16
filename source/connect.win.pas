@@ -1,5 +1,5 @@
 
-unit Connect;
+unit Connect.Win;
 
 interface
 

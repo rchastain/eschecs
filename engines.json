@@ -1,27 +1,9 @@
 [
   {
-    "command" : "booot6_x32.exe",
-    "name" : "Booot",
-    "protocol" : "uci",
-    "workingDirectory" : "\\engines\\booot\\6.3\\"
-  },
-  {
-    "command" : "dumb-win32.exe",
-    "name" : "Dumb",
-    "protocol" : "uci",
-    "workingDirectory" : "\\engines\\dumb\\"
-  },
-  {
     "command" : "fruit_21.exe",
     "name" : "Fruit",
     "protocol" : "uci",
     "workingDirectory" : "\\engines\\fruit\\"
-  },
-  {
-    "command" : "Hermann.exe",
-    "name" : "Hermann",
-    "protocol" : "uci",
-    "workingDirectory" : "\\engines\\hermann\\"
   },
   {
     "command" : "moustique.exe",
