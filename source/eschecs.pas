@@ -136,6 +136,9 @@ type
 
 {$I icon.inc} 
 
+const
+  FIRST_ENGINE_ITEM_INDEX = 3;
+  
 var
   vListener: TThread;
   vUCILog: text;
@@ -347,11 +350,12 @@ begin
     AddMenuItem(TEXTS[txComputerMove], '', @OtherItemClicked);
     AddMenuItem(TEXTS[txAutoPlay], '', @OtherItemClicked).Checked := vAutoPlay;
     AddMenuItem('-', '', nil);
-    for vIndex := 0 to High(vEngines) do
-    with AddMenuItem(vEngines[vIndex].vName, '', @OtherItemClicked) do
+    for vIndex := 0 to High(vEngines) do with AddMenuItem(vEngines[vIndex].vName, '', @OtherItemClicked) do
     begin
      Enabled := vEngines[vIndex].vExists;
      Checked := FALSE;
+     if (FEngine = -1) and (Pos(UpperCase('Fruit'), UpperCase(vEngines[vIndex].vName)) > 0) then
+       FEngine := vIndex;
     end;
   end;  
   
@@ -393,8 +397,8 @@ begin
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
   
-  with FMovesSubMenu do if MenuItem(1).Checked and MenuItem(FEngine).Enabled then
-    OtherItemClicked(MenuItem(FEngine));
+  with FMovesSubMenu do if MenuItem(1).Checked and MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled then
+    OtherItemClicked(MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX));
 end;
 
 procedure TMainForm.WidgetPaint(Sender: TObject);
@@ -582,7 +586,7 @@ begin
         if Text = vEngines[i].vName then
         begin
           for j := 0 to High(vEngines) do
-            FMovesSubMenu.MenuItem(j + 3).Checked := j = i;
+            FMovesSubMenu.MenuItem(j + FIRST_ENGINE_ITEM_INDEX).Checked := j = i;
           if FEngineConnected then
           begin
             WriteProcessInput_(MsgQuit());
@@ -597,7 +601,7 @@ begin
             TLog.Append('Connexion établie.');
             vListener.Start;
             WriteProcessInput_(MsgUCI());
-            FEngine := i + 3;
+            FEngine := i;
           end else
             ShowMessage(TEXTS[txConnectionFailure]);
         end;
@@ -717,7 +721,7 @@ var
   vOpeningName: string;
 begin
 {$IFDEF DEBUG}
-  WriteLn('TMainForm.OnMoveDone(...)');
+  WriteLn('TMainForm.OnMoveDone()');
 {$ENDIF}
   if FGame.Check then
   begin

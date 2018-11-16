@@ -44,7 +44,7 @@ const
   
   DEFAULT_HISTORY = '';
   DEFAULT_INDEX = 0;
-  DEFAULT_ENGINE = 3;
+  DEFAULT_ENGINE = -1;
   
 var
   vINIPath: string;
