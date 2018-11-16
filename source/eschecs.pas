@@ -292,7 +292,27 @@ end;
 procedure TMainForm.InitForm; 
 const
   MENU_BAR_HEIGHT = 24;
-  DEFAULT_TITLE = 'Eschecs';
+{$if defined(cpu64) and defined(Windows)}
+  DEFAULT_TITLE = 'Eschecs win64';
+{$endif}
+{$if defined(cpu86) and defined(Windows)}
+  DEFAULT_TITLE = 'Eschecs win32';
+{$endif}
+{$if defined(cpu64) and defined(Linux)}
+  DEFAULT_TITLE = 'Eschecs lin64';
+{$endif}
+{$if defined(cpu86) and defined(Linux)}
+  DEFAULT_TITLE = 'Eschecs lin32';
+{$endif}
+{$if defined(cpu64) and defined(freebsd)}
+  DEFAULT_TITLE = 'Eschecs bsd64';
+{$endif}
+{$if defined(cpu86) and defined(freebsd)}
+  DEFAULT_TITLE = 'Eschecs bsd32';
+{$endif}
+{$if defined(linux) and defined(cpuarm)}
+  DEFAULT_TITLE = 'Eschecs arm';
+{$endif}
 var
   vCurrentPosition: string;
   vAutoPlay, vMarble: boolean;
