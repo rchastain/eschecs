@@ -317,13 +317,8 @@ var
   vCurrentPosition: string;
   vAutoPlay, vMarble: boolean;
   vIndex: integer;
-  vFileName: TFileName;
 begin
-   if ExtractFileExt(ParamStr(1)) = '.json' then
-    vFileName := ParamStr(1)
-  else
-    vFileName := 'engines.json';
-  LoadEnginesData(vFileName);
+  LoadEnginesData('engines.json');
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine);
   
   FValidator := TValidator.Create;

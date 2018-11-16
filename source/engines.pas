@@ -27,6 +27,7 @@ var
   vData: TJSONData;
   i: integer;
 begin
+  Assert(FileExists(aFileName));
   vData := GetJSON(TFile.ReadAllText(aFileName));
   if vData.JSONType = jtArray then
   begin
