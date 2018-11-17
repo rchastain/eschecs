@@ -278,7 +278,6 @@ begin
       if (currX = targX) and (currY = targY) then
       begin
         aAnimationEnd := TRUE;
-{$IFDEF OPT_HIGHLIGHT}
         if Length(vMoveToBeHighlighted) > 0 then
         begin
           if vComputerCastlingFlag then
@@ -295,7 +294,6 @@ begin
             vMoveToBeHighlighted := '';
           end;
         end;
-{$ENDIF}
         ResetAnimatData;
       end;
     end;

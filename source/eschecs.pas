@@ -143,7 +143,8 @@ const
 var
   vListener: TThread;
   vUCILog: text;
-
+  vColoring: boolean;
+  
 procedure UCILogAppend(const aText, aInsert: string);
 var
   vList: TStringList;
@@ -321,9 +322,11 @@ var
 begin
   with TCommandLineReader.Create do
   try
-    DeclareInt('style', '', 3);
+    DeclareInt('style', '', 0);
+    DeclareInt('coloring', '', 1);
     Parse(CmdLine);
     gStyle := ReadInt('style');
+    vColoring := boolean(ReadInt('coloring'));
   finally
     Free;
   end;
@@ -345,7 +348,7 @@ begin
     AddMenuItem(TEXTS[txEschecs], nil).SubMenu := FEschecsSubMenu;
     AddMenuItem(TEXTS[txMoves], nil).SubMenu := FMovesSubMenu;
     AddMenuItem(TEXTS[txBoard], nil).SubMenu := FBoardSubMenu;
-    //AddMenuItem(TEXTS[txOptions], nil).SubMenu := FOptionsSubMenu;
+    AddMenuItem(TEXTS[txOptions], nil).SubMenu := FOptionsSubMenu;
     AddMenuItem(TEXTS[txPromotion], nil).SubMenu := FPromotionSubMenu;
   end;  
   
@@ -359,8 +362,12 @@ begin
   
   with FOptionsSubMenu do
   begin
-    AddMenuItem(TEXTS[txMarble], '', @OtherItemClicked).Checked := vMarble;
-    AddMenuItem(TEXTS[txSound], '', @OtherItemClicked).Checked := FALSE;
+    //AddMenuItem(TEXTS[txColoring], '', @OtherItemClicked).Checked := vMarble;
+    with AddMenuItem(TEXTS[txSound], '', @OtherItemClicked) do
+    begin
+      Checked := FALSE;
+      Enabled := FALSE;
+    end;
   end; 
   
   with FBoardSubMenu do
@@ -448,7 +455,8 @@ begin
       FUserMove := EncodeSquare(X, Y);
       FDragging := True;
       FBGRAChessboard.SavePieceBackground(FInitPos, TRUE);
-      FBGRAChessboard.ScreenRestore;
+      if vColoring then
+        FBGRAChessboard.ScreenRestore;
     end;
   end;
 end;
@@ -508,15 +516,16 @@ begin
       FBGRAChessboard.SetPieceKind(FPieceIndex, vPromotion);
     FBGRAChessboard.SetPieceXY(FPieceIndex, X, Y);
     FBGRAChessboard.DrawPiece(FBGRAChessboard.XYToScreen(X, Y), FPieceIndex);
-{$IFDEF OPT_HIGHLIGHT}
-    if FCastlingFlag then
-      FCastlingFlag := FALSE
-    else
+    if vColoring then
     begin
-      FBGRAChessboard.ScreenSave;
-      FBGRAChessboard.HighlightMove(FUserMove, FPieceIndex);
+      if FCastlingFlag then
+        FCastlingFlag := FALSE
+      else
+      begin
+        FBGRAChessboard.ScreenSave;
+        FBGRAChessboard.HighlightMove(FUserMove, FPieceIndex);
+      end;
     end;
-{$ENDIF}
     FChessboardWidget.Invalidate;
     OnMoveDone(IfThen(FCurrPosIndex = 0, '', Copy(FMoveHistory, 1, 4 * FCurrPosIndex)));
   end else
@@ -579,14 +588,10 @@ begin
         FBGRAChessboard.ScreenSave;
         FUpsideDown := FBGRAChessboard.isUpsideDown;
       end else
-      if Text = TEXTS[txMarble]
+      if Text = TEXTS[txColoring]
       then
       begin
         Checked := not Checked;
-        FBoardStyle := TBoardStyle(Ord(Checked));
-        FBGRAChessboard.ChangeBoard(FBoardStyle);
-        FBGRAChessboard.ScreenSave;
-        FChessboardWidget.Invalidate;
       end
       else
       if Text = TEXTS[txSound]
@@ -715,16 +720,17 @@ begin
   begin
     vSymbol := '';
     FRookMove := FGame.IsCastling(aMove);
-{$IFDEF OPT_HIGHLIGHT}
-    FCastlingFlag := Length(FRookMove) > 0;
-    vMoveToBeHighlighted := aMove;
-    vComputerCastlingFlag := FCastlingFlag and aIsComputerMove;
-    if FCastlingFlag then
+    if vColoring then
     begin
-      DecodeSquare(Copy(aMove, 1, 2), vX, vY);
-      vKingIndex := FBGRAChessboard.FindPiece(vX, vY);
+      FCastlingFlag := Length(FRookMove) > 0;
+      vMoveToBeHighlighted := aMove;
+      vComputerCastlingFlag := FCastlingFlag and aIsComputerMove;
+      if FCastlingFlag then
+      begin
+        DecodeSquare(Copy(aMove, 1, 2), vX, vY);
+        vKingIndex := FBGRAChessboard.FindPiece(vX, vY);
+      end;
     end;
-{$ENDIF}
     if aIsComputerMove then
       FBGRAChessboard.MovePiece(aMove, FALSE);
   end;
@@ -747,17 +753,12 @@ begin
 {$IFDEF DEBUG}
   WriteLn('TMainForm.OnMoveDone()');
 {$ENDIF}
-  if FGame.Check then
+  if vColoring and FGame.Check and FBGRAChessboard.ScreenSaved() then
   begin
-{$IFDEF OPT_HIGHLIGHT}
-    if FBGRAChessboard.ScreenSaved() then
-    begin
-      FGame.GetKingCheckedXY(vX, vY);
-      vIndex := FBGRAChessboard.FindPiece(vX, vY);
-      FBGRAChessboard.Highlight(vX, vY, ocRed, vIndex);
-      FChessboardWidget.Invalidate;
-    end;
-{$ENDIF}
+    FGame.GetKingCheckedXY(vX, vY);
+    vIndex := FBGRAChessboard.FindPiece(vX, vY);
+    FBGRAChessboard.Highlight(vX, vY, ocRed, vIndex);
+    FChessboardWidget.Invalidate;
   end;
 {$IFDEF OPT_SOUND}
     if FGame.state in [csCheckmate, csStalemate, csDraw] then
@@ -890,7 +891,8 @@ begin
       else
         vPieceKind := cpkNil;
       
-      frm.FBGRAChessboard.ScreenRestore;
+      if vColoring then
+        frm.FBGRAChessboard.ScreenRestore;
       frm.DoMove(vMove, vPieceKind);
     end else
     begin

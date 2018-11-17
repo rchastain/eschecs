@@ -12,7 +12,7 @@ const
     'Nieuwe partij', // txNewGame
     'Het schaakbord draaien', // txFlip
     'Opties', // txOptions
-    'Marmeren schaakbord', // txMarble
+    'Square coloring [to be translated]', // txColoring
     'Sound [to be translated]', // txSound
     'Zwakkere tegenstander', // txWeakerOpponent
     'Normale tegenstander', // txNormalOpponent

@@ -12,7 +12,7 @@ const
     'Neue Partie', // txNewGame
     'Drehen', // txFlip
     'Optionen', // txOptions
-    'Dekoration Marmor', // txMarble
+    'Square coloring [to be translated]', // txColoring
     'Sound [to be translated]', // txSound
     'Schwacher Gegner', // txWeakerOpponent
     'Normaler Gegner', // txNormalOpponent

@@ -12,7 +12,7 @@ const
     'New game', // txNewGame
     'Flip board', // txFlip
     'Options', // txOptions
-    'Marble board', // txMarble
+    'Square coloring', // txColoring
     'Sound', // txSound
     'Weaker opponent', // txWeakerOpponent
     'Normal opponent', // txNormalOpponent

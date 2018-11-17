@@ -21,7 +21,7 @@ type
     txNew,
     txFlip,
     txOptions,
-    txMarble,
+    txColoring,
     txSound,
     txWeakerOpponent,
     txNormalOpponent,

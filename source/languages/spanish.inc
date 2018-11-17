@@ -12,7 +12,7 @@ const
     'Nuevo juego', // txNewGame
     'Invertir el tablero', // txFlip
     'Opciones', // txOptions
-    'Tablero de mármol', // txMarble
+    'Square coloring [to be translated]', // txColoring
     'Sound [to be translated]', // txSound
     'Adversario de nivel bajo', // txWeakerOpponent
     'Adversario de nivel medio', // txNormalOpponent

@@ -12,7 +12,7 @@ const
     'Nouvelle partie', // txNewGame
     'Tourner l''échiquier', // txFlip
     'Options', // txOptions
-    'Échiquier de marbre', // txMarble
+    'Coloriage des cases', // txColoring
     'Son', // txSound
     'Adversaire plus faible', // txWeakerOpponent
     'Adversaire normal', // txNormalOpponent

@@ -32,7 +32,6 @@ procedure CreatePictures();
 implementation
 
 const
-  RUNTIME_COLORS = 'colors.txt';
 {$IFDEF windows}
   PICTURES_FOLDER = 'images\%s\%d';
 {$ELSE}
@@ -44,9 +43,11 @@ var
   vFile: TextFile;
   vOutline: TOutlineColor;
   vByte: byte;
+  vFileName: TFileName;
 begin
-  Assert(FileExists(RUNTIME_COLORS));
-  AssignFile(vFile, RUNTIME_COLORS);
+  vFileName := Concat(ExtractFilePath(ParamStr(0)), 'colors.txt');
+  Assert(FileExists(vFileName));
+  AssignFile(vFile, vFileName);
   Reset(vFile);
   for vOutline := ocGreen to ocRed do
   begin
