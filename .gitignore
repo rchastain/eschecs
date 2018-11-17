@@ -8,3 +8,5 @@ eschecs.fen
 eschecs.ini
 eschecs.log
 *.cmd
+*.cfg
+*.prj
