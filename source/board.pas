@@ -490,8 +490,7 @@ begin
     aPieceIndex
   ]));
 {$ENDIF}
-  with vSpecialColors[aColor] do
-    vColor := BGRA(r, g, b, 128);
+  vColor :=  vSpecialColors[aColor];
 
   case vCurrentStyle of
     bsOriginal:

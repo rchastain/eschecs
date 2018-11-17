@@ -21,10 +21,14 @@ var
   vDarkSquare: TBGRABitmap;
   vPieceImage: array[TChessPieceColor, TChessPieceKind, TOutlineColor] of TBGRABitmap;
   vCurrentStyle: TBoardStyle;
+  (*
   vSpecialColors: array[ocGreen..ocRed] of record
     r, g, b: byte;
   end;
-
+  *)
+  vSpecialColors: array[ocGreen..ocRed] of TBGRAPixel;
+  vLightSquareColor, vDarkSquareColor: TBGRAPixel;
+  
 function CreateChessboard(const aBoardStyle: TBoardStyle): TBGRABitmap;
 procedure FreePictures();
 procedure CreatePictures();
@@ -37,7 +41,7 @@ const
 {$ELSE}
   PICTURES_FOLDER = 'images/%s/%d';
 {$ENDIF}
-
+(*
 procedure LoadColors();
 var
   vFile: TextFile;
@@ -60,7 +64,7 @@ begin
   end;
   CloseFile(vFile);
 end;
-
+*)
 function Interp256(value1, value2, position: integer): integer; inline; overload;
 begin
   result := (value1 * (256 - position) + value2 * position) shr 8;
@@ -135,9 +139,9 @@ begin
       end;
     bsSimple:
       begin
-        result := TBGRABitmap.Create(8 * scale, 8 * scale, CSSGray);
+        result := TBGRABitmap.Create(8 * scale, 8 * scale, vLightSquareColor);
         for x := 0 to 7 do for y := 0 to 7 do if Odd(x) xor Odd(y) then
-          result.FillRect(RectWithSize(x * scale, y * scale, scale, scale), CSSDarkGray, dmSet);
+          result.FillRect(RectWithSize(x * scale, y * scale, scale, scale), vDarkSquareColor, dmSet);
       end;
     bsMarble, bsNew:
       begin
@@ -204,7 +208,7 @@ begin
   WriteLn('CreatePictures()');
 {$ENDIF}
   d := Now;
-  LoadColors();
+  //LoadColors();
   for c := cpcWhite to cpcBlack do
     for k := cpkPawn to cpkKing do
     begin
@@ -220,30 +224,21 @@ begin
       vPieceImage[c, k, ocWhite] := TBGRABitmap.Create(s);
       vPieceImage[c, k, ocWhite].ReplaceColor(CSSMidnightBlue, BGRAPixelTransparent);
       vPieceImage[c, k, ocGreen] := TBGRABitmap.Create(vPieceImage[c, k, ocWhite]);
-      with vSpecialColors[ocGreen] do
-        vPieceImage[c, k, ocGreen].ReplaceColor(CSSGray, BGRA(r, g, b));
+      vPieceImage[c, k, ocGreen].ReplaceColor(CSSGray, vSpecialColors[ocGreen]);
       if (k = cpkKing) then
       begin
         vPieceImage[c, k, ocRed] := TBGRABitmap.Create(vPieceImage[c, k, ocWhite]);
-        with vSpecialColors[ocRed] do
-          vPieceImage[c, k, ocRed].ReplaceColor(CSSGray, BGRA(r, g, b));
+        vPieceImage[c, k, ocRed].ReplaceColor(CSSGray, vSpecialColors[ocRed]);
       end;
-      vPieceImage[c, k, ocTransparent] := TBGRABitmap.Create(vPieceImage[c, k,
-        ocWhite]);
-      vPieceImage[c, k, ocTransparent].ReplaceColor(CSSGray,
-        BGRAPixelTransparent);
+      vPieceImage[c, k, ocTransparent] := TBGRABitmap.Create(vPieceImage[c, k, ocWhite]);
+      vPieceImage[c, k, ocTransparent].ReplaceColor(CSSGray, BGRAPixelTransparent);
       vPieceImage[c, k, ocWhite].ReplaceColor(CSSGray, CSSWhite);
     end;
-
-  s := ExtractFilePath(ParamStr(0)) + Format(PICTURES_FOLDER,
-    [gStyleData[gStyle].font, gStyleData[gStyle].scale])
-    + directoryseparator + 'ds.bmp';
+  s := ExtractFilePath(ParamStr(0)) + Format(PICTURES_FOLDER, [gStyleData[gStyle].font, gStyleData[gStyle].scale]) + directoryseparator + 'ds.bmp';
   Assert(FileExists(s));
   vDarkSquare := TBGRABitmap.Create(s);
   vDarkSquare.ReplaceColor(CSSMidnightBlue, BGRAPixelTransparent);
-
   vChessboard := CreateChessboard(gStyleData[gStyle].boardstyle);
-
   d := Now - d;
 {$IFDEF DEBUG}
   WriteLn(Format('Création des images en %d ms.', [Trunc(1000 * SECSPERDAY * d)]));

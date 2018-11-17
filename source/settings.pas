@@ -2,20 +2,23 @@
 unit Settings;
 
 interface
+
+uses
+  BGRABitmapTypes;
   
 procedure ReadFromINIFile(
   out aCurrentPosition: string;
   out aAutoPlay, aUpsideDown, aMarble: boolean;
   out aExePath, aHistory: string;
-  out aIndex: integer;
-  out aEngine: integer
+  out aIndex, aEngine: integer;
+  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
 );
 procedure WriteToINIFile(
   const aCurrentPosition: string;
   const aAutoPlay, aUpsideDown, aMarble: boolean;
   const aExePath, aHistory: string;
-  const aIndex: integer;
-  const aEngine: integer
+  const aIndex, aEngine: integer;
+  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
 );
 
 var
@@ -30,7 +33,8 @@ uses
   FEN;
 
 const
-  SECTION = 'eschecs';
+  SECTION_OPTIONS = 'options';
+  SECTION_COLORS = 'colors';
   DEFAULT_POSITION = FENSTARTPOSITION;
   DEFAULT_AUTOPLAY = 'TRUE';
   DEFAULT_UPSIDEDOWN = 'FALSE';
@@ -53,20 +57,24 @@ procedure ReadFromINIFile(
   out aCurrentPosition: string;
   out aAutoPlay, aUpsideDown, aMarble: boolean;
   out aExePath, aHistory: string;
-  out aIndex: integer;
-  out aEngine: integer
+  out aIndex, aEngine: integer;
+  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
 );
 begin
   with TIniFile.Create(vINIPath) do
   try
-    aCurrentPosition := ReadString(SECTION, 'position', DEFAULT_POSITION);
-    aAutoPlay := ReadString(SECTION, 'autoplay', DEFAULT_AUTOPLAY) = 'TRUE';
-    aUpsideDown := ReadString(SECTION, 'upsidedown', DEFAULT_UPSIDEDOWN) = 'TRUE';
-    aMarble := ReadString(SECTION, 'marble', DEFAULT_MARBLE) = 'TRUE';
-    aExePath := ReadString(SECTION, 'engine', Concat(ExtractFilePath(ParamStr(0)),DEFAULT_EXEPATH));
-    aHistory := ReadString(SECTION, 'history', DEFAULT_HISTORY);
-    aIndex := ReadInteger(SECTION, 'index', DEFAULT_INDEX);
-    aEngine := ReadInteger(SECTION, 'engine', DEFAULT_ENGINE);
+    aCurrentPosition := ReadString(SECTION_OPTIONS, 'position', DEFAULT_POSITION);
+    aAutoPlay := ReadString(SECTION_OPTIONS, 'autoplay', DEFAULT_AUTOPLAY) = 'TRUE';
+    aUpsideDown := ReadString(SECTION_OPTIONS, 'upsidedown', DEFAULT_UPSIDEDOWN) = 'TRUE';
+    aMarble := ReadString(SECTION_OPTIONS, 'marble', DEFAULT_MARBLE) = 'TRUE';
+    aExePath := ReadString(SECTION_OPTIONS, 'engine', Concat(ExtractFilePath(ParamStr(0)),DEFAULT_EXEPATH));
+    aHistory := ReadString(SECTION_OPTIONS, 'history', DEFAULT_HISTORY);
+    aIndex := ReadInteger(SECTION_OPTIONS, 'index', DEFAULT_INDEX);
+    aEngine := ReadInteger(SECTION_OPTIONS, 'engine', DEFAULT_ENGINE);
+    aLightSquareColor := StrToBGRA(ReadString(SECTION_COLORS, 'light', 'A9A9A9FF'));
+    aDarkSquareColor := StrToBGRA(ReadString(SECTION_COLORS, 'dark', '808080FF'));
+    aGreenColor := StrToBGRA(ReadString(SECTION_COLORS, 'green', '60C00080'));
+    aRedColor := StrToBGRA(ReadString(SECTION_COLORS, 'red', 'C0000080'));
   finally
     Free;
   end;
@@ -76,20 +84,24 @@ procedure WriteToINIFile(
   const aCurrentPosition: string;
   const aAutoPlay, aUpsideDown, aMarble: boolean;
   const aExePath, aHistory: string;
-  const aIndex: integer;
-  const aEngine: integer
+  const aIndex, aEngine: integer;
+  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
 );
 begin
   with TIniFile.Create(vINIPath) do
   try
-    WriteString(SECTION, 'position', aCurrentPosition);
-    WriteString(SECTION, 'autoplay', UpperCase(BoolToStr(aAutoPlay, TRUE)));
-    WriteString(SECTION, 'upsidedown', UpperCase(BoolToStr(aUpsideDown, TRUE)));
-    WriteString(SECTION, 'marble', UpperCase(BoolToStr(aMarble, TRUE)));
-    WriteString(SECTION, 'engine', aExePath);
-    WriteString(SECTION, 'history', aHistory);
-    WriteInteger(SECTION, 'index', aIndex);
-    WriteInteger(SECTION, 'engine', aEngine);
+    WriteString(SECTION_OPTIONS, 'position', aCurrentPosition);
+    WriteString(SECTION_OPTIONS, 'autoplay', UpperCase(BoolToStr(aAutoPlay, TRUE)));
+    WriteString(SECTION_OPTIONS, 'upsidedown', UpperCase(BoolToStr(aUpsideDown, TRUE)));
+    WriteString(SECTION_OPTIONS, 'marble', UpperCase(BoolToStr(aMarble, TRUE)));
+    WriteString(SECTION_OPTIONS, 'engine', aExePath);
+    WriteString(SECTION_OPTIONS, 'history', aHistory);
+    WriteInteger(SECTION_OPTIONS, 'index', aIndex);
+    WriteInteger(SECTION_OPTIONS, 'engine', aEngine);
+    WriteString(SECTION_COLORS, 'light', BGRAToStr(aLightSquareColor));
+    WriteString(SECTION_COLORS, 'dark', BGRAToStr(aDarkSquareColor));
+    WriteString(SECTION_COLORS, 'green', BGRAToStr(aGreenColor));
+    WriteString(SECTION_COLORS, 'red', BGRAToStr(aRedColor));
     UpdateFile;
   finally
     Free;

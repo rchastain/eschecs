@@ -22,6 +22,7 @@ uses
   fpg_dialogs,
   fpg_menu,
   fpg_widget,
+  Images,
   Board,
   Style,
   Utils,
@@ -331,7 +332,7 @@ begin
     Free;
   end;
   LoadEnginesData('engines.json');
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed]);
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
@@ -354,7 +355,7 @@ begin
   
   with FEschecsSubMenu do
   begin
-    AddMenuItem(TEXTS[txHelp], '', @OtherItemClicked);
+    //AddMenuItem(TEXTS[txHelp], '', @OtherItemClicked);
     AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
     AddMenuItem('-', '', nil);
     AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
@@ -547,7 +548,8 @@ begin
     FExePath,
     FMoveHistory,
     FCurrPosIndex,
-    FEngine
+    FEngine,
+    vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed]
   );
   FPositionHistory.SaveToFile(vFENPath);
   Close;

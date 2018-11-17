@@ -10,3 +10,4 @@ eschecs.log
 *.cmd
 *.cfg
 *.prj
+source/units/dummy
