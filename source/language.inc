@@ -38,3 +38,11 @@ const
     'Protocole UCI accepté.'#10'Nom du moteur : %s'#10'Auteur : %s', // txUciOk
     'Impossible d''établir une connexion avec le moteur.' // txConnectionFailure
   );
+
+  STYLENAME: array[TStyle] of string = (
+    'Échiquier 320 Original',
+    'Échiquier 480 Simple',
+    'Échiquier 480 Marbre',
+    'Échiquier 480 Nouveau',
+    'Échiquier 640 Bois'
+  );

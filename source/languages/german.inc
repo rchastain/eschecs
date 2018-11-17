@@ -38,3 +38,11 @@ const
     'UCI Protokoll akzeptiert.'#10'Engine Name: %s'#10'Programmierer: %s', // txUciOk
     'Verbindung mit Engine nicht möglich.' // txConnectionFailure
   );
+
+  STYLENAME: array[TStyle] of string = (
+    'Schachbrett 320 Original',
+    'Schachbrett 480 Einfach',
+    'Schachbrett 480 Marmor',
+    'Schachbrett 480 Neu',
+    'Schachbrett 640 Holz'
+  );

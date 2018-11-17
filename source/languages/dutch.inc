@@ -38,3 +38,11 @@ const
     'UCI protocol aanvaard.'#10'Schaakengine: %s'#10'Schepper: %s', // txUciOk
     'Kan niet verbinden met de engine.' // txConnectionFailure
   );
+
+  STYLENAME: array[TStyle] of string = (
+    'Schaakbord 320 Origineel',
+    'Schaakbord 480 Eenvoudig',
+    'Schaakbord 480 Marmer',
+    'Schaakbord 480 Nieuw',
+    'Schaakbord 640 Hout'
+  );

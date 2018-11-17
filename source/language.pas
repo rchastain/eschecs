@@ -6,7 +6,8 @@ interface
 uses
   SysUtils,
   StrUtils,
-  ChessTypes;
+  ChessTypes,
+  Style;
   
 type
   TText = (
@@ -47,7 +48,7 @@ type
     txUciOk,
     txConnectionFailure
   );
-
+  
 function ArbitratorMessage(const aCheck: boolean; const aActiveColor: TChessPieceColor; const aState: TChessState): string;
 
 {$include language.inc}

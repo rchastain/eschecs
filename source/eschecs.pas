@@ -374,7 +374,7 @@ begin
     end;
     AddMenuItem('-', '', nil);
     for vIndex := Low(TStyle) to High(TStyle) do
-      AddMenuItem(gStyleData[vIndex].name, '', @ItemStyleClicked).Checked := vIndex = gStyle;
+      AddMenuItem(STYLENAME[vIndex], '', @ItemStyleClicked).Checked := vIndex = gStyle;
   end; 
   
   with FBoardSubMenu do
@@ -588,7 +588,7 @@ var
   i: integer;
 begin
   for i := Low(TStyle) to High(TStyle) do
-    if gStyleData[i].name = TfpgMenuItem(Sender).Text then
+    if STYLENAME[i] = TfpgMenuItem(Sender).Text then
       vSelectedStyle := i;
   for i := Low(TStyle) to High(TStyle) do
     FOptionsSubMenu.MenuItem(i + 2).Checked := i = vSelectedStyle;

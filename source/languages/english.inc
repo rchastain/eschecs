@@ -38,3 +38,11 @@ const
     'UCI protocol accepted.'#10'Engine name: %s'#10'Author: %s', // txUciOk
     'Cannot connect to the engine.' // txConnectionFailure
   );
+
+  STYLENAME: array[TStyle] of string = (
+    'Chessboard 320 Original',
+    'Chessboard 480 Simple',
+    'Chessboard 480 Marble',
+    'Chessboard 480 New',
+    'Chessboard 640 Wood'
+  );

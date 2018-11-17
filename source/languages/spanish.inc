@@ -38,3 +38,11 @@ const
     'Protocolo UCI aceptado.'#10'Nombre del motor: %s'#10'Autor: %s', // txUciOk
     'No pudo conectarse al motor.' // txConnectionFailure
   );
+
+  STYLENAME: array[TStyle] of string = (
+    'Tablero 320 Original',
+    'Tablero 480 Sencillo',
+    'Tablero 480 Mármol',
+    'Tablero 480 Nuevo',
+    'Tablero 640 Madera'
+  );
