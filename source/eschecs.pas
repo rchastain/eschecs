@@ -389,6 +389,9 @@ begin
      if (FEngine = -1) and (Pos(UpperCase('Fruit'), UpperCase(vEngines[vIndex].vName)) > 0) then
        FEngine := vIndex;
     end;
+{$IFDEF DEBUG}
+    WriteLn('FEngine=', FEngine);
+{$ENDIF}
   end;  
   
   with FPromotionSubMenu do
@@ -430,7 +433,14 @@ begin
   FTimer.Enabled := TRUE;
   
   with FMovesSubMenu do if MenuItem(1).Checked and MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled then
-    OtherItemClicked(MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX));
+    OtherItemClicked(MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX))
+  else
+  begin
+{$IFDEF DEBUG}
+    WriteLn('MenuItem(1).Checked=', MenuItem(1).Checked);
+    WriteLn('MenuItem(', FEngine + FIRST_ENGINE_ITEM_INDEX,').Enabled=', MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled);
+{$ENDIF}
+  end;
 end;
 
 procedure TMainForm.WidgetPaint(Sender: TObject);

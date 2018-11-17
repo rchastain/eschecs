@@ -9,6 +9,6 @@
     "command" : "moustique.exe",
     "name" : "Moustique",
     "protocol" : "uci",
-    "workingDirectory" : "\\engines\\moustique\\0.1\\"
+    "workingDirectory" : "\\engines\\moustique\\01\\"
   }
 ]
