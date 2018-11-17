@@ -1,9 +1,7 @@
 
 *Eschecs* is a free chess playing program, which uses the [UCI protocol](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with UCI chess engines.
 
-*Eschecs* includes an original UCI engine called *Moustique*.
-
-*Eschecs* and *Moustique* are open source programs written in Pascal.
+*Eschecs* includes an original UCI engine called *Moustique*. *Eschecs* and *Moustique* are open source programs written in Pascal.
 
 ## I. User's Guide
 
