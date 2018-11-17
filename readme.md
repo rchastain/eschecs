@@ -49,7 +49,7 @@ To do.
 
 ## IV. Credits
 
-The 320 chessboard (with its pieces) is a reproduction of the game [Fritz 1.0]. *Fritz 1.0* is a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
+The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/0.png) (with its pieces) is a reproduction of the game [Fritz 1.0]. *Fritz 1.0* is a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
 
 The 640 chessboard is the work of Daniela Di Lena.
 
