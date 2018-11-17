@@ -14,9 +14,6 @@ const
     'Opciones', // txOptions
     'Square coloring [to be translated]', // txColoring
     'Sound [to be translated]', // txSound
-    'Adversario de nivel bajo', // txWeakerOpponent
-    'Adversario de nivel medio', // txNormalOpponent
-    'Adversario de nivel alto', // txStrongerOpponent
     'Promover pieza', // txPromotion
     'Caballo', // txKnight
     'Alfil', // txBishop
@@ -26,7 +23,8 @@ const
     'Para mover una pieza, haga click en ella y después haga click en el escaque al que quiera moverla.', // txHelp
     'Programa de Ajedrez en Pascal por Roland Chastain.', // txAbout
     'Movimiento ilegal.', // txIllegalMove
-
+    'Le changement de style sera effectif au prochain lancement de l''application. [à traduire]', // txStyleInfo
+    
     'Blancas mueven.', // txWhiteToMove
     'Negras mueven.', // txBlackToMove
     'Blancas ganan.', // txWhiteWins

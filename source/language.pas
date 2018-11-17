@@ -23,9 +23,6 @@ type
     txOptions,
     txColoring,
     txSound,
-    txWeakerOpponent,
-    txNormalOpponent,
-    txStrongerOpponent,
     txPromotion,
     txKnight,
     txBishop,
@@ -35,6 +32,7 @@ type
     txHelpMessage,
     txAboutMessage,
     txIllegalMove,
+    txStyleInfo,
     
     txWhiteToMove,
     txBlackToMove,

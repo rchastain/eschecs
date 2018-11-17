@@ -118,6 +118,7 @@ type
     FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
+    procedure ItemStyleClicked(Sender: TObject);
     procedure OtherItemClicked(Sender: TObject);
     procedure InternalTimerFired(Sender: TObject);
     function DoMove(const aMove: string; const aPromotion: TChessPieceKindEx = cpkNil; aIsComputerMove: boolean = true): boolean;
@@ -145,6 +146,8 @@ var
   vListener: TThread;
   vUCILog: text;
   vColoring: boolean;
+  vSelectedStyle: TStyle = 0;
+  vStyleHasChanged: boolean = FALSE;
   
 procedure UCILogAppend(const aText, aInsert: string);
 var
@@ -332,7 +335,7 @@ begin
     Free;
   end;
   LoadEnginesData('engines.json');
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed]);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], gStyle);
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
@@ -369,6 +372,9 @@ begin
       Checked := FALSE;
       Enabled := FALSE;
     end;
+    AddMenuItem('-', '', nil);
+    for vIndex := Low(TStyle) to High(TStyle) do
+      AddMenuItem(gStyleData[vIndex].name, '', @ItemStyleClicked).Checked := vIndex = gStyle;
   end; 
   
   with FBoardSubMenu do
@@ -550,6 +556,8 @@ end;
 
 procedure TMainForm.ItemExitClicked(Sender: TObject);
 begin
+  if vStyleHasChanged then
+    gStyle := vSelectedStyle;
   WriteToINIFile(
     FGame.FENRecord,
     FMovesSubMenu.MenuItem(1).Checked,
@@ -559,7 +567,8 @@ begin
     FMoveHistory,
     FCurrPosIndex,
     FEngine,
-    vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed]
+    vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
+    gStyle
   );
   FPositionHistory.SaveToFile(vFENPath);
   Close;
@@ -572,6 +581,19 @@ begin
   FPositionHistory.Clear;
   FPositionHistory.Append(FENSTARTPOSITION);
   FCurrPosIndex := 0;
+end;
+
+procedure TMainForm.ItemStyleClicked(Sender: TObject);
+var
+  i: integer;
+begin
+  for i := Low(TStyle) to High(TStyle) do
+    if gStyleData[i].name = TfpgMenuItem(Sender).Text then
+      vSelectedStyle := i;
+  for i := Low(TStyle) to High(TStyle) do
+    FOptionsSubMenu.MenuItem(i + 2).Checked := i = vSelectedStyle;
+  vStyleHasChanged := TRUE;
+  ShowMessage(TEXTS[txStyleInfo]);
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);

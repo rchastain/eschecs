@@ -4,21 +4,23 @@ unit Settings;
 interface
 
 uses
-  BGRABitmapTypes;
+  BGRABitmapTypes, Style;
   
 procedure ReadFromINIFile(
   out aCurrentPosition: string;
   out aAutoPlay, aUpsideDown, aMarble: boolean;
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
-  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
+  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
+  out aStyle: TStyle
 );
 procedure WriteToINIFile(
   const aCurrentPosition: string;
   const aAutoPlay, aUpsideDown, aMarble: boolean;
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
-  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
+  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
+  const aStyle: TStyle
 );
 
 var
@@ -58,7 +60,8 @@ procedure ReadFromINIFile(
   out aAutoPlay, aUpsideDown, aMarble: boolean;
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
-  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
+  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
+  out aStyle: TStyle
 );
 begin
   with TIniFile.Create(vINIPath) do
@@ -75,6 +78,7 @@ begin
     aDarkSquareColor := StrToBGRA(ReadString(SECTION_COLORS, 'dark', '808080FF'));
     aGreenColor := StrToBGRA(ReadString(SECTION_COLORS, 'green', '60C00080'));
     aRedColor := StrToBGRA(ReadString(SECTION_COLORS, 'red', 'C0000080'));
+    aStyle := ReadInteger(SECTION_OPTIONS, 'style', 0);
   finally
     Free;
   end;
@@ -85,7 +89,8 @@ procedure WriteToINIFile(
   const aAutoPlay, aUpsideDown, aMarble: boolean;
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
-  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel
+  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
+  const aStyle: TStyle
 );
 begin
   with TIniFile.Create(vINIPath) do
@@ -102,6 +107,7 @@ begin
     WriteString(SECTION_COLORS, 'dark', BGRAToStr(aDarkSquareColor));
     WriteString(SECTION_COLORS, 'green', BGRAToStr(aGreenColor));
     WriteString(SECTION_COLORS, 'red', BGRAToStr(aRedColor));
+    WriteInteger(SECTION_OPTIONS, 'style', aStyle);
     UpdateFile;
   finally
     Free;

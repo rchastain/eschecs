@@ -14,9 +14,6 @@ const
     'Options', // txOptions
     'Square coloring', // txColoring
     'Sound', // txSound
-    'Weaker opponent', // txWeakerOpponent
-    'Normal opponent', // txNormalOpponent
-    'Stronger opponent', // txStrongerOpponent
     'Promotion', // txPromotion
     'Knight', // txKnight
     'Bishop', // txBishop
@@ -26,6 +23,7 @@ const
     'To move a piece, click on it and then click on the square you wish to move it to.', // txHelp
     'Pascal chess program by Roland Chastain.', // txAbout
     'Illegal move.', // txIllegalMove
+    'Le changement de style sera effectif au prochain lancement de l''application. [à traduire]', // txStyleInfo
 
     'White to move.', // txWhiteToMove
     'Black to move.', // txBlackToMove

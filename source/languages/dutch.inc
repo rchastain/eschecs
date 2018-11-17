@@ -14,9 +14,6 @@ const
     'Opties', // txOptions
     'Square coloring [to be translated]', // txColoring
     'Sound [to be translated]', // txSound
-    'Zwakkere tegenstander', // txWeakerOpponent
-    'Normale tegenstander', // txNormalOpponent
-    'Sterkere tegenstander', // txStrongerOpponent
     'Promotie', // txPromotion
     'Paard', // txKnight
     'Loper', // txBishop
@@ -26,6 +23,7 @@ const
     'Om een speelstuk te verplaatsen, klik erop en dan op het vakje waarop je het wil plaatsen.', // txHelp
     'Schaakspel in Pascal geschreven door Roland Chastain.', // txAbout
     'Illegale beweging.', // txIllegalMove
+    'Le changement de style sera effectif au prochain lancement de l''application. [à traduire]', // txStyleInfo
 
     'Wit aan zet.', // txWhiteToMove
     'Zwart aan zet.', // txBlackToMove

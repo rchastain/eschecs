@@ -14,9 +14,6 @@ const
     'Options', // txOptions
     'Coloriage des cases', // txColoring
     'Son', // txSound
-    'Adversaire plus faible', // txWeakerOpponent
-    'Adversaire normal', // txNormalOpponent
-    'Adversaire plus fort', // txStrongerOpponent
     'Promotion', // txPromotion
     'Cavalier', // txKnight
     'Fou', // txBishop
@@ -26,7 +23,8 @@ const
     'Pour déplacer une pièce, cliquez sur la case de départ puis sur la case d''arrivée.', // txHelp
     'Programme d''échecs en Pascal par Roland Chastain.', // txAbout
     'Coup illégal.', // txIllegalMove
-
+    'Le changement de style sera effectif au prochain lancement de l''application.', // txStyleInfo
+    
     'Blancs au trait.', // txWhiteToMove
     'Noirs au trait.', // txBlackToMove
     'Les blancs gagnent.', // txWhiteWins
