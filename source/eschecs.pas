@@ -557,7 +557,12 @@ end;
 procedure TMainForm.ItemExitClicked(Sender: TObject);
 begin
   if vStyleHasChanged then
+  begin
     gStyle := vSelectedStyle;
+{$IFDEF DEBUG}
+    WriteLn(Format('gStyle=%d', [gStyle]));
+{$ENDIF}
+  end;
   WriteToINIFile(
     FGame.FENRecord,
     FMovesSubMenu.MenuItem(1).Checked,
@@ -584,14 +589,18 @@ begin
 end;
 
 procedure TMainForm.ItemStyleClicked(Sender: TObject);
+const
+  FIRST_ITEM_INDEX = 2;
 var
-  i: integer;
+  vStyle: integer;
 begin
-  for i := Low(TStyle) to High(TStyle) do
-    if STYLENAME[i] = TfpgMenuItem(Sender).Text then
-      vSelectedStyle := i;
-  for i := Low(TStyle) to High(TStyle) do
-    FOptionsSubMenu.MenuItem(i + 2).Checked := i = vSelectedStyle;
+  for vStyle := Low(TStyle) to High(TStyle) do if STYLENAME[vStyle] = TfpgMenuItem(Sender).Text then
+    vSelectedStyle := vStyle;
+{$IFDEF DEBUG}
+  WriteLn('vSelectedStyle=', vSelectedStyle);
+{$ENDIF}
+  for vStyle := Low(TStyle) to High(TStyle) do
+    FOptionsSubMenu.MenuItem(vStyle + FIRST_ITEM_INDEX).Checked := vStyle = vSelectedStyle;
   vStyleHasChanged := TRUE;
   ShowMessage(TEXTS[txStyleInfo]);
 end;
