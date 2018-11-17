@@ -1,9 +1,7 @@
 
 *Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des modules externes qui sont autant d'adversaires pour l'utilisateur.
 
-*Eschecs* inclut un module original, appelé *Moustique*.
-
-*Eschecs* et *Moustique* sont des programmes à code source ouvert écrits en Pascal.
+*Eschecs* inclut un module original, appelé *Moustique*. *Eschecs* et *Moustique* sont des programmes à code source ouvert écrits en Pascal.
 
 ## I. Guide de l'utilisateur
 
@@ -13,7 +11,7 @@ Pour déplacer une pièce, faites-la glisser avec la souris jusqu'à la case d'a
 
 ### B. Adversaire artificiel
 
-Après avoir lancé l'application, vous devez choisir un adversaire dans la liste des modules, dans le menu "Coups". Tant que vous ne l'avez pas fait, l'ordinateur ne jouera pas !
+Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utlisé). Vous pouvez choisir un adversaire dans la liste des modules, dans le menu "Coups".
 
 ### C. Modes de jeu
 
@@ -41,21 +39,6 @@ Si vous quittez *Eschecs* en passant par le menu "Fichier" ou en pressant la tou
 
 Pour installer un nouveau moteur, vous devez éditer par vos propres moyens le fichier **engines.json**, qui contient les données dont *Eschecs* a besoin pour communiquer avec le moteur.
 
-Si vous préférez ne pas modifier le fichier **engines.json**, vous pouvez créer un autre fichier qui s'appellera par exemple **autres_moteurs.json**, et dont le contenu se présentera ainsi :
-
-    [
-      {
-        "command" : "bidule.exe",
-        "name" : "Bidule",
-        "protocol" : "uci",
-        "workingDirectory" : "\\engines\\bidule\\"
-      }
-    ]
-
-Vous devrez alors démarrer *Eschecs* en lui passant comme premier paramètre le nom du fichier.
-
-J'ai supposé dans cet exemple que votre moteur serait placé comme les autres dans le répertoire **engines**, mais ce n'est pas une obligation. Le chemin du dossier peut être un chemin relatif (comme dans l'exemple) ou un chemin absolu.
-
 ### B. Protocole.
 
 À faire.
@@ -64,40 +47,29 @@ J'ai supposé dans cet exemple que votre moteur serait placé comme les autres d
 
 ### A. Compilation
 
-*Eschecs* est un programme pour le compilateur Free Pascal.
-
-L'interface graphique d'*Eschecs* est basée sur les bibliothèques [fpGUI][1] et [BGRABitmap][2].
-
-Pour compiler *Eschecs*, ouvrez l'invite de commande en double-cliquant sur **comspec.cmd**. Dans l'invite de commande, tapez "build.lib" pour compiler fpGUI, LazUtils et BGRABitmap.
-
-Pour compiler le programme lui-même, tapez "build". Si vous préférez compiler la version anglaise, tapez "build english".
-
-Le chemin du compilateur doit être connu par le système. Autrement, pourvu que vous disposiez de l'EDI Lazarus, vous pouvez aussi ouvrir le projet **eschecs.lpi** que vous trouverez dans le dossier **sources**.
-
-### B. Système d'exploitation.
-
-Dans sa version actuelle, *Eschecs* n'est compatible qu'avec le système d'exploitation Windows. L'unité **ProcessUtils** s'appuie en effet sur l'unité **Windows**.
+*Eschecs* est un programme pour le compilateur Free Pascal. *Eschecs* utilise les bibliothèques [fpGUI][1] et [BGRABitmap][2].
 
 ## IV. Crédits
 
-Les pièces sont une reproduction de celles de *[Fritz 1.0]*.
+L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *[Fritz 1.0]*. *Fritz* est un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
 
-*Fritz* est un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
+L'échiquier de 640 est l'œuvre de Daniela Di Lena.
 
-L'icône d'*Eschecs* est basée sur un caractère de la police Chess Montreal de Gary Katch.
+<https://dilena.de/chess-artwork-pieces-and-board-art-assets>
+
+Les pièces de l'échiquier de 480 proviennent de la police Chess Mark d'Armando Marroquin.
+
+L'icône d'*Eschecs* vient de la police Chess Montreal de Gary Katch.
 
 <http://alcor.concordia.ca/~gpkatch/montreal_font.html>
 
-*Booot* est un programme d'échecs d'Alex Morozov.
-*Dumb* est un programme d'échecs de Richard Delorme.
-*Fruit* est un programme d'échecs de Fabien Letouzey.
-*Hermann* est un programme d'échecs de Volker Annuss.
-
-*Moustique* est un programme d'échecs de Roland Chastain, basé sur *JSChess* de Jürgen Schlottke et sur *Mater* de Valentin Albillo. Le livre d'ouvertures de *ProDeo* est l'œuvre de Jeroen Noomen. Le programme permettant d'utiliser le livre est l'œuvre d'Ed Schröder, l'auteur de *ProDeo*.
+*Moustique* est un programme d'échecs de Roland Chastain, basé sur *JSChess* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
 
 ## V. Auteur
 
-*Eschecs* est un programme en Pascal écrit par Roland Chastain (eschecs2018@gmail.com).
+*Eschecs* est un programme en Pascal écrit par Roland Chastain (eschecs2018 à gmail point com).
+
+Contributeurs : Johann Elsass (graphisme), Fred van Stappen (compatibilité Linux).
 
 ## VI. Site internet
 

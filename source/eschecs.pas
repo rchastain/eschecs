@@ -438,7 +438,7 @@ begin
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
   
-  with FMovesSubMenu do if MenuItem(1).Checked and MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled then
+  with FMovesSubMenu do if MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled then
     OtherItemClicked(MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX))
   else
   begin
