@@ -51,11 +51,11 @@ To do.
 
 The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/0.png) (with its pieces) is a reproduction of the game [Fritz 1.0]. *Fritz 1.0* is a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
 
-The 640 chessboard is the work of Daniela Di Lena.
+The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/4.png) is the work of Daniela Di Lena.
 
 <https://dilena.de/chess-artwork-pieces-and-board-art-assets>
 
-The pieces from the 480 chessboard comes from the Chess Mark font by Armando Marroquin.
+The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/3.png) comes from the Chess Mark font by Armando Marroquin.
 
 The application icon is the white king of the Chess Montreal font by Gary Katch.
 
