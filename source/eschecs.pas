@@ -120,8 +120,6 @@ type
     {@VFD_HEAD_END: MainForm}
     FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
-    procedure CloseAll(Sender: TObject);
-    procedure SaveGame(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
     procedure ItemStyleClicked(Sender: TObject);
     procedure OtherItemClicked(Sender: TObject);
@@ -136,6 +134,9 @@ type
 {$IFDEF OPT_SOUND}
     procedure PlaySound(const aSound: TSound);
 {$ENDIF}
+    procedure CloseAll(Sender: TObject);
+    procedure SaveGame(Sender: TObject);
+    procedure OnResized(Sender: TObject);
   end;
   
 {@VFD_NEWFORM_DECL}
@@ -220,6 +221,7 @@ begin
   BackGroundColor := $80000001;
   Hint := '';
   WindowPosition := wpOneThirdDown;
+  OnResize := @onresized;
 
   FChessboardWidget := TfpgWidget.Create(self);
   with FChessboardWidget do
@@ -913,6 +915,13 @@ begin
     gStyle
   );
   FPositionHistory.SaveToFile(vFENPath);
+end;
+
+procedure TMainForm.OnResized(Sender: TObject);
+begin
+ FChessboardWidget.top := (height -FChessboardWidget.height) div 2; 
+ FChessboardWidget.left := (width - FChessboardWidget.width) div 2; 
+ FChessboardWidget.updatewindowposition; 
 end;
 
 var
