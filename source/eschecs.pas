@@ -36,15 +36,15 @@ uses
   FEN,
   Engines,
   Log,
-  {$IFDEF DEBUG}
+{$IFDEF DEBUG}
   TypInfo,
-  {$ENDIF}
-  {$IFDEF OPT_SOUND}
+{$ENDIF}
+{$IFDEF OPT_SOUND}
   Sound,
-  {$ENDIF}
-  {$IFDEF OPT_ECO}
+{$ENDIF}
+{$IFDEF OPT_ECO}
   ECO,
-  {$ENDIF}
+{$ENDIF}
   rcmdline,
   {%units 'Auto-generated GUI code'}
   fpg_form, fpg_panel
@@ -323,6 +323,7 @@ var
   vCurrentPosition: string;
   vAutoPlay, vMarble: boolean;
   vIndex: integer;
+  vENGPath: TFileName;
 begin
   with TCommandLineReader.Create do
   try
@@ -334,7 +335,13 @@ begin
   finally
     Free;
   end;
-  LoadEnginesData('engines.json');
+  
+  vENGPath := ChangeFileExt(ParamStr(0), '.eng');
+  if FileExists(vENGPath) then
+    LoadEnginesDataFromINI(vENGPath)
+  else
+    LoadEnginesData('engines.json');
+  
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], gStyle);
   
   FValidator := TValidator.Create;

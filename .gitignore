@@ -11,3 +11,4 @@ eschecs.log
 *.cfg
 *.prj
 source/units/dummy
+eschecs.eng

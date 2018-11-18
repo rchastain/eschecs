@@ -7,7 +7,8 @@ uses
   SysUtils,
   fpJSON,
   JSONParser,
-  IOUtils;
+  IOUtils,
+  INIFiles;
   
 type
   TEngineInfo = record
@@ -19,6 +20,7 @@ var
   vEngines: array of TEngineInfo;
 
 procedure LoadEnginesData(const aFileName: TFileName);
+procedure LoadEnginesDataFromINI(const aFileName: TFileName);
 
 implementation
 
@@ -44,4 +46,32 @@ begin
   vData.Free;
 end;
 
+procedure LoadEnginesDataFromINI(const aFileName: TFileName);
+var
+  x: integer = 0;
+  section: string;
+begin
+  with TIniFile.Create(aFileName) do
+  while x >= 0 do 
+  begin
+    section := 'engine' + IntToStr(x);
+    if ReadString(section, 'name', '') <> '' then
+    begin
+      SetLength(vEngines, Succ(x));
+      with vEngines[x] do
+      begin
+        vName := ReadString(section, 'name', '');
+        vCommand := ReadString(section, 'command', '');
+        vDirectory := ExtractFileDir(ParamStr(0)) + ReadString(section, 'workingdirectory', '');
+        vExists := FileExists(Concat(vDirectory, vCommand));
+      end;
+      Inc(x);
+    end else
+      x := -1;
+  end;
+end;
+
+finalization
+  SetLength(vEngines, 0);
+  
 end.
