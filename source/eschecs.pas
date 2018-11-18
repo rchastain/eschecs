@@ -46,6 +46,7 @@ uses
   ECO,
 {$ENDIF}
   rcmdline,
+  messagefrm,
   {%units 'Auto-generated GUI code'}
   fpg_form, fpg_panel
   {%endunits}
@@ -609,7 +610,7 @@ begin
   for vStyle := Low(TStyle) to High(TStyle) do
     FOptionsSubMenu.MenuItem(vStyle + FIRST_ITEM_INDEX).Checked := vStyle = vSelectedStyle;
   vStyleHasChanged := TRUE;
-  ShowMessage(TEXTS[txStyleInfo]);
+  msgfrm.ShowMessagefrm(TEXTS[txStyleInfo], '')
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);
@@ -619,10 +620,10 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = TEXTS[txHelp] then
-        ShowMessage(TEXTS[txHelpMessage])
+        msgfrm.ShowMessagefrm(TEXTS[txHelpMessage], '')
       else
       if Text = TEXTS[txAbout] then
-        ShowMessage(Format('Eschecs %s.'#10'%s', [VERSION, TEXTS[txAboutMessage]]))
+        msgfrm.ShowMessagefrm('Eschecs ' + VERSION, TEXTS[txAboutMessage])
       else
       if Text = TEXTS[txComputerMove] then
         FComputerColor := FGame.ActiveColor
@@ -682,7 +683,7 @@ begin
             WriteProcessInput_(MsgUCI());
             FEngine := i;
           end else
-            ShowMessage(TEXTS[txConnectionFailure]);
+            msgfrm.ShowMessagefrm(TEXTS[txConnectionFailure], '');
         end;
 end;
 
@@ -946,7 +947,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      ShowMessage(Format('%s'#10'"%s"', [TEXTS[txIllegalMove], vMove]));
+      msgfrm.ShowMessagefrm(TEXTS[txIllegalMove], vMove);
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;
@@ -971,9 +972,14 @@ begin
     Rewrite(vUCILog);
    
   fpgApplication.Initialize;
-  frm := TMainForm.Create(nil);
+  
+  fpgApplication.CreateForm(TMainForm, frm);
+  fpgApplication.CreateForm(Tmessagefrm, msgfrm);
+
   frm.Show;
+  
   fpgApplication.Run;
+  msgfrm.Free;
   frm.Free;
   
   Close(vUCILog);
