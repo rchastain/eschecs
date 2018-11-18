@@ -13,6 +13,7 @@ type
   TText = (
     txEschecs,
     txHelp,
+    txSave,
     txQuit,
     txAbout,
     txMoves,

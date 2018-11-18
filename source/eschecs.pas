@@ -120,6 +120,8 @@ type
     {@VFD_HEAD_END: MainForm}
     FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
+    procedure CloseAll(Sender: TObject);
+    procedure SaveGame(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
     procedure ItemStyleClicked(Sender: TObject);
     procedure OtherItemClicked(Sender: TObject);
@@ -366,10 +368,12 @@ begin
     AddMenuItem(TEXTS[txPromotion], nil).SubMenu := FPromotionSubMenu;
   end;  
   
-  with FEschecsSubMenu do
+   with FEschecsSubMenu do
   begin
-    //AddMenuItem(TEXTS[txHelp], '', @OtherItemClicked);
-    AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
+    AddMenuItem(TEXTS[txSave], 'Ctrl+S', @savegame);
+    AddMenuItem( TEXTS[txSave] + ' + ' + TEXTS[txquit], 'Esc', @ItemExitClicked);
+    AddMenuItem('-', '', nil);
+    AddMenuItem(TEXTS[txQuit], 'Ctrl+Q', @closeall);
     AddMenuItem('-', '', nil);
     AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
   end;
@@ -566,27 +570,8 @@ end;
 
 procedure TMainForm.ItemExitClicked(Sender: TObject);
 begin
-  if vStyleHasChanged then
-  begin
-    gStyle := vSelectedStyle;
-{$IFDEF DEBUG}
-    WriteLn(Format('gStyle=%d', [gStyle]));
-{$ENDIF}
-  end;
-  WriteToINIFile(
-    FGame.FENRecord,
-    FMovesSubMenu.MenuItem(1).Checked,
-    FUpsideDown,
-    FBoardStyle = bsMarble,
-    FExePath,
-    FMoveHistory,
-    FCurrPosIndex,
-    FEngine,
-    vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
-    gStyle
-  );
-  FPositionHistory.SaveToFile(vFENPath);
-  Close;
+SaveGame(sender);
+Close;
 end;
 
 procedure TMainForm.ItemNewGameClicked(Sender: TObject);
@@ -900,6 +885,35 @@ begin
     Play(aSound);
 end;
 {$ENDIF}
+
+procedure TMainForm.CloseAll(Sender: TObject);
+begin
+close;
+end;
+
+procedure TMainForm.SaveGame(Sender: TObject);
+begin
+  if vStyleHasChanged then
+  begin
+    gStyle := vSelectedStyle;
+{$IFDEF DEBUG}
+    WriteLn(Format('gStyle=%d', [gStyle]));
+{$ENDIF}
+  end;
+  WriteToINIFile(
+    FGame.FENRecord,
+    FMovesSubMenu.MenuItem(1).Checked,
+    FUpsideDown,
+    FBoardStyle = bsMarble,
+    FExePath,
+    FMoveHistory,
+    FCurrPosIndex,
+    FEngine,
+    vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
+    gStyle
+  );
+  FPositionHistory.SaveToFile(vFENPath);
+end;
 
 var
   frm: TMainForm;
