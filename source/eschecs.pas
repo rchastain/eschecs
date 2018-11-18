@@ -47,6 +47,8 @@ uses
 {$ENDIF}
   rcmdline,
   messagefrm,
+  fpg_style_eschecs,
+  fpg_stylemanager,
   {%units 'Auto-generated GUI code'}
   fpg_form, fpg_panel
   {%endunits}
@@ -972,6 +974,9 @@ begin
     Rewrite(vUCILog);
    
   fpgApplication.Initialize;
+  
+  if fpgStyleManager.SetStyle('eschecs_style') then
+  fpgStyle := fpgStyleManager.Style;
   
   fpgApplication.CreateForm(TMainForm, frm);
   fpgApplication.CreateForm(Tmessagefrm, msgfrm);
