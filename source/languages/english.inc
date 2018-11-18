@@ -3,6 +3,7 @@ const
   TEXTS: array[TText] of string = (
     'Eschecs', // txEschecs
     'Help', // txHelp
+    'Save', // txSave
     'Quit', // txQuit
     'About Eschecs', // txAbout
     'Moves', // txMoves

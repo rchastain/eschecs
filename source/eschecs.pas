@@ -46,6 +46,9 @@ uses
   ECO,
 {$ENDIF}
   rcmdline,
+  messagefrm,
+  fpg_style_eschecs,
+  fpg_stylemanager,
   {%units 'Auto-generated GUI code'}
   fpg_form, fpg_panel
   {%endunits}
@@ -131,6 +134,9 @@ type
 {$IFDEF OPT_SOUND}
     procedure PlaySound(const aSound: TSound);
 {$ENDIF}
+    procedure CloseAll(Sender: TObject);
+    procedure SaveGame(Sender: TObject);
+    procedure OnResized(Sender: TObject);
   end;
   
 {@VFD_NEWFORM_DECL}
@@ -215,6 +221,7 @@ begin
   BackGroundColor := $80000001;
   Hint := '';
   WindowPosition := wpOneThirdDown;
+  OnResize := @onresized;
 
   FChessboardWidget := TfpgWidget.Create(self);
   with FChessboardWidget do
@@ -363,10 +370,12 @@ begin
     AddMenuItem(TEXTS[txPromotion], nil).SubMenu := FPromotionSubMenu;
   end;  
   
-  with FEschecsSubMenu do
+   with FEschecsSubMenu do
   begin
-    //AddMenuItem(TEXTS[txHelp], '', @OtherItemClicked);
-    AddMenuItem(TEXTS[txQuit], 'Esc', @ItemExitClicked);
+    AddMenuItem(TEXTS[txSave], 'Ctrl+S', @savegame);
+    AddMenuItem( TEXTS[txSave] + ' + ' + TEXTS[txquit], 'Esc', @ItemExitClicked);
+    AddMenuItem('-', '', nil);
+    AddMenuItem(TEXTS[txQuit], 'Ctrl+Q', @closeall);
     AddMenuItem('-', '', nil);
     AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
   end;
@@ -563,27 +572,8 @@ end;
 
 procedure TMainForm.ItemExitClicked(Sender: TObject);
 begin
-  if vStyleHasChanged then
-  begin
-    gStyle := vSelectedStyle;
-{$IFDEF DEBUG}
-    WriteLn(Format('gStyle=%d', [gStyle]));
-{$ENDIF}
-  end;
-  WriteToINIFile(
-    FGame.FENRecord,
-    FMovesSubMenu.MenuItem(1).Checked,
-    FUpsideDown,
-    FBoardStyle = bsMarble,
-    FExePath,
-    FMoveHistory,
-    FCurrPosIndex,
-    FEngine,
-    vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
-    gStyle
-  );
-  FPositionHistory.SaveToFile(vFENPath);
-  Close;
+SaveGame(sender);
+Close;
 end;
 
 procedure TMainForm.ItemNewGameClicked(Sender: TObject);
@@ -609,7 +599,7 @@ begin
   for vStyle := Low(TStyle) to High(TStyle) do
     FOptionsSubMenu.MenuItem(vStyle + FIRST_ITEM_INDEX).Checked := vStyle = vSelectedStyle;
   vStyleHasChanged := TRUE;
-  ShowMessage(TEXTS[txStyleInfo]);
+  msgfrm.ShowMessagefrm(TEXTS[txStyleInfo], '')
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);
@@ -619,10 +609,10 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = TEXTS[txHelp] then
-        ShowMessage(TEXTS[txHelpMessage])
+        msgfrm.ShowMessagefrm(TEXTS[txHelpMessage], '')
       else
       if Text = TEXTS[txAbout] then
-        ShowMessage(Format('Eschecs %s.'#10'%s', [VERSION, TEXTS[txAboutMessage]]))
+        msgfrm.ShowMessagefrm('Eschecs ' + VERSION, TEXTS[txAboutMessage])
       else
       if Text = TEXTS[txComputerMove] then
         FComputerColor := FGame.ActiveColor
@@ -682,7 +672,7 @@ begin
             WriteProcessInput_(MsgUCI());
             FEngine := i;
           end else
-            ShowMessage(TEXTS[txConnectionFailure]);
+            msgfrm.ShowMessagefrm(TEXTS[txConnectionFailure], '');
         end;
 end;
 
@@ -898,6 +888,42 @@ begin
 end;
 {$ENDIF}
 
+procedure TMainForm.CloseAll(Sender: TObject);
+begin
+close;
+end;
+
+procedure TMainForm.SaveGame(Sender: TObject);
+begin
+  if vStyleHasChanged then
+  begin
+    gStyle := vSelectedStyle;
+{$IFDEF DEBUG}
+    WriteLn(Format('gStyle=%d', [gStyle]));
+{$ENDIF}
+  end;
+  WriteToINIFile(
+    FGame.FENRecord,
+    FMovesSubMenu.MenuItem(1).Checked,
+    FUpsideDown,
+    FBoardStyle = bsMarble,
+    FExePath,
+    FMoveHistory,
+    FCurrPosIndex,
+    FEngine,
+    vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
+    gStyle
+  );
+  FPositionHistory.SaveToFile(vFENPath);
+end;
+
+procedure TMainForm.OnResized(Sender: TObject);
+begin
+ FChessboardWidget.top := (height -FChessboardWidget.height) div 2; 
+ FChessboardWidget.left := (width - FChessboardWidget.width) div 2; 
+ FChessboardWidget.updatewindowposition; 
+end;
+
 var
   frm: TMainForm;
 
@@ -946,7 +972,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      ShowMessage(Format('%s'#10'"%s"', [TEXTS[txIllegalMove], vMove]));
+      msgfrm.ShowMessagefrm(TEXTS[txIllegalMove], vMove);
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;
@@ -971,9 +997,17 @@ begin
     Rewrite(vUCILog);
    
   fpgApplication.Initialize;
-  frm := TMainForm.Create(nil);
+  
+  if fpgStyleManager.SetStyle('eschecs_style') then
+  fpgStyle := fpgStyleManager.Style;
+  
+  fpgApplication.CreateForm(TMainForm, frm);
+  fpgApplication.CreateForm(Tmessagefrm, msgfrm);
+
   frm.Show;
+  
   fpgApplication.Run;
+  msgfrm.Free;
   frm.Free;
   
   Close(vUCILog);
