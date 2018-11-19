@@ -24,7 +24,7 @@ type
     Label2: TfpgLabel;
     {@VFD_HEAD_END: messagefrm}
     procedure AfterCreate; override;
-    procedure ShowMessageFrm(AMessage1, AMessage2 : string);
+    procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
     procedure closemsg(sender : Tobject);
   end;
 
@@ -40,12 +40,14 @@ begin
 close;
 end;
 
-procedure Tmessagefrm.ShowMessageFrm(AMessage1, AMessage2 : string);
+procedure Tmessagefrm.ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
 var
 mwidth: integer;
 begin
 label1.text := AMessage1;
 label2.text := AMessage2;
+
+WindowTitle := ATitle;
 
 if label1.width > label2.width then
 mwidth := label1.width else mwidth := label2.width;

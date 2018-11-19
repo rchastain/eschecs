@@ -32,11 +32,14 @@ type
     txQueen,
     
     txTitleMessage,
+    txStyle,
+    txLanguage,
+
     txHelpMessage,
     txAboutMessage,
     txIllegalMove,
     txStyleInfo,
-    
+        
     txWhiteToMove,
     txBlackToMove,
     txWhiteWins,
