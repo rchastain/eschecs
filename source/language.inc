@@ -20,10 +20,10 @@ const
     'Fou', // txBishop
     'Tour', // txRook
     'Dame', // txQueen
-     
+
     'Message', //txTitleMessage
     'Style',  //txStyle
-    'Langue', // txLanguage 
+    'Langue', // txLanguage
 
     'Pour déplacer une pièce, cliquez sur la case de départ puis sur la case d''arrivée.', // txHelp
     'Programme d''échecs en Pascal par Roland Chastain.', // txAbout

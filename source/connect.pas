@@ -57,25 +57,17 @@ end;
 function CreateConnectedProcess(aProcessName: string): boolean;
 begin
   result := FALSE;
-  
   vProcess := TProcess.Create(nil);
   vProcess.Options := [poUsePipes, poStdErrToOutput, poNoConsole];
-  
-  if not vProcess.Running then
-  begin
-    vProcess.CommandLine := aProcessName;
-    vProcess.Execute;
-  end;
-  
+  vProcess.Executable := aProcessName;
+  vProcess.Execute;
   result := TRUE;
 end;
 
 procedure FreeConnectedProcess;
 begin
-  (*
   if vProcess.Running then
     vProcess.Terminate(0);
-  *)
   vProcess.Free;
 end;
 
