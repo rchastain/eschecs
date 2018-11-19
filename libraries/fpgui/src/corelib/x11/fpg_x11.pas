@@ -1441,7 +1441,8 @@ begin
     inc(n);
   end;
   FreeMem(pc);
-  FcFontSetDestroy(pfs);
+  // not used for Eschecs
+  //FcFontSetDestroy(pfs);
 
   Result.Sort;
 end;

@@ -17,13 +17,12 @@ uses
 type
 
   Tmessagefrm = class(TfpgForm)
-  private
+  public
     {@VFD_HEAD_BEGIN: messagefrm}
     Button1: TfpgButton;
     Label1: TfpgLabel;
     Label2: TfpgLabel;
     {@VFD_HEAD_END: messagefrm}
-  public
     procedure AfterCreate; override;
     procedure ShowMessageFrm(AMessage1, AMessage2 : string);
     procedure closemsg(sender : Tobject);
@@ -33,12 +32,7 @@ type
 
 {$I icon.inc} 
 
-var
-msgfrm : Tmessagefrm;
-
 implementation
-
-
 
 {@VFD_NEWFORM_IMPL}
 procedure Tmessagefrm.closemsg(sender : Tobject);
@@ -77,7 +71,7 @@ begin
   {@VFD_BODY_BEGIN: messagefrm}
   Name := 'messagefrm';
   SetPosition(359, 541, 427, 84);
-  WindowTitle := 'Message';
+  WindowTitle := '';
   IconName := 'vfd.eschecs';
   BackGroundColor := $80000001;
   Sizeable := False;
@@ -107,7 +101,7 @@ begin
     AutoSize := True;
     FontDesc := '#Label1';
     ParentShowHint := False;
-    Text := 'ww';
+    Text := '';
     Hint := '';
   end;
 
@@ -120,7 +114,7 @@ begin
     AutoSize := True;
     FontDesc := '#Label1';
     ParentShowHint := False;
-    Text := 'ww';
+    Text := '';
     Hint := '';
   end;
 

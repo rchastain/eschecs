@@ -20,7 +20,8 @@ const
     'Läufer', // txBishop
     'Turm', // txRook
     'Dame', // txQueen
-
+ 
+    'Nachricht',           //txTitleMessage
     'Um eine Figur zu bewegen, klicken Sie zuerst auf die Figur und dann auf das Zielfeld.', // txHelp
     'Pascal Schachprogramm von Roland Chastain.', // txAbout
     'Ungültiger Zug.', // txIllegalMove
