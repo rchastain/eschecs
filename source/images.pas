@@ -195,6 +195,28 @@ begin
 end;
 
 procedure CreatePictures();
+
+  function CreateDarkSquare(): TBGRABitmap;
+  var
+    pixel: PBGRAPixel;
+    i: integer;
+  begin
+    result := TBGRABitmap.Create(40, 40, BGRAPixelTransparent);
+    pixel := result.Data;
+    for i := 0 to result.NbPixels - 1 do
+    begin
+      if (Succ(i) + i div 40) mod 5 = 0 then
+      begin
+        pixel^.red := 0;
+        pixel^.green := 0;
+        pixel^.blue := 0;
+        pixel^.alpha := 255;
+      end;
+      Inc(pixel);
+    end;
+    result.InvalidateBitmap;
+  end;
+
 const
   COLORCHARS: array[TChessPieceColor] of char = ('w', 'b');
   TYPECHARS: array[TChessPieceKind] of char = ('p', 'n', 'b', 'r', 'q', 'k');
@@ -208,17 +230,13 @@ begin
   WriteLn('CreatePictures()');
 {$ENDIF}
   d := Now;
-  //LoadColors();
   for c := cpcWhite to cpcBlack do
     for k := cpkPawn to cpkKing do
     begin
       s := Concat(
         ExtractFilePath(ParamStr(0)),
         Format(PICTURES_FOLDER, [gStyleData[gStyle].font, gStyleData[gStyle].scale]),
-        directoryseparator,
-        COLORCHARS[c],
-        TYPECHARS[k],
-        gStyleData[gStyle].imgext
+        directoryseparator, COLORCHARS[c], TYPECHARS[k], gStyleData[gStyle].imgext
       );
       Assert(FileExists(s));
       vPieceImage[c, k, ocWhite] := TBGRABitmap.Create(s);
@@ -234,10 +252,7 @@ begin
       vPieceImage[c, k, ocTransparent].ReplaceColor(CSSGray, BGRAPixelTransparent);
       vPieceImage[c, k, ocWhite].ReplaceColor(CSSGray, CSSWhite);
     end;
-  s := ExtractFilePath(ParamStr(0)) + Format(PICTURES_FOLDER, [gStyleData[gStyle].font, gStyleData[gStyle].scale]) + directoryseparator + 'ds.bmp';
-  Assert(FileExists(s));
-  vDarkSquare := TBGRABitmap.Create(s);
-  vDarkSquare.ReplaceColor(CSSMidnightBlue, BGRAPixelTransparent);
+  vDarkSquare := CreateDarkSquare();
   vChessboard := CreateChessboard(gStyleData[gStyle].boardstyle);
   d := Now - d;
 {$IFDEF DEBUG}
