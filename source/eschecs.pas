@@ -373,7 +373,7 @@ begin
   if FileExists(vENGPath) then
     LoadEnginesDataFromINI(vENGPath)
   else
-    LoadEnginesData('engines.json');
+    LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], gStyle, FTimeAvailable);
   
@@ -1046,12 +1046,13 @@ begin
   end;
 end;
 
-const
-  UCI_LOG = 'eschecs.debug';
+var
+  vUciLogName: string;
   
 begin
-  Assign(vUCILog, UCI_LOG);
-  if FileExists(UCI_LOG) then
+  vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
+  Assign(vUCILog, vUciLogName);
+  if FileExists(vUciLogName) then
     Append(vUCILog)
   else
     Rewrite(vUCILog);

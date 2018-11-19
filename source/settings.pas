@@ -28,6 +28,7 @@ procedure WriteToINIFile(
 var
   vFENPath: string;
   vLOGPath: string;
+  vConfigFilesPath: string;
   
 implementation
 
@@ -121,7 +122,8 @@ begin
 end;
 
 begin
-  vLOGPath := ChangeFileExt(ParamStr(0), '.log');
+  vConfigFilesPath := Concat(ExtractFilePath(ParamStr(0)), 'config', directoryseparator);
+  vLOGPath := Concat(vConfigFilesPath, ChangeFileExt(ExtractFileName(ParamStr(0)), '.log'));
   vINIPath := ChangeFileExt(ParamStr(0), '.ini');
-  vFENPath := ChangeFileExt(ParamStr(0), '.fen');
+  vFENPath := Concat(vConfigFilesPath, ChangeFileExt(ExtractFileName(ParamStr(0)), '.fen'));
 end.
