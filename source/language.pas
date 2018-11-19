@@ -31,6 +31,7 @@ type
     txRook,
     txQueen,
     
+    txTitleMessage,
     txHelpMessage,
     txAboutMessage,
     txIllegalMove,

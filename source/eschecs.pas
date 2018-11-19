@@ -137,6 +137,7 @@ type
     procedure CloseAll(Sender: TObject);
     procedure SaveGame(Sender: TObject);
     procedure OnResized(Sender: TObject);
+    procedure ShowMessageFrm(AMessage1, AMessage2 : string);
   end;
   
 {@VFD_NEWFORM_DECL}
@@ -599,7 +600,7 @@ begin
   for vStyle := Low(TStyle) to High(TStyle) do
     FOptionsSubMenu.MenuItem(vStyle + FIRST_ITEM_INDEX).Checked := vStyle = vSelectedStyle;
   vStyleHasChanged := TRUE;
-  msgfrm.ShowMessagefrm(TEXTS[txStyleInfo], '')
+  ShowMessagefrm(TEXTS[txStyleInfo], '')
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);
@@ -609,10 +610,10 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = TEXTS[txHelp] then
-        msgfrm.ShowMessagefrm(TEXTS[txHelpMessage], '')
+        ShowMessagefrm(TEXTS[txHelpMessage], '')
       else
       if Text = TEXTS[txAbout] then
-        msgfrm.ShowMessagefrm('Eschecs ' + VERSION, TEXTS[txAboutMessage])
+        ShowMessagefrm('Eschecs ' + VERSION, TEXTS[txAboutMessage])
       else
       if Text = TEXTS[txComputerMove] then
         FComputerColor := FGame.ActiveColor
@@ -672,7 +673,7 @@ begin
             WriteProcessInput_(MsgUCI());
             FEngine := i;
           end else
-            msgfrm.ShowMessagefrm(TEXTS[txConnectionFailure], '');
+            ShowMessagefrm(TEXTS[txConnectionFailure], '');
         end;
 end;
 
@@ -924,6 +925,21 @@ begin
  FChessboardWidget.updatewindowposition; 
 end;
 
+procedure TMainForm.ShowMessageFrm(AMessage1, AMessage2 : string);
+var
+ msgfrm : Tmessagefrm;
+begin
+  fpgApplication.CreateForm(Tmessagefrm, msgfrm);
+  try
+    msgfrm.Button1.text := TEXTS[txQuit];
+    msgfrm.WindowTitle := TEXTS[txTitleMessage];
+    msgfrm.ShowMessageFrm(AMessage1, AMessage2);
+    msgfrm.ShowModal;
+  finally
+    msgfrm.Free;
+  end;
+end;
+
 var
   frm: TMainForm;
 
@@ -972,7 +988,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      msgfrm.ShowMessagefrm(TEXTS[txIllegalMove], vMove);
+      frm.ShowMessagefrm(TEXTS[txIllegalMove], vMove);
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;
@@ -1002,12 +1018,11 @@ begin
   fpgStyle := fpgStyleManager.Style;
   
   fpgApplication.CreateForm(TMainForm, frm);
-  fpgApplication.CreateForm(Tmessagefrm, msgfrm);
-
+ 
   frm.Show;
   
   fpgApplication.Run;
-  msgfrm.Free;
+ 
   frm.Free;
   
   Close(vUCILog);

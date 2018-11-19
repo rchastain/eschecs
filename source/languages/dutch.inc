@@ -20,7 +20,8 @@ const
     'Loper', // txBishop
     'Toren', // txRook
     'Koningin', // txQueen
-
+    
+    'Bericht',           //txTitleMessage
     'Om een speelstuk te verplaatsen, klik erop en dan op het vakje waarop je het wil plaatsen.', // txHelp
     'Schaakspel in Pascal geschreven door Roland Chastain.', // txAbout
     'Illegale beweging.', // txIllegalMove

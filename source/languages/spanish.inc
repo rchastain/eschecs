@@ -21,6 +21,7 @@ const
     'Torre', // txRook
     'Reina', // txQueen
 
+    'Mensaje',           //txTitleMessage
     'Para mover una pieza, haga click en ella y después haga click en el escaque al que quiera moverla.', // txHelp
     'Programa de Ajedrez en Pascal por Roland Chastain.', // txAbout
     'Movimiento ilegal.', // txIllegalMove

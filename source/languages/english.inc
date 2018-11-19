@@ -21,6 +21,7 @@ const
     'Rook', // txRook
     'Queen', // txQueen
 
+    'Message',           //txTitleMessage
     'To move a piece, click on it and then click on the square you wish to move it to.', // txHelp
     'Pascal chess program by Roland Chastain.', // txAbout
     'Illegal move.', // txIllegalMove
