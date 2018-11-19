@@ -12,7 +12,8 @@ procedure ReadFromINIFile(
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
   out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aStyle: TStyle
+  out aStyle: TStyle;
+  out aMoveTime: integer
 );
 procedure WriteToINIFile(
   const aCurrentPosition: string;
@@ -20,7 +21,8 @@ procedure WriteToINIFile(
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
   const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aStyle: TStyle
+  const aStyle: TStyle;
+  const aMoveTime: integer
 );
 
 var
@@ -61,7 +63,8 @@ procedure ReadFromINIFile(
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
   out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aStyle: TStyle
+  out aStyle: TStyle;
+  out aMoveTime: integer
 );
 begin
   with TIniFile.Create(vINIPath) do
@@ -79,6 +82,7 @@ begin
     aGreenColor := StrToBGRA(ReadString(SECTION_COLORS, 'green', '60C00080'));
     aRedColor := StrToBGRA(ReadString(SECTION_COLORS, 'red', 'C0000080'));
     aStyle := ReadInteger(SECTION_OPTIONS, 'style', 0);
+    aMoveTime := ReadInteger(SECTION_OPTIONS, 'movetime', 1000);
   finally
     Free;
   end;
@@ -90,7 +94,8 @@ procedure WriteToINIFile(
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
   const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aStyle: TStyle
+  const aStyle: TStyle;
+  const aMoveTime: integer
 );
 begin
   with TIniFile.Create(vINIPath) do
@@ -108,6 +113,7 @@ begin
     WriteString(SECTION_COLORS, 'green', BGRAToStr(aGreenColor));
     WriteString(SECTION_COLORS, 'red', BGRAToStr(aRedColor));
     WriteInteger(SECTION_OPTIONS, 'style', aStyle);
+    WriteInteger(SECTION_OPTIONS, 'movetime', aMoveTime);
     UpdateFile;
   finally
     Free;

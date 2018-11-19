@@ -375,13 +375,11 @@ begin
   else
     LoadEnginesData('engines.json');
   
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], gStyle);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], gStyle, FTimeAvailable);
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
-  FTimeAvailable := 1000;
   FPositionHistory := TStringList.Create;
- 
   if FileExists(vFENPath) then
     FPositionHistory.LoadfromFile(vFENPath)
   else
@@ -959,7 +957,7 @@ begin
     FCurrPosIndex,
     FEngine,
     vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
-    gStyle
+    gStyle, FTimeAvailable
   );
   FPositionHistory.SaveToFile(vFENPath);
 end;
