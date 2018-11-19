@@ -117,6 +117,10 @@ type
     FBoardSubMenu: TfpgPopupMenu;
     FOptionsSubMenu: TfpgPopupMenu;
     FPromotionSubMenu: TfpgPopupMenu;
+    FAudioSubMenu: TfpgPopupMenu;
+    FStyleSubMenu: TfpgPopupMenu;
+    FLanguageSubMenu: TfpgPopupMenu;
+      
     {@VFD_HEAD_END: MainForm}
     FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
@@ -137,7 +141,7 @@ type
     procedure CloseAll(Sender: TObject);
     procedure SaveGame(Sender: TObject);
     procedure OnResized(Sender: TObject);
-    procedure ShowMessageFrm(AMessage1, AMessage2 : string);
+    procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
   end;
   
 {@VFD_NEWFORM_DECL}
@@ -289,6 +293,27 @@ begin
     Name := 'FOptionsSubMenu';
     SetPosition(68, 168, 228, 28);
   end;
+  
+  FAudioSubMenu := TfpgPopupMenu.Create(self);
+  with FAudioSubMenu do
+  begin
+    Name := 'FAudioSubMenu';
+    SetPosition(68, 168, 228, 28);
+  end;
+  
+  FStyleSubMenu := TfpgPopupMenu.Create(self);
+  with FStyleSubMenu do
+  begin
+    Name := 'FStyleSubMenu';
+    SetPosition(68, 168, 228, 28);
+  end;
+  
+  FLanguageSubMenu := TfpgPopupMenu.Create(self);
+  with FLanguageSubMenu do
+  begin
+    Name := 'FLanguageSubMenu';
+    SetPosition(68, 168, 228, 28);
+  end;
 
   FPromotionSubMenu := TfpgPopupMenu.Create(self);
   with FPromotionSubMenu do
@@ -330,7 +355,7 @@ const
 var
   vCurrentPosition: string;
   vAutoPlay, vMarble: boolean;
-  vIndex: integer;
+  vIndex, x: integer;
   vENGPath: TFileName;
 begin
   with TCommandLineReader.Create do
@@ -383,17 +408,38 @@ begin
   
   with FOptionsSubMenu do
   begin
-    //AddMenuItem(TEXTS[txColoring], '', @OtherItemClicked).Checked := vMarble;
-    with AddMenuItem(TEXTS[txSound], '', @OtherItemClicked) do
+   AddMenuItem(TEXTS[txStyle], '',nil).SubMenu := FStyleSubMenu;
+   AddMenuItem(TEXTS[txLanguage], '', nil).SubMenu := FLanguageSubMenu;
+   AddMenuItem(TEXTS[txSound], '', nil).SubMenu := FAudioSubMenu;  
+  end; 
+  
+   with FStyleSubMenu do
+  begin
+      for vIndex := Low(TStyle) to High(TStyle) do
+      AddMenuItem(STYLENAME[vIndex], '', @ItemStyleClicked).Checked := vIndex = gStyle;
+   end;
+  
+   with FLanguageSubMenu do
+  begin
+   // Waring dummy methods...
+   x:=0;
+   AddMenuItem('Language ' + inttostr(x), '', nil).Checked := true;
+   for x := 1 to 9 do
+    AddMenuItem('Language ' + inttostr(x), '', nil).Checked := false;
+   end; 
+  
+  with FAudioSubMenu do
+  begin
+  Enabled := FALSE;
+  with AddMenuItem('Enabled', '', @OtherItemClicked) do
     begin
       Checked := FALSE;
       Enabled := FALSE;
     end;
-    AddMenuItem('-', '', nil);
-    for vIndex := Low(TStyle) to High(TStyle) do
-      AddMenuItem(STYLENAME[vIndex], '', @ItemStyleClicked).Checked := vIndex = gStyle;
+    
+    
   end; 
-  
+    
   with FBoardSubMenu do
   begin
     AddMenuItem(TEXTS[txNew], '', @ItemNewGameClicked);
@@ -598,9 +644,9 @@ begin
   WriteLn('vSelectedStyle=', vSelectedStyle);
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
-    FOptionsSubMenu.MenuItem(vStyle + FIRST_ITEM_INDEX).Checked := vStyle = vSelectedStyle;
+  FStyleSubMenu.MenuItem(vStyle).Checked := vStyle = vSelectedStyle;
   vStyleHasChanged := TRUE;
-  ShowMessagefrm(TEXTS[txStyleInfo], '')
+  ShowMessagefrm(TEXTS[txStyleInfo], '',  TEXTS[txTitleMessage])
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);
@@ -610,10 +656,10 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = TEXTS[txHelp] then
-        ShowMessagefrm(TEXTS[txHelpMessage], '')
+        ShowMessagefrm(TEXTS[txHelpMessage], '',  TEXTS[txHelp])
       else
       if Text = TEXTS[txAbout] then
-        ShowMessagefrm('Eschecs ' + VERSION, TEXTS[txAboutMessage])
+        ShowMessagefrm('Eschecs ' + VERSION, TEXTS[txAboutMessage], TEXTS[txAbout])
       else
       if Text = TEXTS[txComputerMove] then
         FComputerColor := FGame.ActiveColor
@@ -673,7 +719,7 @@ begin
             WriteProcessInput_(MsgUCI());
             FEngine := i;
           end else
-            ShowMessagefrm(TEXTS[txConnectionFailure], '');
+            ShowMessagefrm(TEXTS[txConnectionFailure], '',  TEXTS[txTitleMessage]);
         end;
 end;
 
@@ -884,7 +930,7 @@ end;
 {$IFDEF OPT_SOUND}
 procedure TMainForm.PlaySound(const aSound: TSound);
 begin
-  if FOptionsSubMenu.MenuItem(1).Checked then
+  if FAudioSubMenu.MenuItem(1).Checked then
     Play(aSound);
 end;
 {$ENDIF}
@@ -925,15 +971,15 @@ begin
  FChessboardWidget.updatewindowposition; 
 end;
 
-procedure TMainForm.ShowMessageFrm(AMessage1, AMessage2 : string);
+procedure TMainForm.ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
 var
  msgfrm : Tmessagefrm;
 begin
   fpgApplication.CreateForm(Tmessagefrm, msgfrm);
   try
     msgfrm.Button1.text := TEXTS[txQuit];
-    msgfrm.WindowTitle := TEXTS[txTitleMessage];
-    msgfrm.ShowMessageFrm(AMessage1, AMessage2);
+   // msgfrm.WindowTitle := ATitle;
+    msgfrm.ShowMessageFrm(AMessage1, AMessage2, ATitle);
     msgfrm.ShowModal;
   finally
     msgfrm.Free;
@@ -988,7 +1034,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      frm.ShowMessagefrm(TEXTS[txIllegalMove], vMove);
+      frm.ShowMessagefrm(TEXTS[txIllegalMove], vMove,  TEXTS[txTitleMessage]);
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;
