@@ -4,7 +4,7 @@ unit Settings;
 interface
 
 uses
-  BGRABitmapTypes, Style;
+  BGRABitmapTypes, Style, Language;
   
 procedure ReadFromINIFile(
   out aCurrentPosition: string;
@@ -25,6 +25,8 @@ procedure WriteToINIFile(
 
 procedure ReadStyle(out aStyle: TStyle);
 procedure WriteStyle(const aStyle: TStyle);
+procedure ReadLanguage(out aLanguage: TLanguage);
+procedure WriteLanguage(const aLanguage: TLanguage);
 
 var
   vFENPath: string;
@@ -131,6 +133,27 @@ begin
   with TIniFile.Create(vINIPath) do
   try
     WriteInteger(SECTION_OPTIONS, 'style', aStyle);
+    UpdateFile;
+  finally
+    Free;
+  end;
+end;
+
+procedure ReadLanguage(out aLanguage: TLanguage);
+begin
+  with TIniFile.Create(vINIPath) do
+  try
+    aLanguage := TLanguage(ReadInteger(SECTION_OPTIONS, 'lang', Ord(lgEnglish)));
+  finally
+    Free;
+  end;
+end;
+
+procedure WriteLanguage(const aLanguage: TLanguage);
+begin
+  with TIniFile.Create(vINIPath) do
+  try
+    WriteInteger(SECTION_OPTIONS, 'lang', Ord(aLanguage));
     UpdateFile;
   finally
     Free;

@@ -178,6 +178,26 @@ begin
   UCILogAppend(aUciCommand, '<');
 end;
 
+function ArbitratorMessage(const aCheck: boolean; const aActiveColor: TChessPieceColor; const aState: TChessState): string;
+begin
+  case aState of
+    csProgress:
+        result := Concat(
+          IfThen(aCheck, Concat(GetText(txCheck), ' '), ''),
+          IfThen(aActiveColor = cpcWhite, GetText(txWhiteToMove), GetText(txBlackToMove))
+        );
+    csCheckmate:
+        result := Concat(
+          GetText(txCheckmate), ' ',
+          IfThen(aActiveColor = cpcWhite, GetText(txBlackWins), GetText(txWhiteWins))
+        );
+    csStalemate:
+      result := GetText(txStalemate);
+    csDraw:
+      result := GetText(txDraw);
+  end;
+end;
+
 procedure TMainForm.HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean);
 begin
   case KeyCode of
@@ -189,8 +209,6 @@ begin
       FCurrPosIndex := TryNavigate(FCurrPosIndex, nvLast);
     KeyDown:
       FCurrPosIndex := TryNavigate(FCurrPosIndex, nvFirst);
-    KeyEscape:
-      ItemExitClicked(nil);
   end;
 end;
 
@@ -375,6 +393,7 @@ begin
   
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
   ReadStyle(gStyle);
+  ReadLanguage(gLanguage);
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
@@ -386,34 +405,34 @@ begin
     
   with FMenuBar do
   begin
-    AddMenuItem(TEXTS[txEschecs], nil).SubMenu := FEschecsSubMenu;
-    AddMenuItem(TEXTS[txMoves], nil).SubMenu := FMovesSubMenu;
-    AddMenuItem(TEXTS[txBoard], nil).SubMenu := FBoardSubMenu;
-    AddMenuItem(TEXTS[txOptions], nil).SubMenu := FOptionsSubMenu;
-    AddMenuItem(TEXTS[txPromotion], nil).SubMenu := FPromotionSubMenu;
+    AddMenuItem(GetText(txEschecs), nil).SubMenu := FEschecsSubMenu;
+    AddMenuItem(GetText(txMoves), nil).SubMenu := FMovesSubMenu;
+    AddMenuItem(GetText(txBoard), nil).SubMenu := FBoardSubMenu;
+    AddMenuItem(GetText(txOptions), nil).SubMenu := FOptionsSubMenu;
+    AddMenuItem(GetText(txPromotion), nil).SubMenu := FPromotionSubMenu;
   end;  
   
    with FEschecsSubMenu do
   begin
-    AddMenuItem(TEXTS[txSave], 'Ctrl+S', @savegame);
-    AddMenuItem( TEXTS[txSave] + ' + ' + TEXTS[txquit], 'Esc', @ItemExitClicked);
+    AddMenuItem(GetText(txSave), 'Ctrl+S', @savegame);
+    AddMenuItem(GetText(txSave) + ' + ' + GetText(txquit), 'Esc', @ItemExitClicked);
     AddMenuItem('-', '', nil);
-    AddMenuItem(TEXTS[txQuit], 'Ctrl+Q', @closeall);
+    AddMenuItem(GetText(txQuit), 'Ctrl+Q', @closeall);
     AddMenuItem('-', '', nil);
-    AddMenuItem(TEXTS[txAbout], '', @OtherItemClicked);
+    AddMenuItem(GetText(txAbout), '', @OtherItemClicked);
   end;
   
   with FOptionsSubMenu do
   begin
-   AddMenuItem(TEXTS[txStyle], '',nil).SubMenu := FStyleSubMenu;
-   AddMenuItem(TEXTS[txLanguage], '', nil).SubMenu := FLanguageSubMenu;
-   AddMenuItem(TEXTS[txSound], '', nil).SubMenu := FAudioSubMenu;  
+   AddMenuItem(GetText(txStyle), '',nil).SubMenu := FStyleSubMenu;
+   AddMenuItem(GetText(txLanguage), '', nil).SubMenu := FLanguageSubMenu;
+   AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
   end; 
   
    with FStyleSubMenu do
   begin
       for vIndex := Low(TStyle) to High(TStyle) do
-      AddMenuItem(STYLENAME[vIndex], '', @ItemStyleClicked).Checked := vIndex = gStyle;
+      AddMenuItem(GetStyleName(vIndex), '', @ItemStyleClicked).Checked := vIndex = gStyle;
    end;
   
    with FLanguageSubMenu do
@@ -439,14 +458,14 @@ begin
     
   with FBoardSubMenu do
   begin
-    AddMenuItem(TEXTS[txNew], '', @ItemNewGameClicked);
-    AddMenuItem(TEXTS[txFlip], '', @OtherItemClicked);
+    AddMenuItem(GetText(txNew), '', @ItemNewGameClicked);
+    AddMenuItem(GetText(txFlip), '', @OtherItemClicked);
   end;
   
   with FMovesSubMenu do
   begin
-    AddMenuItem(TEXTS[txComputerMove], '', @OtherItemClicked);
-    AddMenuItem(TEXTS[txAutoPlay], '', @OtherItemClicked).Checked := vAutoPlay;
+    AddMenuItem(GetText(txComputerMove), '', @OtherItemClicked);
+    AddMenuItem(GetText(txAutoPlay), '', @OtherItemClicked).Checked := vAutoPlay;
     AddMenuItem('-', '', nil);
     for vIndex := 0 to High(vEngines) do with AddMenuItem(vEngines[vIndex].vName, '', @OtherItemClicked) do
     begin
@@ -462,10 +481,10 @@ begin
   
   with FPromotionSubMenu do
   begin
-    AddMenuItem(TEXTS[txKnight], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txBishop], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txRook], '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem(TEXTS[txQueen], '', @OtherItemClicked).Checked := TRUE;
+    AddMenuItem(GetText(txKnight), '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(GetText(txBishop), '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(GetText(txRook), '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(GetText(txQueen), '', @OtherItemClicked).Checked := TRUE;
   end;
   
   SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24 + 8 * gStyleData[gStyle].scale + 24);
@@ -616,8 +635,8 @@ end;
 
 procedure TMainForm.ItemExitClicked(Sender: TObject);
 begin
-SaveGame(sender);
-Close;
+  SaveGame(Sender);
+  Close;
 end;
 
 procedure TMainForm.ItemNewGameClicked(Sender: TObject);
@@ -636,14 +655,14 @@ var
   vStyle: TStyle;
   vSelectedStyle: TStyle = 0;
 begin
-  for vStyle := Low(TStyle) to High(TStyle) do if STYLENAME[vStyle] = TfpgMenuItem(Sender).Text then
+  for vStyle := Low(TStyle) to High(TStyle) do if GetStyleName(vStyle) = TfpgMenuItem(Sender).Text then
     vSelectedStyle := vStyle;
 {$IFDEF DEBUG}
   WriteLn('vSelectedStyle=', vSelectedStyle);
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
     FStyleSubMenu.MenuItem(Ord(vStyle)).Checked := vStyle = vSelectedStyle;
-  ShowMessagefrm(TEXTS[txStyleInfo], '',  TEXTS[txTitleMessage]);
+  ShowMessagefrm(GetText(txStyleInfo), '',  GetText(txTitleMessage));
   WriteStyle(vSelectedStyle);
 end;
 
@@ -653,33 +672,33 @@ var
 begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
-      if Text = TEXTS[txHelp] then
-        ShowMessagefrm(TEXTS[txHelpMessage], '',  TEXTS[txHelp])
+      if Text = GetText(txHelp) then
+        ShowMessagefrm(GetText(txHelpMessage), '',  GetText(txHelp))
       else
-      if Text = TEXTS[txAbout] then
-        ShowMessagefrm('Eschecs ' + VERSION, TEXTS[txAboutMessage], TEXTS[txAbout])
+      if Text = GetText(txAbout) then
+        ShowMessagefrm('Eschecs ' + VERSION, GetText(txAboutMessage), GetText(txAbout))
       else
-      if Text = TEXTS[txComputerMove] then
+      if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
       else
-      if Text = TEXTS[txAutoPlay] then begin
+      if Text = GetText(txAutoPlay) then begin
         Checked := not Checked;
         SetComputerColor(Checked);
       end else
-      if Text = TEXTS[txFlip] then begin
+      if Text = GetText(txFlip) then begin
         FBGRAChessboard.ScreenRestore;
         FBGRAChessboard.FlipBoard;
         FChessboardWidget.Invalidate;
         FBGRAChessboard.ScreenSave;
         FUpsideDown := FBGRAChessboard.isUpsideDown;
       end else
-      if Text = TEXTS[txColoring]
+      if Text = GetText(txColoring)
       then
       begin
         Checked := not Checked;
       end
       else
-      if Text = TEXTS[txSound]
+      if Text = GetText(txSound)
       then
       begin
 {$IFDEF OPT_SOUND}
@@ -687,10 +706,10 @@ begin
 {$ENDIF}
       end
       else
-      if (Text = TEXTS[txKnight])
-      or (Text = TEXTS[txBishop])
-      or (Text = TEXTS[txRook])
-      or (Text = TEXTS[txQueen]) then
+      if (Text = GetText(txKnight))
+      or (Text = GetText(txBishop))
+      or (Text = GetText(txRook))
+      or (Text = GetText(txQueen)) then
       begin
         for i := 0 to 3 do
           FPromotionSubMenu.MenuItem(i).Checked := FALSE;
@@ -717,7 +736,7 @@ begin
             WriteProcessInput_(MsgUCI());
             FEngine := i;
           end else
-            ShowMessagefrm(TEXTS[txConnectionFailure], '',  TEXTS[txTitleMessage]);
+            ShowMessagefrm(GetText(txConnectionFailure), '',  GetText(txTitleMessage));
         end;
 end;
 
@@ -757,7 +776,7 @@ begin
               WriteProcessInput_(MsgGo(FTimeAvailable));
               MouseCursor := mcHourGlass;
               FWaiting := TRUE;
-              FStatusBar.Text := Concat(' ', TEXTS[txWaiting]);
+              FStatusBar.Text := Concat(' ', GetText(txWaiting));
             end;
         end;
       end;
@@ -935,7 +954,7 @@ end;
 
 procedure TMainForm.CloseAll(Sender: TObject);
 begin
-close;
+  Close;
 end;
 
 procedure TMainForm.SaveGame(Sender: TObject);
@@ -971,7 +990,7 @@ var
 begin
   fpgApplication.CreateForm(Tmessagefrm, msgfrm);
   try
-    msgfrm.Button1.text := TEXTS[txQuit];
+    msgfrm.Button1.text := GetText(txQuit);
    // msgfrm.WindowTitle := ATitle;
     msgfrm.ShowMessageFrm(AMessage1, AMessage2, ATitle);
     msgfrm.ShowModal;
@@ -1028,7 +1047,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      frm.ShowMessagefrm(TEXTS[txIllegalMove], vMove,  TEXTS[txTitleMessage]);
+      frm.ShowMessagefrm(GetText(txIllegalMove), vMove,  GetText(txTitleMessage));
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;

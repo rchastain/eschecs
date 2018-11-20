@@ -9,7 +9,7 @@ uses
 
 type
 
-  TExtStyle = class(TfpgStyle)
+  TextStyle = class(TfpgStyle)
   public
     constructor Create; override;
     { General }
@@ -30,20 +30,20 @@ implementation
 uses
   fpg_stylemanager;
 
-{ TExtStyle }
+{ TextStyle }
 
-constructor TExtStyle.Create;
+constructor TextStyle.Create;
 begin
   inherited Create;
   fpgSetNamedColor(clWindowBackground, clLightGray);
 end;
 
-function TExtStyle.HasButtonHoverEffect: boolean;
+function TextStyle.HasButtonHoverEffect: boolean;
 begin
   Result := True;
 end;
 
-procedure TExtStyle.DrawControlFrame(ACanvas: TfpgCanvas; x, y, w, h: TfpgCoord);
+procedure TextStyle.DrawControlFrame(ACanvas: TfpgCanvas; x, y, w, h: TfpgCoord);
 var
   r: TfpgRect;
 begin
@@ -58,7 +58,7 @@ begin
 
   end;
 
-procedure TExtStyle.DrawButtonFace(ACanvas: TfpgCanvas; x, y, w, h: TfpgCoord;
+procedure TextStyle.DrawButtonFace(ACanvas: TfpgCanvas; x, y, w, h: TfpgCoord;
   AFlags: TfpgButtonFlags);
 var
   r, r21, r22: TfpgRect;
@@ -123,7 +123,7 @@ begin
 
 end;
 
-procedure TExtStyle.DrawMenuRow(ACanvas: TfpgCanvas; r: TfpgRect;
+procedure TextStyle.DrawMenuRow(ACanvas: TfpgCanvas; r: TfpgRect;
   AFlags: TfpgMenuItemFlags);
 var
   r21, r22: TfpgRect;
@@ -154,6 +154,6 @@ begin
 end;
 
 initialization
-  fpgStyleManager.RegisterClass('eschecs_style', TExtStyle);
+  fpgStyleManager.RegisterClass('eschecs_style', TextStyle);
 
 end.
