@@ -143,7 +143,7 @@ procedure ReadLanguage(out aLanguage: TLanguage);
 begin
   with TIniFile.Create(vINIPath) do
   try
-    aLanguage := TLanguage(ReadInteger(SECTION_OPTIONS, 'lang', Ord(lgEnglish)));
+    aLanguage := TLanguage(ReadInteger(SECTION_OPTIONS, 'language', Ord(lgEnglish)));
   finally
     Free;
   end;
@@ -153,7 +153,7 @@ procedure WriteLanguage(const aLanguage: TLanguage);
 begin
   with TIniFile.Create(vINIPath) do
   try
-    WriteInteger(SECTION_OPTIONS, 'lang', Ord(aLanguage));
+    WriteInteger(SECTION_OPTIONS, 'language', Ord(aLanguage));
     UpdateFile;
   finally
     Free;

@@ -10,7 +10,6 @@ uses
 type
   TText = (
     txEschecs,
-    txHelp,
     txSave,
     txQuit,
     txAbout,
@@ -33,10 +32,9 @@ type
     txStyle,
     txLanguage,
 
-    txHelpMessage,
     txAboutMessage,
     txIllegalMove,
-    txStyleInfo,
+    txChangeSaved,
         
     txWhiteToMove,
     txBlackToMove,
@@ -56,6 +54,7 @@ type
 
 function GetText(const aText: TText): string;
 function GetStyleName(const aStyle: TStyle): string;
+function GetLanguageName(const aLanguage: TLanguage): string;
 
 var
   gLanguage: TLanguage;
@@ -66,7 +65,6 @@ const
   TEXTS: array[TLanguage, TText] of string = ((
     // lgDutch
     'Eschecs', // txEschecs
-    'Hulp', // txHelp
     'Redden', // txSave
     'Verlaten', // txQuit
     'Over Eschecs', // txAbout
@@ -77,8 +75,8 @@ const
     'Nieuwe partij', // txNewGame
     'Het schaakbord draaien', // txFlip
     'Opties', // txOptions
-    'Square coloring [to be translated]', // txColoring
-    'Sound [to be translated]', // txSound
+    '', // txColoring
+    'Geluid', // txSound
     'Promotie', // txPromotion
     'Paard', // txKnight
     'Loper', // txBishop
@@ -89,10 +87,9 @@ const
     'Estilo',  //txStyle
     'Taal', // txLanguage
 
-    'Om een speelstuk te verplaatsen, klik erop en dan op het vakje waarop je het wil plaatsen.', // txHelp
     'Schaakspel in Pascal geschreven door Roland Chastain.', // txAbout
     'Illegale beweging.', // txIllegalMove
-    'Le changement de style sera effectif au prochain lancement de l''application. [à traduire]', // txStyleInfo
+    'The change will be effective at the next launch of the application.', // txChangeSaved
 
     'Wit aan zet.', // txWhiteToMove
     'Zwart aan zet.', // txBlackToMove
@@ -109,7 +106,6 @@ const
   ), (
     // lgEnglish
     'Eschecs', // txEschecs
-    'Help', // txHelp
     'Save', // txSave
     'Quit', // txQuit
     'About Eschecs', // txAbout
@@ -132,10 +128,9 @@ const
     'Style',  //txStyle
     'Language', // txLanguage
 
-    'To move a piece, click on it and then click on the square you wish to move it to.', // txHelp
     'Pascal chess program by Roland Chastain.', // txAbout
     'Illegal move.', // txIllegalMove
-    'Le changement de style sera effectif au prochain lancement de l''application. [à traduire]', // txStyleInfo
+    'The change will be effective at the next launch of the application.', // txChangeSaved
 
     'White to move.', // txWhiteToMove
     'Black to move.', // txBlackToMove
@@ -152,7 +147,6 @@ const
   ), (
     // lgFrench
     'Eschecs', // txEschecs
-    'Aide', // txHelp
     'Sauver', // txSave
     'Quitter', // txQuit
     'À propos d''Eschecs', // txAbout
@@ -175,10 +169,9 @@ const
     'Style',  //txStyle
     'Langue', // txLanguage
 
-    'Pour déplacer une pièce, cliquez sur la case de départ puis sur la case d''arrivée.', // txHelp
     'Programme d''échecs en Pascal par Roland Chastain.', // txAbout
     'Coup illégal.', // txIllegalMove
-    'Le changement de style sera effectif au prochain lancement de l''application.', // txStyleInfo
+    'La modification sera effective au prochain lancement de l''application.', // txChangeSaved
     
     'Blancs au trait.', // txWhiteToMove
     'Noirs au trait.', // txBlackToMove
@@ -195,7 +188,6 @@ const
   ), (
     // lgGerman
     'Eschecs', // txEschecs
-    'Hilfe', // txHelp
     'Speichern', // txSave
     'Ende', // txQuit
     'Über Eschecs', // txAbout
@@ -206,8 +198,8 @@ const
     'Neue Partie', // txNewGame
     'Drehen', // txFlip
     'Optionen', // txOptions
-    'Square coloring [to be translated]', // txColoring
-    'Sound [to be translated]', // txSound
+    '', // txColoring
+    'Ton', // txSound
     'Umwandlung', // txPromotion
     'König', // txKnight
     'Läufer', // txBishop
@@ -218,10 +210,9 @@ const
     'Stil',  //txStyle
     'Sprache', // txLanguage
   
-    'Um eine Figur zu bewegen, klicken Sie zuerst auf die Figur und dann auf das Zielfeld.', // txHelp
     'Pascal Schachprogramm von Roland Chastain.', // txAbout
     'Ungültiger Zug.', // txIllegalMove
-    'Le changement de style sera effectif au prochain lancement de l''application. [à traduire]', // txStyleInfo
+    'The change will be effective at the next launch of the application.', // txChangeSaved
     
     'Weiß am Zug.', // txWhiteToMove
     'Schwarz am Zug.', // txBlackToMove
@@ -238,7 +229,6 @@ const
   ), (
     // lgSpanish
     'Eschecs', // txEschecs
-    'Ayuda', // txHelp
     'Guardar', // txSave
     'Salir', // txQuit
     'Acerca de Eschecs', // txAbout
@@ -249,8 +239,8 @@ const
     'Nuevo juego', // txNewGame
     'Invertir el tablero', // txFlip
     'Opciones', // txOptions
-    'Square coloring [to be translated]', // txColoring
-    'Sound [to be translated]', // txSound
+    '', // txColoring
+    'Sonar', // txSound
     'Promover pieza', // txPromotion
     'Caballo', // txKnight
     'Alfil', // txBishop
@@ -261,10 +251,9 @@ const
     'Estilo',  //txStyle
     'Lengua', // txLanguage
 
-    'Para mover una pieza, haga click en ella y después haga click en el escaque al que quiera moverla.', // txHelp
     'Programa de Ajedrez en Pascal por Roland Chastain.', // txAbout
     'Movimiento ilegal.', // txIllegalMove
-    'Le changement de style sera effectif au prochain lancement de l''application. [à traduire]', // txStyleInfo
+    'The change will be effective at the next launch of the application.', // txChangeSaved
     
     'Blancas mueven.', // txWhiteToMove
     'Negras mueven.', // txBlackToMove
@@ -325,6 +314,19 @@ end;
 function GetStyleName(const aStyle: TStyle): string;
 begin
   result := STYLENAME[gLanguage, aStyle];
+end;
+
+function GetLanguageName(const aLanguage: TLanguage): string;
+const
+  S: array[TLanguage] of string = (
+    'Dutch',
+    'English',
+    'French',
+    'German',
+    'Spanish'
+  );
+begin
+  result := S[aLanguage];
 end;
 
 end.

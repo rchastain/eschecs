@@ -126,6 +126,7 @@ type
     procedure ItemExitClicked(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
     procedure ItemStyleClicked(Sender: TObject);
+    procedure ItemLanguageClicked(Sender: TObject);
     procedure OtherItemClicked(Sender: TObject);
     procedure InternalTimerFired(Sender: TObject);
     function DoMove(const aMove: string; const aPromotion: TChessPieceKindEx = cpkNil; aIsComputerMove: boolean = true): boolean;
@@ -371,8 +372,9 @@ const
 var
   vCurrentPosition: string;
   vAutoPlay, vMarble: boolean;
-  vIndex, x: integer;
+  vIndex: integer;
   vENGPath: TFileName;
+  vLang: TLanguage;
 begin
   with TCommandLineReader.Create do
   try
@@ -412,7 +414,7 @@ begin
     AddMenuItem(GetText(txPromotion), nil).SubMenu := FPromotionSubMenu;
   end;  
   
-   with FEschecsSubMenu do
+  with FEschecsSubMenu do
   begin
     AddMenuItem(GetText(txSave), 'Ctrl+S', @savegame);
     AddMenuItem(GetText(txSave) + ' + ' + GetText(txquit), 'Esc', @ItemExitClicked);
@@ -424,36 +426,27 @@ begin
   
   with FOptionsSubMenu do
   begin
-   AddMenuItem(GetText(txStyle), '',nil).SubMenu := FStyleSubMenu;
-   AddMenuItem(GetText(txLanguage), '', nil).SubMenu := FLanguageSubMenu;
-   AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
+    AddMenuItem(GetText(txStyle), '',nil).SubMenu := FStyleSubMenu;
+    AddMenuItem(GetText(txLanguage), '', nil).SubMenu := FLanguageSubMenu;
+    AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
   end; 
   
-   with FStyleSubMenu do
-  begin
-      for vIndex := Low(TStyle) to High(TStyle) do
+  with FStyleSubMenu do
+    for vIndex := Low(TStyle) to High(TStyle) do
       AddMenuItem(GetStyleName(vIndex), '', @ItemStyleClicked).Checked := vIndex = gStyle;
-   end;
   
-   with FLanguageSubMenu do
-  begin
-   // Waring dummy methods...
-   x:=0;
-   AddMenuItem('Language ' + inttostr(x), '', nil).Checked := true;
-   for x := 1 to 9 do
-    AddMenuItem('Language ' + inttostr(x), '', nil).Checked := false;
-   end; 
+  with FLanguageSubMenu do
+    for vLang := Low(TLanguage) to High(TLanguage) do
+      AddMenuItem(GetLanguageName(vLang), '', @ItemLanguageClicked).Checked := vLang = gLanguage; 
   
   with FAudioSubMenu do
   begin
-  Enabled := FALSE;
-  with AddMenuItem('Enabled', '', @OtherItemClicked) do
+    Enabled := FALSE;
+    with AddMenuItem('Enabled', '', @OtherItemClicked) do
     begin
       Checked := FALSE;
       Enabled := FALSE;
     end;
-    
-    
   end; 
     
   with FBoardSubMenu do
@@ -662,8 +655,24 @@ begin
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
     FStyleSubMenu.MenuItem(Ord(vStyle)).Checked := vStyle = vSelectedStyle;
-  ShowMessagefrm(GetText(txStyleInfo), '',  GetText(txTitleMessage));
+  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage));
   WriteStyle(vSelectedStyle);
+end;
+
+procedure TMainForm.ItemLanguageClicked(Sender: TObject);
+var
+  vLanguage: TLanguage;
+  vSelectedLanguage: TLanguage;
+begin
+  for vLanguage := Low(TLanguage) to High(TLanguage) do if GetLanguageName(vLanguage) = TfpgMenuItem(Sender).Text then
+    vSelectedLanguage := vLanguage;
+{$IFDEF DEBUG}
+  WriteLn('vSelectedLanguage=', vSelectedLanguage);
+{$ENDIF}
+  for vLanguage := Low(TLanguage) to High(TLanguage) do
+    FLanguageSubMenu.MenuItem(Ord(vLanguage)).Checked := vLanguage = vSelectedLanguage;
+  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage));
+  WriteLanguage(vSelectedLanguage);
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);
@@ -672,9 +681,6 @@ var
 begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
-      if Text = GetText(txHelp) then
-        ShowMessagefrm(GetText(txHelpMessage), '',  GetText(txHelp))
-      else
       if Text = GetText(txAbout) then
         ShowMessagefrm('Eschecs ' + VERSION, GetText(txAboutMessage), GetText(txAbout))
       else
