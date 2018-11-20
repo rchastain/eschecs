@@ -52,7 +52,7 @@ WindowTitle := ATitle;
 if label1.width > label2.width then
 mwidth := label1.width else mwidth := label2.width;
 
-width := mwidth + 60;
+width := mwidth + 40;
 
 if AMessage2 = '' then label1.top := 20 else
 label1.top := 12;
@@ -60,9 +60,6 @@ label1.top := 12;
 label1.left := (width - label1.width) div 2;
 label2.left := (width - label2.width) div 2;
 button1.left := (width - button1.width) div 2;
-
-show;
-
 end;
 
 procedure Tmessagefrm.AfterCreate;
@@ -85,7 +82,7 @@ begin
   with Button1 do
   begin
     Name := 'Button1';
-    SetPosition(176, 56, 80, 23);
+    SetPosition(176, 56, 80, 26);
     Text := 'Close';
     FontDesc := '#Label1';
     ImageName := '';
@@ -98,7 +95,7 @@ begin
   with Label1 do
   begin
     Name := 'Label1';
-    SetPosition(16, 12, 18, 15);
+    SetPosition(16, 12, 2, 15);
     Alignment := taCenter;
     AutoSize := True;
     FontDesc := '#Label1';
@@ -111,7 +108,7 @@ begin
   with Label2 do
   begin
     Name := 'Label2';
-    SetPosition(16, 32, 18, 15);
+    SetPosition(16, 32, 2, 15);
     Alignment := taCenter;
     AutoSize := True;
     FontDesc := '#Label1';

@@ -142,14 +142,14 @@ begin
   inherited DrawMenuRow(ACanvas, r, AFlags);
   if (mifSelected in AFlags) and not (mifSeparator in AFlags) then
   begin
-    ACanvas.GradientFill(r21, clsilver, clwhite, gdVertical);
-    ACanvas.GradientFill(r22, clwhite, clsilver, gdVertical);
-     ACanvas.SetColor(cldarkgray);
-       ACanvas.SetTextColor(clblack);
-    ACanvas.DrawRectangle(r);
-     InflateRect(r, -1, -1);
-    ACanvas.SetColor(clyellow);
-    ACanvas.DrawRectangle(r);
+   ACanvas.GradientFill(r21, $555555, $8D8D8D, gdVertical);
+   ACanvas.GradientFill(r22, $8D8D8D, $555555, gdVertical);
+   ACanvas.SetTextColor(clwhite);
+    
+    //ACanvas.DrawRectangle(r);
+    // InflateRect(r, -1, -1);
+    //ACanvas.SetColor(clyellow);
+    // ACanvas.DrawRectangle(r);
   end;
 end;
 

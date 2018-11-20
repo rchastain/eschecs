@@ -991,7 +991,6 @@ begin
   fpgApplication.CreateForm(Tmessagefrm, msgfrm);
   try
     msgfrm.Button1.text := GetText(txQuit);
-   // msgfrm.WindowTitle := ATitle;
     msgfrm.ShowMessageFrm(AMessage1, AMessage2, ATitle);
     msgfrm.ShowModal;
   finally
