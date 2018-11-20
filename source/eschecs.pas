@@ -157,8 +157,6 @@ var
   vListener: TThread;
   vUCILog: text;
   vColoring: boolean;
-  vSelectedStyle: TStyle = 0;
-  vStyleHasChanged: boolean = FALSE;
   
 procedure UCILogAppend(const aText, aInsert: string);
 var
@@ -375,7 +373,8 @@ begin
   else
     LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], gStyle, FTimeAvailable);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
+  ReadStyle(gStyle);
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
@@ -634,7 +633,8 @@ procedure TMainForm.ItemStyleClicked(Sender: TObject);
 const
   FIRST_ITEM_INDEX = 2;
 var
-  vStyle: integer;
+  vStyle: TStyle;
+  vSelectedStyle: TStyle = 0;
 begin
   for vStyle := Low(TStyle) to High(TStyle) do if STYLENAME[vStyle] = TfpgMenuItem(Sender).Text then
     vSelectedStyle := vStyle;
@@ -642,9 +642,9 @@ begin
   WriteLn('vSelectedStyle=', vSelectedStyle);
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
-  FStyleSubMenu.MenuItem(vStyle).Checked := vStyle = vSelectedStyle;
-  vStyleHasChanged := TRUE;
-  ShowMessagefrm(TEXTS[txStyleInfo], '',  TEXTS[txTitleMessage])
+    FStyleSubMenu.MenuItem(Ord(vStyle)).Checked := vStyle = vSelectedStyle;
+  ShowMessagefrm(TEXTS[txStyleInfo], '',  TEXTS[txTitleMessage]);
+  WriteStyle(vSelectedStyle);
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);
@@ -940,13 +940,9 @@ end;
 
 procedure TMainForm.SaveGame(Sender: TObject);
 begin
-  if vStyleHasChanged then
-  begin
-    gStyle := vSelectedStyle;
 {$IFDEF DEBUG}
-    WriteLn(Format('gStyle=%d', [gStyle]));
+  WriteLn('SaveGame()');
 {$ENDIF}
-  end;
   WriteToINIFile(
     FGame.FENRecord,
     FMovesSubMenu.MenuItem(1).Checked,
@@ -957,7 +953,7 @@ begin
     FCurrPosIndex,
     FEngine,
     vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
-    gStyle, FTimeAvailable
+    FTimeAvailable
   );
   FPositionHistory.SaveToFile(vFENPath);
 end;
@@ -1058,16 +1054,11 @@ begin
     Rewrite(vUCILog);
    
   fpgApplication.Initialize;
-  
   if fpgStyleManager.SetStyle('eschecs_style') then
-  fpgStyle := fpgStyleManager.Style;
-  
+    fpgStyle := fpgStyleManager.Style;
   fpgApplication.CreateForm(TMainForm, frm);
- 
   frm.Show;
-  
   fpgApplication.Run;
- 
   frm.Free;
   
   Close(vUCILog);

@@ -12,7 +12,6 @@ procedure ReadFromINIFile(
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
   out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aStyle: TStyle;
   out aMoveTime: integer
 );
 procedure WriteToINIFile(
@@ -21,9 +20,11 @@ procedure WriteToINIFile(
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
   const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aStyle: TStyle;
   const aMoveTime: integer
 );
+
+procedure ReadStyle(out aStyle: TStyle);
+procedure WriteStyle(const aStyle: TStyle);
 
 var
   vFENPath: string;
@@ -44,13 +45,11 @@ const
   DEFAULT_AUTOPLAY = 'TRUE';
   DEFAULT_UPSIDEDOWN = 'FALSE';
   DEFAULT_MARBLE = 'FALSE';
-  
-  {$IFDEF WINDOWS}
+{$IFDEF WINDOWS}
   DEFAULT_EXEPATH = 'engines\fruit\fruit_21.exe';
-  {$else}
+{$ELSE}
   DEFAULT_EXEPATH = '/engines/moustique/01/moustique64';
-  {$ENDIF}
-  
+{$ENDIF}  
   DEFAULT_HISTORY = '';
   DEFAULT_INDEX = 0;
   DEFAULT_ENGINE = -1;
@@ -64,7 +63,6 @@ procedure ReadFromINIFile(
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
   out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aStyle: TStyle;
   out aMoveTime: integer
 );
 begin
@@ -82,7 +80,6 @@ begin
     aDarkSquareColor := StrToBGRA(ReadString(SECTION_COLORS, 'dark', '808080FF'));
     aGreenColor := StrToBGRA(ReadString(SECTION_COLORS, 'green', '60C00080'));
     aRedColor := StrToBGRA(ReadString(SECTION_COLORS, 'red', 'C0000080'));
-    aStyle := ReadInteger(SECTION_OPTIONS, 'style', 0);
     aMoveTime := ReadInteger(SECTION_OPTIONS, 'movetime', 1000);
   finally
     Free;
@@ -95,7 +92,6 @@ procedure WriteToINIFile(
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
   const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aStyle: TStyle;
   const aMoveTime: integer
 );
 begin
@@ -113,8 +109,28 @@ begin
     WriteString(SECTION_COLORS, 'dark', BGRAToStr(aDarkSquareColor));
     WriteString(SECTION_COLORS, 'green', BGRAToStr(aGreenColor));
     WriteString(SECTION_COLORS, 'red', BGRAToStr(aRedColor));
-    WriteInteger(SECTION_OPTIONS, 'style', aStyle);
     WriteInteger(SECTION_OPTIONS, 'movetime', aMoveTime);
+    UpdateFile;
+  finally
+    Free;
+  end;
+end;
+
+procedure ReadStyle(out aStyle: TStyle);
+begin
+  with TIniFile.Create(vINIPath) do
+  try
+    aStyle := ReadInteger(SECTION_OPTIONS, 'style', 0);
+  finally
+    Free;
+  end;
+end;
+
+procedure WriteStyle(const aStyle: TStyle);
+begin
+  with TIniFile.Create(vINIPath) do
+  try
+    WriteInteger(SECTION_OPTIONS, 'style', aStyle);
     UpdateFile;
   finally
     Free;
