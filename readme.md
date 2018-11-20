@@ -51,23 +51,19 @@ To do.
 
 The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/0.png) (with its pieces) is a reproduction of the game [Fritz 1.0]. *Fritz 1.0* is a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
 
-The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/4.png) is the work of Daniela Di Lena.
-
-<https://dilena.de/chess-artwork-pieces-and-board-art-assets>
+The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/4.png) is the [work of Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
 The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/3.png) comes from the Chess Mark font by Armando Marroquin.
 
-The application icon is the white king of the Chess Montreal font by Gary Katch.
-
-<http://alcor.concordia.ca/~gpkatch/montreal_font.html>
+The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html) by Gary Katch.
 
 Fruit 2.1 is a chess program by Fabien Letouzey.
 
 ## V. Author
 
-*Eschecs* is a Pascal program by Roland Chastain (eschecs2018 at gmail dot com).
+*Eschecs* is a Pascal program by Fred van Stappen and Roland Chastain.
 
-Contributors: Johann Elsass (graphics), Fred van Stappen (Linux compatibility).
+Contributor: Johann Elsass.
 
 ## V. Website
 
