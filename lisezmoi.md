@@ -1,5 +1,5 @@
 
-*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des modules externes qui sont autant d'adversaires pour l'utilisateur.
+*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
 
 *Eschecs* inclut un module original, appelé *Moustique*. *Eschecs* et *Moustique* sont des programmes à code source ouvert écrits en Pascal.
 
@@ -37,7 +37,7 @@ Si vous quittez *Eschecs* en passant par le menu "Fichier" ou en pressant la tou
 
 ### A. Installer un nouveau moteur UCI.
 
-Pour installer un nouveau moteur, vous devez éditer par vos propres moyens le fichier **engines.json**, qui contient les données dont *Eschecs* a besoin pour communiquer avec le moteur.
+À faire.
 
 ### B. Protocole.
 
@@ -53,23 +53,19 @@ Pour installer un nouveau moteur, vous devez éditer par vos propres moyens le f
 
 L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *[Fritz 1.0]*. *Fritz* est un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
 
-L'échiquier de 640 est l'œuvre de Daniela Di Lena.
-
-<https://dilena.de/chess-artwork-pieces-and-board-art-assets>
+L'échiquier de 640 est [l'œuvre de Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
 Les pièces de l'échiquier de 480 proviennent de la police Chess Mark d'Armando Marroquin.
 
-L'icône d'*Eschecs* vient de la police Chess Montreal de Gary Katch.
-
-<http://alcor.concordia.ca/~gpkatch/montreal_font.html>
+L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html) de Gary Katch.
 
 *Moustique* est un programme d'échecs de Roland Chastain, basé sur *JSChess* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
 
 ## V. Auteur
 
-*Eschecs* est un programme en Pascal écrit par Roland Chastain (eschecs2018 à gmail point com).
+*Eschecs* est un programme en Pascal écrit par Fred van Stappen et Roland Chastain.
 
-Contributeurs : Johann Elsass (graphisme), Fred van Stappen (compatibilité Linux).
+Contributeurs : Johann Elsass.
 
 ## VI. Site internet
 
