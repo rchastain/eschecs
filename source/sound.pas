@@ -19,7 +19,7 @@ procedure Play(const aSound: TSound);
 implementation
 
 uses
-  SysUtils, uos_flat;
+  SysUtils, Classes, uos_flat;
   
 const
   FILENAME: array[TSound] of string = (
@@ -34,28 +34,17 @@ const
 var
  vsodir: string;
  vinc : shortint = 1;
+ ms :  array[0..5] of Tmemorystream; 
 
 procedure Play(const aSound: TSound);
 begin
-
- if fileexists(vsodir + FILENAME[aSound]) then
- begin
- if odd(vinc) then vinc := 0 else vinc := 1; // so 2 sounds can play together
- uos_CreatePlayer(vinc);
- uos_AddFromFile(vinc, pchar(vsodir +  FILENAME[aSound]));
- {$if defined(cpuarm)}  // needs a lower latency
- uos_AddIntoDevOut(vinc, -1, 0.3, -1, -1, -1, -1, -1) ;
- {$else}
- uos_AddIntoDevOut(vinc) ;
- {$endif}
- uos_Play(vinc);
- end;
- 
+ uos_PlayNoFree(0);
 end;
 
 function LoadSoundLib() : integer;
 var
  PA_FileName, MP_FileName, vaudir: string;
+ x : integer;
 begin
  vaudir := ExtractFilePath(ParamStr(0)) + 'audio' + directoryseparator ;
  vsodir := vaudir +  'sound' + directoryseparator;
@@ -93,6 +82,30 @@ begin
   
     // Load the libraries, here only PortAudio and Mpg123
   result := uos_LoadLib(Pchar(PA_FileName), nil, Pchar(MP_FileName), nil, nil,  nil) ;
+  
+  
+// {  // using memorystream
+for x := 0 to 5 do
+begin
+if fileexists(vsodir + FILENAME[sndMove]) then
+begin
+writeln(vsodir + FILENAME[sndMove]);
+ms[x] := TMemoryStream.Create; 
+ms[x].LoadFromFile(pchar(vsodir +  FILENAME[sndMove]));  
+ms[x].Position:= 0;
+end;
+end;
+
+  for x := 0 to 5 do   
+ begin
+ uos_CreatePlayer(x);
+ uos_AddFromMemoryStream(x,ms[x],1,-1,0,256); 
+ {$if defined(cpuarm)} // needs lower latency
+ uos_AddIntoDevOut(x, -1, 0.08, -1, -1, 0, 256, -1);
+ {$else}
+ uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 256, -1);
+ {$endif}
+ end;
 
 {$IFDEF DEBUG}
    WriteLn('Result of uos_LoadLib(): ' + inttostr(result));

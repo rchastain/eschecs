@@ -29,11 +29,11 @@ findinfiledialog=67
  [findinfileadialogfo.wholeword]
  value=0
  [findinfileadialogfo.inprojectdir]
- value=0
+ value=1
  [findinfileadialogfo.casesensitive]
  value=0
  [findinfileadialogfo.indirectories]
- value=1
+ value=0
  [findinfileadialogfo.mask]
  value="*.pas" "*.pp" "*.inc"
  history=3
@@ -59,10 +59,11 @@ findinfiledialog=67
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=SEEK_SET
+ value=vConfigFilesPath
  history=20
-  SEEK_SET
   vConfigFilesPath
+  init
+  SEEK_SET
   fclib
   fontconfig
   showmessage
@@ -80,7 +81,6 @@ findinfiledialog=67
   TRegExpr
   exec
   id name
-  message
  [findinfileadialogfo]
  stackedunder=
  x=693
@@ -254,7 +254,7 @@ makeoptions=11
  -l -Mobjfpc -Schi
  -FE.
  -FUunits
- -gl
+ -ghl
  -B
  -O1 -XX -Xs -CX
  -dDEBUG
@@ -452,9 +452,9 @@ makeoptionson=11
  4095
  4095
  4095
- 3888
- 246
- 4092
+ 3892
+ 242
+ 4088
  3843
  4095
  4095
@@ -789,57 +789,102 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=sound
+finddtext=FormKeyPressed
 findhistory=20
+ FormKeyPressed
+ constructor
+ showmess
+ viniPath
+ vConfigFilesPath
+ .ini
+ .json
+ ShowMessagefrm
+ GetText
+ missing
+ ShowMessageFrm
+ AfterCreate
+ Destroy
+ ShowMessage
+ showmessage
+ vLOGPath
+ initeco
+ vUciLogName
+ json
  sound
- if (Text = GetText(txKnight))
- if Text = 'Enable'
- if Text = 'Enabled'
- FAudioSubMenu
- OtherItemClicked
- PlaySound
- off_t
- tsf_count_t
- PMemoryStream
- SEEK_SET
- OPT_SOUND
- FStyleSubMenu
- ItemStyleClicked
- FOptionsSubMenu
- itemstyleclicked
- vclose
- msgfrm.
- showm
- about
 findoptions=1
-editpos=6
- 0,1089
+editpos=15
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,43
- 0,1089
+ 0,102
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,106
+ 0,1070
+ 0,346
+ 0,94
+ 0,0
+ 0,94
+ 0,44
+ 0,131
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
 bookmarks4=0
 bookmarks5=0
-sourcefiles=6
+bookmarks6=0
+bookmarks7=0
+bookmarks8=0
+bookmarks9=0
+bookmarks10=0
+bookmarks11=0
+bookmarks12=0
+bookmarks13=0
+bookmarks14=0
+sourcefiles=15
  ${PROJECTDIR}/eschecs.pas
- /home/fred/eschecs/libraries/uos/uos_mpg123.pas
- /home/fred/eschecs/libraries/uos/uos_libsndfile.pas
- /home/fred/eschecs/libraries/uos/uos_define.inc
+ ${PROJECTDIR}/log.pas
+ ${PROJECTDIR}/settings.pas
  ${PROJECTDIR}/sound.pas
- /home/fred/eschecs_uos/source/eschecs.pas
-relpaths=6
+ ${PROJECTDIR}/eschecs.pas
+ /home/fred/fpGUI-maint/src/gui/fpg_dialogs.pas
+ ${PROJECTDIR}/eco/eco.pas
+ ${PROJECTDIR}/messagefrm.pas
+ ${PROJECTDIR}/eschecs.pas
+ /home/fred/uos/examples/simpledrums_fpGUI.pas
+ /home/fred/eschecs/libraries/fpgui/src/gui/fpg_dialogs.pas
+ ${PROJECTDIR}/eschecs.pas
+ ${PROJECTDIR}/sound.pas
+ /home/fred/eschecs_uos/source/sound.pas
+ /home/fred/uos/examples/consoleplaymemorystream.pas
+relpaths=15
  eschecs.pas
- libraries/uos/uos_mpg123.pas
- libraries/uos/uos_libsndfile.pas
- libraries/uos/uos_define.inc
+ log.pas
+ settings.pas
  sound.pas
- ../eschecs_uos/source/eschecs.pas
-ismoduletexts=6
+ eschecs_uos/source/eschecs.pas
+ fpGUI-maint/src/gui/fpg_dialogs.pas
+ eco/eco.pas
+ messagefrm.pas
+ eschecs.pas
+ ../uos/examples/simpledrums_fpGUI.pas
+ libraries/fpgui/src/gui/fpg_dialogs.pas
+ eschecs.pas
+ sound.pas
+ ../eschecs_uos/source/sound.pas
+ ../uos/examples/consoleplaymemorystream.pas
+ismoduletexts=15
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
  0
  0
  0
@@ -851,17 +896,26 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=6
+order=15
  0
- 5
  1
  2
  3
+ 14
  4
-firsttab=0
-index=0
+ 5
+ 6
+ 7
+ 10
+ 12
+ 13
+ 8
+ 11
+ 9
+firsttab=3
+index=3
 [layout]
-windowlayout=592
+windowlayout=601
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1336,8 +1390,17 @@ windowlayout=592
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
+ value=/home/fred/eschecs/source/sound.pas
  history=50
+  /home/fred/eschecs_uos/source/sound.pas
+  /home/fred/eschecs/source/sound.pas
+  /home/fred/uos/examples/simpledrums_fpGUI.pas
+  /home/fred/eschecs_uos/source/messagefrm.pas
+  /home/fred/eschecs/libraries/fpgui/src/gui/fpg_dialogs.pas
+  /home/fred/eschecs/libraries/fpgui/AUTHORS.txt
+  /home/fred/eschecs_uos/source/eschecs.pas
+  /home/fred/eschecs_uos/source/log.pas
+  /home/fred/eschecs/source/settings.pas
   /home/fred/eschecs/libraries/uos/uos_define.inc
   /home/fred/eschecs/libraries/uos/uos_libsndfile.pas
   /home/fred/eschecs/libraries/uos/uos_mpg123.pas
@@ -1349,7 +1412,6 @@ windowlayout=592
   /home/fred/eschecs_msg_center/source/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/eschecs_msg_center/source/fpg_style_eschecs.pas
   /home/fred/eschecs_msg_center/source/eschecsstyle.pas
-  /home/fred/eschecs/source/settings.pas
   /home/fred/eschecs/source/messagefrm.pas
   /home/fred/eschecs/source/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
@@ -1380,14 +1442,6 @@ windowlayout=592
   /home/fred/ultibo/core/tools/Makefile.fpc
   /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test_ultibo.lpr
   /home/fred/fpGUI-ultibo/examples/corelib/canvastest/fpgcanvas_ultibo.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/build_ultibo.bat
-  /home/fred/eschecs/source/validator/validator.pas
-  /home/fred/uoslib/src/uoslib.pas
-  /home/fred/eschecs/source/sound_uos.pas
-  /home/fred/eschecs/source/sound.pas
-  /home/fred/eschecs/source/chessboard.pas
-  /home/fred/moustique/validator_dyn.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1409,15 +1463,24 @@ windowlayout=592
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=6
+ order=15
   0
-  5
   1
   2
   3
+  14
   4
- firsttab=0
- index=0
+  5
+  6
+  7
+  10
+  12
+  13
+  8
+  11
+  9
+ firsttab=3
+ index=3
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
