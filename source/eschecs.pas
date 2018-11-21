@@ -45,6 +45,7 @@ uses
 {$IFDEF OPT_ECO}
   ECO,
 {$ENDIF}
+  MoveList,
   rcmdline,
   messagefrm,
   fpg_style_eschecs,
@@ -85,7 +86,7 @@ type
     FExePath: string;
     FEngine: integer;
     FEngineConnected: boolean;
-    FMoveHistory: string;
+    FMoveHistory: TMoveList;
     FPositionHistory: TStringList;
     FCurrPosIndex: integer;
     FTimeAvailable: integer;
@@ -225,6 +226,7 @@ begin
     vListener.WaitFor;
     vListener.Free;
   end;
+  FMoveHistory.Free;
   FPositionHistory.Free;
   FValidator.Free;
   inherited Destroy;
@@ -376,6 +378,7 @@ var
   vIndex: integer;
   vENGPath: TFileName;
   vLang: TLanguage;
+  vMoveHistory: string;
 begin
   with TCommandLineReader.Create do
   try
@@ -394,12 +397,13 @@ begin
   else
     LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, FMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
   ReadStyle(gStyle);
   ReadLanguage(gLanguage);
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
+  FMoveHistory := TMoveList.Create(vMoveHistory);
   FPositionHistory := TStringList.Create;
   if FileExists(vFENPath) then
     FPositionHistory.LoadfromFile(vFENPath)
@@ -500,7 +504,7 @@ begin
   FGame := TChessGame.Create(vCurrentPosition);
   FUserMove := '';
   FRookMove := '';
-  OnMoveDone(IfThen(FCurrPosIndex = 0, '', Copy(FMoveHistory, 1, 4 * FCurrPosIndex)));
+  OnMoveDone(FMoveHistory.GetString(FCurrPosIndex));
   SetComputerColor(FMovesSubMenu.MenuItem(1).Checked);
   vListener := TListener.Create(TRUE);
   vListener.Priority := tpHigher;
@@ -621,7 +625,7 @@ begin
       end;
     end;
     FChessboardWidget.Invalidate;
-    OnMoveDone(IfThen(FCurrPosIndex = 0, '', Copy(FMoveHistory, 1, 4 * FCurrPosIndex)));
+    OnMoveDone(FMoveHistory.GetString(FCurrPosIndex));
   end else
   begin  
     FBGRAChessboard.RestorePieceBackground(FMousePos - FDragPos);
@@ -640,7 +644,7 @@ end;
 procedure TMainForm.ItemNewGameClicked(Sender: TObject);
 begin
   NewPosition(FENSTARTPOSITION);
-  SetLength(FMoveHistory, 0);
+  FMoveHistory.Clear;
   FPositionHistory.Clear;
   FPositionHistory.Append(FENSTARTPOSITION);
   FCurrPosIndex := 0;
@@ -852,7 +856,7 @@ begin
   
   FGame.PlayMove(Concat(aMove, vSymbol));
   
-  FMoveHistory := Concat(Copy(FMoveHistory, 1, 4 * FCurrPosIndex), aMove);
+  FMoveHistory.Append(aMove, FCurrPosIndex);
   while FPositionHistory.Count > Succ(FCurrPosIndex) do
     FPositionHistory.Delete(FPositionHistory.Count - 1);
   FPositionHistory.Append(FGame.FENRecord);
@@ -906,7 +910,7 @@ begin
   if not FMovesSubMenu.MenuItem(1).Checked then
     FComputerColor := cpcNil;
   MouseCursor := mcHand;
-  OnMoveDone(IfThen(FCurrPosIndex = 0, '', Copy(FMoveHistory, 1, 4 * FCurrPosIndex)));
+  OnMoveDone(FMoveHistory.GetString(FCurrPosIndex));
   FWaiting := FALSE;
 end;
 
@@ -954,7 +958,11 @@ begin
   if result <> aCurrentIndex then
     NewPosition(
       FPositionHistory[result],
-      IfThen(result = 0, '', Copy(FMoveHistory, 1, 4 * result))
+      IfThen(
+        result = 0,
+        '',
+        FMoveHistory.GetString(result)
+      )
     );
 end;
 
@@ -972,17 +980,20 @@ begin
 end;
 
 procedure TMainForm.SaveGame(Sender: TObject);
+var
+  vMoveHist: string;
 begin
 {$IFDEF DEBUG}
   WriteLn('SaveGame()');
 {$ENDIF}
+  vMoveHist := FMoveHistory.GetString();
   WriteToINIFile(
     FGame.FENRecord,
     FMovesSubMenu.MenuItem(1).Checked,
     FUpsideDown,
     FBoardStyle = bsMarble,
     FExePath,
-    FMoveHistory,
+    vMoveHist,
     FCurrPosIndex,
     FEngine,
     vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
