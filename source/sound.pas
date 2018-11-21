@@ -35,16 +35,16 @@ var
  vsodir: string;
  vinc : shortint = 1;
  ms :  array[0..5] of Tmemorystream; 
+  x : integer;
 
 procedure Play(const aSound: TSound);
 begin
- uos_PlayNoFree(0);
+  uos_PlayNoFree(0);
 end;
 
 function LoadSoundLib() : integer;
 var
  PA_FileName, MP_FileName, vaudir: string;
- x : integer;
 begin
  vaudir := ExtractFilePath(ParamStr(0)) + 'audio' + directoryseparator ;
  vsodir := vaudir +  'sound' + directoryseparator;
@@ -82,14 +82,12 @@ begin
   
     // Load the libraries, here only PortAudio and Mpg123
   result := uos_LoadLib(Pchar(PA_FileName), nil, Pchar(MP_FileName), nil, nil,  nil) ;
-  
-  
+   
 // {  // using memorystream
 for x := 0 to 5 do
 begin
 if fileexists(vsodir + FILENAME[sndMove]) then
 begin
-writeln(vsodir + FILENAME[sndMove]);
 ms[x] := TMemoryStream.Create; 
 ms[x].LoadFromFile(pchar(vsodir +  FILENAME[sndMove]));  
 ms[x].Position:= 0;
@@ -113,6 +111,7 @@ end;
  end;
    
 finalization
-  uos_Free;
+
+uos_Free;
   
 end.
