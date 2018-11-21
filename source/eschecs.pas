@@ -310,13 +310,14 @@ begin
     Name := 'FOptionsSubMenu';
     SetPosition(68, 168, 228, 28);
   end;
-  
+  {$IFDEF OPT_SOUND}
   FAudioSubMenu := TfpgPopupMenu.Create(self);
   with FAudioSubMenu do
   begin
     Name := 'FAudioSubMenu';
     SetPosition(68, 168, 228, 28);
   end;
+  {$ENDIF}
   
   FStyleSubMenu := TfpgPopupMenu.Create(self);
   with FStyleSubMenu do
@@ -428,7 +429,9 @@ begin
   begin
     AddMenuItem(GetText(txStyle), '',nil).SubMenu := FStyleSubMenu;
     AddMenuItem(GetText(txLanguage), '', nil).SubMenu := FLanguageSubMenu;
+    {$IFDEF OPT_SOUND}
     AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
+    {$endif} 
   end; 
   
   with FStyleSubMenu do
@@ -439,15 +442,17 @@ begin
     for vLang := Low(TLanguage) to High(TLanguage) do
       AddMenuItem(GetLanguageName(vLang), '', @ItemLanguageClicked).Checked := vLang = gLanguage; 
   
+ {$IFDEF OPT_SOUND}
   with FAudioSubMenu do
   begin
-    Enabled := FALSE;
+    Enabled := true;
     with AddMenuItem('Enabled', '', @OtherItemClicked) do
     begin
-      Checked := FALSE;
-      Enabled := FALSE;
+      Checked := true;
+      Enabled := true;
     end;
   end; 
+  {$endif}
     
   with FBoardSubMenu do
   begin
@@ -704,14 +709,14 @@ begin
         Checked := not Checked;
       end
       else
-      if Text = GetText(txSound)
+{$IFDEF OPT_SOUND}
+      if Text = 'Enabled'
       then
       begin
-{$IFDEF OPT_SOUND}
         Checked := not Checked;
-{$ENDIF}
       end
       else
+{$ENDIF}   
       if (Text = GetText(txKnight))
       or (Text = GetText(txBishop))
       or (Text = GetText(txRook))
@@ -871,6 +876,7 @@ begin
     FChessboardWidget.Invalidate;
   end;
 {$IFDEF OPT_SOUND}
+{
     if FGame.state in [csCheckmate, csStalemate, csDraw] then
       PlaySound(sndEndOfGame)
     else if FGame.Check and FALSE then
@@ -880,7 +886,9 @@ begin
     else if FALSE then // <--- to do
       PlaySound(sndCapture)
     else if FALSE then // <--- to do
+} 
       PlaySound(sndMove);
+
 {$ENDIF}
   FStatusBar.Text := Concat(
     ' ',
@@ -953,8 +961,8 @@ end;
 {$IFDEF OPT_SOUND}
 procedure TMainForm.PlaySound(const aSound: TSound);
 begin
-  if FAudioSubMenu.MenuItem(1).Checked then
-    Play(aSound);
+ if FAudioSubMenu.MenuItem(0).Checked then
+   Play(aSound);
 end;
 {$ENDIF}
 
@@ -1076,6 +1084,10 @@ begin
     Append(vUCILog)
   else
     Rewrite(vUCILog);
+    
+ {$IFDEF OPT_SOUND}
+  LoadSoundLib();
+  {$ENDIF}    
    
   fpgApplication.Initialize;
   if fpgStyleManager.SetStyle('eschecs_style') then
