@@ -789,8 +789,9 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=FormKeyPressed
+finddtext=free
 findhistory=20
+ free
  FormKeyPressed
  constructor
  showmess
@@ -810,24 +811,22 @@ findhistory=20
  initeco
  vUciLogName
  json
- sound
 findoptions=1
-editpos=15
+editpos=14
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,102
- 0,-1073741823
- 0,-1073741823
+ 0,113
+ 0,2303
+ 0,0
  0,-1073741823
  0,106
- 0,1070
- 0,346
+ 0,538
+ 0,389
  0,94
  0,0
- 0,94
- 0,44
- 0,131
+ 0,9849
+ 0,170
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -842,13 +841,12 @@ bookmarks10=0
 bookmarks11=0
 bookmarks12=0
 bookmarks13=0
-bookmarks14=0
-sourcefiles=15
+sourcefiles=14
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/log.pas
  ${PROJECTDIR}/settings.pas
  ${PROJECTDIR}/sound.pas
- ${PROJECTDIR}/eschecs.pas
+ /home/fred/eschecs/libraries/uos/uos_flat.pas
  /home/fred/fpGUI-maint/src/gui/fpg_dialogs.pas
  ${PROJECTDIR}/eco/eco.pas
  ${PROJECTDIR}/messagefrm.pas
@@ -856,27 +854,24 @@ sourcefiles=15
  /home/fred/uos/examples/simpledrums_fpGUI.pas
  /home/fred/eschecs/libraries/fpgui/src/gui/fpg_dialogs.pas
  ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/sound.pas
- /home/fred/eschecs_uos/source/sound.pas
+ /home/fred/eschecs/libraries/uos/uos.pas
  /home/fred/uos/examples/consoleplaymemorystream.pas
-relpaths=15
+relpaths=14
  eschecs.pas
  log.pas
  settings.pas
  sound.pas
- eschecs_uos/source/eschecs.pas
- fpGUI-maint/src/gui/fpg_dialogs.pas
+ libraries/uos/uos_flat.pas
+ ../fpGUI-maint/src/gui/fpg_dialogs.pas
  eco/eco.pas
  messagefrm.pas
  eschecs.pas
  ../uos/examples/simpledrums_fpGUI.pas
  libraries/fpgui/src/gui/fpg_dialogs.pas
  eschecs.pas
- sound.pas
- ../eschecs_uos/source/sound.pas
+ libraries/uos/uos.pas
  ../uos/examples/consoleplaymemorystream.pas
-ismoduletexts=15
- 0
+ismoduletexts=14
  0
  0
  0
@@ -896,26 +891,25 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=15
+order=14
  0
  1
  2
- 3
  14
- 4
  5
  6
  7
  10
- 12
- 13
  8
+ 3
+ 4
+ 12
  11
  9
 firsttab=3
-index=3
+index=9
 [layout]
-windowlayout=601
+windowlayout=600
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1392,8 +1386,10 @@ windowlayout=601
  [debuggerfo.file_history]
  value=/home/fred/eschecs/source/sound.pas
  history=50
-  /home/fred/eschecs_uos/source/sound.pas
+  /home/fred/eschecs/libraries/uos/uos_flat.pas
   /home/fred/eschecs/source/sound.pas
+  /home/fred/uos/examples/consoleplaymemorystream.pas
+  /home/fred/eschecs_uos/source/sound.pas
   /home/fred/uos/examples/simpledrums_fpGUI.pas
   /home/fred/eschecs_uos/source/messagefrm.pas
   /home/fred/eschecs/libraries/fpgui/src/gui/fpg_dialogs.pas
@@ -1440,8 +1436,6 @@ windowlayout=601
   /home/fred/ultibotest/helloworld_ultibo.pas
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
   /home/fred/ultibo/core/tools/Makefile.fpc
-  /home/fred/fpGUI-ultibo/examples/corelib/aggcanvas/agg_canvas_test_ultibo.lpr
-  /home/fred/fpGUI-ultibo/examples/corelib/canvastest/fpgcanvas_ultibo.lpr
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1463,24 +1457,23 @@ windowlayout=601
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=15
+ order=14
   0
   1
   2
-  3
   14
-  4
   5
   6
   7
   10
-  12
-  13
   8
+  3
+  4
+  12
   11
   9
  firsttab=3
- index=3
+ index=9
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
