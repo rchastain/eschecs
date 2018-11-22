@@ -118,10 +118,11 @@ type
     FBoardSubMenu: TfpgPopupMenu;
     FOptionsSubMenu: TfpgPopupMenu;
     FPromotionSubMenu: TfpgPopupMenu;
+    {$IFDEF OPT_SOUND}
     FAudioSubMenu: TfpgPopupMenu;
+    {$ENDIF}
     FStyleSubMenu: TfpgPopupMenu;
     FLanguageSubMenu: TfpgPopupMenu;
-      
     {@VFD_HEAD_END: MainForm}
     FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
@@ -143,7 +144,6 @@ type
     procedure CloseAll(Sender: TObject);
     procedure SaveGame(Sender: TObject);
     procedure OnResized(Sender: TObject);
-    procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
   end;
   
 {@VFD_NEWFORM_DECL}
@@ -1009,20 +1009,6 @@ begin
  FChessboardWidget.updatewindowposition; 
 end;
 
-procedure TMainForm.ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
-var
- msgfrm : Tmessagefrm;
-begin
-  fpgApplication.CreateForm(Tmessagefrm, msgfrm);
-  try
-    msgfrm.Button1.text := GetText(txQuit);
-    msgfrm.ShowMessageFrm(AMessage1, AMessage2, ATitle);
-    msgfrm.ShowModal;
-  finally
-    msgfrm.Free;
-  end;
-end;
-
 var
   frm: TMainForm;
 
@@ -1071,7 +1057,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      frm.ShowMessagefrm(GetText(txIllegalMove), vMove,  GetText(txTitleMessage));
+      ShowMessagefrm(GetText(txIllegalMove), vMove,  GetText(txTitleMessage));
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;
@@ -1104,9 +1090,13 @@ begin
   if fpgStyleManager.SetStyle('eschecs_style') then
     fpgStyle := fpgStyleManager.Style;
   fpgApplication.CreateForm(TMainForm, frm);
+  fpgApplication.MainForm := frm;
   frm.Show;
   fpgApplication.Run;
+  {$IFDEF OPT_SOUND}
+  Freeuos;
+  {$ENDIF} 
   frm.Free;
-  
+   
   Close(vUCILog);
 end.
