@@ -59,8 +59,12 @@ findinfiledialog=67
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=GetText
+ value=FValidator
  history=20
+  FValidator
+  FTimer
+  .Create
+  FPositionHistory
   GetText
   vConfigFilesPath
   init
@@ -77,10 +81,6 @@ findinfiledialog=67
   style.txt
   LoadFromDevice
   ReadProcessOutput
-  FEngineMessage
-  IsMsgUciOk
-  TRegExpr
-  exec
  [findinfileadialogfo]
  stackedunder=
  x=693
@@ -453,7 +453,7 @@ makeoptionson=11
  4095
  4095
  3888
- 242
+ 246
  4092
  3843
  4095
@@ -812,34 +812,49 @@ findhistory=20
  initeco
  vUciLogName
 findoptions=1
-editpos=6
- 0,124
- 0,84
+editpos=9
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
  0,0
  0,-1073741823
- 0,53
- 0,1
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,33
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
 bookmarks4=0
 bookmarks5=0
-sourcefiles=6
- ${PROJECTDIR}/eschecs.pas
+bookmarks6=0
+bookmarks7=0
+bookmarks8=0
+sourcefiles=9
  ${PROJECTDIR}/sound.pas
- /home/fred/uos/examples/simpledrums_fpGUI.pas
+ ${PROJECTDIR}/simpledrums_fpGUI.pas
  /home/fred/eschecs/libraries/uos/uos_flat.pas
- ${PROJECTDIR}/messagefrm.pas
+ ${PROJECTDIR}/eschecs.pas
+ ${PROJECTDIR}/engines.pas
+ ${PROJECTDIR}/settings.pas
  ${PROJECTDIR}/language.pas
-relpaths=6
- eschecs.pas
+ ${PROJECTDIR}/board.pas
+ /home/fred/eschecs/libraries/uos/define.inc
+relpaths=9
  sound.pas
- ../uos/examples/simpledrums_fpGUI.pas
+ uos/examples/simpledrums_fpGUI.pas
  libraries/uos/uos_flat.pas
- messagefrm.pas
+ eschecs.pas
+ engines.pas
+ settings.pas
  language.pas
-ismoduletexts=6
+ board.pas
+ libraries/uos/define.inc
+ismoduletexts=9
+ 0
+ 0
+ 0
  0
  0
  0
@@ -851,17 +866,20 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=6
+order=9
  0
+ 1
+ 2
+ 3
+ 8
  4
  5
- 2
- 1
- 3
+ 6
+ 7
 firsttab=0
 index=4
 [layout]
-windowlayout=592
+windowlayout=595
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -969,7 +987,7 @@ windowlayout=592
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1336,12 +1354,13 @@ windowlayout=592
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/sound.pas
+ value=/home/fred/eschecs/libraries/uos/define.inc
  history=50
+  /home/fred/eschecs/source/board.pas
+  /home/fred/eschecs/source/sound.pas
   /home/fred/eschecs/source/messagefrm.pas
   /home/fred/eschecs/libraries/uos/uos_flat.pas
   /home/fred/eschecs/libraries/uos/uos.pas
-  /home/fred/eschecs/source/sound.pas
   /home/fred/uos/examples/consoleplaymemorystream.pas
   /home/fred/eschecs_uos/source/sound.pas
   /home/fred/uos/examples/simpledrums_fpGUI.pas
@@ -1387,7 +1406,6 @@ windowlayout=592
   /home/fred/openmax-master/uos_ultibo_test.pas
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
   /home/fred/ultibotest/helloworld_ultibo.pas
-  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1409,20 +1427,23 @@ windowlayout=592
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=6
+ order=9
   0
+  1
+  2
+  3
+  8
   4
   5
-  2
-  1
-  3
+  6
+  7
  firsttab=0
  index=4
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=findinfilefo
+ stackedunder=targetconsolefo
  parent=
  mdistate=0
  nx=0
