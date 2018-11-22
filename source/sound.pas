@@ -15,6 +15,7 @@ type
   
 function LoadSoundLib() : integer;
 procedure Play(const aSound: TSound);
+procedure Freeuos;
 
 implementation
 
@@ -35,7 +36,7 @@ var
  vsodir: string;
  vinc : shortint = 1;
  ms :  array[0..5] of Tmemorystream; 
-  x : integer;
+ x : integer;
 
 procedure Play(const aSound: TSound);
 begin
@@ -83,7 +84,7 @@ begin
     // Load the libraries, here only PortAudio and Mpg123
   result := uos_LoadLib(Pchar(PA_FileName), nil, Pchar(MP_FileName), nil, nil,  nil) ;
    
-// {  // using memorystream
+// using memorystream
 for x := 0 to 5 do
 begin
 if fileexists(vsodir + FILENAME[sndMove]) then
@@ -91,27 +92,24 @@ begin
 ms[x] := TMemoryStream.Create; 
 ms[x].LoadFromFile(pchar(vsodir +  FILENAME[sndMove]));  
 ms[x].Position:= 0;
-end;
-end;
-
-  for x := 0 to 5 do   
- begin
- uos_CreatePlayer(x);
- uos_AddFromMemoryStream(x,ms[x],1,-1,0,256); 
+uos_CreatePlayer(x);
+uos_AddFromMemoryStream(x,ms[x],1,-1,0,256); 
  {$if defined(cpuarm)} // needs lower latency
- uos_AddIntoDevOut(x, -1, 0.08, -1, -1, 0, 256, -1);
+uos_AddIntoDevOut(x, -1, 0.08, -1, -1, 0, 256, -1);
  {$else}
- uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 256, -1);
+uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 256, -1);
  {$endif}
- end;
+end;
+end;
 
 {$IFDEF DEBUG}
    WriteLn('Result of uos_LoadLib(): ' + inttostr(result));
 {$ENDIF}
  end;
    
-finalization
-
-uos_Free;
+procedure Freeuos;
+begin
+ uos_free();
+end;
   
 end.

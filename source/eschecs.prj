@@ -59,8 +59,9 @@ findinfiledialog=67
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=vConfigFilesPath
+ value=GetText
  history=20
+  GetText
   vConfigFilesPath
   init
   SEEK_SET
@@ -80,7 +81,6 @@ findinfiledialog=67
   IsMsgUciOk
   TRegExpr
   exec
-  id name
  [findinfileadialogfo]
  stackedunder=
  x=693
@@ -452,9 +452,9 @@ makeoptionson=11
  4095
  4095
  4095
- 3892
+ 3888
  242
- 4088
+ 4092
  3843
  4095
  4095
@@ -789,8 +789,9 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=free
+finddtext=addintodev
 findhistory=20
+ addintodev
  free
  FormKeyPressed
  constructor
@@ -810,76 +811,35 @@ findhistory=20
  vLOGPath
  initeco
  vUciLogName
- json
 findoptions=1
-editpos=14
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,113
- 0,2303
+editpos=6
+ 0,124
+ 0,84
  0,0
  0,-1073741823
- 0,106
- 0,538
- 0,389
- 0,94
- 0,0
- 0,9849
- 0,170
+ 0,53
+ 0,1
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
 bookmarks4=0
 bookmarks5=0
-bookmarks6=0
-bookmarks7=0
-bookmarks8=0
-bookmarks9=0
-bookmarks10=0
-bookmarks11=0
-bookmarks12=0
-bookmarks13=0
-sourcefiles=14
+sourcefiles=6
  ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/log.pas
- ${PROJECTDIR}/settings.pas
  ${PROJECTDIR}/sound.pas
- /home/fred/eschecs/libraries/uos/uos_flat.pas
- /home/fred/fpGUI-maint/src/gui/fpg_dialogs.pas
- ${PROJECTDIR}/eco/eco.pas
- ${PROJECTDIR}/messagefrm.pas
- ${PROJECTDIR}/eschecs.pas
  /home/fred/uos/examples/simpledrums_fpGUI.pas
- /home/fred/eschecs/libraries/fpgui/src/gui/fpg_dialogs.pas
- ${PROJECTDIR}/eschecs.pas
- /home/fred/eschecs/libraries/uos/uos.pas
- /home/fred/uos/examples/consoleplaymemorystream.pas
-relpaths=14
+ /home/fred/eschecs/libraries/uos/uos_flat.pas
+ ${PROJECTDIR}/messagefrm.pas
+ ${PROJECTDIR}/language.pas
+relpaths=6
  eschecs.pas
- log.pas
- settings.pas
  sound.pas
- libraries/uos/uos_flat.pas
- ../fpGUI-maint/src/gui/fpg_dialogs.pas
- eco/eco.pas
- messagefrm.pas
- eschecs.pas
  ../uos/examples/simpledrums_fpGUI.pas
- libraries/fpgui/src/gui/fpg_dialogs.pas
- eschecs.pas
- libraries/uos/uos.pas
- ../uos/examples/consoleplaymemorystream.pas
-ismoduletexts=14
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
+ libraries/uos/uos_flat.pas
+ messagefrm.pas
+ language.pas
+ismoduletexts=6
  0
  0
  0
@@ -891,25 +851,17 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=14
+order=6
  0
- 1
- 2
- 14
- 5
- 6
- 7
- 10
- 8
- 3
  4
- 12
- 11
- 9
-firsttab=3
-index=9
+ 5
+ 2
+ 1
+ 3
+firsttab=0
+index=4
 [layout]
-windowlayout=600
+windowlayout=592
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1017,7 +969,7 @@ windowlayout=600
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1386,7 +1338,9 @@ windowlayout=600
  [debuggerfo.file_history]
  value=/home/fred/eschecs/source/sound.pas
  history=50
+  /home/fred/eschecs/source/messagefrm.pas
   /home/fred/eschecs/libraries/uos/uos_flat.pas
+  /home/fred/eschecs/libraries/uos/uos.pas
   /home/fred/eschecs/source/sound.pas
   /home/fred/uos/examples/consoleplaymemorystream.pas
   /home/fred/eschecs_uos/source/sound.pas
@@ -1408,7 +1362,6 @@ windowlayout=600
   /home/fred/eschecs_msg_center/source/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/eschecs_msg_center/source/fpg_style_eschecs.pas
   /home/fred/eschecs_msg_center/source/eschecsstyle.pas
-  /home/fred/eschecs/source/messagefrm.pas
   /home/fred/eschecs/source/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/designer_ext/src/designer_ext.pas
@@ -1435,7 +1388,6 @@ windowlayout=600
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
   /home/fred/ultibotest/helloworld_ultibo.pas
   /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld_ultibo.pas
-  /home/fred/ultibo/core/tools/Makefile.fpc
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1457,28 +1409,20 @@ windowlayout=600
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=14
+ order=6
   0
-  1
-  2
-  14
-  5
-  6
-  7
-  10
-  8
-  3
   4
-  12
-  11
-  9
- firsttab=3
- index=9
+  5
+  2
+  1
+  3
+ firsttab=0
+ index=4
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=findinfilefo
  parent=
  mdistate=0
  nx=0

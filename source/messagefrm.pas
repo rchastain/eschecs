@@ -8,7 +8,7 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  SysUtils, Classes, fpg_base, fpg_main,
+  SysUtils, Classes, fpg_base, fpg_main, language,
   {%units 'Auto-generated GUI code'}
   fpg_form, fpg_button, fpg_label
   {%endunits}
@@ -24,11 +24,15 @@ type
     Label2: TfpgLabel;
     {@VFD_HEAD_END: messagefrm}
     procedure AfterCreate; override;
-    procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
     procedure closemsg(sender : Tobject);
   end;
 
 {@VFD_NEWFORM_DECL}
+
+{$define read_interface}
+{$undef read_implementation}
+
+ procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
 
 {$I icon.inc} 
 
@@ -40,31 +44,44 @@ begin
 close;
 end;
 
-procedure Tmessagefrm.ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
+procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
 var
 mwidth: integer;
+msgfrm : Tmessagefrm;
 begin
-label1.text := AMessage1;
-label2.text := AMessage2;
+  // fpgApplication.CreateForm(Tmessagefrm, msgfrm);
+  
+msgfrm :=  Tmessagefrm.create(nil);
+  try
+    msgfrm.Button1.text := GetText(txQuit);
+    msgfrm.label1.text := AMessage1;
+    msgfrm.label2.text := AMessage2;
 
-WindowTitle := ATitle;
+    msgfrm.WindowTitle := ATitle;
 
-if label1.width > label2.width then
-mwidth := label1.width else mwidth := label2.width;
+if msgfrm.label1.width > msgfrm.label2.width then
+mwidth := msgfrm.label1.width else mwidth := msgfrm.label2.width;
 
-width := mwidth + 40;
+msgfrm.width := mwidth + 40;
 
-if AMessage2 = '' then label1.top := 20 else
-label1.top := 12;
+if AMessage2 = '' then msgfrm.label1.top := 20 else
+msgfrm.label1.top := 12;
 
-label1.left := (width - label1.width) div 2;
-label2.left := (width - label2.width) div 2;
-button1.left := (width - button1.width) div 2;
+msgfrm.label1.left := (msgfrm.width - msgfrm.label1.width) div 2;
+msgfrm.label2.left := (msgfrm.width - msgfrm.label2.width) div 2;
+msgfrm.button1.left := (msgfrm.width - msgfrm.button1.width) div 2;
+
+msgfrm.ShowModal;
+
+  finally
+msgfrm.Free;
+  end;
 end;
 
 procedure Tmessagefrm.AfterCreate;
 begin
- fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
+
+  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
  
   {%region 'Auto-generated GUI code' -fold}
   {@VFD_BODY_BEGIN: messagefrm}
@@ -88,8 +105,8 @@ begin
     ImageName := '';
     ParentShowHint := False;
     TabOrder := 1;
-    onclick := @closemsg;
-  end;
+    ModalResult := mrOK;
+   end;
 
   Label1 := TfpgLabel.Create(self);
   with Label1 do
