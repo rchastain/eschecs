@@ -21,11 +21,6 @@ var
   vDarkSquare: TBGRABitmap;
   vPieceImage: array[TChessPieceColor, TChessPieceKind, TOutlineColor] of TBGRABitmap;
   vCurrentStyle: TBoardStyle;
-  (*
-  vSpecialColors: array[ocGreen..ocRed] of record
-    r, g, b: byte;
-  end;
-  *)
   vSpecialColors: array[ocGreen..ocRed] of TBGRAPixel;
   vLightSquareColor, vDarkSquareColor: TBGRAPixel;
   

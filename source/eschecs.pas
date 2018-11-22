@@ -229,6 +229,7 @@ begin
   FMoveHistory.Free;
   FPositionHistory.Free;
   FValidator.Free;
+  FreePictures;
   inherited Destroy;
 end;
 
@@ -497,7 +498,8 @@ begin
   FChessboardWidget.SetPosition(0, MENU_BAR_HEIGHT, 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
   FStatusBar.SetPosition(0, 24 + 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale, 24);
   FMenuBar.SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24);
-     
+  
+  CreatePictures;
   FBoardStyle := TBoardStyle(Ord(vMarble));
   FBGRAChessboard := TBGRAChessboard.Create(FBoardStyle, FUpsideDown, vCurrentPosition);
   

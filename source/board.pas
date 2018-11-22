@@ -92,7 +92,7 @@ var
 begin
   inherited Create;
   Assert((gStyleData[gStyle].scale mod 2 = 0) and (gStyleData[gStyle].scale mod 5 = 0));
-  CreatePictures();
+  //CreatePictures();
   fVirtualScreen := TBGRABitmap.Create(8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
   fPieceBackground := nil;
   fScreenshot := nil;
@@ -120,7 +120,7 @@ begin
 {$ENDIF}
     fScreenshot.Free;
   end;
-  FreePictures;
+  //FreePictures;
   inherited Destroy;
 end;
 
@@ -359,18 +359,19 @@ end;
 procedure TBGRAChessboard.ErasePiece(const aIndex, aX, aY: integer);
 var
   vX, vY: integer;
+  vEmptySquare: TBGRABitmap;
 begin
   Assert(InRange(aIndex, 1, 32) and InRange(aX, 1, 8) and InRange(aY, 1, 8));
-
   vX := XToScreen(aX, fUpsideDown);
   vY := YToScreen(aY, fUpsideDown);
+  with gStyleData[gStyle] do vEmptySquare := vChessboard.GetPart(RectWithSize(vX, vY, scale, scale)) as TBGRABitmap;
   fVirtualScreen.PutImage(
     vX,
     vY,
-    vChessboard.GetPart(RectWithSize(vX, vY, gStyleData[gStyle].scale, gStyleData[gStyle].scale)),
+    vEmptySquare,
     dmSet
   );
-
+  vEmptySquare.Free;
   SetPieceXY(aIndex, 0, 0);
 end;
 
@@ -446,27 +447,31 @@ end;
 
 procedure TBGRAChessboard.FlipBoard;
 var
-  temp: TBGRABitmap;
+  vBoard, vSquare: TBGRABitmap;
   x, y: integer;
 begin
   fUpsideDown := not fUpsideDown;
 
-  temp := TBGRABitmap.Create(8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
+  vBoard := TBGRABitmap.Create(8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
   for x := 1 to 8 do
     for y := 1 to 8 do
-      temp.PutImage(
+    begin
+      vSquare := fVirtualScreen.GetPart(RectWithSize(
+        XToScreen(x, not fUpsideDown),
+        YToScreen(y, not fUpsideDown),
+        gStyleData[gStyle].scale,
+        gStyleData[gStyle].scale
+      )) as TBGRABitmap;
+      vBoard.PutImage(
         XToScreen(x, fUpsideDown),
         YToScreen(y, fUpsideDown),
-        fVirtualScreen.GetPart(RectWithSize(
-          XToScreen(x, not fUpsideDown),
-          YToScreen(y, not fUpsideDown),
-          gStyleData[gStyle].scale,
-          gStyleData[gStyle].scale
-        )),
+        vSquare,
         dmSet
       );
-  fVirtualScreen.PutImage(0, 0, temp, dmSet);
-  temp.Free;
+      vSquare.Free;
+    end;
+  fVirtualScreen.PutImage(0, 0, vBoard, dmSet);
+  vBoard.Free;
 end;
 
 procedure TBGRAChessboard.ChangeBoard(const aBoardStyle: TBoardStyle = bsOriginal);
@@ -551,13 +556,24 @@ end;
 
 procedure TBGRAChessboard.ScreenSave;
 begin
-  BGRAReplace(fScreenshot, fVirtualScreen.GetPart(RectWithSize(0, 0, 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale)));
+{$IFDEF DEBUG}
+  WriteLn('TBGRAChessboard.ScreenSave');
+{$ENDIF}
+  if fScreenshot = nil then with gStyleData[gStyle] do
+    fScreenshot := fVirtualScreen.GetPart(RectWithSize(0, 0, 8 * scale, 8 * scale)) as TBGRABitmap;
 end;
 
 procedure TBGRAChessboard.ScreenRestore;
 begin
+{$IFDEF DEBUG}
+  WriteLn('TBGRAChessboard.ScreenRestore');
+{$ENDIF}
   if Assigned(fScreenshot) then
+  begin
     fVirtualScreen.PutImage(0, 0, fScreenshot, dmSet);
+    fScreenshot.Free;
+    fScreenshot := nil;
+  end;
 end;
 
 procedure TBGRAChessboard.SavePieceBackground(const aImagePos: TPoint; const aCreateFromChessboard: boolean = FALSE);
