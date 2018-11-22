@@ -41,30 +41,7 @@ const
 {$ELSE}
   PICTURES_FOLDER = 'images/%s/%d';
 {$ENDIF}
-(*
-procedure LoadColors();
-var
-  vFile: TextFile;
-  vOutline: TOutlineColor;
-  vByte: byte;
-  vFileName: TFileName;
-begin
-  vFileName := Concat(ExtractFilePath(ParamStr(0)), 'colors.txt');
-  Assert(FileExists(vFileName));
-  AssignFile(vFile, vFileName);
-  Reset(vFile);
-  for vOutline := ocGreen to ocRed do
-  begin
-    ReadLn(vFile, vByte);
-    vSpecialColors[vOutline].r := vByte;
-    ReadLn(vFile, vByte);
-    vSpecialColors[vOutline].g := vByte;
-    ReadLn(vFile, vByte);
-    vSpecialColors[vOutline].b := vByte;
-  end;
-  CloseFile(vFile);
-end;
-*)
+
 function Interp256(value1, value2, position: integer): integer; inline; overload;
 begin
   result := (value1 * (256 - position) + value2 * position) shr 8;
@@ -247,7 +224,8 @@ begin
       begin
         vPieceImage[c, k, ocRed] := TBGRABitmap.Create(vPieceImage[c, k, ocWhite]);
         vPieceImage[c, k, ocRed].ReplaceColor(CSSGray, vSpecialColors[ocRed]);
-      end;
+      end else
+        vPieceImage[c, k, ocRed] := nil;
       vPieceImage[c, k, ocTransparent] := TBGRABitmap.Create(vPieceImage[c, k, ocWhite]);
       vPieceImage[c, k, ocTransparent].ReplaceColor(CSSGray, BGRAPixelTransparent);
       vPieceImage[c, k, ocWhite].ReplaceColor(CSSGray, CSSWhite);

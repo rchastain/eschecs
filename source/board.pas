@@ -114,7 +114,12 @@ begin
   if Assigned(fPieceBackground) then
     fPieceBackground.Free;
   if Assigned(fScreenshot) then
+  begin
+{$IFDEF DEBUG}
+    WriteLn('fScreenshot.Free');
+{$ENDIF}
     fScreenshot.Free;
+  end;
   FreePictures;
   inherited Destroy;
 end;
@@ -495,7 +500,7 @@ begin
   case vCurrentStyle of
     bsOriginal:
       begin
-        vSquare := TBGRABitmap.Create(gStyleData[gStyle].scale, gStyleData[gStyle].scale, vColor);
+        with gStyleData[gStyle] do vSquare := TBGRABitmap.Create(scale, scale, vColor);
         if (aX + aY) mod 2 = 0 then
           vSquare.PutImage(
             0,
@@ -505,10 +510,10 @@ begin
           );
       end;
     else
+      with gStyleData[gStyle] do
       begin
-        vSquare := TBGRABitmap.Create(gStyleData[gStyle].scale, gStyleData[gStyle].scale);
-        vSquare.PutImage(0, 0, vChessboard.GetPart(RectWithSize(XToScreen(aX, FALSE), YToScreen(aY, FALSE), gStyleData[gStyle].scale, gStyleData[gStyle].scale)), dmSet);
-        vSquare.FillRect(0, 0, gStyleData[gStyle].scale, gStyleData[gStyle].scale, vColor, dmDrawWithTransparency);
+        vSquare := vChessboard.GetPart(RectWithSize(XToScreen(aX, FALSE), YToScreen(aY, FALSE), scale, scale)) as TBGRABitmap;
+        vSquare.FillRect(0, 0, scale, scale, vColor, dmDrawWithTransparency);
       end;
   end;
 
