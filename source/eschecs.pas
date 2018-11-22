@@ -933,7 +933,8 @@ end;
 
 procedure TMainForm.NewPosition(const aPosition: string; const aHistory: string);
 begin
-  FBGRAChessboard.Create(FBoardStyle, FUpsideDown, aPosition);
+  FBGRAChessboard.Free;
+  FBGRAChessboard := TBGRAChessboard.Create(FBoardStyle, FUpsideDown, aPosition);
   FGame.Create(aPosition);
   OnMoveDone(aHistory);
   SetComputerColor(FMovesSubMenu.MenuItem(1).Checked);

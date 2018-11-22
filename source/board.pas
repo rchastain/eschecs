@@ -90,6 +90,9 @@ var
   vCapture: TBGRABitmap;
 *)
 begin
+{$IFDEF DEBUG}
+  WriteLn('TBGRAChessboard.Create()');
+{$ENDIF}
   inherited Create;
   Assert((gStyleData[gStyle].scale mod 2 = 0) and (gStyleData[gStyle].scale mod 5 = 0));
   //CreatePictures();
@@ -110,6 +113,9 @@ end;
 
 destructor TBGRAChessboard.Destroy;
 begin
+{$IFDEF DEBUG}
+  WriteLn('TBGRAChessboard.Destroy');
+{$ENDIF}
   fVirtualScreen.Free;
   if Assigned(fPieceBackground) then
     fPieceBackground.Free;
