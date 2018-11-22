@@ -11,7 +11,7 @@ unit uos_flat;
 {$PACKRECORDS C}
 
 // For custom configuration of directive to compiler --->  define.inc
-{$I uos_define.inc}
+{$I define.inc}
 
 interface
 
@@ -2241,7 +2241,7 @@ begin
  setlength(uosLevelArray,PlayerIndex + 1) ;
 end;
 
- {$IF DEFINED(debug)}
+ {$IF DEFINED(debug) and DEFINED(unix)}
  writeln('before uosPlayers[PlayerIndex] <> nil ');
  {$endif}  
   
@@ -2257,7 +2257,7 @@ end;
   
   end;
 
-{$IF DEFINED(debug)}
+{$IF DEFINED(debug) and DEFINED(unix)}
  writeln('after uosPlayers[PlayerIndex] <> nil ');
 {$endif}  
 

@@ -812,15 +812,16 @@ findhistory=20
  initeco
  vUciLogName
 findoptions=1
-editpos=8
- 0,104
+editpos=9
  0,-1073741823
  0,-1073741823
- 0,0
  0,-1073741823
  0,0
  0,-1073741823
  0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,33
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -829,16 +830,18 @@ bookmarks4=0
 bookmarks5=0
 bookmarks6=0
 bookmarks7=0
-sourcefiles=8
+bookmarks8=0
+sourcefiles=9
  ${PROJECTDIR}/sound.pas
- /home/fred/uos/examples/simpledrums_fpGUI.pas
+ ${PROJECTDIR}/simpledrums_fpGUI.pas
  /home/fred/eschecs/libraries/uos/uos_flat.pas
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/engines.pas
  ${PROJECTDIR}/settings.pas
  ${PROJECTDIR}/language.pas
  ${PROJECTDIR}/board.pas
-relpaths=8
+ /home/fred/eschecs/libraries/uos/define.inc
+relpaths=9
  sound.pas
  uos/examples/simpledrums_fpGUI.pas
  libraries/uos/uos_flat.pas
@@ -847,7 +850,9 @@ relpaths=8
  settings.pas
  language.pas
  board.pas
-ismoduletexts=8
+ libraries/uos/define.inc
+ismoduletexts=9
+ 0
  0
  0
  0
@@ -861,10 +866,20 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
+order=9
+ 0
+ 1
+ 2
+ 3
+ 8
+ 4
+ 5
+ 6
+ 7
 firsttab=0
-index=3
+index=4
 [layout]
-windowlayout=555
+windowlayout=595
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1339,11 +1354,9 @@ windowlayout=555
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
- history=20
-  /home/fred/eschecs/source/settings.pas
-  /home/fred/eschecs/source/engines.pas
-  /home/fred/eschecs/source/language.pas
+ value=/home/fred/eschecs/libraries/uos/define.inc
+ history=50
+  /home/fred/eschecs/source/board.pas
   /home/fred/eschecs/source/sound.pas
   /home/fred/eschecs/source/messagefrm.pas
   /home/fred/eschecs/libraries/uos/uos_flat.pas
@@ -1356,11 +1369,43 @@ windowlayout=555
   /home/fred/eschecs/libraries/fpgui/AUTHORS.txt
   /home/fred/eschecs_uos/source/eschecs.pas
   /home/fred/eschecs_uos/source/log.pas
+  /home/fred/eschecs/source/settings.pas
   /home/fred/eschecs/libraries/uos/uos_define.inc
   /home/fred/eschecs/libraries/uos/uos_libsndfile.pas
   /home/fred/eschecs/libraries/uos/uos_mpg123.pas
   /home/fred/designer_ext/src/frm_main_designer.pas
   /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_x11.pas
+  /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_xft_x11.pas
+  /home/fred/uos/examples/simpleplayer_fpGUI.pas
+  /home/fred/eschecs_msg_center/source/eschecs.pas
+  /home/fred/eschecs_msg_center/source/fpg_style_chrome_silver_flatmenu.pas
+  /home/fred/eschecs_msg_center/source/fpg_style_eschecs.pas
+  /home/fred/eschecs_msg_center/source/eschecsstyle.pas
+  /home/fred/eschecs/source/fpg_style_chrome_silver_flatmenu.pas
+  /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
+  /home/fred/designer_ext/src/designer_ext.pas
+  /home/fred/eschecs_msg/source/eschecs.pas
+  /home/fred/eschecs_msg/source/engines.pas
+  /home/fred/Fruit/src/main.cpp
+  /home/fred/moustique/moustique.pas
+  /home/fred/uos/examples/consoleplay.pas
+  /home/fred/bgrabitmap/bgrabitmap/bgrafpguibitmap.pas
+  /home/fred/eschecs/source/uci/uci.pas
+  /home/fred/eschecs/stdimages.inc
+  /home/fred/eschecs/source/eschecs.res
+  /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
+  /home/fred/eschecs (copy 1)/source/eschecs.pas
+  /home/fred/eschecs/source/eschecs.pas
+  /home/fred/uos/examples/deviceinfos_fpGUI.pas
+  /home/fred/ultibotest/ultibo_fpgui1.pas
+  /home/fred/eschecs/source/images.pas
+  /home/fred/eschecs/libraries/bgrabitmap/bgrabitmap.pas
+  /home/fred/moustique_git/moustique/version.inc
+  /home/fred/ideu/README.TXT
+  /home/fred/ideu/src/mseconsts.pas
+  /home/fred/openmax-master/uos_ultibo_test.pas
+  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
+  /home/fred/ultibotest/helloworld_ultibo.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1382,13 +1427,23 @@ windowlayout=555
  rcx=0
  rcy=0
  [sourcefo.files_tab]
+ order=9
+  0
+  1
+  2
+  3
+  8
+  4
+  5
+  6
+  7
  firsttab=0
- index=3
+ index=4
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=targetconsolefo
  parent=
  mdistate=0
  nx=0
