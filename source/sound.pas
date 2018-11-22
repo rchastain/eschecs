@@ -40,7 +40,12 @@ var
 
 procedure Play(const aSound: TSound);
 begin
-  uos_PlayNoFree(0);
+if aSound = sndCapture then uos_PlayNoFree(0) else
+if aSound = sndCheck then uos_PlayNoFree(1) else
+if aSound = sndEndOfGame then uos_PlayNoFree(2) else
+if aSound = sndIllegal then uos_PlayNoFree(3) else
+if aSound = sndMove then uos_PlayNoFree(4) else
+if aSound = sndPromotion then uos_PlayNoFree(5) ;
 end;
 
 function LoadSoundLib() : integer;
@@ -93,11 +98,11 @@ ms[x] := TMemoryStream.Create;
 ms[x].LoadFromFile(pchar(vsodir +  FILENAME[sndMove]));  
 ms[x].Position:= 0;
 uos_CreatePlayer(x);
-uos_AddFromMemoryStream(x,ms[x],1,-1,0,256); 
+uos_AddFromMemoryStream(x,ms[x],1,-1,0,1024); 
  {$if defined(cpuarm)} // needs lower latency
-uos_AddIntoDevOut(x, -1, 0.08, -1, -1, 0, 256, -1);
+uos_AddIntoDevOut(x, -1, 0.08, -1, -1, 0, 1024, -1);
  {$else}
-uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 256, -1);
+uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 1024, -1);
  {$endif}
 end;
 end;

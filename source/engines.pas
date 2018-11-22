@@ -52,6 +52,7 @@ var
   section: string;
 begin
   with TIniFile.Create(aFileName) do
+  begin
   while x >= 0 do 
   begin
     section := 'engine' + IntToStr(x);
@@ -68,6 +69,8 @@ begin
       Inc(x);
     end else
       x := -1;
+  end;
+  free;
   end;
 end;
 
