@@ -132,7 +132,7 @@ type
     procedure OtherItemClicked(Sender: TObject);
     procedure InternalTimerFired(Sender: TObject);
     function DoMove(const aMove: string; const aPromotion: TChessPieceKindEx = cpkNil; aIsComputerMove: boolean = true): boolean;
-    procedure OnMoveDone(const aHistory: string = '');
+    procedure OnMoveDone(const aHistory: string; const aSound: boolean = TRUE);
     procedure OnComputerMove;
     procedure OnUserIllegalMove;
     procedure SetComputerColor(const aAutoPlayEnabled: boolean);
@@ -506,7 +506,7 @@ begin
   FGame := TChessGame.Create(vCurrentPosition);
   FUserMove := '';
   FRookMove := '';
-  OnMoveDone(FMoveHistory.GetString(FCurrPosIndex));
+  OnMoveDone(FMoveHistory.GetString(FCurrPosIndex), FALSE);
   SetComputerColor(FMovesSubMenu.MenuItem(1).Checked);
   vListener := TListener.Create(TRUE);
   vListener.Priority := tpHigher;
@@ -865,7 +865,7 @@ begin
   Inc(FCurrPosIndex);
 end;
 
-procedure TMainForm.OnMoveDone(const aHistory: string);
+procedure TMainForm.OnMoveDone(const aHistory: string; const aSound: boolean);
 var
   vX, vY: integer;
   vIndex: integer;
@@ -873,6 +873,7 @@ var
 begin
 {$IFDEF DEBUG}
   WriteLn('TMainForm.OnMoveDone()');
+  WriteLn('FGame.Check=)', FGame.Check);
 {$ENDIF}
   if vColoring and FGame.Check and FBGRAChessboard.ScreenSaved() then
   begin
@@ -882,19 +883,17 @@ begin
     FChessboardWidget.Invalidate;
   end;
 {$IFDEF OPT_SOUND}
-{
-    if FGame.state in [csCheckmate, csStalemate, csDraw] then
-      PlaySound(sndEndOfGame)
-    else if FGame.Check and FALSE then
-      PlaySound(sndCheck)
-    else if FALSE then // <--- to do
-      PlaySound(sndPromotion)
-    else if FALSE then // <--- to do
-      PlaySound(sndCapture)
-    else if FALSE then // <--- to do
-} 
-      PlaySound(sndMove);
-
+    if aSound then
+      if FGame.state in [csCheckmate, csStalemate, csDraw] then
+        PlaySound(sndEndOfGame)
+      else if FGame.Check then
+        PlaySound(sndCheck)
+      else if FALSE then // <--- to do
+        PlaySound(sndPromotion)
+      else if FALSE then // <--- to do
+        PlaySound(sndCapture)
+      else
+        PlaySound(sndMove);
 {$ENDIF}
   FStatusBar.Text := Concat(
     ' ',
@@ -936,7 +935,7 @@ begin
   FBGRAChessboard.Free;
   FBGRAChessboard := TBGRAChessboard.Create(FBoardStyle, FUpsideDown, aPosition);
   FGame.Create(aPosition);
-  OnMoveDone(aHistory);
+  OnMoveDone(aHistory, FALSE);
   SetComputerColor(FMovesSubMenu.MenuItem(1).Checked);
   FChessboardWidget.Invalidate;
 end;
