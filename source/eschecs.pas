@@ -379,7 +379,7 @@ begin
   finally
     Free;
   end;
-  vENGPath := ChangeFileExt(ParamStr(0), '.eng');
+  vENGPath := ChangeFileExt(vFENPath, '.eng');
   if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
   ReadStyle(gStyle);
