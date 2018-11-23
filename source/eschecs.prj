@@ -59,10 +59,14 @@ findinfiledialog=67
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=FValidator
+ value=FTimer
  history=20
-  FValidator
   FTimer
+  TLog
+  vENGPath
+  vLang
+  debug
+  FValidator
   .Create
   FPositionHistory
   GetText
@@ -77,10 +81,6 @@ findinfiledialog=67
   ShowMessage
   TIniFile.Create
   style
-  style.
-  style.txt
-  LoadFromDevice
-  ReadProcessOutput
  [findinfileadialogfo]
  stackedunder=
  x=693
@@ -96,6 +96,22 @@ finddialog=8
  y=205
  cx=312
  cy=114
+replacedialog=15
+ [replacedialogfo.promptonreplace]
+ value=1
+ [replacedialogfo.selectedonly]
+ value=0
+ [replacedialogfo.replacetext]
+ value={$IFDEF OPT_DEBUG}
+ history=2
+  {$IFDEF OPT_DEBUG}
+  
+ [replacedialogfo]
+ stackedunder=
+ x=142
+ y=302
+ cx=427
+ cy=163
 options=114
  [projectoptionsfo.toolshortcuts]
  dropdowncolwidths=3
@@ -158,7 +174,7 @@ options=114
  x=0
  y=160
  xprop=1
- yprop=0.31336405529954
+ yprop=0.31417624521073
  [projectoptionsfo.macrogrid]
  propcolwidthref=585
  sortdescend0=0
@@ -192,7 +208,7 @@ options=114
  sortdescend1=0
  [projectoptionsfo.ttabwidget1]
  firsttab=0
- index=0
+ index=1
  [projectoptionsfo.filefiltergrid]
  propcolwidthref=722
  width0=112
@@ -238,7 +254,7 @@ unitdirs=11
  ../libraries
  ../libraries/bgrabitmap
  ../libraries/fpgui
- /home/fred/eschecs/libraries/fpgui/src/corelib/gdi
+ ..\libraries\fpgui\src\corelib\gdi
  ../libraries/fpgui/src
  ../libraries/fpgui/src/corelib/x11
  ../libraries/fpgui/src/gui
@@ -250,23 +266,25 @@ objpref=-Fo
 targpref=-o
 befcommand=0
 aftcommand=0
-makeoptions=11
+makeoptions=12
  -l -Mobjfpc -Schi
  -FE.
  -FUunits
  -ghl
+ -WG
  -B
  -O1 -XX -Xs -CX
- -dDEBUG
+ -dOPT_DEBUG
  -dBGRABITMAP_USE_FPGUI
  -dOPT_SOUND
  -dOPT_HIGHLIGHT
  -vewnhibq
-makeoptpurpose=11
+makeoptpurpose=12
  Define Object Pascal
  Exe path to /.
  Output to /units
  Debug
+ Windows graphic
  Re-build all
  Optimizations
  Debug
@@ -448,16 +466,17 @@ modulenames=0
 moduletypes=0
 modulefiles=0
 befcommandon=0
-makeoptionson=11
+makeoptionson=12
  4095
  4095
  4095
- 3888
- 246
+ 3844
+ 4032
+ 250
  4092
- 3843
+ 3907
  4095
- 4095
+ 4031
  4095
  4091
 compilerusedon=29
@@ -491,12 +510,12 @@ compilerusedon=29
  0
  0
 debuggerusedon=6
- 3847
+ 3844
  0
  0
  0
  0
- 248
+ 251
 exeusedon=14
  3903
  0
@@ -534,7 +553,7 @@ project_comment=
 aftcommandon=0
 unitdirson=11
  196863
- 987135
+ 200703
  200703
  200703
  200703
@@ -544,24 +563,21 @@ unitdirson=11
  196671
  196863
  196863
-macroon=5
+macroon=4
  1
  3
  6
  4
- 63
-macronames=5
+macronames=4
  TargetCPU
  TargetOS
  TargetCPU
  TargetOS
- HelpPath
-macrovalues=5
+macrovalues=4
  x86_64
  linux
  i386
  win32
- /opt/FPC_Docs/inf/
 macrogroup=0
 groupcomments=10
  Linux 64-bit
@@ -678,18 +694,17 @@ beforeload=
 afterload=
 beforerun=
 sourcebase=
-sourcedirs=12
+sourcedirs=11
  ${FPCSRCDIR}/
- /home/fred/eschecs/libraries/bgrabitmap/
- ${FPGUIDIR}/src/corelib/gdi/
- /home/fred/eschecs/libraries/fpgui/src/corelib/gdi/
- ${FPCSRCDIR}/*/
- ${FPCSRCDIR}/*/*/
- ${FPCSRCDIR}/*/*/*/
- ${FPGUIDIR}/src/gui/
- ${FPGUIDIR}/src/corelib/gdi/X/
- ${FPGUIDIR}/src/corelib/x11/
- ${FPGUIDIR}/src/corelib/
+ ../libraries/bgrabitmap/*/
+ ../libraries/uos/
+ ../libraries/bgrabitmap/
+ ../libraries/fpgui/src/
+ ../libraries/fpgui/src/gui/
+ ../libraries/fpgui/src/corelib/
+ ../libraries/fpgui/src/corelib/gdi/
+ ../libraries/fpgui/src/corelib/x11/
+ ./*/
  ./
 defines=0
 progparameters=
@@ -789,8 +804,16 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=addintodev
+finddtext=100 %
 findhistory=20
+ 100 %
+ OtherItemClicked
+ procedure TMainForm.AfterCreate;
+ sound
+ ReadStyle
+ sndPromotion
+ sdmove
+ {$IFDEF DEBUG}
  addintodev
  free
  FormKeyPressed
@@ -803,59 +826,31 @@ findhistory=20
  ShowMessagefrm
  GetText
  missing
- ShowMessageFrm
- AfterCreate
- Destroy
- ShowMessage
- showmessage
- vLOGPath
- initeco
- vUciLogName
 findoptions=1
-editpos=9
+editpos=5
+ 0,720
  0,-1073741823
- 0,-1073741823
- 0,-1073741823
+ 0,258
  0,0
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,33
+ 0,40
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
 bookmarks4=0
-bookmarks5=0
-bookmarks6=0
-bookmarks7=0
-bookmarks8=0
-sourcefiles=9
- ${PROJECTDIR}/sound.pas
- ${PROJECTDIR}/simpledrums_fpGUI.pas
- /home/fred/eschecs/libraries/uos/uos_flat.pas
+sourcefiles=5
  ${PROJECTDIR}/eschecs.pas
- ${PROJECTDIR}/engines.pas
- ${PROJECTDIR}/settings.pas
+ /home/fred/eschecs_uos2/source/eschecs.pas
  ${PROJECTDIR}/language.pas
- ${PROJECTDIR}/board.pas
- /home/fred/eschecs/libraries/uos/define.inc
-relpaths=9
- sound.pas
- uos/examples/simpledrums_fpGUI.pas
- libraries/uos/uos_flat.pas
+ ${PROJECTDIR}/images.pas
+ ${PROJECTDIR}/log.pas
+relpaths=5
  eschecs.pas
- engines.pas
- settings.pas
+ eschecs_uos2/source/eschecs.pas
  language.pas
- board.pas
- libraries/uos/define.inc
-ismoduletexts=9
- 0
- 0
- 0
- 0
+ images.pas
+ log.pas
+ismoduletexts=5
  0
  0
  0
@@ -866,20 +861,16 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=9
+order=5
  0
- 1
- 2
- 3
- 8
  4
- 5
- 6
- 7
+ 3
+ 2
+ 1
 firsttab=0
-index=4
+index=0
 [layout]
-windowlayout=595
+windowlayout=591
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -895,7 +886,7 @@ windowlayout=595
  ncy=0
  x=3
  y=59
- cx=1360
+ cx=1350
  cy=706
  rcx=0
  rcy=0
@@ -987,7 +978,7 @@ windowlayout=595
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1227,7 +1218,7 @@ windowlayout=595
  ncy=0
  x=0
  y=585
- cx=1350
+ cx=1340
  cy=105
  rcx=0
  rcy=0
@@ -1327,7 +1318,7 @@ windowlayout=595
  ncy=0
  x=0
  y=0
- cx=1350
+ cx=1340
  cy=58
  rcx=0
  rcy=0
@@ -1339,11 +1330,11 @@ windowlayout=595
  mdistate=0
  nx=0
  ny=0
- ncx=1350
+ ncx=1340
  ncy=61
  x=0
  y=0
- cx=1350
+ cx=1340
  cy=61
  rcx=0
  rcy=0
@@ -1354,10 +1345,13 @@ windowlayout=595
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/libraries/uos/define.inc
+ value=/home/fred/eschecs/source/eschecs.pas
  history=50
-  /home/fred/eschecs/source/board.pas
+  /home/fred/eschecs_uos2/source/eschecs.pas
+  /home/fred/uos/examples/simpleplayer_fpGUI.pas
   /home/fred/eschecs/source/sound.pas
+  /home/fred/eschecs/libraries/uos/define.inc
+  /home/fred/eschecs/source/board.pas
   /home/fred/eschecs/source/messagefrm.pas
   /home/fred/eschecs/libraries/uos/uos_flat.pas
   /home/fred/eschecs/libraries/uos/uos.pas
@@ -1376,7 +1370,6 @@ windowlayout=595
   /home/fred/designer_ext/src/frm_main_designer.pas
   /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_x11.pas
   /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_xft_x11.pas
-  /home/fred/uos/examples/simpleplayer_fpGUI.pas
   /home/fred/eschecs_msg_center/source/eschecs.pas
   /home/fred/eschecs_msg_center/source/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/eschecs_msg_center/source/fpg_style_eschecs.pas
@@ -1404,8 +1397,6 @@ windowlayout=595
   /home/fred/ideu/README.TXT
   /home/fred/ideu/src/mseconsts.pas
   /home/fred/openmax-master/uos_ultibo_test.pas
-  /home/fred/fpGUI-ultibo/examples/corelib/helloworld/helloworld.pas
-  /home/fred/ultibotest/helloworld_ultibo.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1422,30 +1413,26 @@ windowlayout=595
  ncy=0
  x=208
  y=0
- cx=1142
+ cx=1132
  cy=521
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=9
+ order=5
   0
-  1
-  2
-  3
-  8
   4
-  5
-  6
-  7
+  3
+  2
+  1
  firsttab=0
- index=4
+ index=0
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=targetconsolefo
+ stackedunder=findinfilefo
  parent=
- mdistate=0
+ mdistate=3
  nx=0
  ny=0
  ncx=0
@@ -1471,7 +1458,7 @@ windowlayout=595
  ncy=0
  x=0
  y=61
- cx=1350
+ cx=1340
  cy=521
  rcx=0
  rcy=0

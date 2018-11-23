@@ -1,13 +1,15 @@
 
 unit Images;
 
+{$mode objfpc}{$H+}
+
 interface
 
 uses
   Classes,
   SysUtils,
   Math,
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   TypInfo,
 {$ENDIF}
   BGRABitmap,
@@ -99,7 +101,7 @@ var
   x, y: integer;
   textureClaire, textureFoncee: TBGRABitmap;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('CreateChessboard(%d)', [Ord(aBoardStyle)]));
 {$ENDIF}
   with gStyleData[gStyle] do case boardstyle of
@@ -198,7 +200,7 @@ var
   s: string;
   d: TDateTime;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('CreatePictures()');
 {$ENDIF}
   d := Now;
@@ -228,7 +230,7 @@ begin
   vDarkSquare := CreateDarkSquare();
   vChessboard := CreateChessboard(gStyleData[gStyle].boardstyle);
   d := Now - d;
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('Création des images en %d ms.', [Trunc(1000 * SECSPERDAY * d)]));
 {$ENDIF}
 end;

@@ -1,20 +1,21 @@
 
 unit Sound;
 
+{$mode objfpc}{$H+}
+
 interface
 
-type
-  TSound = (
-    sndCapture,
-    sndCheck,
-    sndEndOfGame,
-    sndIllegal,
-    sndMove,
-    sndPromotion
-  );
-  
+const
+ sndCapture = 0;
+ sndCheck = 1;
+ sndEndOfGame = 2;
+ sndIllegal = 3;
+ sndMove = 4;
+ sndPromotion = 5;
+    
 function LoadSoundLib() : integer;
-procedure Play(const aSound: TSound);
+procedure Play(const aSound: integer);
+procedure SetSoundVolume(vol : shortint);
 procedure Freeuos;
 
 implementation
@@ -23,29 +24,23 @@ uses
   SysUtils, Classes, uos_flat;
   
 const
-  FILENAME: array[TSound] of string = (
+  FILENAME: array[0..5] of string = (
     'capture.mp3',
-    'sfx_alarm_loop2.wav',
-    'genericnotify.mp3',
-    'illegal.wav',
+    'check.mp3',
+    'endofgame.mp3',
+    'illegal.mp3',
     'move.mp3',
-    'sfx_coin_cluster1.wav'
+    'promotion.mp3'
   );  
   
 var
  vsodir: string;
- vinc : shortint = 1;
  ms :  array[0..5] of Tmemorystream; 
  x : integer;
 
-procedure Play(const aSound: TSound);
+procedure Play(const aSound: integer);
 begin
-if aSound = sndCapture then uos_PlayNoFree(0) else
-if aSound = sndCheck then uos_PlayNoFree(1) else
-if aSound = sndEndOfGame then uos_PlayNoFree(2) else
-if aSound = sndIllegal then uos_PlayNoFree(3) else
-if aSound = sndMove then uos_PlayNoFree(4) else
-if aSound = sndPromotion then uos_PlayNoFree(5) ;
+uos_PlayNoFree(aSound);
 end;
 
 function LoadSoundLib() : integer;
@@ -86,16 +81,14 @@ begin
     {$endif}
  {$ENDIF}
   
-    // Load the libraries, here only PortAudio and Mpg123
+// Load the libraries, here only PortAudio and Mpg123
   result := uos_LoadLib(Pchar(PA_FileName), nil, Pchar(MP_FileName), nil, nil,  nil) ;
-   
+ 
 // using memorystream
 for x := 0 to 5 do
 begin
-if fileexists(vsodir + FILENAME[sndMove]) then
-begin
-ms[x] := TMemoryStream.Create; 
-ms[x].LoadFromFile(pchar(vsodir +  FILENAME[sndMove]));  
+ms[x] := TMemoryStream.Create;
+ms[x].LoadFromFile(pchar(vsodir +  FILENAME[x])); 
 ms[x].Position:= 0;
 uos_CreatePlayer(x);
 uos_AddFromMemoryStream(x,ms[x],1,-1,0,1024); 
@@ -104,13 +97,21 @@ uos_AddIntoDevOut(x, -1, 0.08, -1, -1, 0, 1024, -1);
  {$else}
 uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 1024, -1);
  {$endif}
-end;
+uos_OutputAddDSPVolume(x, 0, 1, 1); 
 end;
 
 {$IFDEF DEBUG}
    WriteLn('Result of uos_LoadLib(): ' + inttostr(result));
 {$ENDIF}
- end;
+end;
+
+procedure SetSoundVolume(vol : shortint);
+begin
+for x := 0 to 5 do
+begin
+ uos_OutputSetDSPVolume(x, 0, vol/100, vol/100, True);
+end;
+end;
    
 procedure Freeuos;
 begin
