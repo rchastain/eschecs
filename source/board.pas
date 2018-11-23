@@ -1,7 +1,7 @@
 
 unit Board;
 
-{$mode delphi}{$H+}
+{$mode objfpc}{$H+}
 
 interface
 
@@ -9,7 +9,7 @@ uses
   Classes,
   SysUtils,
   Math,
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   TypInfo,
 {$ENDIF}
   fpg_main,
@@ -90,7 +90,7 @@ var
   vCapture: TBGRABitmap;
 *)
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('TBGRAChessboard.Create()');
 {$ENDIF}
   inherited Create;
@@ -113,7 +113,7 @@ end;
 
 destructor TBGRAChessboard.Destroy;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('TBGRAChessboard.Destroy');
 {$ENDIF}
   fVirtualScreen.Free;
@@ -121,7 +121,7 @@ begin
     fPieceBackground.Free;
   if Assigned(fScreenshot) then
   begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
     WriteLn('fScreenshot.Free');
 {$ENDIF}
     fScreenshot.Free;
@@ -132,7 +132,7 @@ end;
 
 procedure TBGRAChessboard.SetPieceXY(const aIndex, aX, aY: integer);
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('TBGRAChessboard.SetPieceXY(%d, %d, %d)', [aIndex, aX, aY]));
 {$ENDIF}
   fPieces[aIndex].x := aX;
@@ -141,7 +141,7 @@ end;
 
 procedure TBGRAChessboard.SetPieceKind(const aIndex: integer; const aType: TChessPieceKind);
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('TBGRAChessboard.SetPieceKind(%d, %s)', [aIndex, GetEnumName(TypeInfo(TChessPieceKind), Ord(aType))]));
 {$ENDIF}
   fPieces[aIndex].kind := aType;
@@ -385,7 +385,7 @@ procedure TBGRAChessboard.ErasePiece(const aSquare: string);
 var
   x, y, i: integer;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('TBGRAChessboard.ErasePiece(%s)', [aSquare]));
 {$ENDIF}
   DecodeSquare(aSquare, x, y);
@@ -401,7 +401,7 @@ var
   a, b: integer;
   vX1, vY1, vX2, vY2: integer;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('TBGRAChessboard.MovePiece(%d, %d, %d, %d, %d, %s, %d)', [aIndex, aX, aY, aDX, aDY, BoolToStr(aPromotion, TRUE), Ord(aPromotionKind)]));
 {$ENDIF}
   Assert(InRange(aIndex, 1, 32) and InRange(aX, 1, 8) and InRange(aY, 1, 8) and InRange(aDX, -8, 8) and InRange(aDY, -8, 8));
@@ -498,7 +498,7 @@ var
   vColor: TBGRAPixel;
   oc: TOutlineColor;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('TBGRAChessboard.Highlight(%d, %d, %s, %d)', [
     aX,
     aY,
@@ -552,7 +552,7 @@ procedure TBGRAChessboard.HighlightMove(const aMove: string; const aPieceIndex: 
 var
   x1, y1, x2, y2: integer;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('TBGRAChessboard.HighlightMove(%s, %d)', [aMove, aPieceIndex]));
 {$ENDIF}
   DecodeMove(aMove, x1, y1, x2, y2);
@@ -562,7 +562,7 @@ end;
 
 procedure TBGRAChessboard.ScreenSave;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('TBGRAChessboard.ScreenSave');
 {$ENDIF}
   if fScreenshot = nil then with gStyleData[gStyle] do
@@ -571,7 +571,7 @@ end;
 
 procedure TBGRAChessboard.ScreenRestore;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('TBGRAChessboard.ScreenRestore');
 {$ENDIF}
   if Assigned(fScreenshot) then

@@ -31,6 +31,8 @@ type
     txTitleMessage,
     txStyle,
     txLanguage,
+    txVolume,
+    txEnabled,
 
     txAboutMessage,
     txIllegalMove,
@@ -48,7 +50,7 @@ type
     txWaiting,
     txUciOk,
     txConnectionFailure
-  );
+   );
   
   TLanguage = (lgDutch, lgEnglish, lgFrench, lgGerman, lgSpanish);
 
@@ -84,8 +86,10 @@ const
     'Koningin', // txQueen
     
     'Bericht', //txTitleMessage
-    'Estilo',  //txStyle
+    'Stijl',  //txStyle
     'Taal', // txLanguage
+    'Volume', //txVolume
+    'Actief',//txEnabled
 
     'Schaakspel in Pascal geschreven door Roland Chastain.', // txAbout
     'Illegale beweging.', // txIllegalMove
@@ -127,6 +131,8 @@ const
     'Message', //txTitleMessage
     'Style',  //txStyle
     'Language', // txLanguage
+    'Volume', //txVolume
+    'Enabled',//txEnabled
 
     'Pascal chess program by Roland Chastain.', // txAbout
     'Illegal move.', // txIllegalMove
@@ -168,6 +174,8 @@ const
     'Message', //txTitleMessage
     'Style',  //txStyle
     'Langue', // txLanguage
+    'Volume', //txVolume
+    'Activé',//txEnabled
 
     'Programme d''échecs en Pascal par Roland Chastain.', // txAbout
     'Coup illégal.', // txIllegalMove
@@ -209,6 +217,8 @@ const
     'Nachricht',           //txTitleMessage
     'Stil',  //txStyle
     'Sprache', // txLanguage
+    'Volume', //txVolume
+    'Enabled',//txEnabled
   
     'Pascal Schachprogramm von Roland Chastain.', // txAbout
     'Ungültiger Zug.', // txIllegalMove
@@ -250,6 +260,8 @@ const
     'Mensaje', //txTitleMessage
     'Estilo',  //txStyle
     'Lengua', // txLanguage
+    'Volumen', //txVolume
+    'Activo',//txEnabled
 
     'Programa de Ajedrez en Pascal por Roland Chastain.', // txAbout
     'Movimiento ilegal.', // txIllegalMove

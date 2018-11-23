@@ -1,18 +1,20 @@
 
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
 {$APPTYPE CONSOLE}
 {$ENDIF}
 
 program Eschecs;
 
 {$mode objfpc}{$H+}
-{$DEFINE UseCThreads}
+ {$IFDEF UNIX}
+  {$DEFINE UseCThreads}
+ {$ENDIF}
 
 uses
-{$IFDEF UNIX}
+ {$IFDEF UNIX}
   cthreads, 
   cwstring, 
-{$ENDIF}
+ {$ENDIF}
   Classes,
   SysUtils,
   StrUtils,
@@ -36,7 +38,7 @@ uses
   FEN,
   Engines,
   Log,
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   TypInfo,
 {$ENDIF}
 {$IFDEF OPT_SOUND}
@@ -117,12 +119,10 @@ type
     FMovesSubMenu: TfpgPopupMenu;
     FBoardSubMenu: TfpgPopupMenu;
     FOptionsSubMenu: TfpgPopupMenu;
-    FPromotionSubMenu: TfpgPopupMenu;
-    {$IFDEF OPT_SOUND}
     FAudioSubMenu: TfpgPopupMenu;
-    {$ENDIF}
     FStyleSubMenu: TfpgPopupMenu;
     FLanguageSubMenu: TfpgPopupMenu;
+    FPromotionSubMenu: TfpgPopupMenu;
     {@VFD_HEAD_END: MainForm}
     FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
@@ -139,7 +139,7 @@ type
     procedure NewPosition(const aPosition: string = FENSTARTPOSITION; const aHistory: string = '');
     function TryNavigate(const aCurrentIndex: integer; const aNavigation: TNavigation): integer;
 {$IFDEF OPT_SOUND}
-    procedure PlaySound(const aSound: TSound);
+    procedure PlaySound(const aSound: integer);
 {$ENDIF}
     procedure CloseAll(Sender: TObject);
     procedure SaveGame(Sender: TObject);
@@ -247,7 +247,7 @@ begin
   Hint := '';
   WindowPosition := wpOneThirdDown;
   OnResize := @onresized;
-
+ 
   FChessboardWidget := TfpgWidget.Create(self);
   with FChessboardWidget do
   begin
@@ -297,23 +297,24 @@ begin
   with FMovesSubMenu do
   begin
     Name := 'FMovesSubMenu';
-    SetPosition(68, 268, 228, 28);
+    SetPosition(80, 272, 228, 28);
   end;
 
   FBoardSubMenu := TfpgPopupMenu.Create(self);
   with FBoardSubMenu do
   begin
     Name := 'FBoardSubMenu';
-    SetPosition(68, 220, 228, 28);
+    SetPosition(76, 220, 228, 28);
   end;
 
   FOptionsSubMenu := TfpgPopupMenu.Create(self);
   with FOptionsSubMenu do
   begin
     Name := 'FOptionsSubMenu';
-    SetPosition(68, 168, 228, 28);
+    SetPosition(72, 172, 228, 28);
   end;
-  {$IFDEF OPT_SOUND}
+
+   {$IFDEF OPT_SOUND}
   FAudioSubMenu := TfpgPopupMenu.Create(self);
   with FAudioSubMenu do
   begin
@@ -321,19 +322,19 @@ begin
     SetPosition(68, 168, 228, 28);
   end;
   {$ENDIF}
-  
+
   FStyleSubMenu := TfpgPopupMenu.Create(self);
   with FStyleSubMenu do
   begin
     Name := 'FStyleSubMenu';
-    SetPosition(68, 168, 228, 28);
+    SetPosition(92, 388, 228, 28);
   end;
-  
+
   FLanguageSubMenu := TfpgPopupMenu.Create(self);
   with FLanguageSubMenu do
   begin
     Name := 'FLanguageSubMenu';
-    SetPosition(68, 168, 228, 28);
+    SetPosition(92, 332, 228, 28);
   end;
 
   FPromotionSubMenu := TfpgPopupMenu.Create(self);
@@ -450,12 +451,13 @@ begin
  {$IFDEF OPT_SOUND}
   with FAudioSubMenu do
   begin
-    Enabled := true;
-    with AddMenuItem('Enabled', '', @OtherItemClicked) do
-    begin
-      Checked := true;
-      Enabled := true;
-    end;
+    AddMenuItem(GetText(txEnabled), '', @OtherItemClicked).Checked := true;
+    AddMenuItem('-', '', nil);
+    AddMenuItem(GetText(txVolume)+':', '', nil);
+    AddMenuItem('100 %', '', @OtherItemClicked).Checked := true;
+    AddMenuItem('75 %', '', @OtherItemClicked).Checked := false;
+    AddMenuItem('50 %', '', @OtherItemClicked).Checked := false;
+    AddMenuItem('25 %', '', @OtherItemClicked).Checked := false;
   end; 
   {$endif}
     
@@ -477,7 +479,7 @@ begin
      if (FEngine = -1) and (Pos(UpperCase('Fruit'), UpperCase(vEngines[vIndex].vName)) > 0) then
        FEngine := vIndex;
     end;
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
     WriteLn('FEngine=', FEngine);
 {$ENDIF}
   end;  
@@ -525,7 +527,7 @@ begin
     OtherItemClicked(MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX))
   else
   begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
     WriteLn('MenuItem(1).Checked=', MenuItem(1).Checked);
     WriteLn('MenuItem(', FEngine + FIRST_ENGINE_ITEM_INDEX,').Enabled=', MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled);
 {$ENDIF}
@@ -597,7 +599,7 @@ var
   vPromotion: TChessPieceKind;
   X, Y: integer;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('TMainForm.WidgetMouseUp()');
 {$ENDIF}
   if not FDragging then
@@ -661,7 +663,7 @@ var
 begin
   for vStyle := Low(TStyle) to High(TStyle) do if GetStyleName(vStyle) = TfpgMenuItem(Sender).Text then
     vSelectedStyle := vStyle;
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('vSelectedStyle=', vSelectedStyle);
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
@@ -677,7 +679,7 @@ var
 begin
   for vLanguage := Low(TLanguage) to High(TLanguage) do if GetLanguageName(vLanguage) = TfpgMenuItem(Sender).Text then
     vSelectedLanguage := vLanguage;
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('vSelectedLanguage=', vSelectedLanguage);
 {$ENDIF}
   for vLanguage := Low(TLanguage) to High(TLanguage) do
@@ -716,10 +718,46 @@ begin
       end
       else
 {$IFDEF OPT_SOUND}
-      if Text = 'Enabled'
+      if Text = GetText(txEnabled)
       then
       begin
         Checked := not Checked;
+      end
+      else
+      if Text = '100 %'
+      then
+      begin
+          for i := 3 to 6 do
+           FAudioSubMenu.MenuItem(i).Checked := FALSE;
+          Checked := TRUE;
+          SetSoundVolume(100);
+      end
+      else
+      if Text = '75 %'
+      then
+      begin
+          for i := 3 to 6 do
+          FAudioSubMenu.MenuItem(i).Checked := FALSE;
+          Checked := TRUE;
+          SetSoundVolume(75);
+      end
+      else
+      if Text = '50 %'
+      then
+      begin
+          for i := 3 to 6 do
+          FAudioSubMenu.MenuItem(i).Checked := FALSE;
+          Checked := TRUE;
+          SetSoundVolume(50);
+      end
+      else
+      if Text = '25 %'
+      then
+      begin
+          for i := 3 to 6 do
+          FAudioSubMenu.MenuItem(i).Checked := FALSE;
+          Checked := TRUE;
+          SetSoundVolume(25);
       end
       else
 {$ENDIF}   
@@ -774,7 +812,7 @@ begin
       and (FGame.state = csProgress)
       and not FWaiting then
       begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
         WriteLn('FWaitingForReadyOk = ', FWaitingForReadyOk);
 {$ENDIF}
         case FWaitingForReadyOk of
@@ -814,7 +852,7 @@ var
   vPromotion: TChessPieceKind;
   vSymbol: string;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn(Format('TMainForm.DoMove(%s, %s, %s)', [
     aMove,
     GetEnumName(TypeInfo(TChessPieceKindEx), Ord(aPromotion)),
@@ -871,7 +909,7 @@ var
   vIndex: integer;
   vOpeningName: string;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('TMainForm.OnMoveDone()');
   WriteLn('FGame.Check=)', FGame.Check);
 {$ENDIF}
@@ -969,7 +1007,7 @@ begin
 end;
 
 {$IFDEF OPT_SOUND}
-procedure TMainForm.PlaySound(const aSound: TSound);
+procedure TMainForm.PlaySound(const aSound: integer);
 begin
  if FAudioSubMenu.MenuItem(0).Checked then
    Play(aSound);
@@ -985,7 +1023,7 @@ procedure TMainForm.SaveGame(Sender: TObject);
 var
   vMoveHist: string;
 begin
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
   WriteLn('SaveGame()');
 {$ENDIF}
   vMoveHist := FMoveHistory.GetString();
@@ -1078,7 +1116,9 @@ var
   
 begin
   vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
+  
   Assign(vUCILog, vUciLogName);
+  
   if FileExists(vUciLogName) then
     Append(vUCILog)
   else
@@ -1097,7 +1137,7 @@ begin
   fpgApplication.Run;
   {$IFDEF OPT_SOUND}
   Freeuos;
-  {$ENDIF} 
+  {$ENDIF}
   frm.Free;
    
   Close(vUCILog);

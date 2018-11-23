@@ -36,4 +36,5 @@ initialization
 finalization
   Close(vLog);
   
+  
 end.
