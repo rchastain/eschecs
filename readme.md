@@ -1,7 +1,7 @@
 
 *Eschecs* is a free chess playing program, which uses the [UCI protocol](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with UCI chess engines.
 
-*Eschecs* includes an original UCI engine called *Moustique*. *Eschecs* and *Moustique* are open source programs written in Pascal.
+*Eschecs* includes an original UCI engine called *Moustique*. *Eschecs* and *Moustique* are open source Pascal programs.
 
 ## I. User's Guide
 
@@ -11,17 +11,13 @@ To move a piece, drag it with the mouse to the target square.
 
 ### B. Artificial Chess Player
 
-A default chess engine (Fruit or the last engine used) is loaded at application starts. You can select another opponent in a list of chess engines. See the "Moves" menu.
+A default chess engine (Fruit or the last engine used) is loaded at application start. You can select another opponent in a list of chess engines. See the "Moves" menu.
 
 ### C. Play Mode
 
 The default play mode is user versus computer. The user plays white. If you wish the computer to play white, click on "Computer move".
 
 To play in human versus human mode, unselect the "Autoplay" option in the "Moves" menu. 
-
-### D. Saving Game and Options
-
-When you quit *Eschecs* by clicking on the "Quit" menu item or by pressing the ESC key, the game and the options are automatically saved.
 
 ### E. Keyboard Controls
 
@@ -35,11 +31,17 @@ When you quit *Eschecs* by clicking on the "Quit" menu item or by pressing the E
 
 ### A. Installation of a new UCI engine.
 
-To install a new engine, you have to edit **engines.json**.
+To install a new engine, you have to edit **eschecs.eng**. That file stands in the **config** directory.
 
 ### B. Protocol.
 
-To do.
+*Eschecs* uses the UCI protocol.
+
+For the "go" command, *Eschecs* uses the following syntax:
+
+    go movetime 1000
+
+You can change the value of the parameter by editing **eschecs.ini**, in the **config** directory.
 
 ## III. Programmer's Guide.
 
@@ -65,11 +67,6 @@ Fruit 2.1 is a chess program by Fabien Letouzey.
 
 Contributors: Johann Elsass, Fred van Stappen.
 
-## V. Website
-
-<https://sites.google.com/view/eschecs/accueil> 
-
 [1]: https://github.com/graemeg/fpGUI 
 [2]: https://github.com/bgrabitmap/bgrabitmap
 [Fritz 1.0]: http://www.top-5000.nl/cp.htm
-

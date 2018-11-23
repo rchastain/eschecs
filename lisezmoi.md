@@ -1,7 +1,7 @@
 
 *Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
 
-*Eschecs* inclut un module original, appelé *Moustique*. *Eschecs* et *Moustique* sont des programmes à code source ouvert écrits en Pascal.
+*Eschecs* inclut un module original, appelé *Moustique*. *Eschecs* et *Moustique* sont des programmes Pascal à code source ouvert.
 
 ## I. Guide de l'utilisateur
 
@@ -11,7 +11,7 @@ Pour déplacer une pièce, faites-la glisser avec la souris jusqu'à la case d'a
 
 ### B. Adversaire artificiel
 
-Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utlisé). Vous pouvez choisir un adversaire dans la liste des modules, dans le menu "Coups".
+Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utilisé). Vous pouvez choisir un adversaire dans la liste des modules (menu "Coups").
 
 ### C. Modes de jeu
 
@@ -20,10 +20,6 @@ Par défaut, l'utilisateur a les blancs et l'ordinateur les noirs.
 Si vous souhaitez que l'ordinateur prenne les blancs, cliquez sur "Coup de l'ordinateur", dans le menu "Coups".
 
 Pour jouer humain contre humain, décochez l'option "Réponse automatique", dans le menu "Coups".
-
-### D. Sauvegarde de la partie et des préférences
-
-Si vous quittez *Eschecs* en passant par le menu "Fichier" ou en pressant la touche Échap, la partie et les options sont automatiquement enregistrées.
 
 ### E. Contrôles clavier
 
@@ -37,11 +33,17 @@ Si vous quittez *Eschecs* en passant par le menu "Fichier" ou en pressant la tou
 
 ### A. Installer un nouveau moteur UCI.
 
-À faire.
+Pour installer un nouveau moteur UCI, vous devez éditer le fichier **eschecs.eng**, qui se trouve dans le répertoire **config**.
 
 ### B. Protocole.
 
-À faire.
+*Eschecs* utilise le protocole UCI.
+
+Pour la commande "go", *Eschecs* utilise la syntaxe suivante :
+
+    go movetime 1000
+
+Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini**, dans le répertoire **config**.
 
 ## III. Guide du programmeur
 
@@ -66,10 +68,6 @@ L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.
 *Eschecs* est un programme en Pascal écrit par Roland Chastain.
 
 Contributeurs : Johann Elsass, Fred van Stappen.
-
-## VI. Site internet
-
-<https://sites.google.com/view/eschecs/accueil> 
 
 [1]: https://github.com/graemeg/fpGUI 
 [2]: https://github.com/bgrabitmap/bgrabitmap
