@@ -229,6 +229,7 @@ begin
   FPositionHistory.Free;
   FValidator.Free;
   FreePictures;
+  FChessboardWidget.Free;
   inherited Destroy;
 end;
 
@@ -377,17 +378,11 @@ begin
   finally
     Free;
   end;
-  
   vENGPath := ChangeFileExt(ParamStr(0), '.eng');
-  if FileExists(vENGPath) then
-    LoadEnginesDataFromINI(vENGPath)
-  else
-    LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
-  
+  if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
   ReadStyle(gStyle);
   ReadLanguage(gLanguage);
-  
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
   FMoveHistory := TMoveList.Create(vMoveHistory);
@@ -396,7 +391,6 @@ begin
     FPositionHistory.LoadfromFile(vFENPath)
   else
     FPositionHistory.Append(FENSTARTPOSITION);
-    
   with FMenuBar do
   begin
     AddMenuItem(GetText(txEschecs), nil).SubMenu := FEschecsSubMenu;
@@ -404,8 +398,7 @@ begin
     AddMenuItem(GetText(txBoard), nil).SubMenu := FBoardSubMenu;
     AddMenuItem(GetText(txOptions), nil).SubMenu := FOptionsSubMenu;
     AddMenuItem(GetText(txPromotion), nil).SubMenu := FPromotionSubMenu;
-  end;  
-  
+  end;
   with FEschecsSubMenu do
   begin
     AddMenuItem(GetText(txSave), 'Ctrl+S', @savegame);
@@ -415,7 +408,6 @@ begin
     AddMenuItem('-', '', nil);
     AddMenuItem(GetText(txAbout), '', @OtherItemClicked);
   end;
-  
   with FOptionsSubMenu do
   begin
     AddMenuItem(GetText(txStyle), '',nil).SubMenu := FStyleSubMenu;
@@ -423,12 +415,10 @@ begin
 {$IFDEF OPT_SOUND}
     AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
 {$ENDIF} 
-  end; 
-  
+  end;
   with FStyleSubMenu do
     for vIndex := Low(TStyle) to High(TStyle) do
       AddMenuItem(GetStyleName(vIndex), '', @ItemStyleClicked).Checked := vIndex = gStyle;
-  
   with FLanguageSubMenu do
     for vLang := Low(TLanguage) to High(TLanguage) do
       AddMenuItem(GetLanguageName(vLang), '', @ItemLanguageClicked).Checked := vLang = gLanguage; 
@@ -449,7 +439,6 @@ begin
     AddMenuItem(GetText(txNew), '', @ItemNewGameClicked);
     AddMenuItem(GetText(txFlip), '', @OtherItemClicked);
   end;
-  
   with FMovesSubMenu do
   begin
     AddMenuItem(GetText(txComputerMove), '', @OtherItemClicked);
@@ -463,7 +452,6 @@ begin
        FEngine := vIndex;
     end;
   end;  
-  
   with FPromotionSubMenu do
   begin
     AddMenuItem(GetText(txKnight), '', @OtherItemClicked).Checked := FALSE;
@@ -471,20 +459,16 @@ begin
     AddMenuItem(GetText(txRook), '', @OtherItemClicked).Checked := FALSE;
     AddMenuItem(GetText(txQueen), '', @OtherItemClicked).Checked := TRUE;
   end;
-  
   SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24 + 8 * gStyleData[gStyle].scale + 24);
   WindowTitle := DEFAULT_TITLE;
   MinWidth := 8 * gStyleData[gStyle].scale;
   MinHeight := 24 + 8 * gStyleData[gStyle].scale + 24;
-  
   FChessboardWidget.SetPosition(0, MENU_BAR_HEIGHT, 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
   FStatusBar.SetPosition(0, 24 + 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale, 24);
   FMenuBar.SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24);
-  
   CreatePictures;
   FBoardStyle := TBoardStyle(Ord(vMarble));
   FBGRAChessboard := TBGRAChessboard.Create(FBoardStyle, FUpsideDown, vCurrentPosition);
-  
   FGame := TChessGame.Create(vCurrentPosition);
   FUserMove := '';
   FRookMove := '';
@@ -498,11 +482,9 @@ begin
   FWaitingForAnimationEnd := FALSE;
   FWaitingForReadyOk := 0;
   TLog.Append(Format('Eschecs %s %s %s FPC %s', [VERSION, {$I %DATE%}, {$I %TIME%}, {$I %FPCVERSION%}]));
-  
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
-  
   with FMovesSubMenu do if MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled then
     OtherItemClicked(MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX))
   else
@@ -680,11 +662,13 @@ begin
       if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
       else
-      if Text = GetText(txAutoPlay) then begin
+      if Text = GetText(txAutoPlay) then
+      begin
         Checked := not Checked;
         SetComputerColor(Checked);
       end else
-      if Text = GetText(txFlip) then begin
+      if Text = GetText(txFlip) then
+      begin
         FBGRAChessboard.ScreenRestore;
         FBGRAChessboard.FlipBoard;
         FChessboardWidget.Invalidate;
