@@ -63,9 +63,9 @@ L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.
 
 ## V. Auteur
 
-*Eschecs* est un programme en Pascal écrit par Fred van Stappen et Roland Chastain.
+*Eschecs* est un programme en Pascal écrit par Roland Chastain.
 
-Contributeurs : Johann Elsass.
+Contributeurs : Johann Elsass, Fred van Stappen.
 
 ## VI. Site internet
 
