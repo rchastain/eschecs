@@ -49,7 +49,7 @@ Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini
 
 ### A. Compilation
 
-*Eschecs* est un programme pour le compilateur Free Pascal. *Eschecs* utilise les bibliothèques [fpGUI][1] et [BGRABitmap][2].
+*Eschecs* est un programme pour le compilateur Free Pascal. *Eschecs* utilise les bibliothèques [fpGUI][1], [BGRABitmap][2] et [uos][3].
 
 ## IV. Crédits
 
@@ -71,4 +71,5 @@ Contributeurs : Johann Elsass, Fred van Stappen.
 
 [1]: https://github.com/graemeg/fpGUI 
 [2]: https://github.com/bgrabitmap/bgrabitmap
+[3]: https://github.com/fredvs/uos
 [Fritz 1.0]: http://www.top-5000.nl/cp.htm

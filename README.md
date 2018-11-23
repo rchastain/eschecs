@@ -47,7 +47,7 @@ You can change the value of the parameter by editing **eschecs.ini**, in the **c
 
 ### A. Compilation
 
-*Eschecs* is an open source program for the Free Pascal Compiler. *Eschecs* uses [fpGUI][1] and [BGRABitmap][2] libraries.
+*Eschecs* is an open source program for the Free Pascal Compiler. *Eschecs* uses [fpGUI][1], [BGRABitmap][2] and [uos][3] libraries.
 
 ## IV. Credits
 
@@ -69,4 +69,5 @@ Contributors: Johann Elsass, Fred van Stappen.
 
 [1]: https://github.com/graemeg/fpGUI 
 [2]: https://github.com/bgrabitmap/bgrabitmap
+[3]: https://github.com/fredvs/uos
 [Fritz 1.0]: http://www.top-5000.nl/cp.htm
