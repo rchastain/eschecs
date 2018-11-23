@@ -230,6 +230,7 @@ begin
   FValidator.Free;
   FreePictures;
   FChessboardWidget.Free;
+  FTimer.Free;
   inherited Destroy;
 end;
 
