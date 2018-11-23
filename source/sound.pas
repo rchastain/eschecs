@@ -34,9 +34,7 @@ const
   );  
   
 var
- vsodir: string;
  ms :  array[0..5] of Tmemorystream; 
- x : integer;
 
 procedure Play(const aSound: integer);
 begin
@@ -45,7 +43,8 @@ end;
 
 function LoadSoundLib() : integer;
 var
- PA_FileName, MP_FileName, vaudir: string;
+ PA_FileName, MP_FileName, vsodir, vaudir: string;
+  x : integer;
 begin
  vaudir := ExtractFilePath(ParamStr(0)) + 'audio' + directoryseparator ;
  vsodir := vaudir +  'sound' + directoryseparator;
@@ -100,17 +99,16 @@ uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 1024, -1);
 uos_OutputAddDSPVolume(x, 0, 1, 1); 
 end;
 
-{$IFDEF DEBUG}
+{$IFDEF OPT_DEBUG}
    WriteLn('Result of uos_LoadLib(): ' + inttostr(result));
 {$ENDIF}
 end;
 
 procedure SetSoundVolume(vol : shortint);
+var
+x : integer;
 begin
-for x := 0 to 5 do
-begin
- uos_OutputSetDSPVolume(x, 0, vol/100, vol/100, True);
-end;
+for x := 0 to 5 do uos_OutputSetDSPVolume(x, 0, vol/100, vol/100, True);
 end;
    
 procedure Freeuos;
