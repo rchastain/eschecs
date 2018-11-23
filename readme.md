@@ -61,9 +61,9 @@ Fruit 2.1 is a chess program by Fabien Letouzey.
 
 ## V. Author
 
-*Eschecs* is a Pascal program by Fred van Stappen and Roland Chastain.
+*Eschecs* is a Pascal program by Roland Chastain.
 
-Contributor: Johann Elsass.
+Contributors: Johann Elsass, Fred van Stappen.
 
 ## V. Website
 
