@@ -5,16 +5,16 @@
 
 program Eschecs;
 
-{$mode objfpc}{$H+}
- {$IFDEF UNIX}
-  {$DEFINE UseCThreads}
- {$ENDIF}
+{$MODE objfpc}{$H+}
+{$IFDEF UNIX}
+{$DEFINE UseCThreads}
+{$ENDIF}
 
 uses
- {$IFDEF UNIX}
+{$IFDEF UNIX}
   cthreads, 
   cwstring, 
- {$ENDIF}
+{$ENDIF}
   Classes,
   SysUtils,
   StrUtils,
@@ -53,14 +53,14 @@ uses
   fpg_style_eschecs,
   fpg_stylemanager,
   {%units 'Auto-generated GUI code'}
-  fpg_form, fpg_panel
+  fpg_form,
+  fpg_panel
   {%endunits}
   ;
 
 {$IFDEF windows}
 {$R eschecs.res}
 {$ENDIF}
-
 {$WARN 5024 OFF}
 {$I version.inc}
 
@@ -111,7 +111,7 @@ type
     procedure WidgetMouseMove(Sender: TObject; AShift: TShiftState; const AMousePos: TPoint);
     procedure WidgetMouseUp(Sender: TObject; AButton: TMouseButton; AShift: TShiftState; const AMousePos: TPoint);
   private
-    {@VFD_HEAD_BEGIN: MainForm}
+{@VFD_HEAD_BEGIN: MainForm}
     FChessboardWidget: TfpgWidget;
     FStatusBar: TfpgPanel;
     FMenuBar: TfpgMenuBar;
@@ -123,7 +123,7 @@ type
     FStyleSubMenu: TfpgPopupMenu;
     FLanguageSubMenu: TfpgPopupMenu;
     FPromotionSubMenu: TfpgPopupMenu;
-    {@VFD_HEAD_END: MainForm}
+{@VFD_HEAD_END: MainForm}
     FTimer: TfpgTimer;
     procedure ItemExitClicked(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
@@ -147,7 +147,6 @@ type
   end;
   
 {@VFD_NEWFORM_DECL}
-
 {@VFD_NEWFORM_IMPL}
 
 {$I icon.inc} 
@@ -236,9 +235,8 @@ end;
 procedure TMainForm.AfterCreate;
 begin
   fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
- 
-  {%region 'Auto-generated GUI code' -fold}
-  {@VFD_BODY_BEGIN: MainForm}
+{%region 'Auto-generated GUI code' -fold}
+{@VFD_BODY_BEGIN: MainForm}
   Name := 'MainForm';
   SetPosition(351, 150, 640, 495);
   WindowTitle := 'Eschecs';
@@ -247,7 +245,6 @@ begin
   Hint := '';
   WindowPosition := wpOneThirdDown;
   OnResize := @onresized;
- 
   FChessboardWidget := TfpgWidget.Create(self);
   with FChessboardWidget do
   begin
@@ -261,7 +258,6 @@ begin
     OnMouseEnter := @WidgetMouseEnter;
     OnMouseExit := @WidgetMouseExit;
   end;
-
   FStatusBar := TfpgPanel.Create(self);
   with FStatusBar do
   begin
@@ -277,7 +273,6 @@ begin
     TextColor := TfpgColor($000000);
     Hint := '';
   end;
-
   FMenuBar := TfpgMenuBar.Create(self);
   with FMenuBar do
   begin
@@ -285,68 +280,58 @@ begin
     SetPosition(0, 0, 640, 28);
     Align := alTop;
   end;
-
   FEschecsSubMenu := TfpgPopupMenu.Create(self);
   with FEschecsSubMenu do
   begin
     Name := 'FEschecsSubMenu';
     SetPosition(68, 56, 228, 28);
   end;
-
   FMovesSubMenu := TfpgPopupMenu.Create(self);
   with FMovesSubMenu do
   begin
     Name := 'FMovesSubMenu';
     SetPosition(80, 272, 228, 28);
   end;
-
   FBoardSubMenu := TfpgPopupMenu.Create(self);
   with FBoardSubMenu do
   begin
     Name := 'FBoardSubMenu';
     SetPosition(76, 220, 228, 28);
   end;
-
   FOptionsSubMenu := TfpgPopupMenu.Create(self);
   with FOptionsSubMenu do
   begin
     Name := 'FOptionsSubMenu';
     SetPosition(72, 172, 228, 28);
   end;
-
-   {$IFDEF OPT_SOUND}
+{$IFDEF OPT_SOUND}
   FAudioSubMenu := TfpgPopupMenu.Create(self);
   with FAudioSubMenu do
   begin
     Name := 'FAudioSubMenu';
     SetPosition(68, 168, 228, 28);
   end;
-  {$ENDIF}
-
+{$ENDIF}
   FStyleSubMenu := TfpgPopupMenu.Create(self);
   with FStyleSubMenu do
   begin
     Name := 'FStyleSubMenu';
     SetPosition(92, 388, 228, 28);
   end;
-
   FLanguageSubMenu := TfpgPopupMenu.Create(self);
   with FLanguageSubMenu do
   begin
     Name := 'FLanguageSubMenu';
     SetPosition(92, 332, 228, 28);
   end;
-
   FPromotionSubMenu := TfpgPopupMenu.Create(self);
   with FPromotionSubMenu do
   begin
     Name := 'FPromotionSubMenu';
     SetPosition(68, 112, 228, 28);
   end;
-
-  {@VFD_BODY_END: MainForm}
-  {%endregion}  
-  
+{@VFD_BODY_END: MainForm}
+{%endregion}  
   InitForm;
 end;
 
@@ -435,9 +420,9 @@ begin
   begin
     AddMenuItem(GetText(txStyle), '',nil).SubMenu := FStyleSubMenu;
     AddMenuItem(GetText(txLanguage), '', nil).SubMenu := FLanguageSubMenu;
-    {$IFDEF OPT_SOUND}
+{$IFDEF OPT_SOUND}
     AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
-    {$endif} 
+{$ENDIF} 
   end; 
   
   with FStyleSubMenu do
@@ -447,8 +432,7 @@ begin
   with FLanguageSubMenu do
     for vLang := Low(TLanguage) to High(TLanguage) do
       AddMenuItem(GetLanguageName(vLang), '', @ItemLanguageClicked).Checked := vLang = gLanguage; 
-  
- {$IFDEF OPT_SOUND}
+{$IFDEF OPT_SOUND}
   with FAudioSubMenu do
   begin
     AddMenuItem(GetText(txEnabled), '', @OtherItemClicked).Checked := true;
@@ -459,8 +443,7 @@ begin
     AddMenuItem('50 %', '', @OtherItemClicked).Checked := false;
     AddMenuItem('25 %', '', @OtherItemClicked).Checked := false;
   end; 
-  {$endif}
-    
+{$ENDIF}   
   with FBoardSubMenu do
   begin
     AddMenuItem(GetText(txNew), '', @ItemNewGameClicked);
@@ -479,9 +462,6 @@ begin
      if (FEngine = -1) and (Pos(UpperCase('Fruit'), UpperCase(vEngines[vIndex].vName)) > 0) then
        FEngine := vIndex;
     end;
-{$IFDEF OPT_DEBUG}
-    WriteLn('FEngine=', FEngine);
-{$ENDIF}
   end;  
   
   with FPromotionSubMenu do
@@ -664,7 +644,7 @@ begin
   for vStyle := Low(TStyle) to High(TStyle) do if GetStyleName(vStyle) = TfpgMenuItem(Sender).Text then
     vSelectedStyle := vStyle;
 {$IFDEF OPT_DEBUG}
-  WriteLn('vSelectedStyle=', vSelectedStyle);
+  WriteLn('vSelectedStyle = ', vSelectedStyle);
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
     FStyleSubMenu.MenuItem(Ord(vStyle)).Checked := vStyle = vSelectedStyle;
@@ -680,7 +660,7 @@ begin
   for vLanguage := Low(TLanguage) to High(TLanguage) do if GetLanguageName(vLanguage) = TfpgMenuItem(Sender).Text then
     vSelectedLanguage := vLanguage;
 {$IFDEF OPT_DEBUG}
-  WriteLn('vSelectedLanguage=', vSelectedLanguage);
+  WriteLn('vSelectedLanguage = ', vSelectedLanguage);
 {$ENDIF}
   for vLanguage := Low(TLanguage) to High(TLanguage) do
     FLanguageSubMenu.MenuItem(Ord(vLanguage)).Checked := vLanguage = vSelectedLanguage;
@@ -911,7 +891,6 @@ var
 begin
 {$IFDEF OPT_DEBUG}
   WriteLn('TMainForm.OnMoveDone()');
-  WriteLn('FGame.Check=)', FGame.Check);
 {$ENDIF}
   if vColoring and FGame.Check and FBGRAChessboard.ScreenSaved() then
   begin

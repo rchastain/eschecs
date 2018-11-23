@@ -164,6 +164,6 @@ begin
   vConfigFilesPath := Concat(ExtractFilePath(ParamStr(0)), 'config', directoryseparator);
   Assert(DirectoryExists(vConfigFilesPath) or CreateDir(vConfigFilesPath));
   vLOGPath := Concat(vConfigFilesPath, ChangeFileExt(ExtractFileName(ParamStr(0)), '.log'));
-  vINIPath := ChangeFileExt(ParamStr(0), '.ini');
-  vFENPath := Concat(vConfigFilesPath, ChangeFileExt(ExtractFileName(ParamStr(0)), '.fen'));
+  vINIPath := ChangeFileExt(vLOGPath, '.ini');
+  vFENPath := ChangeFileExt(vLOGPath, '.fen');
 end.
