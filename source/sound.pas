@@ -35,10 +35,11 @@ const
   
 var
  ms :  array[0..5] of Tmemorystream; 
+ isloaded : boolean = false;
 
 procedure Play(const aSound: integer);
 begin
-uos_PlayNoFree(aSound);
+if isloaded then uos_PlayNoFree(aSound);
 end;
 
 function LoadSoundLib() : integer;
@@ -48,7 +49,7 @@ var
 begin
  vaudir := ExtractFilePath(ParamStr(0)) + 'audio' + directoryseparator ;
  vsodir := vaudir +  'sound' + directoryseparator;
-
+ 
  {$IFDEF Windows}
     {$if defined(cpu64)}
     PA_FileName := vaudir + 'lib\Windows\64bit\LibPortaudio-64.dll';
@@ -82,7 +83,8 @@ begin
   
 // Load the libraries, here only PortAudio and Mpg123
   result := uos_LoadLib(Pchar(PA_FileName), nil, Pchar(MP_FileName), nil, nil,  nil) ;
- 
+
+if result > -1 then begin 
 // using memorystream
 for x := 0 to 5 do
 begin
@@ -98,7 +100,8 @@ uos_AddIntoDevOut(x, -1, 0.03, -1, -1, 0, 1024, -1);
  {$endif}
 uos_OutputAddDSPVolume(x, 0, 1, 1); 
 end;
-
+isloaded := true;
+end;
 {$IFDEF OPT_DEBUG}
    WriteLn('Result of uos_LoadLib(): ' + inttostr(result));
 {$ENDIF}
@@ -108,7 +111,7 @@ procedure SetSoundVolume(vol : shortint);
 var
 x : integer;
 begin
-for x := 0 to 5 do uos_OutputSetDSPVolume(x, 0, vol/100, vol/100, True);
+if isloaded then for x := 0 to 5 do uos_OutputSetDSPVolume(x, 0, vol/100, vol/100, True);
 end;
    
 procedure Freeuos;
