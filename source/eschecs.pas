@@ -90,7 +90,7 @@ type
     FMoveHistory: TMoveList;
     FPositionHistory: TStringList;
     FCurrPosIndex: integer;
-    FTimeAvailable: integer;
+    FMoveTime: integer;
     FValidator: TValidator;
     FDragging: boolean;
     FMousePos, FDragPos, FInitPos: TPoint;
@@ -371,7 +371,7 @@ begin
   vColoring := TRUE;
   vENGPath := ChangeFileExt(vFENPath, '.eng');
   if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FMoveTime);
   ReadStyle(gStyle);
   ReadLanguage(gLanguage);
   FValidator := TValidator.Create;
@@ -588,7 +588,8 @@ begin
     FBGRAChessboard.RestorePieceBackground(FMousePos - FDragPos);
     FBGRAChessboard.DrawPiece(FInitPos, FPieceIndex);
     FChessboardWidget.Invalidate;
-    OnUserIllegalMove;
+    if Copy(FUserMove, 3, 2) <> Copy(FUserMove, 1, 2) then
+      OnUserIllegalMove;
   end;
 end;
 
@@ -783,7 +784,7 @@ begin
           2:
             begin
               FWaitingForReadyOk := 0;
-              WriteProcessInput_(MsgGo(FTimeAvailable));
+              WriteProcessInput_(MsgGo(FMoveTime));
               MouseCursor := mcHourGlass;
               FWaiting := TRUE;
               FStatusBar.Text := Concat(' ', GetText(txWaiting));
@@ -991,7 +992,7 @@ begin
     FCurrPosIndex,
     FEngine,
     vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
-    FTimeAvailable
+    FMoveTime
   );
   FPositionHistory.SaveToFile(vFENPath);
 end;
