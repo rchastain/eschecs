@@ -98,6 +98,7 @@ type
     FCastlingFlag: boolean;
     FWaitingForAnimationEnd: boolean;
     FWaitingForReadyOk: integer;
+    FWaitingForUserMove: boolean;
     procedure HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean); override;
   public
     destructor Destroy; override;
@@ -473,6 +474,7 @@ begin
   FCastlingFlag := FALSE;
   FWaitingForAnimationEnd := FALSE;
   FWaitingForReadyOk := 0;
+  FWaitingForUserMove := TRUE;
   TLog.Append(Format('Eschecs %s %s %s FPC %s', [VERSION, {$I %DATE%}, {$I %TIME%}, {$I %FPCVERSION%}]));
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
@@ -498,7 +500,7 @@ procedure TMainForm.WidgetMouseDown(Sender: TObject; AButton: TMouseButton; AShi
 var
   X, Y: integer;
 begin
-  if FGame.state = csProgress then
+  if (FGame.state = csProgress) and FWaitingForUserMove then
   begin
     FMousePos := AMousePos;
     FDragPos.X := AMousePos.X mod gStyleData[gStyle].scale;
@@ -541,7 +543,7 @@ begin
   end else
   begin
     FBGRAChessboard.ScreenToXY(AMousePos, X, Y);
-    if FBGRAChessboard.FindPiece(X, Y, TChessPieceColor(Ord(FGame.ActiveColor))) > 0 then
+    if FWaitingForUserMove and (FBGRAChessboard.FindPiece(X, Y, TChessPieceColor(Ord(FGame.ActiveColor))) > 0) then
       TfpgWidget(Sender).MouseCursor := mcHand
     else
       TfpgWidget(Sender).MouseCursor := mcDefault;
@@ -607,6 +609,7 @@ begin
   FPositionHistory.Clear;
   FPositionHistory.Append(FENSTARTPOSITION);
   FCurrPosIndex := 0;
+  FWaitingForUserMove := TRUE;
 end;
 
 procedure TMainForm.ItemStyleClicked(Sender: TObject);
@@ -792,6 +795,7 @@ begin
               MouseCursor := mcHourGlass;
               FWaiting := TRUE;
               FStatusBar.Text := Concat(' ', GetText(txWaiting));
+              FWaitingForUserMove := FALSE;
             end;
         end;
       end;
@@ -892,15 +896,13 @@ begin
       else
         PlaySound(sndMove);
 {$ENDIF}
-  FStatusBar.Text := Concat(
-    ' ',
-    ArbitratorMessage(FGame.Check, FGame.ActiveColor, FGame.state)
-  );
+  FStatusBar.Text := Concat(' ', ArbitratorMessage(FGame.Check, FGame.ActiveColor, FGame.state));
 {$IFDEF OPT_ECO}
   vOpeningName := ECO.GetOpening(aHistory);
   if Length(vOpeningName) > 0 then
     TLog.Append(Format('Ouverture "%s".', [vOpeningName]));
 {$ENDIF}
+  FWaitingForUserMove := not (FGame.state in [csCheckmate, csStalemate, csDraw]);
 end;
 
 procedure TMainForm.OnComputerMove;
@@ -910,6 +912,7 @@ begin
   MouseCursor := mcHand;
   OnMoveDone(FMoveHistory.GetString(FCurrPosIndex));
   FWaiting := FALSE;
+  FWaitingForUserMove := TRUE;
 end;
 
 procedure TMainForm.OnUserIllegalMove;
@@ -1076,9 +1079,7 @@ var
   
 begin
   vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
-  
   Assign(vUCILog, vUciLogName);
-  
   if FileExists(vUciLogName) then
     Append(vUCILog)
   else
