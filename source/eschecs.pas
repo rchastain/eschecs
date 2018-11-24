@@ -222,8 +222,8 @@ begin
     FreeConnectedProcess;
     vListener.Terminate;
     vListener.WaitFor;
-    vListener.Free;
   end;
+  vListener.Free;
   FMoveHistory.Free;
   FPositionHistory.Free;
   FValidator.Free;
