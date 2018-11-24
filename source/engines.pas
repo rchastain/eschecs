@@ -52,25 +52,26 @@ var
   section: string;
 begin
   with TIniFile.Create(aFileName) do
-  begin
-  while x >= 0 do 
-  begin
-    section := 'engine' + IntToStr(x);
-    if ReadString(section, 'name', '') <> '' then
+  try
+    while x >= 0 do 
     begin
-      SetLength(vEngines, Succ(x));
-      with vEngines[x] do
+      section := 'engine' + IntToStr(x);
+      if ReadString(section, 'name', '') <> '' then
       begin
-        vName := ReadString(section, 'name', '');
-        vCommand := ReadString(section, 'command', '');
-        vDirectory := ExtractFileDir(ParamStr(0)) + ReadString(section, 'workingdirectory', '');
-        vExists := FileExists(Concat(vDirectory, vCommand));
-      end;
-      Inc(x);
-    end else
-      x := -1;
-  end;
-  free;
+        SetLength(vEngines, Succ(x));
+        with vEngines[x] do
+        begin
+          vName := ReadString(section, 'name', '');
+          vCommand := ReadString(section, 'command', '');
+          vDirectory := ExtractFileDir(ParamStr(0)) + ReadString(section, 'workingdirectory', '');
+          vExists := FileExists(Concat(vDirectory, vCommand));
+        end;
+        Inc(x);
+      end else
+        x := -1;
+    end;
+  finally
+    Free;
   end;
 end;
 

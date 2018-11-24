@@ -48,14 +48,13 @@ uses
   ECO,
 {$ENDIF}
   MoveList,
-  rcmdline,
   messagefrm,
   fpg_style_eschecs,
   fpg_stylemanager,
-  {%units 'Auto-generated GUI code'}
+{%units 'Auto-generated GUI code'}
   fpg_form,
   fpg_panel
-  {%endunits}
+{%endunits}
   ;
 
 {$IFDEF windows}
@@ -369,16 +368,7 @@ var
   vLang: TLanguage;
   vMoveHistory: string;
 begin
-  with TCommandLineReader.Create do
-  try
-    DeclareInt('style', '', 0);
-    DeclareInt('coloring', '', 1);
-    Parse(CmdLine);
-    gStyle := ReadInt('style');
-    vColoring := boolean(ReadInt('coloring'));
-  finally
-    Free;
-  end;
+  vColoring := TRUE;
   vENGPath := ChangeFileExt(vFENPath, '.eng');
   if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FTimeAvailable);
