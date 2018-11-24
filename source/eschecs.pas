@@ -368,12 +368,12 @@ var
   vLang: TLanguage;
   vMoveHistory: string;
 begin
-  vColoring := TRUE;
   vENGPath := ChangeFileExt(vFENPath, '.eng');
   if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FMoveTime);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FMoveTime, vReplaceFont);
   ReadStyle(gStyle);
   ReadLanguage(gLanguage);
+  ReadColoring(vColoring);
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(vCurrentPosition));
   FMoveHistory := TMoveList.Create(vMoveHistory);
@@ -406,6 +406,7 @@ begin
 {$IFDEF OPT_SOUND}
     AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
 {$ENDIF} 
+    AddMenuItem(GetText(txColoring), '', @OtherItemClicked).Checked := vColoring;
   end;
   with FStyleSubMenu do
     for vIndex := Low(TStyle) to High(TStyle) do
@@ -671,6 +672,9 @@ begin
       then
       begin
         Checked := not Checked;
+        vColoring := Checked;
+        WriteColoring(vColoring);
+        ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage));
       end
       else
 {$IFDEF OPT_SOUND}
@@ -992,7 +996,8 @@ begin
     FCurrPosIndex,
     FEngine,
     vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed],
-    FMoveTime
+    FMoveTime,
+    vReplaceFont
   );
   FPositionHistory.SaveToFile(vFENPath);
 end;

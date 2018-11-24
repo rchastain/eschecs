@@ -12,7 +12,8 @@ procedure ReadFromINIFile(
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
   out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aMoveTime: integer
+  out aMoveTime: integer;
+  out aFont: string
 );
 procedure WriteToINIFile(
   const aCurrentPosition: string;
@@ -20,18 +21,19 @@ procedure WriteToINIFile(
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
   const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aMoveTime: integer
+  const aMoveTime: integer;
+  const aFont: string
 );
 
 procedure ReadStyle(out aStyle: TStyle);
 procedure WriteStyle(const aStyle: TStyle);
 procedure ReadLanguage(out aLanguage: TLanguage);
 procedure WriteLanguage(const aLanguage: TLanguage);
+procedure ReadColoring(out aColoring: boolean);
+procedure WriteColoring(const aColoring: boolean);
 
 var
-  vFENPath: string;
-  vLOGPath: string;
-  vConfigFilesPath: string;
+  vFENPath, vLOGPath, vConfigFilesPath: string;
   
 implementation
 
@@ -65,7 +67,8 @@ procedure ReadFromINIFile(
   out aExePath, aHistory: string;
   out aIndex, aEngine: integer;
   out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aMoveTime: integer
+  out aMoveTime: integer;
+  out aFont: string
 );
 begin
   with TIniFile.Create(vINIPath) do
@@ -83,6 +86,7 @@ begin
     aGreenColor := StrToBGRA(ReadString(SECTION_COLORS, 'green', '60C00080'));
     aRedColor := StrToBGRA(ReadString(SECTION_COLORS, 'red', 'C0000080'));
     aMoveTime := ReadInteger(SECTION_OPTIONS, 'movetime', 1000);
+    aFont := ReadString(SECTION_OPTIONS, 'font', '');
   finally
     Free;
   end;
@@ -94,7 +98,8 @@ procedure WriteToINIFile(
   const aExePath, aHistory: string;
   const aIndex, aEngine: integer;
   const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aMoveTime: integer
+  const aMoveTime: integer;
+  const aFont: string
 );
 begin
   with TIniFile.Create(vINIPath) do
@@ -112,6 +117,7 @@ begin
     WriteString(SECTION_COLORS, 'green', BGRAToStr(aGreenColor));
     WriteString(SECTION_COLORS, 'red', BGRAToStr(aRedColor));
     WriteInteger(SECTION_OPTIONS, 'movetime', aMoveTime);
+    WriteString(SECTION_OPTIONS, 'font', aFont);
     UpdateFile;
   finally
     Free;
@@ -154,6 +160,27 @@ begin
   with TIniFile.Create(vINIPath) do
   try
     WriteInteger(SECTION_OPTIONS, 'language', Ord(aLanguage));
+    UpdateFile;
+  finally
+    Free;
+  end;
+end;
+
+procedure ReadColoring(out aColoring: boolean);
+begin
+  with TIniFile.Create(vINIPath) do
+  try
+    aColoring := ReadString(SECTION_OPTIONS, 'coloring', 'TRUE') = 'TRUE';
+  finally
+    Free;
+  end;
+end;
+
+procedure WriteColoring(const aColoring: boolean);
+begin
+  with TIniFile.Create(vINIPath) do
+  try
+    WriteString(SECTION_OPTIONS, 'coloring', UpperCase(BoolToStr(aColoring, TRUE)));
     UpdateFile;
   finally
     Free;

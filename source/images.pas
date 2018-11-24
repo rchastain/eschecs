@@ -25,6 +25,7 @@ var
   vCurrentStyle: TBoardStyle;
   vSpecialColors: array[ocGreen..ocRed] of TBGRAPixel;
   vLightSquareColor, vDarkSquareColor: TBGRAPixel;
+  vReplaceFont: string;
   
 function CreateChessboard(const aBoardStyle: TBoardStyle): TBGRABitmap;
 procedure FreePictures();
@@ -207,9 +208,13 @@ begin
   for c := cpcWhite to cpcBlack do
     for k := cpkPawn to cpkKing do
     begin
+      if (gStyleData[gStyle].scale = 60) and (Pos(vReplaceFont, 'montreal,') > 0) then
+        s := vReplaceFont
+      else
+        s := gStyleData[gStyle].font;
       s := Concat(
         ExtractFilePath(ParamStr(0)),
-        Format(PICTURES_FOLDER, [gStyleData[gStyle].font, gStyleData[gStyle].scale]),
+        Format(PICTURES_FOLDER, [s, gStyleData[gStyle].scale]),
         directoryseparator, COLORCHARS[c], TYPECHARS[k], gStyleData[gStyle].imgext
       );
       Assert(FileExists(s));
