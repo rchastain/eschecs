@@ -236,13 +236,11 @@ end;
 
 procedure TMainForm.AfterCreate;
 begin
-  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
-{%region 'Auto-generated GUI code' -fold}
+ {%region 'Auto-generated GUI code' -fold}
 {@VFD_BODY_BEGIN: MainForm}
   Name := 'MainForm';
   SetPosition(351, 150, 640, 495);
   WindowTitle := 'Eschecs';
-  IconName := 'vfd.eschecs';
   BackGroundColor := $80000001;
   Hint := '';
   WindowPosition := wpOneThirdDown;
@@ -369,6 +367,8 @@ var
   vLang: TLanguage;
   vMoveHistory: string;
 begin
+  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
+  IconName := 'vfd.eschecs';
   vENGPath := ChangeFileExt(vFENPath, '.eng');
   if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FMoveTime, vReplaceFont);
@@ -488,6 +488,15 @@ begin
     WriteLn('MenuItem(', FEngine + FIRST_ENGINE_ITEM_INDEX,').Enabled=', MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled);
 {$ENDIF}
   end;
+  
+{$IFDEF OPT_SOUND}
+ if LoadSoundLib() < 0 then
+  begin
+   ShowMessagefrm('Sound libraries did not load', 'Audio will be disabled', 'Warning...', GetText(txQuit));
+   FAudioSubMenu.MenuItem(0).Checked := FALSE;
+  end
+  else FAudioSubMenu.MenuItem(0).Checked := true;
+{$ENDIF}  
 end;
 
 procedure TMainForm.WidgetPaint(Sender: TObject);
@@ -626,7 +635,7 @@ begin
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
     FStyleSubMenu.MenuItem(Ord(vStyle)).Checked := vStyle = vSelectedStyle;
-  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage));
+  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
   WriteStyle(vSelectedStyle);
 end;
 
@@ -642,7 +651,7 @@ begin
 {$ENDIF}
   for vLanguage := Low(TLanguage) to High(TLanguage) do
     FLanguageSubMenu.MenuItem(Ord(vLanguage)).Checked := vLanguage = vSelectedLanguage;
-  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage));
+  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
   WriteLanguage(vSelectedLanguage);
 end;
 
@@ -653,7 +662,7 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = GetText(txAbout) then
-        ShowMessagefrm('Eschecs ' + VERSION, GetText(txAboutMessage), GetText(txAbout))
+        ShowMessagefrm('Eschecs ' + VERSION, GetText(txAboutMessage), GetText(txAbout), GetText(txQuit))
       else
       if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
@@ -677,7 +686,7 @@ begin
         Checked := not Checked;
         vColoring := Checked;
         WriteColoring(vColoring);
-        ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage));
+       // ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
       end
       else
 {$IFDEF OPT_SOUND}
@@ -754,7 +763,7 @@ begin
             WriteProcessInput_(MsgUCI());
             FEngine := i;
           end else
-            ShowMessagefrm(GetText(txConnectionFailure), '',  GetText(txTitleMessage));
+            ShowMessagefrm(GetText(txConnectionFailure), '',  GetText(txTitleMessage), GetText(txQuit));
         end;
 end;
 
@@ -1060,7 +1069,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      ShowMessagefrm(GetText(txIllegalMove), vMove,  GetText(txTitleMessage));
+      ShowMessagefrm(GetText(txIllegalMove), vMove,  GetText(txTitleMessage), GetText(txQuit));
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;
@@ -1078,28 +1087,45 @@ var
   vUciLogName: string;
   
 begin
-  vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
+   fpgApplication.Initialize;
+ 
+  if directoryexists(vConfigFilesPath) and fileexists(vConfigFilesPath+'eschecs.eng')  then
+  begin 
+ 
+  vFileName := vLOGPath;
+  Assign(vLog, vFileName);
+  if FileExists(vFileName) then
+    Append(vLog)
+  else
+    Rewrite(vLog);
+
+   vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
+  
   Assign(vUCILog, vUciLogName);
+  
   if FileExists(vUciLogName) then
     Append(vUCILog)
   else
     Rewrite(vUCILog);
-    
-{$IFDEF OPT_SOUND}
-  LoadSoundLib();
-{$ENDIF}    
-   
-  fpgApplication.Initialize;
+  
   if fpgStyleManager.SetStyle('eschecs_style') then
     fpgStyle := fpgStyleManager.Style;
   fpgApplication.CreateForm(TMainForm, frm);
   fpgApplication.MainForm := frm;
   frm.Show;
   fpgApplication.Run;
-{$IFDEF OPT_SOUND}
+  {$IFDEF OPT_SOUND}
   Freeuos;
-{$ENDIF}
+  {$ENDIF}
   frm.Free;
-   
+  Close(vLog); 
   Close(vUCILog);
+  
+end else 
+begin
+ ShowMessagefrm('The config folder is corrupted.',
+ 'Please check your configuraion or re-install Eschecs.', 'Error...', 'Close');
+  fpgApplication.terminate; 
+end;  
 end.
+

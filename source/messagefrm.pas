@@ -32,7 +32,7 @@ type
 {$define read_interface}
 {$undef read_implementation}
 
- procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
+ procedure ShowMessageFrm(AMessage1, AMessage2, ATitle, AButton : string);
 
 {$I icon.inc} 
 
@@ -44,7 +44,7 @@ begin
 close;
 end;
 
-procedure ShowMessageFrm(AMessage1, AMessage2, ATitle : string);
+procedure ShowMessageFrm(AMessage1, AMessage2, ATitle, AButton : string);
 var
 mwidth: integer;
 msgfrm : Tmessagefrm;
@@ -53,7 +53,7 @@ begin
   
 msgfrm :=  Tmessagefrm.create(nil);
   try
-    msgfrm.Button1.text := GetText(txQuit);
+    msgfrm.Button1.text := Abutton;
     msgfrm.label1.text := AMessage1;
     msgfrm.label2.text := AMessage2;
 
