@@ -419,7 +419,7 @@ begin
   begin
     AddMenuItem(GetText(txEnabled), '', @OtherItemClicked).Checked := true;
     AddMenuItem('-', '', nil);
-    AddMenuItem(GetText(txVolume)+':', '', nil);
+    AddMenuItem(GetText(txVolume) + ':', '', nil);
     AddMenuItem('100 %', '', @OtherItemClicked).Checked := true;
     AddMenuItem('75 %', '', @OtherItemClicked).Checked := false;
     AddMenuItem('50 %', '', @OtherItemClicked).Checked := false;
@@ -1084,9 +1084,9 @@ begin
   else
     Rewrite(vUCILog);
     
- {$IFDEF OPT_SOUND}
+{$IFDEF OPT_SOUND}
   LoadSoundLib();
-  {$ENDIF}    
+{$ENDIF}    
    
   fpgApplication.Initialize;
   if fpgStyleManager.SetStyle('eschecs_style') then
@@ -1095,9 +1095,9 @@ begin
   fpgApplication.MainForm := frm;
   frm.Show;
   fpgApplication.Run;
-  {$IFDEF OPT_SOUND}
+{$IFDEF OPT_SOUND}
   Freeuos;
-  {$ENDIF}
+{$ENDIF}
   frm.Free;
    
   Close(vUCILog);

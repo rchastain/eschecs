@@ -77,7 +77,7 @@ const
     'Nieuwe partij', // txNewGame
     'Het schaakbord draaien', // txFlip
     'Opties', // txOptions
-    '', // txColoring
+    'Kleur van het schaakbord', // txColoring
     'Geluid', // txSound
     'Promotie', // txPromotion
     'Paard', // txKnight
@@ -85,11 +85,11 @@ const
     'Toren', // txRook
     'Koningin', // txQueen
     
-    'Bericht', //txTitleMessage
-    'Stijl',  //txStyle
+    'Bericht', // txTitleMessage
+    'Stijl', // txStyle
     'Taal', // txLanguage
-    'Volume', //txVolume
-    'Actief',//txEnabled
+    'Volume', // txVolume
+    'Actief', // txEnabled
 
     'Schaakspel in Pascal geschreven door Roland Chastain.', // txAbout
     'Illegale beweging.', // txIllegalMove
@@ -128,11 +128,11 @@ const
     'Rook', // txRook
     'Queen', // txQueen
 
-    'Message', //txTitleMessage
-    'Style',  //txStyle
+    'Message', // txTitleMessage
+    'Style', // txStyle
     'Language', // txLanguage
-    'Volume', //txVolume
-    'Enabled',//txEnabled
+    'Volume', // txVolume
+    'Enabled', // txEnabled
 
     'Pascal chess program by Roland Chastain.', // txAbout
     'Illegal move.', // txIllegalMove
@@ -171,11 +171,11 @@ const
     'Tour', // txRook
     'Dame', // txQueen
 
-    'Message', //txTitleMessage
-    'Style',  //txStyle
+    'Message', // txTitleMessage
+    'Style',  // txStyle
     'Langue', // txLanguage
-    'Volume', //txVolume
-    'Activé',//txEnabled
+    'Volume ', // txVolume
+    'Activé', // txEnabled
 
     'Programme d''échecs en Pascal par Roland Chastain.', // txAbout
     'Coup illégal.', // txIllegalMove
@@ -206,7 +206,7 @@ const
     'Neue Partie', // txNewGame
     'Drehen', // txFlip
     'Optionen', // txOptions
-    '', // txColoring
+    'Färbung des Schachbretts', // txColoring
     'Ton', // txSound
     'Umwandlung', // txPromotion
     'König', // txKnight
@@ -214,11 +214,11 @@ const
     'Turm', // txRook
     'Dame', // txQueen
  
-    'Nachricht',           //txTitleMessage
-    'Stil',  //txStyle
+    'Nachricht', // txTitleMessage
+    'Stil', // txStyle
     'Sprache', // txLanguage
-    'Volume', //txVolume
-    'Enabled',//txEnabled
+    'Volume', // txVolume
+    'Enabled', // txEnabled
   
     'Pascal Schachprogramm von Roland Chastain.', // txAbout
     'Ungültiger Zug.', // txIllegalMove
@@ -249,7 +249,7 @@ const
     'Nuevo juego', // txNewGame
     'Invertir el tablero', // txFlip
     'Opciones', // txOptions
-    '', // txColoring
+    'Colorear el tablero de ajedrez', // txColoring
     'Sonar', // txSound
     'Promover pieza', // txPromotion
     'Caballo', // txKnight
