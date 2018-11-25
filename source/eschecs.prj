@@ -199,7 +199,7 @@ options=114
  value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=2
+ index=3
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=814
  width0=47
@@ -220,7 +220,7 @@ options=114
  index=0
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=2
+ index=11
  [projectoptionsfo]
  stackedunder=
  x=143
@@ -831,7 +831,7 @@ findhistory=20
  .json
 findoptions=1
 editpos=7
- 0,1127
+ 0,1131
  0,-1073741823
  0,-1073741823
  0,-1073741823
@@ -915,9 +915,9 @@ windowlayout=555
  cy=314
  rcx=0
  rcy=0
- wsize=5
+ wsize=0
  active=0
- visible=0
+ visible=1
  [threadsfo]
  splitdir=0
  useroptions=268451945
@@ -933,9 +933,9 @@ windowlayout=555
  cy=126
  rcx=0
  rcy=0
- wsize=5
+ wsize=0
  active=0
- visible=0
+ visible=1
  [memoryfo]
  splitdir=0
  useroptions=268451963
@@ -1128,7 +1128,7 @@ windowlayout=555
  [symbolfo]
  splitdir=0
  useroptions=268451963
- stackedunder=mainfo
+ stackedunder=targetconsolefo
  parent=
  mdistate=0
  nx=0
@@ -1375,7 +1375,7 @@ windowlayout=555
   /home/fred/eschecs_uos/source/sound.pas
   /home/fred/uos/examples/simpledrums_fpGUI.pas
  [debuggerfo.project_options]
- value=5
+ value=1
  [debuggerfo.hints]
  value=0
  [sourcefo]
