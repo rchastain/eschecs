@@ -243,6 +243,7 @@ begin
   WindowTitle := 'Eschecs';
   BackGroundColor := $80000001;
   Hint := '';
+  IconName := 'vfd.eschecs';
   WindowPosition := wpOneThirdDown;
   OnResize := @onresized;
   FChessboardWidget := TfpgWidget.Create(self);
@@ -367,8 +368,6 @@ var
   vLang: TLanguage;
   vMoveHistory: string;
 begin
-  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
-  IconName := 'vfd.eschecs';
   vENGPath := ChangeFileExt(vFENPath, '.eng');
   if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
   ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FMoveTime, vReplaceFont);
