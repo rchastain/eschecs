@@ -208,7 +208,7 @@ begin
   for c := cpcWhite to cpcBlack do
     for k := cpkPawn to cpkKing do
     begin
-      if (gStyleData[gStyle].scale = 60) and (Pos(vReplaceFont, 'montreal,alpha') > 0) then
+      if (gStyleData[gStyle].scale = 60) and (Pos(vReplaceFont, 'alpha condal montreal') > 0) then
         s := vReplaceFont
       else
         s := gStyleData[gStyle].font;
