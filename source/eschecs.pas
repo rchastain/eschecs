@@ -686,7 +686,7 @@ begin
         Checked := not Checked;
         vColoring := Checked;
         WriteColoring(vColoring);
-       // ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
+        ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
       end
       else
 {$IFDEF OPT_SOUND}
