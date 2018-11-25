@@ -12,8 +12,8 @@ program Eschecs;
 
 uses
 {$IFDEF UNIX}
-  cthreads, 
-  cwstring, 
+  cthreads,
+  cwstring,
 {$ENDIF}
   Classes,
   SysUtils,
@@ -65,7 +65,7 @@ uses
 
 type
   TNavigation = (nvPrevious, nvNext, nvLast, nvFirst);
-  
+
   TListener = class(TThread)
   private
     FEngineMessage: string;
@@ -73,7 +73,7 @@ type
   protected
     procedure Execute; override;
   end;
-  
+
   TMainForm = class(TfpgForm)
   protected
     FBGRAChessboard: TBGRAChessboard;
@@ -103,7 +103,7 @@ type
   public
     destructor Destroy; override;
     procedure AfterCreate; override;
-    procedure InitForm; 
+    procedure InitForm;
     procedure WidgetPaint(Sender: TObject);
     procedure WidgetMouseDown(Sender: TObject; AButton: TMouseButton; AShift: TShiftState; const AMousePos: TPoint);
     procedure WidgetMouseEnter(Sender: TObject);
@@ -145,20 +145,20 @@ type
     procedure SaveGame(Sender: TObject);
     procedure OnResized(Sender: TObject);
   end;
-  
+
 {@VFD_NEWFORM_DECL}
 {@VFD_NEWFORM_IMPL}
 
-{$I icon.inc} 
+{$I icon.inc}
 
 const
   FIRST_ENGINE_ITEM_INDEX = 3;
-  
+
 var
   vListener: TThread;
   vUCILog: text;
   vColoring: boolean;
-  
+
 procedure UCILogAppend(const aText, aInsert: string);
 var
   vList: TStringList;
@@ -332,11 +332,11 @@ begin
     SetPosition(68, 112, 228, 28);
   end;
 {@VFD_BODY_END: MainForm}
-{%endregion}  
+{%endregion}
   InitForm;
 end;
 
-procedure TMainForm.InitForm; 
+procedure TMainForm.InitForm;
 const
   MENU_BAR_HEIGHT = 24;
 {$if defined(cpu64) and defined(Windows)}
@@ -404,8 +404,8 @@ begin
     AddMenuItem(GetText(txStyle), '',nil).SubMenu := FStyleSubMenu;
     AddMenuItem(GetText(txLanguage), '', nil).SubMenu := FLanguageSubMenu;
 {$IFDEF OPT_SOUND}
-    AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;  
-{$ENDIF} 
+    AddMenuItem(GetText(txSound), '', nil).SubMenu := FAudioSubMenu;
+{$ENDIF}
     AddMenuItem(GetText(txColoring), '', @OtherItemClicked).Checked := vColoring;
   end;
   with FStyleSubMenu do
@@ -413,7 +413,7 @@ begin
       AddMenuItem(GetStyleName(vIndex), '', @ItemStyleClicked).Checked := vIndex = gStyle;
   with FLanguageSubMenu do
     for vLang := Low(TLanguage) to High(TLanguage) do
-      AddMenuItem(GetLanguageName(vLang), '', @ItemLanguageClicked).Checked := vLang = gLanguage; 
+      AddMenuItem(GetLanguageName(vLang), '', @ItemLanguageClicked).Checked := vLang = gLanguage;
 {$IFDEF OPT_SOUND}
   with FAudioSubMenu do
   begin
@@ -424,8 +424,8 @@ begin
     AddMenuItem('75 %', '', @OtherItemClicked).Checked := false;
     AddMenuItem('50 %', '', @OtherItemClicked).Checked := false;
     AddMenuItem('25 %', '', @OtherItemClicked).Checked := false;
-  end; 
-{$ENDIF}   
+  end;
+{$ENDIF}
   with FBoardSubMenu do
   begin
     AddMenuItem(GetText(txNew), '', @ItemNewGameClicked);
@@ -443,7 +443,7 @@ begin
      if (FEngine = -1) and (Pos(UpperCase('Fruit'), UpperCase(vEngines[vIndex].vName)) > 0) then
        FEngine := vIndex;
     end;
-  end;  
+  end;
   with FPromotionSubMenu do
   begin
     AddMenuItem(GetText(txKnight), '', @OtherItemClicked).Checked := FALSE;
@@ -487,7 +487,7 @@ begin
     WriteLn('MenuItem(', FEngine + FIRST_ENGINE_ITEM_INDEX,').Enabled=', MenuItem(FEngine + FIRST_ENGINE_ITEM_INDEX).Enabled);
 {$ENDIF}
   end;
-  
+
 {$IFDEF OPT_SOUND}
  if LoadSoundLib() < 0 then
   begin
@@ -495,7 +495,7 @@ begin
    FAudioSubMenu.MenuItem(0).Checked := FALSE;
   end
   else FAudioSubMenu.MenuItem(0).Checked := true;
-{$ENDIF}  
+{$ENDIF}
 end;
 
 procedure TMainForm.WidgetPaint(Sender: TObject);
@@ -595,7 +595,7 @@ begin
     FChessboardWidget.Invalidate;
     OnMoveDone(FMoveHistory.GetString(FCurrPosIndex));
   end else
-  begin  
+  begin
     FBGRAChessboard.RestorePieceBackground(FMousePos - FDragPos);
     FBGRAChessboard.DrawPiece(FInitPos, FPieceIndex);
     FChessboardWidget.Invalidate;
@@ -731,7 +731,7 @@ begin
           SetSoundVolume(25);
       end
       else
-{$ENDIF}   
+{$ENDIF}
       if (Text = GetText(txKnight))
       or (Text = GetText(txBishop))
       or (Text = GetText(txRook))
@@ -807,7 +807,7 @@ begin
             end;
         end;
       end;
-  
+
   if FWaitingForAnimationEnd and vAnimationTerminated then
   begin
     FWaitingForAnimationEnd := FALSE;
@@ -835,11 +835,11 @@ begin
   DecodeSquare(vSquare, vX, vY);
   if FBGRAChessboard.FindPiece(vX, vY) > 0 then
     FBGRAChessboard.ErasePiece(vSquare);
-  
+
   vSquare := FGame.IsEnPassant(aMove);
   if vSquare <> '' then
     FBGRAChessboard.ErasePiece(vSquare);
-  
+
   result := FGame.IsPromotion(aMove);
   if result then
   begin
@@ -865,9 +865,9 @@ begin
     if aIsComputerMove then
       FBGRAChessboard.MovePiece(aMove, FALSE);
   end;
-  
+
   FGame.PlayMove(Concat(aMove, vSymbol));
-  
+
   FMoveHistory.Append(aMove, FCurrPosIndex);
   while FPositionHistory.Count > Succ(FCurrPosIndex) do
     FPositionHistory.Delete(FPositionHistory.Count - 1);
@@ -1015,9 +1015,9 @@ end;
 
 procedure TMainForm.OnResized(Sender: TObject);
 begin
- FChessboardWidget.top := (height -FChessboardWidget.height) div 2; 
- FChessboardWidget.left := (width - FChessboardWidget.width) div 2; 
- FChessboardWidget.updatewindowposition; 
+ FChessboardWidget.top := (height -FChessboardWidget.height) div 2;
+ FChessboardWidget.left := (width - FChessboardWidget.width) div 2;
+ FChessboardWidget.updatewindowposition;
 end;
 
 var
@@ -1041,14 +1041,14 @@ var
   vPieceKind: TChessPieceKindEx;
 begin
   UCILogAppend(FEngineMessage, '>');
-  
+
   if IsMsgUciOk(FEngineMessage, vName, vAuthor) then
    begin
     TLog.Append(Format('Protocole accepté. Moteur "%s". Auteur "%s".', [vName, vAuthor]));
     //WriteProcessInput_(MsgNewGame());
     frm.WindowTitle := vName;
   end else
-  
+
   if IsMsgBestMove(FEngineMessage, vMove, vPromotion) then
   begin
     if frm.FGame.IsLegal(vMove) then
@@ -1062,7 +1062,7 @@ begin
         end
       else
         vPieceKind := cpkNil;
-      
+
       if vColoring then
         frm.FBGRAChessboard.ScreenRestore;
       frm.DoMove(vMove, vPieceKind);
@@ -1074,7 +1074,7 @@ begin
     end;
     frm.FWaitingForAnimationEnd := TRUE;
   end else
-  
+
   if IsMsgReadyOk(FEngineMessage) then
   begin
     Assert(frm.FWaitingForReadyOk = 1);
@@ -1084,52 +1084,45 @@ end;
 
 var
   vUciLogName: string;
-  
+
 begin
   fpgApplication.Initialize;
   fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
- 
   if fpgStyleManager.SetStyle('eschecs_style') then
-      fpgStyle := fpgStyleManager.Style;
- 
+    fpgStyle := fpgStyleManager.Style;
   if DirectoryExists(vConfigFilesPath) and FileExists(vConfigFilesPath + 'eschecs.eng')  then
   begin
- 
     Assign(vLog, vLOGPath);
     if FileExists(vLOGPath) then
       Append(vLog)
     else
       Rewrite(vLog);
- 
-     vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
+    vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
     Assign(vUCILog, vUciLogName);
     if FileExists(vUciLogName) then
       Append(vUCILog)
     else
       Rewrite(vUCILog);
-      
-    {$IFDEF OPT_ECO}
+{$IFDEF OPT_ECO}
      InitEco();
-    {$ENDIF}  
-    
+{$ENDIF}
     fpgApplication.CreateForm(TMainForm, frm);
     fpgApplication.MainForm := frm;
     frm.Show;
     fpgApplication.Run;
-    {$IFDEF OPT_SOUND}
+{$IFDEF OPT_SOUND}
     Freeuos;
-    {$ENDIF}
-    frm.Free; 
-    {$IFDEF OPT_ECO}
+{$ENDIF}
+    frm.Free;
+{$IFDEF OPT_ECO}
     FreeEco();
-    {$ENDIF}  
-    Close(vLog); 
+{$ENDIF}
+    Close(vLog);
     Close(vUCILog);
-    fpgApplication.Terminate;
-  end else 
+  end else
   begin
     ShowMessagefrm('The config folder is corrupted.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
-    fpgApplication.Terminate; 
-  end;  
+  end;
+  fpgApplication.Terminate;
 end.
 
