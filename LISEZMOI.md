@@ -61,7 +61,11 @@ Les pièces de l'échiquier de 480 proviennent de la police Chess Mark d'Armando
 
 L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html) de Gary Katch.
 
-*Moustique* est un programme d'échecs de Roland Chastain, basé sur *JSChess* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
+Chess Alpha est une police de caractères d'Eric Bentzen. Chess Condal, Chess Line, Chess Mark sont des polices de caractères d'Armando Marroquin. Chess Montreal est une police de caractères de Gary Katch.
+
+Fruit 2.1 est un programme d'échecs de Fabien Letouzey.
+
+*Moustique* est un programme d'échecs de Roland Chastain, basé sur *Schachspiel* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
 
 ## V. Auteur
 
