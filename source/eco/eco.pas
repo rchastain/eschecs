@@ -1,9 +1,12 @@
 
 unit eco;
+{$mode delphi}{$H+} 
 
 interface
 
+procedure InitEco();
 function GetOpening(const aMoves: string; const aNameOnly: boolean = TRUE): string;
+procedure FreeEco();
 
 implementation
 
@@ -2018,8 +2021,8 @@ begin
     result := '';
 end;
 
-initialization
-  InitEco();
-finalization
+procedure FreeEco();
+begin
   DATA_CODES.Free;
+end;  
 end.
