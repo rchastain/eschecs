@@ -236,7 +236,7 @@ end;
 
 procedure TMainForm.AfterCreate;
 begin
- {%region 'Auto-generated GUI code' -fold}
+{%region 'Auto-generated GUI code' -fold}
 {@VFD_BODY_BEGIN: MainForm}
   Name := 'MainForm';
   SetPosition(351, 150, 640, 495);
@@ -1087,45 +1087,36 @@ var
   vUciLogName: string;
   
 begin
-   fpgApplication.Initialize;
- 
-  if directoryexists(vConfigFilesPath) and fileexists(vConfigFilesPath+'eschecs.eng')  then
-  begin 
- 
-  vFileName := vLOGPath;
-  Assign(vLog, vFileName);
-  if FileExists(vFileName) then
-    Append(vLog)
-  else
-    Rewrite(vLog);
-
-   vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
-  
-  Assign(vUCILog, vUciLogName);
-  
-  if FileExists(vUciLogName) then
-    Append(vUCILog)
-  else
-    Rewrite(vUCILog);
-  
-  if fpgStyleManager.SetStyle('eschecs_style') then
-    fpgStyle := fpgStyleManager.Style;
-  fpgApplication.CreateForm(TMainForm, frm);
-  fpgApplication.MainForm := frm;
-  frm.Show;
-  fpgApplication.Run;
-  {$IFDEF OPT_SOUND}
-  Freeuos;
-  {$ENDIF}
-  frm.Free;
-  Close(vLog); 
-  Close(vUCILog);
-  
-end else 
-begin
- ShowMessagefrm('The config folder is corrupted.',
- 'Please check your configuraion or re-install Eschecs.', 'Error...', 'Close');
-  fpgApplication.terminate; 
-end;  
+  fpgApplication.Initialize;
+  if DirectoryExists(vConfigFilesPath) and FileExists(vConfigFilesPath + 'eschecs.eng')  then
+  begin
+    Assign(vLog, vLOGPath);
+    if FileExists(vLOGPath) then
+      Append(vLog)
+    else
+      Rewrite(vLog);
+     vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
+    Assign(vUCILog, vUciLogName);
+    if FileExists(vUciLogName) then
+      Append(vUCILog)
+    else
+      Rewrite(vUCILog);
+    if fpgStyleManager.SetStyle('eschecs_style') then
+      fpgStyle := fpgStyleManager.Style;
+    fpgApplication.CreateForm(TMainForm, frm);
+    fpgApplication.MainForm := frm;
+    frm.Show;
+    fpgApplication.Run;
+    {$IFDEF OPT_SOUND}
+    Freeuos;
+    {$ENDIF}
+    frm.Free;
+    Close(vLog); 
+    Close(vUCILog);
+  end else 
+  begin
+    ShowMessagefrm('The config folder is corrupted.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
+    fpgApplication.terminate; 
+  end;  
 end.
 

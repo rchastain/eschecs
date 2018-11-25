@@ -17,8 +17,8 @@ order14=0
 order15=0
 order16=0
 [projectoptions]
-projectdir=/home/fred/eschecs/source
-projectfilename=/home/fred/eschecs/source/eschecs.prj
+projectdir=/C:/Atelier/Pascal/chess/github/eschecs/source
+projectfilename=/C:/Atelier/Pascal/chess/github/eschecs/source/eschecs.prj
 findinfiledialog=67
  [findinfileadialogfo.subdirs]
  value=1
@@ -150,7 +150,7 @@ options=114
  sorted=0
  col=-1073741823
  row=-1073741823
- rowheight=16
+ rowheight=15
  [projectoptionsfo.newfile]
  firsttab=0
  index=0
@@ -172,7 +172,7 @@ options=114
  sortdescend6=0
  [projectoptionsfo.macrosplitter]
  x=0
- y=160
+ y=161
  xprop=1
  yprop=0.31417624521073
  [projectoptionsfo.macrogrid]
@@ -199,7 +199,7 @@ options=114
  value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=2
+ index=3
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=814
  width0=47
@@ -223,8 +223,8 @@ options=114
  index=2
  [projectoptionsfo]
  stackedunder=
- x=278
- y=145
+ x=143
+ y=107
  cx=863
  cy=573
 settings=8
@@ -266,7 +266,7 @@ objpref=-Fo
 targpref=-o
 befcommand=0
 aftcommand=0
-makeoptions=12
+makeoptions=13
  -l -Mobjfpc -Schi
  -FE.
  -FUunits
@@ -279,7 +279,8 @@ makeoptions=12
  -dOPT_SOUND
  -dOPT_HIGHLIGHT
  -vewnhibq
-makeoptpurpose=12
+ -dOPT_ECO
+makeoptpurpose=13
  Define Object Pascal
  Exe path to /.
  Output to /units
@@ -292,6 +293,7 @@ makeoptpurpose=12
  OPT_SOUND
  OPT_HIGHLIGHT
  Verbosity
+ OPT_ECO
 compilerused=29
  ${COMPILER} (Default)
  Pascal 1
@@ -386,7 +388,6 @@ stripmessageesc=0
 copymessages=0
 closemessages=0
 enablepurpose=1
-enablesource=0
 checkmethods=1
 colorerror=-1610612717
 colorwarning=-1610612712
@@ -466,7 +467,7 @@ modulenames=0
 moduletypes=0
 modulefiles=0
 befcommandon=0
-makeoptionson=12
+makeoptionson=13
  4095
  4095
  4095
@@ -475,6 +476,7 @@ makeoptionson=12
  248
  4092
  3843
+ 4095
  4095
  4095
  4095
@@ -543,13 +545,13 @@ comment_7=
 comment_8=
 comment_9=
 comment_0=
-project_name=
-project_creator=
+project_name=Eschecs
+project_creator=R. Chastain
 project_copyright=
 project_license=
 project_time=01:54:38
-project_date=11/11/2016
-project_comment=
+project_date=25/11/2018
+project_comment=UCI chess GUI
 aftcommandon=0
 unitdirson=11
  196863
@@ -788,7 +790,7 @@ files=
  a=0,8228,6,Text Files
  )
 [componentstore]
-storedir=/home/fred/msegui/apps/ide/compstore/
+storedir=/C:/Atelier/Pascal/chess/github/eschecs/source/apps/mse/compstore/
 filename=
 [components]
 [selecteditpage]
@@ -828,18 +830,18 @@ findhistory=20
  .json
 findoptions=1
 editpos=5
- 10,693
- 0,8
- 0,7
- 0,651
- 0,15
+ 6,239
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
 bookmarks3=0
 bookmarks4=0
 sourcefiles=5
- ${PROJECTDIR}/eschecs.pas
+ /C:/Atelier/Pascal/chess/github/eschecs/source/eschecs.pas
  ${PROJECTDIR}/sound.pas
  ${PROJECTDIR}/log.pas
  /home/fred/eschecs_errorfriend/source/eschecs.pas
@@ -848,8 +850,8 @@ relpaths=5
  eschecs.pas
  sound.pas
  log.pas
- ../eschecs_errorfriend/source/eschecs.pas
- ../eschecs_errorfriend/source/log.pas
+ eschecs_errorfriend/source/eschecs.pas
+ eschecs_errorfriend/source/log.pas
 ismoduletexts=5
  0
  0
@@ -863,14 +865,14 @@ nomenumodules=0
 [sourcefo.files_tab]
 order=5
  0
- 3
- 2
  4
+ 2
  1
+ 3
 firsttab=0
 index=0
 [layout]
-windowlayout=591
+windowlayout=561
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -884,13 +886,13 @@ windowlayout=591
  ny=0
  ncx=0
  ncy=0
- x=3
- y=59
+ x=8
+ y=54
  cx=1350
  cy=706
  rcx=0
  rcy=0
- wsize=0
+ wsize=6
  active=1
  visible=1
  [targetconsolefo]
@@ -1096,7 +1098,7 @@ windowlayout=591
  [objectinspectorfo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=componentpalettefo
  parent=
  mdistate=0
  nx=0
@@ -1121,7 +1123,7 @@ windowlayout=591
  [symbolfo]
  splitdir=0
  useroptions=268451963
- stackedunder=targetconsolefo
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1218,7 +1220,7 @@ windowlayout=591
  ncy=0
  x=0
  y=585
- cx=1340
+ cx=1356
  cy=105
  rcx=0
  rcy=0
@@ -1288,7 +1290,7 @@ windowlayout=591
  [componentpalettefo]
  splitdir=0
  useroptions=268460139
- stackedunder=
+ stackedunder=targetconsolefo
  parent=
  mdistate=3
  nx=0
@@ -1318,7 +1320,7 @@ windowlayout=591
  ncy=0
  x=0
  y=0
- cx=1340
+ cx=1356
  cy=58
  rcx=0
  rcy=0
@@ -1334,7 +1336,7 @@ windowlayout=591
  ncy=61
  x=0
  y=0
- cx=1340
+ cx=1356
  cy=61
  rcx=0
  rcy=0
@@ -1345,8 +1347,9 @@ windowlayout=591
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
- history=50
+ value=/C:/Atelier/Pascal/chess/github/eschecs/source/eschecs.pas
+ history=20
+  /C:/Atelier/Pascal/chess/github/eschecs/source/eschecs.pas
   /home/fred/eschecs_errorfriend/source/eschecs.pas
   /home/fred/eschecs/source/log.pas
   /home/fred/eschecs/source/messagefrm.pas
@@ -1366,37 +1369,6 @@ windowlayout=591
   /home/fred/eschecs/libraries/fpgui/AUTHORS.txt
   /home/fred/eschecs_uos/source/eschecs.pas
   /home/fred/eschecs_uos/source/log.pas
-  /home/fred/eschecs/source/settings.pas
-  /home/fred/eschecs/libraries/uos/uos_define.inc
-  /home/fred/eschecs/libraries/uos/uos_libsndfile.pas
-  /home/fred/eschecs/libraries/uos/uos_mpg123.pas
-  /home/fred/designer_ext/src/frm_main_designer.pas
-  /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_x11.pas
-  /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_xft_x11.pas
-  /home/fred/eschecs_msg_center/source/eschecs.pas
-  /home/fred/eschecs_msg_center/source/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/eschecs_msg_center/source/fpg_style_eschecs.pas
-  /home/fred/eschecs_msg_center/source/eschecsstyle.pas
-  /home/fred/eschecs/source/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/designer_ext/src/designer_ext.pas
-  /home/fred/eschecs_msg/source/eschecs.pas
-  /home/fred/eschecs_msg/source/engines.pas
-  /home/fred/Fruit/src/main.cpp
-  /home/fred/moustique/moustique.pas
-  /home/fred/uos/examples/consoleplay.pas
-  /home/fred/bgrabitmap/bgrabitmap/bgrafpguibitmap.pas
-  /home/fred/eschecs/source/uci/uci.pas
-  /home/fred/eschecs/stdimages.inc
-  /home/fred/eschecs/source/eschecs.res
-  /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
-  /home/fred/eschecs (copy 1)/source/eschecs.pas
-  /home/fred/eschecs/source/eschecs.pas
-  /home/fred/uos/examples/deviceinfos_fpGUI.pas
-  /home/fred/ultibotest/ultibo_fpgui1.pas
-  /home/fred/eschecs/source/images.pas
-  /home/fred/eschecs/libraries/bgrabitmap/bgrabitmap.pas
-  /home/fred/moustique_git/moustique/version.inc
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1413,34 +1385,34 @@ windowlayout=591
  ncy=0
  x=208
  y=0
- cx=1132
+ cx=1148
  cy=521
  rcx=0
  rcy=0
  [sourcefo.files_tab]
  order=5
   0
-  3
-  2
   4
+  2
   1
+  3
  firsttab=0
  index=0
- [cpuc86_64fo]
+ [cpui386fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=threadsfo
+ stackedunder=objectinspectorfo
  parent=
  mdistate=3
  nx=0
  ny=0
  ncx=0
  ncy=0
- x=183
- y=113
- cx=352
- cy=277
+ x=337
+ y=295
+ cx=273
+ cy=207
  rcx=0
  rcy=0
  wsize=0
@@ -1458,7 +1430,7 @@ windowlayout=591
  ncy=0
  x=0
  y=61
- cx=1340
+ cx=1356
  cy=521
  rcx=0
  rcy=0

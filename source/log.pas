@@ -12,8 +12,7 @@ type
   end;
   
 var
-  vLog: text;
-  VFileName: string;  
+  vLog: text;  
 
 implementation
 
