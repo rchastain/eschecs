@@ -150,7 +150,7 @@ options=114
  sorted=0
  col=-1073741823
  row=-1073741823
- rowheight=15
+ rowheight=16
  [projectoptionsfo.newfile]
  firsttab=0
  index=0
@@ -172,7 +172,7 @@ options=114
  sortdescend6=0
  [projectoptionsfo.macrosplitter]
  x=0
- y=161
+ y=160
  xprop=1
  yprop=0.31417624521073
  [projectoptionsfo.macrogrid]
@@ -199,7 +199,7 @@ options=114
  value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=3
+ index=2
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=814
  width0=47
@@ -831,12 +831,12 @@ findhistory=20
  .json
 findoptions=1
 editpos=7
- 0,245
- 0,-1073741823
- 0,13
+ 0,1127
  0,-1073741823
  0,-1073741823
  0,-1073741823
+ 0,-1073741823
+ 0,0
  0,-1073741823
 bookmarks0=0
 bookmarks1=0
@@ -915,9 +915,9 @@ windowlayout=555
  cy=314
  rcx=0
  rcy=0
- wsize=0
+ wsize=5
  active=0
- visible=1
+ visible=0
  [threadsfo]
  splitdir=0
  useroptions=268451945
@@ -933,9 +933,9 @@ windowlayout=555
  cy=126
  rcx=0
  rcy=0
- wsize=0
+ wsize=5
  active=0
- visible=1
+ visible=0
  [memoryfo]
  splitdir=0
  useroptions=268451963
@@ -1103,7 +1103,7 @@ windowlayout=555
  [objectinspectorfo]
  splitdir=0
  useroptions=268451947
- stackedunder=componentpalettefo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1128,7 +1128,7 @@ windowlayout=555
  [symbolfo]
  splitdir=0
  useroptions=268451963
- stackedunder=targetconsolefo
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1295,7 +1295,7 @@ windowlayout=555
  [componentpalettefo]
  splitdir=0
  useroptions=268460139
- stackedunder=threadsfo
+ stackedunder=
  parent=
  mdistate=3
  nx=0
@@ -1354,6 +1354,7 @@ windowlayout=555
  [debuggerfo.file_history]
  value=/home/fred/eschecs/source/eschecs.pas
  history=20
+  /home/fred/eschecs/source/eschecs.pas
   /home/fred/eschecs/source/log.pas
   /home/fred/eschecs_image/source/eco/eco.pas
   /home/fred/eschecs_image/source/eschecs.pas
@@ -1373,9 +1374,8 @@ windowlayout=555
   /home/fred/uos/examples/consoleplaymemorystream.pas
   /home/fred/eschecs_uos/source/sound.pas
   /home/fred/uos/examples/simpledrums_fpGUI.pas
-  /home/fred/eschecs_uos/source/messagefrm.pas
  [debuggerfo.project_options]
- value=1
+ value=5
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1401,7 +1401,7 @@ windowlayout=555
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=objectinspectorfo
+ stackedunder=disassfo
  parent=
  mdistate=3
  nx=0

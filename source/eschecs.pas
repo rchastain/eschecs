@@ -1125,6 +1125,7 @@ begin
     {$ENDIF}  
     Close(vLog); 
     Close(vUCILog);
+    fpgApplication.terminate; 
   end else 
   begin
     ShowMessagefrm('The config folder is corrupted.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
