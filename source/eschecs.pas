@@ -1088,21 +1088,31 @@ var
   
 begin
   fpgApplication.Initialize;
+  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
+ 
+  if fpgStyleManager.SetStyle('eschecs_style') then
+      fpgStyle := fpgStyleManager.Style;
+ 
   if DirectoryExists(vConfigFilesPath) and FileExists(vConfigFilesPath + 'eschecs.eng')  then
   begin
+ 
     Assign(vLog, vLOGPath);
     if FileExists(vLOGPath) then
       Append(vLog)
     else
       Rewrite(vLog);
+ 
      vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
     Assign(vUCILog, vUciLogName);
     if FileExists(vUciLogName) then
       Append(vUCILog)
     else
       Rewrite(vUCILog);
-    if fpgStyleManager.SetStyle('eschecs_style') then
-      fpgStyle := fpgStyleManager.Style;
+      
+    {$IFDEF OPT_ECO}
+     InitEco();
+    {$ENDIF}  
+    
     fpgApplication.CreateForm(TMainForm, frm);
     fpgApplication.MainForm := frm;
     frm.Show;
@@ -1110,7 +1120,10 @@ begin
     {$IFDEF OPT_SOUND}
     Freeuos;
     {$ENDIF}
-    frm.Free;
+    frm.Free; 
+    {$IFDEF OPT_ECO}
+    FreeEco();
+    {$ENDIF}  
     Close(vLog); 
     Close(vUCILog);
   end else 

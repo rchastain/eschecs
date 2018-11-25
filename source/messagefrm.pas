@@ -49,9 +49,8 @@ var
 mwidth: integer;
 msgfrm : Tmessagefrm;
 begin
-  // fpgApplication.CreateForm(Tmessagefrm, msgfrm);
-  
-msgfrm :=  Tmessagefrm.create(nil);
+ fpgApplication.CreateForm(Tmessagefrm, msgfrm);
+
   try
     msgfrm.Button1.text := Abutton;
     msgfrm.label1.text := AMessage1;
@@ -80,9 +79,6 @@ end;
 
 procedure Tmessagefrm.AfterCreate;
 begin
-
-  fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
- 
   {%region 'Auto-generated GUI code' -fold}
   {@VFD_BODY_BEGIN: messagefrm}
   Name := 'messagefrm';
