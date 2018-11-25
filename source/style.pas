@@ -4,7 +4,7 @@ unit Style;
 interface
 
 type
-  TBoardStyle = (bsOriginal, bsSimple, bsMarble, bsNew, bsWood);
+  TBoardStyle = (bsMini, bsOriginal, bsSimple, bsMarble, bsNew, bsWood);
   TOutlineColor = (ocWhite, ocGreen, ocRed, ocTransparent);
   TStyleData = record
     scale: integer;
@@ -12,11 +12,12 @@ type
     boardstyle: TBoardStyle;
     imgext: string;
   end;
-  TStyle = 0..4;
+  TStyle = 0..5;
   
 var
   gStyle: TStyle;
   gStyleData: array[TStyle] of TStyleData = (
+    (scale: 30; font: 'usual';  boardstyle: bsSimple;   imgext: '.png'),
     (scale: 40; font: 'fritz';  boardstyle: bsOriginal; imgext: '.bmp'),
     (scale: 60; font: 'mark';   boardstyle: bsSimple;   imgext: '.png'),
     (scale: 60; font: 'mark';   boardstyle: bsMarble;   imgext: '.png'),

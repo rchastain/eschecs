@@ -57,6 +57,7 @@ const
   DEFAULT_HISTORY = '';
   DEFAULT_INDEX = 0;
   DEFAULT_ENGINE = -1;
+  DEFAULT_STYLE = bsOriginal;
   
 var
   vINIPath: string;
@@ -128,7 +129,7 @@ procedure ReadStyle(out aStyle: TStyle);
 begin
   with TIniFile.Create(vINIPath) do
   try
-    aStyle := ReadInteger(SECTION_OPTIONS, 'style', 0);
+    aStyle := ReadInteger(SECTION_OPTIONS, 'style', Ord(DEFAULT_STYLE));
   finally
     Free;
   end;

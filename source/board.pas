@@ -85,10 +85,10 @@ var
 implementation
 
 constructor TBGRAChessboard.Create(const aBoardStyle: TBoardStyle; const aUpsideDown: boolean; const aPiecePlacement: string);
-(*
+{$IFDEF OPT_CAPTURE}
 var
   vCapture: TBGRABitmap;
-*)
+{$ENDIF}
 begin
 {$IFDEF OPT_DEBUG}
   WriteLn('TBGRAChessboard.Create()');
@@ -102,12 +102,12 @@ begin
   fUpsideDown := aUpsideDown;
   EraseBoard();
   ReadPlacement(aPiecePlacement);
-(*
+{$IFDEF OPT_CAPTURE}
   vCapture := TBGRABitmap.Create(2 * gStyleData[gStyle].scale, 2 * gStyleData[gStyle].scale);
   BGRAReplace(vCapture, fVirtualScreen.GetPart(RectWithSize(0, 0, 2 * gStyleData[gStyle].scale, 2 * gStyleData[gStyle].scale)));
   vCapture.SaveToFile(Format('%d.png', [gStyle]));
   vCapture.Free;
-*)
+{$ENDIF}
 end;
 
 destructor TBGRAChessboard.Destroy;

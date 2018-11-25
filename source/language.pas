@@ -283,6 +283,7 @@ const
   
   STYLENAME: array[TLanguage, TStyle] of string = ((
     // lgDutch
+    'Schaakbord 240 Mini',
     'Schaakbord 320 Origineel',
     'Schaakbord 480 Eenvoudig',
     'Schaakbord 480 Marmer',
@@ -290,6 +291,7 @@ const
     'Schaakbord 640 Hout'
   ), (
     // lgEnglish
+    'Chessboard 240 Mini',
     'Chessboard 320 Original',
     'Chessboard 480 Simple',
     'Chessboard 480 Marble',
@@ -297,6 +299,7 @@ const
     'Chessboard 640 Wood'
   ), (
     // lgFrench
+    'Échiquier 240 Mini',
     'Échiquier 320 Original',
     'Échiquier 480 Simple',
     'Échiquier 480 Marbre',
@@ -304,6 +307,7 @@ const
     'Échiquier 640 Bois'
   ), (
     // lgGerman
+    'Schachbrett 240 Mini',
     'Schachbrett 320 Original',
     'Schachbrett 480 Einfach',
     'Schachbrett 480 Marmor',
@@ -311,6 +315,7 @@ const
     'Schachbrett 640 Holz'
   ), (
     // lgSpanish
+    'Tablero 240 Mini',
     'Tablero 320 Original',
     'Tablero 480 Sencillo',
     'Tablero 480 Mármol',
