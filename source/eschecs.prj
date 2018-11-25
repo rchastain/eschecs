@@ -831,13 +831,13 @@ findhistory=20
  .json
 findoptions=1
 editpos=7
- 0,1133
+ 0,245
  0,-1073741823
- 0,0
+ 0,13
  0,-1073741823
- 0,1088
- 0,2
- 0,81
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -858,7 +858,7 @@ relpaths=7
  sound.pas
  log.pas
  eschecs_errorfriend/source/log.pas
- ../eschecs_image/source/eschecs.pas
+ eschecs_image/source/eschecs.pas
  eco/eco.pas
  messagefrm.pas
 ismoduletexts=7
@@ -874,18 +874,10 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=7
- 0
- 5
- 6
- 7
- 2
- 4
- 1
 firsttab=0
-index=2
+index=0
 [layout]
-windowlayout=593
+windowlayout=555
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1111,7 +1103,7 @@ windowlayout=593
  [objectinspectorfo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=componentpalettefo
  parent=
  mdistate=0
  nx=0
@@ -1136,7 +1128,7 @@ windowlayout=593
  [symbolfo]
  splitdir=0
  useroptions=268451963
- stackedunder=mainfo
+ stackedunder=targetconsolefo
  parent=
  mdistate=0
  nx=0
@@ -1303,7 +1295,7 @@ windowlayout=593
  [componentpalettefo]
  splitdir=0
  useroptions=268460139
- stackedunder=
+ stackedunder=threadsfo
  parent=
  mdistate=3
  nx=0
@@ -1360,8 +1352,9 @@ windowlayout=593
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eco/eco.pas
- history=50
+ value=/home/fred/eschecs/source/eschecs.pas
+ history=20
+  /home/fred/eschecs/source/log.pas
   /home/fred/eschecs_image/source/eco/eco.pas
   /home/fred/eschecs_image/source/eschecs.pas
   /home/fred/eschecs/source/messagefrm.pas
@@ -1369,7 +1362,6 @@ windowlayout=593
   /home/fred/eschecs_uos_noleak/source/eco/eco.pas
   /home/fred/eschecs_errorfriend/source/log.pas
   /home/fred/eschecs_errorfriend/source/eschecs.pas
-  /home/fred/eschecs/source/log.pas
   /home/fred/eschecs/source/board.pas
   /home/fred/eschecs/source/sound.pas
   /home/fred/eschecs/source/language.pas
@@ -1382,36 +1374,6 @@ windowlayout=593
   /home/fred/eschecs_uos/source/sound.pas
   /home/fred/uos/examples/simpledrums_fpGUI.pas
   /home/fred/eschecs_uos/source/messagefrm.pas
-  /home/fred/eschecs/libraries/fpgui/src/gui/fpg_dialogs.pas
-  /home/fred/eschecs/libraries/fpgui/AUTHORS.txt
-  /home/fred/eschecs_uos/source/eschecs.pas
-  /home/fred/eschecs_uos/source/log.pas
-  /home/fred/eschecs/source/settings.pas
-  /home/fred/eschecs/libraries/uos/uos_define.inc
-  /home/fred/eschecs/libraries/uos/uos_libsndfile.pas
-  /home/fred/eschecs/libraries/uos/uos_mpg123.pas
-  /home/fred/designer_ext/src/frm_main_designer.pas
-  /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_x11.pas
-  /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_xft_x11.pas
-  /home/fred/eschecs_msg_center/source/eschecs.pas
-  /home/fred/eschecs_msg_center/source/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/eschecs_msg_center/source/fpg_style_eschecs.pas
-  /home/fred/eschecs_msg_center/source/eschecsstyle.pas
-  /home/fred/eschecs/source/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/designer_ext/src/designer_ext.pas
-  /home/fred/eschecs_msg/source/eschecs.pas
-  /home/fred/eschecs_msg/source/engines.pas
-  /home/fred/Fruit/src/main.cpp
-  /home/fred/moustique/moustique.pas
-  /home/fred/uos/examples/consoleplay.pas
-  /home/fred/bgrabitmap/bgrabitmap/bgrafpguibitmap.pas
-  /home/fred/eschecs/source/uci/uci.pas
-  /home/fred/eschecs/stdimages.inc
-  /home/fred/eschecs/source/eschecs.res
-  /home/fred/eschecs/libraries/bgrabitmap/bgrafpguibitmap.pas
-  /home/fred/eschecs (copy 1)/source/eschecs.pas
-  /home/fred/eschecs/source/eschecs.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1433,21 +1395,13 @@ windowlayout=593
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=7
-  0
-  5
-  6
-  7
-  2
-  4
-  1
  firsttab=0
- index=2
+ index=0
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=targetconsolefo
+ stackedunder=objectinspectorfo
  parent=
  mdistate=3
  nx=0
