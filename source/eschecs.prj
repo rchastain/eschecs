@@ -150,7 +150,7 @@ options=114
  sorted=0
  col=-1073741823
  row=-1073741823
- rowheight=15
+ rowheight=16
  [projectoptionsfo.newfile]
  firsttab=0
  index=0
@@ -172,7 +172,7 @@ options=114
  sortdescend6=0
  [projectoptionsfo.macrosplitter]
  x=0
- y=161
+ y=160
  xprop=1
  yprop=0.31417624521073
  [projectoptionsfo.macrogrid]
@@ -807,15 +807,15 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=txColoring
+finddtext=sound
 findhistory=20
+ sound
  txColoring
  ShowMessagefrm
  filestream
  100 %
  OtherItemClicked
  procedure TMainForm.AfterCreate;
- sound
  ReadStyle
  sndPromotion
  sdmove
@@ -830,13 +830,12 @@ findhistory=20
  .ini
  .json
 findoptions=1
-editpos=7
- 0,245
- 0,-1073741823
- 0,13
- 0,-1073741823
+editpos=6
+ 4,503
+ 0,0
  0,-1073741823
  0,-1073741823
+ 0,0
  0,-1073741823
 bookmarks0=0
 bookmarks1=0
@@ -844,25 +843,21 @@ bookmarks2=0
 bookmarks3=0
 bookmarks4=0
 bookmarks5=0
-bookmarks6=0
-sourcefiles=7
+sourcefiles=6
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/sound.pas
  ${PROJECTDIR}/log.pas
  /home/fred/eschecs_errorfriend/source/log.pas
- /home/fred/eschecs_image/source/eschecs.pas
  ${PROJECTDIR}/eco/eco.pas
  ${PROJECTDIR}/messagefrm.pas
-relpaths=7
+relpaths=6
  eschecs.pas
  sound.pas
  log.pas
  eschecs_errorfriend/source/log.pas
- eschecs_image/source/eschecs.pas
  eco/eco.pas
  messagefrm.pas
-ismoduletexts=7
- 0
+ismoduletexts=6
  0
  0
  0
@@ -874,10 +869,17 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
+order=6
+ 1
+ 2
+ 3
+ 5
+ 0
+ 6
 firsttab=0
-index=0
+index=4
 [layout]
-windowlayout=555
+windowlayout=562
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -966,7 +968,7 @@ windowlayout=555
  [disassfo]
  splitdir=0
  useroptions=268451947
- stackedunder=stackfo
+ stackedunder=confideufo
  parent=
  mdistate=0
  nx=0
@@ -979,9 +981,9 @@ windowlayout=555
  cy=210
  rcx=0
  rcy=0
- wsize=0
+ wsize=5
  active=0
- visible=1
+ visible=0
  [findinfilefo]
  splitdir=0
  useroptions=268451947
@@ -1022,7 +1024,7 @@ windowlayout=555
  sortdescend1=0
  sorted=0
  col=1
- row=-1073741823
+ row=2
  rowheight=16
  [stackfo]
  splitdir=0
@@ -1103,7 +1105,7 @@ windowlayout=555
  [objectinspectorfo]
  splitdir=0
  useroptions=268451947
- stackedunder=componentpalettefo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1128,7 +1130,7 @@ windowlayout=555
  [symbolfo]
  splitdir=0
  useroptions=268451963
- stackedunder=targetconsolefo
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1295,7 +1297,7 @@ windowlayout=555
  [componentpalettefo]
  splitdir=0
  useroptions=268460139
- stackedunder=threadsfo
+ stackedunder=
  parent=
  mdistate=3
  nx=0
@@ -1354,6 +1356,8 @@ windowlayout=555
  [debuggerfo.file_history]
  value=/home/fred/eschecs/source/eschecs.pas
  history=20
+  /home/fred/eschecs/source/sound.pas
+  /home/fred/eschecs/source/eschecs.pas
   /home/fred/eschecs/source/log.pas
   /home/fred/eschecs_image/source/eco/eco.pas
   /home/fred/eschecs_image/source/eschecs.pas
@@ -1363,7 +1367,6 @@ windowlayout=555
   /home/fred/eschecs_errorfriend/source/log.pas
   /home/fred/eschecs_errorfriend/source/eschecs.pas
   /home/fred/eschecs/source/board.pas
-  /home/fred/eschecs/source/sound.pas
   /home/fred/eschecs/source/language.pas
   /home/fred/eschecs_uos2/source/eschecs.pas
   /home/fred/uos/examples/simpleplayer_fpGUI.pas
@@ -1373,7 +1376,6 @@ windowlayout=555
   /home/fred/uos/examples/consoleplaymemorystream.pas
   /home/fred/eschecs_uos/source/sound.pas
   /home/fred/uos/examples/simpledrums_fpGUI.pas
-  /home/fred/eschecs_uos/source/messagefrm.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1395,13 +1397,20 @@ windowlayout=555
  rcx=0
  rcy=0
  [sourcefo.files_tab]
+ order=6
+  1
+  2
+  3
+  5
+  0
+  6
  firsttab=0
- index=0
+ index=4
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=objectinspectorfo
+ stackedunder=targetconsolefo
  parent=
  mdistate=3
  nx=0
