@@ -493,8 +493,13 @@ begin
   begin
    ShowMessagefrm('Sound libraries did not load', 'Audio will be disabled', 'Warning...', GetText(txQuit));
    FAudioSubMenu.MenuItem(0).Checked := FALSE;
+   FAudioSubMenu.MenuItem(0).enabled := FALSE;
   end
-  else FAudioSubMenu.MenuItem(0).Checked := true;
+  else 
+  begin
+  FAudioSubMenu.MenuItem(0).Checked := true;
+  FAudioSubMenu.MenuItem(0).enabled := true;
+  end;
 {$ENDIF}
 end;
 
@@ -1123,6 +1128,6 @@ begin
   begin
     ShowMessagefrm('The config folder is corrupted.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
   end;
-  fpgApplication.Terminate;
+   fpgApplication.Terminate; 
 end.
 
