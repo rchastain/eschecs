@@ -1128,6 +1128,6 @@ begin
   begin
     ShowMessagefrm('The config folder is corrupted.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
   end;
-  fpgApplication.Terminate;
+   fpgApplication.Terminate; 
 end.
 
