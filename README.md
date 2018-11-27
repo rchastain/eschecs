@@ -67,6 +67,8 @@ The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain
 
 [uos](https://github.com/fredvs/uos) is a collection of audio libraries with united procedures by Fred van Stappen.
 
+Thanks to John Bennett and to Norbert Raimund Leisner for the Moustique logo. It's a picture of the Farman F455 Moustique.
+
 ## V. Author
 
 *Eschecs* is a Pascal program by Roland Chastain.
