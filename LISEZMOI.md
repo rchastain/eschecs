@@ -57,15 +57,20 @@ L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *[Fri
 
 L'échiquier de 640 est [l'œuvre de Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
-Les pièces de l'échiquier de 480 proviennent de la police Chess Mark d'Armando Marroquin.
+Les pièces de l'échiquier de 480 proviennent de la police *Chess Mark* d'Armando Marroquin. *Chess Alpha* est une police de caractères d'Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin. *Chess Montreal* est une police de caractères de Gary Katch. L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html) de Gary Katch.
 
-L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html) de Gary Katch.
 
-Chess Alpha est une police de caractères d'Eric Bentzen. Chess Condal, Chess Line, Chess Mark sont des polices de caractères d'Armando Marroquin. Chess Montreal est une police de caractères de Gary Katch.
-
-Fruit 2.1 est un programme d'échecs de Fabien Letouzey.
+*Fruit 2.1* est un programme d'échecs de Fabien Letouzey.
 
 *Moustique* est un programme d'échecs de Roland Chastain, basé sur *Schachspiel* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
+
+[fpGUI](https://github.com/graemeg/fpGUI) est une bibliothèque multiplateforme de Graeme Geldenhuys, pour la réalisation d'applications graphiques en Pascal.
+
+[BGRABitmap](https://github.com/bgrabitmap/bgrabitmap) est une bibliothèque pour le graphisme écrite pour le compilateur Free Pascal par Johann Elsass.
+
+[uos](https://github.com/fredvs/uos) est une collection de bibliothèques pour le son, avec des procédures unifiées écrites pour Free Pascal par Fred van Stappen.
+
+Merci à John Bennett ainsi qu'à Norbert Raimund Leisner pour le logo de Moustique. C'est une image d'un avion, le Farman F455 Moustique.
 
 ## V. Auteur
 
