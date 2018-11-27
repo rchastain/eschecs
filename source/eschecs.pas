@@ -852,6 +852,7 @@ begin
     vSymbol := SYMBOLS[vPromotion];
     if aIsComputerMove then
       FBGRAChessboard.MovePiece(aMove, TRUE, vPromotion);
+    vMoveToBeHighlighted := aMove;
   end else
   begin
     vSymbol := '';
