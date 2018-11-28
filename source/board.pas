@@ -633,7 +633,10 @@ end;
 
 function TBGRAChessboard.XYToScreen(const aX, aY: integer): TPoint;
 begin
-  result.SetLocation(XToScreen(aX, fUpsideDown), YToScreen(aY, fUpsideDown));
+result.x := XToScreen(aX, fUpsideDown);
+result.y := YToScreen(aY, fUpsideDown);
+ // SetLocation obsolete in fpc 3.1.1. 
+ // result.SetLocation(XToScreen(aX, fUpsideDown), YToScreen(aY, fUpsideDown));
 end;
 
 function TBGRAChessboard.ScreenSaved(): boolean;

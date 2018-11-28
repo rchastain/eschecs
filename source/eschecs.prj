@@ -830,16 +830,17 @@ findhistory=20
  showmess
  viniPath
 findoptions=1
-editpos=9
+editpos=10
  0,640
- 0,0
  0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,3
- 0,3
- 0,657
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,637
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -849,7 +850,8 @@ bookmarks5=0
 bookmarks6=0
 bookmarks7=0
 bookmarks8=0
-sourcefiles=9
+bookmarks9=0
+sourcefiles=10
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/sound.pas
  ${PROJECTDIR}/log.pas
@@ -859,7 +861,8 @@ sourcefiles=9
  ${PROJECTDIR}/version.inc
  ${PROJECTDIR}/version.inc
  /home/fred/eschecs_prerel2/source/eschecs.pas
-relpaths=9
+ ${PROJECTDIR}/board.pas
+relpaths=10
  eschecs.pas
  sound.pas
  log.pas
@@ -868,8 +871,10 @@ relpaths=9
  messagefrm.pas
  version.inc
  version.inc
- ../eschecs_prerel2/source/eschecs.pas
-ismoduletexts=9
+ eschecs_prerel2/source/eschecs.pas
+ board.pas
+ismoduletexts=10
+ 0
  0
  0
  0
@@ -884,20 +889,21 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=9
+order=10
  0
+ 9
+ 5
+ 3
  8
+ 4
  6
  1
  7
  2
- 3
- 4
- 5
 firsttab=0
-index=0
+index=1
 [layout]
-windowlayout=595
+windowlayout=596
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1357,8 +1363,8 @@ windowlayout=595
  mdistate=0
  nx=0
  ny=0
- ncx=1147
- ncy=54
+ ncx=1356
+ ncy=61
  x=0
  y=0
  cx=1356
@@ -1372,8 +1378,9 @@ windowlayout=595
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
+ value=/home/fred/eschecs/source/board.pas
  history=50
+  /home/fred/eschecs_prerel2/source/eschecs.pas
   /home/fred/eschecs/source/version.inc
   /home/fred/eschecs_prerel2/source/version.inc
   /home/fred/eschecs_colorstatus/source/version.inc
@@ -1423,7 +1430,6 @@ windowlayout=595
   /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/designer_ext/src/designer_ext.pas
   /home/fred/eschecs_msg/source/eschecs.pas
-  /home/fred/eschecs_msg/source/engines.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1445,18 +1451,19 @@ windowlayout=595
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=9
+ order=10
   0
+  9
+  5
+  3
   8
+  4
   6
   1
   7
   2
-  3
-  4
-  5
  firsttab=0
- index=0
+ index=1
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
