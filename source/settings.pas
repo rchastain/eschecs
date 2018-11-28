@@ -57,7 +57,7 @@ const
   DEFAULT_HISTORY = '';
   DEFAULT_INDEX = 0;
   DEFAULT_ENGINE = -1;
-  DEFAULT_STYLE = bsOriginal;
+  DEFAULT_STYLE = bsNew;
   
 var
   vINIPath: string;

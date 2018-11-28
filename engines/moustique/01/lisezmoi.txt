@@ -1,0 +1,14 @@
+
+Moustique
+
+Moustique est un moteur de jeu d'échecs supportant une partie du protocole UCI.
+
+Moustique est l'assemblage de deux programmes : d'une part un programme de recherche du meilleur coup, d'autre part un programme de recherche de mat. Le programme de recherche du meilleur coup est une adaptation d'un programme en Pascal de Jürgen Schlottke. Le programme de recherche de mat est une adaptation d'un programme en Pascal de Valentin Albillo.
+
+Schach
+
+Programme didactique de jeu d'échecs de Jürgen Schlottke, adapté par Roland Chastain.
+
+Mater
+
+Recherche de mat à partir d'une position donnée, programme de Valentin Albillo, adapté par Roland Chastain.
