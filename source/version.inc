@@ -1,6 +1,6 @@
 
 const
-  VERSION = '4.0';
+  VERSION = '4.0.0';
   DEFAULT_TITLE = 'Eschecs'; 
 
  {$if defined(cpu64) and defined(windows)}
