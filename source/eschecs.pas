@@ -339,27 +339,6 @@ end;
 procedure TMainForm.InitForm;
 const
   MENU_BAR_HEIGHT = 24;
-{$if defined(cpu64) and defined(Windows)}
-  DEFAULT_TITLE = 'Eschecs win64';
-{$endif}
-{$if defined(cpu86) and defined(Windows)}
-  DEFAULT_TITLE = 'Eschecs win32';
-{$endif}
-{$if defined(cpu64) and defined(Linux)}
-  DEFAULT_TITLE = 'Eschecs lin64';
-{$endif}
-{$if defined(cpu86) and defined(Linux)}
-  DEFAULT_TITLE = 'Eschecs lin32';
-{$endif}
-{$if defined(cpu64) and defined(freebsd)}
-  DEFAULT_TITLE = 'Eschecs bsd64';
-{$endif}
-{$if defined(cpu86) and defined(freebsd)}
-  DEFAULT_TITLE = 'Eschecs bsd32';
-{$endif}
-{$if defined(linux) and defined(cpuarm)}
-  DEFAULT_TITLE = 'Eschecs arm';
-{$endif}
 var
   vCurrentPosition: string;
   vAutoPlay, vMarble: boolean;
@@ -452,7 +431,7 @@ begin
     AddMenuItem(GetText(txQueen), '', @OtherItemClicked).Checked := TRUE;
   end;
   SetPosition(0, 0, 8 * gStyleData[gStyle].scale, 24 + 8 * gStyleData[gStyle].scale + 24);
-  WindowTitle := DEFAULT_TITLE;
+  WindowTitle := DEFAULT_TITLE + ' ' + OSTYPE;
   MinWidth := 8 * gStyleData[gStyle].scale;
   MinHeight := 24 + 8 * gStyleData[gStyle].scale + 24;
   FChessboardWidget.SetPosition(0, MENU_BAR_HEIGHT, 8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
@@ -475,6 +454,7 @@ begin
   FWaitingForReadyOk := 0;
   FWaitingForUserMove := TRUE;
   TLog.Append(Format('Eschecs %s %s %s FPC %s', [VERSION, {$I %DATE%}, {$I %TIME%}, {$I %FPCVERSION%}]));
+  TLog.Append(Format('Eschecs %s %s %s FPC %s', [VERSION + ' ' + OSTYPE, {$I %DATE%}, {$I %TIME%}, {$I %FPCVERSION%}]));
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
@@ -666,8 +646,8 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = GetText(txAbout) then
-        ShowMessagefrm('Eschecs ' + VERSION, GetText(txAboutMessage), GetText(txAbout), GetText(txQuit))
-      else
+      ShowMessagefrm('Eschecs ' + VERSION + ' ' + OSTYPE, GetText(txAboutMessage), GetText(txAbout), GetText(txQuit))
+    else
       if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
       else
