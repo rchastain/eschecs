@@ -891,6 +891,18 @@ begin
         PlaySound(sndMove);
 {$ENDIF}
   FStatusBar.Text := Concat(' ', ArbitratorMessage(FGame.Check, FGame.ActiveColor, FGame.state));
+  
+   if FGame.state in [csCheckmate, csStalemate, csDraw] then
+        FStatusBar.BackgroundColor := $FFF692
+      else if FGame.Check then
+       FStatusBar.BackgroundColor := $FFB3B8
+      else if FALSE then // <--- to do
+         FStatusBar.BackgroundColor := $E9FFC8
+      else if FALSE then // <--- to do
+        FStatusBar.BackgroundColor := $FFF692
+      else
+        FStatusBar.BackgroundColor := $FFFFFF;
+  
 {$IFDEF OPT_ECO}
   vOpeningName := ECO.GetOpening(aHistory);
   if Length(vOpeningName) > 0 then
@@ -932,6 +944,7 @@ begin
   OnMoveDone(aHistory, FALSE);
   SetComputerColor(FMovesSubMenu.MenuItem(1).Checked);
   FChessboardWidget.Invalidate;
+  FStatusBar.BackgroundColor := $FFFFFF;
 end;
 
 function TMainForm.TryNavigate(const aCurrentIndex: integer; const aNavigation: TNavigation): integer;

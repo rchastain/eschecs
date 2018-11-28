@@ -807,8 +807,13 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=VERSION
+finddtext=.json
 findhistory=20
+ .json
+ status
+ newpos
+ FStatusBar.Text := Concat(' ', ArbitratorMessage
+ tstatus
  VERSION
  OSTYPE
  DEFAULT_TITLE
@@ -824,23 +829,19 @@ findhistory=20
  sdmove
  {$IFDEF DEBUG}
  addintodev
- free
- FormKeyPressed
- constructor
- showmess
- viniPath
 findoptions=1
-editpos=10
- 0,640
+editpos=11
+ 0,346
  0,-1073741823
  0,-1073741823
  0,-1073741823
+ 0,0
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,637
+ 0,898
+ 0,635
+ 0,967
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -851,7 +852,8 @@ bookmarks6=0
 bookmarks7=0
 bookmarks8=0
 bookmarks9=0
-sourcefiles=10
+bookmarks10=0
+sourcefiles=11
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/sound.pas
  ${PROJECTDIR}/log.pas
@@ -862,7 +864,8 @@ sourcefiles=10
  ${PROJECTDIR}/version.inc
  /home/fred/eschecs_prerel2/source/eschecs.pas
  ${PROJECTDIR}/board.pas
-relpaths=10
+ /home/fred/eschecs_colorstatus/source/eschecs.pas
+relpaths=11
  eschecs.pas
  sound.pas
  log.pas
@@ -871,9 +874,11 @@ relpaths=10
  messagefrm.pas
  version.inc
  version.inc
- eschecs_prerel2/source/eschecs.pas
+ ../eschecs_prerel2/source/eschecs.pas
  board.pas
-ismoduletexts=10
+ ../eschecs_colorstatus/source/eschecs.pas
+ismoduletexts=11
+ 0
  0
  0
  0
@@ -889,21 +894,22 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=10
+order=11
  0
  9
  5
  3
  8
  4
+ 10
  6
  1
  7
  2
 firsttab=0
-index=1
+index=0
 [layout]
-windowlayout=596
+windowlayout=597
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1378,13 +1384,14 @@ windowlayout=596
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/eschecs/source/board.pas
+ value=/home/fred/eschecs/source/eschecs.pas
  history=50
+  /home/fred/eschecs_colorstatus/source/eschecs.res
+  /home/fred/eschecs/source/board.pas
   /home/fred/eschecs_prerel2/source/eschecs.pas
   /home/fred/eschecs/source/version.inc
   /home/fred/eschecs_prerel2/source/version.inc
   /home/fred/eschecs_colorstatus/source/version.inc
-  /home/fred/eschecs/source/board.pas
   /home/fred/ideu/src/main.pas
   /home/fred/ideu/src/msefiledialog.pas
   /home/fred/ideu/src/dialogfiles.pas
@@ -1429,7 +1436,6 @@ windowlayout=596
   /home/fred/eschecs/source/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
   /home/fred/designer_ext/src/designer_ext.pas
-  /home/fred/eschecs_msg/source/eschecs.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1451,19 +1457,20 @@ windowlayout=596
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=10
+ order=11
   0
   9
   5
   3
   8
   4
+  10
   6
   1
   7
   2
  firsttab=0
- index=1
+ index=0
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
