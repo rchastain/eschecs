@@ -480,7 +480,7 @@ begin
 {$IFDEF OPT_SOUND}
  if LoadSoundLib() < 0 then
   begin
-   ShowMessagefrm('Sound libraries did not load', 'Audio will be disabled', 'Warning...', GetText(txQuit));
+   ShowMessagefrm('Sound libraries did not load', 'Audio will be disabled', 'Warning...', GetText(txQuit), '');
    FAudioSubMenu.MenuItem(0).Checked := FALSE;
    FAudioSubMenu.MenuItem(0).enabled := FALSE;
   end
@@ -628,7 +628,7 @@ begin
 {$ENDIF}
   for vStyle := Low(TStyle) to High(TStyle) do
     FStyleSubMenu.MenuItem(Ord(vStyle)).Checked := vStyle = vSelectedStyle;
-  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
+  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit), '');
   WriteStyle(vSelectedStyle);
 end;
 
@@ -644,7 +644,7 @@ begin
 {$ENDIF}
   for vLanguage := Low(TLanguage) to High(TLanguage) do
     FLanguageSubMenu.MenuItem(Ord(vLanguage)).Checked := vLanguage = vSelectedLanguage;
-  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
+  ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit), '');
   WriteLanguage(vSelectedLanguage);
 end;
 
@@ -655,7 +655,7 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = GetText(txAbout) then
-      ShowMessagefrm('Eschecs ' + VERSION + ' ' + OSTYPE, GetText(txAboutMessage), GetText(txAbout), GetText(txQuit))
+      ShowMessagefrm('Eschecs ' + VERSION + ' ' + OSTYPE, GetText(txAboutMessage), GetText(txAbout), GetText(txQuit), 'Eschecs on Github.')
     else
       if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
@@ -679,7 +679,7 @@ begin
         Checked := not Checked;
         vColoring := Checked;
         WriteColoring(vColoring);
-        ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit));
+        ShowMessagefrm(GetText(txChangeSaved), '',  GetText(txTitleMessage), GetText(txQuit), '');
       end
       else
 {$IFDEF OPT_SOUND}
@@ -756,7 +756,7 @@ begin
             WriteProcessInput_(MsgUCI());
             FEngine := i;
           end else
-            ShowMessagefrm(GetText(txConnectionFailure), '',  GetText(txTitleMessage), GetText(txQuit));
+            ShowMessagefrm(GetText(txConnectionFailure), '',  GetText(txTitleMessage), GetText(txQuit), '');
         end;
 end;
 
@@ -1078,7 +1078,7 @@ begin
       frm.DoMove(vMove, vPieceKind);
     end else
     begin
-      ShowMessagefrm(GetText(txIllegalMove), vMove,  GetText(txTitleMessage), GetText(txQuit));
+      ShowMessagefrm(GetText(txIllegalMove), vMove,  GetText(txTitleMessage), GetText(txQuit), '');
       frm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       frm.FComputerColor := cpcNil;
     end;
@@ -1128,7 +1128,7 @@ begin
       if FileExists(vConfigFilesPath + 'eschecs.eng')
      then else
      begin
-    ShowMessagefrm('No /config/eschecs.eng file found.', 'Sorry but no chess engines will be available.', 'Warning', 'Close');
+    ShowMessagefrm('No /config/eschecs.eng file found.', 'Sorry but no chess engines will be available.', 'Warning', 'Close', '');
     frm.FMovesSubMenu.visible := false;
     frm.FMovesSubMenu.enabled := false;
      end;
@@ -1147,7 +1147,7 @@ begin
 {$ENDIF} 
   end else
   begin
-    ShowMessagefrm('The /config folder is missing.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
+    ShowMessagefrm('The /config folder is missing.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close', 'Eschecs on GitHub.');
   end;
    fpgApplication.Terminate; 
 end.
