@@ -1,12 +1,12 @@
 
 [engine0]
-command=fruit_21.exe
+command=fruit_21_32.exe
 name=Fruit
 protocol=uci
 workingdirectory=\engines\fruit\
 
 [engine1]
-command=moustique.exe
+command=moustique32.exe
 name=Moustique
 protocol=uci
 workingdirectory=\engines\moustique\01\

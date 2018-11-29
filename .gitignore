@@ -6,3 +6,14 @@ engines/dumb/
 engines/hermann/
 engines/uralochka/
 units/
+pack.lua
+*.debug
+*.fen
+config/eschecs.ini
+eschecs.exe
+engines/moustique/01/moustique.exe
+eschecs.exe
+*.log
+*.txt
+eschecs32.exe
+*.html
