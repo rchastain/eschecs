@@ -59,8 +59,9 @@ findinfiledialog=67
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.findtext]
- value=.create
+ value=vUCILog
  history=20
+  vUCILog
   .create
   vgame
   list
@@ -80,7 +81,6 @@ findinfiledialog=67
   fclib
   fontconfig
   showmessage
-  txQuit
  [findinfileadialogfo]
  stackedunder=
  x=693
@@ -472,7 +472,7 @@ makeoptionson=13
  4095
  4095
  4095
- 3904
+ 3840
  4032
  248
  4092
@@ -807,8 +807,10 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=214
-finddtext=.json
+finddtext=ucilog
 findhistory=20
+ ucilog
+ opt_debug
  .json
  status
  newpos
@@ -827,21 +829,21 @@ findhistory=20
  ReadStyle
  sndPromotion
  sdmove
- {$IFDEF DEBUG}
- addintodev
 findoptions=1
-editpos=11
- 0,346
+editpos=13
+ 0,161
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,0
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,898
- 0,635
- 0,967
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -853,7 +855,9 @@ bookmarks7=0
 bookmarks8=0
 bookmarks9=0
 bookmarks10=0
-sourcefiles=11
+bookmarks11=0
+bookmarks12=0
+sourcefiles=13
  ${PROJECTDIR}/eschecs.pas
  ${PROJECTDIR}/sound.pas
  ${PROJECTDIR}/log.pas
@@ -865,7 +869,9 @@ sourcefiles=11
  /home/fred/eschecs_prerel2/source/eschecs.pas
  ${PROJECTDIR}/board.pas
  /home/fred/eschecs_colorstatus/source/eschecs.pas
-relpaths=11
+ ${PROJECTDIR}/settings.pas
+ ${PROJECTDIR}/engines.pas
+relpaths=13
  eschecs.pas
  sound.pas
  log.pas
@@ -874,10 +880,14 @@ relpaths=11
  messagefrm.pas
  version.inc
  version.inc
- ../eschecs_prerel2/source/eschecs.pas
+ eschecs_prerel2/source/eschecs.pas
  board.pas
- ../eschecs_colorstatus/source/eschecs.pas
-ismoduletexts=11
+ eschecs_colorstatus/source/eschecs.pas
+ settings.pas
+ engines.pas
+ismoduletexts=13
+ 0
+ 0
  0
  0
  0
@@ -894,22 +904,24 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=11
+order=13
  0
- 9
+ 11
+ 7
+ 12
+ 4
+ 2
+ 1
  5
  3
- 8
- 4
+ 9
  10
  6
- 1
- 7
- 2
+ 8
 firsttab=0
 index=0
 [layout]
-windowlayout=597
+windowlayout=569
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -1017,7 +1029,7 @@ windowlayout=597
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1385,7 +1397,12 @@ windowlayout=597
  value=Pascal
  [debuggerfo.file_history]
  value=/home/fred/eschecs/source/eschecs.pas
- history=50
+ history=20
+  /home/fred/eschecs/source/eschecs.pas
+  /home/fred/eschecs/source/messagefrm.pas
+  /home/fred/eschecs/source/settings.pas
+  /home/fred/eschecs/source/engines.pas
+  /home/fred/eschecs_colorstatus/source/eschecs.pas
   /home/fred/eschecs_colorstatus/source/eschecs.res
   /home/fred/eschecs/source/board.pas
   /home/fred/eschecs_prerel2/source/eschecs.pas
@@ -1398,46 +1415,11 @@ windowlayout=597
   /home/fred/ideu/src/findinfileform.mfm
   /home/fred/ideu/src/messageform.pas
   /home/fred/eschecs/source/eco/eco.pas
-  /home/fred/eschecs/source/messagefrm.pas
   /home/fred/eschecs_image/source/messagefrm.pas
   /home/fred/eschecs_image/source/eco/eco.pas
   /home/fred/eschecs_image/source/eschecs.pas
-  /home/fred/eschecs/source/eco/ecoor.pas
-  /home/fred/eschecs_uos_noleak/source/eco/eco.pas
-  /home/fred/eschecs_errorfriend/source/log.pas
-  /home/fred/eschecs_errorfriend/source/eschecs.pas
-  /home/fred/eschecs/source/log.pas
-  /home/fred/eschecs/source/sound.pas
-  /home/fred/eschecs/source/language.pas
-  /home/fred/eschecs_uos2/source/eschecs.pas
-  /home/fred/uos/examples/simpleplayer_fpGUI.pas
-  /home/fred/eschecs/libraries/uos/define.inc
-  /home/fred/eschecs/libraries/uos/uos_flat.pas
-  /home/fred/eschecs/libraries/uos/uos.pas
-  /home/fred/uos/examples/consoleplaymemorystream.pas
-  /home/fred/eschecs_uos/source/sound.pas
-  /home/fred/uos/examples/simpledrums_fpGUI.pas
-  /home/fred/eschecs_uos/source/messagefrm.pas
-  /home/fred/eschecs/libraries/fpgui/src/gui/fpg_dialogs.pas
-  /home/fred/eschecs/libraries/fpgui/AUTHORS.txt
-  /home/fred/eschecs_uos/source/eschecs.pas
-  /home/fred/eschecs_uos/source/log.pas
-  /home/fred/eschecs/source/settings.pas
-  /home/fred/eschecs/libraries/uos/uos_define.inc
-  /home/fred/eschecs/libraries/uos/uos_libsndfile.pas
-  /home/fred/eschecs/libraries/uos/uos_mpg123.pas
-  /home/fred/designer_ext/src/frm_main_designer.pas
-  /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_x11.pas
-  /home/fred/eschecs/libraries/fpgui/src/corelib/x11/fpg_xft_x11.pas
-  /home/fred/eschecs_msg_center/source/eschecs.pas
-  /home/fred/eschecs_msg_center/source/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/eschecs_msg_center/source/fpg_style_eschecs.pas
-  /home/fred/eschecs_msg_center/source/eschecsstyle.pas
-  /home/fred/eschecs/source/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/designer_ext/src/fpg_style_chrome_silver_flatmenu.pas
-  /home/fred/designer_ext/src/designer_ext.pas
  [debuggerfo.project_options]
- value=1
+ value=5
  [debuggerfo.hints]
  value=1
  [sourcefo]
@@ -1457,18 +1439,20 @@ windowlayout=597
  rcx=0
  rcy=0
  [sourcefo.files_tab]
- order=11
+ order=13
   0
-  9
+  11
+  7
+  12
+  4
+  2
+  1
   5
   3
-  8
-  4
+  9
   10
   6
-  1
-  7
-  2
+  8
  firsttab=0
  index=0
  [cpuc86_64fo]
