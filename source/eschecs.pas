@@ -156,10 +156,14 @@ const
 
 var
   vListener: TThread;
+  
+  {$IFDEF OPT_DEBUG}
   vUCILog: text;
+  {$ENDIF}
   vColoring: boolean;
 
-procedure UCILogAppend(const aText, aInsert: string);
+{$IFDEF OPT_DEBUG}
+ procedure UCILogAppend(const aText, aInsert: string);
 var
   vList: TStringList;
   vLine, vDateTime: string;
@@ -172,11 +176,14 @@ begin
   Flush(vUCILog);
   vList.Free;
 end;
+  {$ENDIF}
 
 procedure WriteProcessInput_(const aUciCommand: string);
 begin
   WriteProcessInput(aUciCommand);
-  UCILogAppend(aUciCommand, '<');
+  {$IFDEF OPT_DEBUG}
+   UCILogAppend(aUciCommand, '<');
+  {$ENDIF}
 end;
 
 function ArbitratorMessage(const aCheck: boolean; const aActiveColor: TChessPieceColor; const aState: TChessState): string;
@@ -347,9 +354,11 @@ var
   vLang: TLanguage;
   vMoveHistory: string;
 begin
-  vENGPath := ChangeFileExt(vFENPath, '.eng');
-  if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FMoveTime, vReplaceFont);
+  vENGPath := vConfigFilesPath + 'eschecs.eng';
+  if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory,
+  FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen],
+  vSpecialColors[ocRed], FMoveTime, vReplaceFont);
   ReadStyle(gStyle);
   ReadLanguage(gLanguage);
   ReadColoring(vColoring);
@@ -1039,7 +1048,9 @@ var
   vName, vAuthor, vMove, vPromotion: string;
   vPieceKind: TChessPieceKindEx;
 begin
-  UCILogAppend(FEngineMessage, '>');
+{$IFDEF OPT_DEBUG}
+ UCILogAppend(FEngineMessage, '>');
+{$ENDIF}
 
   if IsMsgUciOk(FEngineMessage, vName, vAuthor) then
    begin
@@ -1081,32 +1092,46 @@ begin
   end;
 end;
 
-var
+{$IFDEF OPT_DEBUG}
+ var
   vUciLogName: string;
+{$ENDIF}  
 
 begin
   fpgApplication.Initialize;
   fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, sizeof(vfd_eschecs), 0, 0);
   if fpgStyleManager.SetStyle('eschecs_style') then
     fpgStyle := fpgStyleManager.Style;
-  if DirectoryExists(vConfigFilesPath) and FileExists(vConfigFilesPath + 'eschecs.eng')  then
-  begin
+  if DirectoryExists(vConfigFilesPath) then
+   begin
+        
     Assign(vLog, vLOGPath);
     if FileExists(vLOGPath) then
       Append(vLog)
     else
       Rewrite(vLog);
+      
+    {$IFDEF OPT_DEBUG}
     vUciLogName := Concat(vConfigFilesPath, 'eschecs.debug');
     Assign(vUCILog, vUciLogName);
     if FileExists(vUciLogName) then
       Append(vUCILog)
     else
       Rewrite(vUCILog);
+    {$ENDIF} 
+      
 {$IFDEF OPT_ECO}
-     InitEco();
+    InitEco();
 {$ENDIF}
     fpgApplication.CreateForm(TMainForm, frm);
     fpgApplication.MainForm := frm;
+      if FileExists(vConfigFilesPath + 'eschecs.eng')
+     then else
+     begin
+    ShowMessagefrm('No /config/eschecs.eng file found.', 'Sorry but no chess engines will be available.', 'Warning', 'Close');
+    frm.FMovesSubMenu.visible := false;
+    frm.FMovesSubMenu.enabled := false;
+     end;
     frm.Show;
     fpgApplication.Run;
 {$IFDEF OPT_SOUND}
@@ -1117,10 +1142,12 @@ begin
     FreeEco();
 {$ENDIF}
     Close(vLog);
+{$IFDEF OPT_DEBUG}
     Close(vUCILog);
+{$ENDIF} 
   end else
   begin
-    ShowMessagefrm('The config folder is corrupted.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
+    ShowMessagefrm('The /config folder is missing.', 'Please check your configuration or reinstall Eschecs.', 'Error...', 'Close');
   end;
    fpgApplication.Terminate; 
 end.
