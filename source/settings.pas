@@ -191,7 +191,13 @@ end;
 begin
   vConfigFilesPath := Concat(ExtractFilePath(ParamStr(0)), 'config', directoryseparator);
   Assert(DirectoryExists(vConfigFilesPath) or CreateDir(vConfigFilesPath));
+  {
   vLOGPath := Concat(vConfigFilesPath, ChangeFileExt(ExtractFileName(ParamStr(0)), '.log'));
   vINIPath := ChangeFileExt(vLOGPath, '.ini');
   vFENPath := ChangeFileExt(vLOGPath, '.fen');
+  }
+  vLOGPath := vConfigFilesPath + 'eschecs.log';
+  vINIPath := vConfigFilesPath + 'eschecs.ini';
+  vFENPath := vConfigFilesPath + 'eschecs.fen';
+  
 end.

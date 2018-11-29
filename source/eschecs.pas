@@ -347,9 +347,11 @@ var
   vLang: TLanguage;
   vMoveHistory: string;
 begin
-  vENGPath := ChangeFileExt(vFENPath, '.eng');
-  if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath) else LoadEnginesData(Concat(vConfigFilesPath, 'engines.json'));
-  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory, FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen], vSpecialColors[ocRed], FMoveTime, vReplaceFont);
+  vENGPath := vConfigFilesPath + 'eschecs.eng';
+  if FileExists(vENGPath) then LoadEnginesDataFromINI(vENGPath);
+  ReadFromINIFile(vCurrentPosition, vAutoPlay, FUpsideDown, vMarble, FExePath, vMoveHistory,
+  FCurrPosIndex, FEngine, vLightSquareColor, vDarkSquareColor, vSpecialColors[ocGreen],
+  vSpecialColors[ocRed], FMoveTime, vReplaceFont);
   ReadStyle(gStyle);
   ReadLanguage(gLanguage);
   ReadColoring(vColoring);
