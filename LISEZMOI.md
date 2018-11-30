@@ -1,7 +1,11 @@
 
-*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
+*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI]
 
-*Eschecs* inclut un module original, appelé *Moustique*. *Eschecs* et *Moustique* sont des programmes Pascal à code source ouvert.
+(http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
+
+*Eschecs* inclut un module original, appelé *Moustique*.
+
+*Eschecs* et *Moustique* sont des programmes Pascal à code source ouvert.
 
 ## I. Guide de l'utilisateur
 
@@ -11,7 +15,9 @@ Pour déplacer une pièce, faites-la glisser avec la souris jusqu'à la case d'a
 
 ### B. Adversaire artificiel
 
-Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utilisé). Vous pouvez choisir un adversaire dans la liste des modules (menu "Coups").
+Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utilisé).
+
+Vous pouvez choisir un adversaire dans la liste des modules (menu "Coups").
 
 ### C. Modes de jeu
 
@@ -49,16 +55,28 @@ Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini
 
 ### A. Compilation
 
-*Eschecs* est un programme pour le compilateur Free Pascal. *Eschecs* utilise les bibliothèques [fpGUI][1], [BGRABitmap][2] et [uos][3].
+*Eschecs* est un programme pour le compilateur Free Pascal.
+
+*Eschecs* utilise les bibliothèques [fpGUI][1], [BGRABitmap][2] et [uos][3].
 
 ## IV. Crédits
 
-L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *[Fritz 1.0]*. *Fritz* est un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
+L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *[Fritz 1.0]*.
+
+*Fritz* est un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
 
 L'échiquier de 640 est [l'œuvre de Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
-Les pièces de l'échiquier de 480 proviennent de la police *Chess Mark* d'Armando Marroquin. *Chess Alpha* est une police de caractères d'Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin. *Chess Montreal* est une police de caractères de Gary Katch. L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html) de Gary Katch.
 
+Les pièces de l'échiquier de 480 proviennent de la police *Chess Mark* d'Armando Marroquin.
+
+*Chess Alpha* est une police de caractères d'Eric Bentzen. 
+
+*Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin. 
+
+*Chess Montreal* est une police de caractères de Gary Katch. 
+
+L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html) de Gary Katch.
 
 *Fruit 2.1* est un programme d'échecs de Fabien Letouzey.
 
@@ -70,7 +88,9 @@ Les pièces de l'échiquier de 480 proviennent de la police *Chess Mark* d'Arman
 
 [uos](https://github.com/fredvs/uos) est une collection de bibliothèques pour le son, avec des procédures unifiées écrites pour Free Pascal par Fred van Stappen.
 
-Merci à John Bennett ainsi qu'à Norbert Raimund Leisner pour le logo de Moustique. C'est une image d'un avion, le Farman F455 Moustique.
+Merci à John Bennett ainsi qu'à Norbert Raimund Leisner pour le logo de Moustique. 
+
+C'est une image d'un avion, le Farman F455 Moustique.
 
 ## V. Auteur
 
