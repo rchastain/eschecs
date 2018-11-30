@@ -1,7 +1,7 @@
 
 ## Credits
 
-The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/0.png) (with its pieces) is a reproduction of the game [Fritz 1.0], a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
+The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/1.png) (with its pieces) is a reproduction of the game *Fritz 1.0,* a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
 
 The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/5.png) is [the work of Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
