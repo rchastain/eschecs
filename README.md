@@ -1,7 +1,5 @@
 
-*Eschecs* is a free chess playing program, which uses the [UCI protocol]
-
-(http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with UCI chess engines.
+*Eschecs* is a free chess playing program, which uses the [UCI protocol](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with UCI chess engines.
 
 *Eschecs* includes an original UCI engine called *Moustique*. *Eschecs* and *Moustique* are open source Pascal programs.
 
@@ -19,7 +17,7 @@ You can select another opponent in a list of chess engines. See the "Moves" menu
 
 ### C. Play Mode
 
-The default play mode is user versus computer. The user plays white.
+The default play mode is user versus computer, user playing white.
 
 If you wish the computer to play white, click on "Computer move".
 
@@ -47,7 +45,7 @@ For the "go" command, *Eschecs* uses the following syntax:
 
     go movetime 1000
 
-You can change the value of the parameter by editing **eschecs.ini**, in the **config** directory.
+You can change the value of the parameter by editing **eschecs.ini**, which stands in the **config** directory.
 
 ## III. Programmer's Guide.
 
@@ -61,19 +59,11 @@ You can change the value of the parameter by editing **eschecs.ini**, in the **c
 
 The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/0.png) (with its pieces)
 
-is a reproduction of the game [Fritz 1.0]. *Fritz 1.0* is a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
+is a reproduction of the game [Fritz 1.0], a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
 
-The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/4.png)
+The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/4.png) is [the work of Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
-is the [work of Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
-
-The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/3.png)
-
-comes from the Chess Mark font. *Chess Alpha* is a TrueType font by Eric Bentzen.
-
-*Chess Condal, Chess Line, Chess Mark* are TrueType fonts by Armando Marroquin.
-
-*Chess Montreal* is a TrueType font by Gary Katch.
+The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/3.png) comes from the Chess Mark font. *Chess Alpha* is a TrueType font by Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* are TrueType fonts by Armando Marroquin. *Chess Montreal* is a TrueType font by Gary Katch.
 
 The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html).
 
