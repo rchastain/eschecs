@@ -1,11 +1,7 @@
 
-*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI]
+*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
 
-(http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
-
-*Eschecs* inclut un module original, appelé *Moustique*.
-
-*Eschecs* et *Moustique* sont des programmes Pascal à code source ouvert.
+*Eschecs* inclut un module original, appelé *Moustique*. *Eschecs* et *Moustique* sont des programmes Pascal à code source ouvert.
 
 ## I. Guide de l'utilisateur
 
@@ -15,15 +11,11 @@ Pour déplacer une pièce, faites-la glisser avec la souris jusqu'à la case d'a
 
 ### B. Adversaire artificiel
 
-Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utilisé).
-
-Vous pouvez choisir un adversaire dans la liste des modules (menu "Coups").
+Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utilisé). Vous pouvez choisir un autre adversaire dans la liste des modules (menu "Coups").
 
 ### C. Modes de jeu
 
-Par défaut, l'utilisateur a les blancs et l'ordinateur les noirs. 
-
-Si vous souhaitez que l'ordinateur prenne les blancs, cliquez sur "Coup de l'ordinateur", dans le menu "Coups".
+Par défaut, l'utilisateur a les blancs et l'ordinateur les noirs. Si vous souhaitez que l'ordinateur prenne les blancs, cliquez sur "Coup de l'ordinateur", dans le menu "Coups".
 
 Pour jouer humain contre humain, décochez l'option "Réponse automatique", dans le menu "Coups".
 
@@ -49,7 +41,7 @@ Pour la commande "go", *Eschecs* utilise la syntaxe suivante :
 
     go movetime 1000
 
-Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini**, dans le répertoire **config**.
+Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini**, qui se trouve dans le répertoire **config**.
 
 ## III. Guide du programmeur
 
@@ -61,26 +53,13 @@ Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini
 
 ## IV. Crédits
 
-L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *[Fritz 1.0]*.
-
-*Fritz* est un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
+L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *Fritz 1.0,* un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
 
 L'échiquier de 640 est [l'œuvre de Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
+Les pièces de l'échiquier de 480 proviennent de la police *Chess Mark*. L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Alpha* est une police de caractères d'Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin. *Chess Montreal* est une police de caractères de Gary Katch. 
 
-Les pièces de l'échiquier de 480 proviennent de la police *Chess Mark* d'Armando Marroquin.
-
-*Chess Alpha* est une police de caractères d'Eric Bentzen. 
-
-*Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin. 
-
-*Chess Montreal* est une police de caractères de Gary Katch. 
-
-L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html) de Gary Katch.
-
-*Fruit 2.1* est un programme d'échecs de Fabien Letouzey.
-
-*Moustique* est un programme d'échecs de Roland Chastain, basé sur *Schachspiel* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
+*Fruit 2.1* est un programme d'échecs de Fabien Letouzey. *Moustique* est un programme d'échecs de Roland Chastain, basé sur *Schachspiel* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
 
 [fpGUI](https://github.com/graemeg/fpGUI) est une bibliothèque multiplateforme de Graeme Geldenhuys, pour la réalisation d'applications graphiques en Pascal.
 
@@ -88,15 +67,11 @@ L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.
 
 [uos](https://github.com/fredvs/uos) est une collection de bibliothèques pour le son, avec des procédures unifiées écrites pour Free Pascal par Fred van Stappen.
 
-Merci à John Bennett ainsi qu'à Norbert Raimund Leisner pour le logo de Moustique. 
-
-C'est une image d'un avion, le Farman F455 Moustique.
+Merci à John Bennett ainsi qu'à Norbert Raimund Leisner pour le logo de Moustique. C'est l'image d'un avion, le Farman F455 Moustique.
 
 ## V. Auteur
 
-*Eschecs* est un programme en Pascal écrit par Roland Chastain.
-
-Contributeurs : Johann Elsass, Fred van Stappen.
+*Eschecs* est un programme en Pascal écrit par Roland Chastain, avec des contributions de Johann Elsass et de Fred van Stappen.
 
 [1]: https://github.com/graemeg/fpGUI 
 [2]: https://github.com/bgrabitmap/bgrabitmap
