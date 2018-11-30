@@ -77,9 +77,7 @@ Thanks to John Bennett and to Norbert Raimund Leisner for the Moustique logo, a 
 
 ## V. Author
 
-*Eschecs* is a Pascal program by Roland Chastain.
-
-Contributors: Johann Elsass, Fred van Stappen.
+*Eschecs* is a Pascal program by Roland Chastain, with contributions by Johann Elsass and Fred van Stappen.
 
 [1]: https://github.com/graemeg/fpGUI 
 [2]: https://github.com/bgrabitmap/bgrabitmap
