@@ -5,7 +5,7 @@ The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/
 
 The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/5.png) is [the work of Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
-The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/1.png) comes from the Chess Mark font. The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Alpha* is a TrueType font by Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* are TrueType fonts by Armando Marroquin. *Chess Montreal* is a TrueType font by Gary Katch.
+The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/2.png) comes from the Chess Mark font. The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Alpha* is a TrueType font by Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* are TrueType fonts by Armando Marroquin. *Chess Montreal* is a TrueType font by Gary Katch.
 
 *Fruit 2.1* is a chess program by Fabien Letouzey. *Moustique* is a UCI engine by Roland Chastain, based on *Schachspiel* by Jürgen Schlottke and on *Mater* by Valentin Albillo.
 
