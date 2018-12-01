@@ -2406,12 +2406,12 @@ begin
   begin
     { setup a window icon }
 
-    IconPixMap := XCreateBitmapFromData(xapplication.display, FWinHandle,
-      @IconBitmapBits, IconBitmapWidth, IconBitmapHeight);
+ //   IconPixMap := XCreateBitmapFromData(xapplication.display, FWinHandle,
+ //     @IconBitmapBits, IconBitmapWidth, IconBitmapHeight);
 
     WMHints := XAllocWMHints;
-    WMHints^.icon_pixmap := IconPixmap;
-    WMHints^.flags := IconPixmapHint;
+ //   WMHints^.icon_pixmap := IconPixmap;
+ //   WMHints^.flags := IconPixmapHint;
     { setup window grouping posibilities }
     if (not (waX11SkipWMHints in FWindowAttributes)) and (FWindowType = wtWindow) then
     begin
