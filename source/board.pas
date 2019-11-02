@@ -1,210 +1,162 @@
 
 unit Board;
 
-{$mode objfpc}{$H+}
-
 interface
 
 uses
   Classes,
   SysUtils,
   Math,
-{$IFDEF OPT_DEBUG}
   TypInfo,
-{$ENDIF}
   fpg_main,
   BGRABitmap,
   BGRABitmapTypes,
   Images,
-  Style,
+  Settings,
   Utils,
   ChessTypes;
 
 type
   TChessPiece = record
     x, y: integer;
-    color: TChessPieceColor;
-    kind: TChessPieceKind;
+    FColor: TPieceColorStrict;
+    FType: TPieceTypeStrict;
   end;
 
-  TAnimationData = record
-    action: boolean;
-    index: integer;
-    currX, currY, stepX, stepY, targX, targY: integer;
-    promotion: boolean;
-    promotionKind: TChessPieceKind;
+  TAnimData = record
+    FAction: boolean;
+    FIndex: integer;
+    FCurrX, FCurrY, FStepX, FStepY, FTargX, FTargY: integer;
+    FPromoType: TPieceType;
   end;
 
   TBGRAChessboard = class
     private
-      fVirtualScreen: TBGRABitmap;
-      fPieceBackground: TBGRABitmap;
-      fScreenshot: TBGRABitmap;
-      fPieces: array[1..32] of TChessPiece;
-      fAnimationData: TAnimationData;
-      fUpsideDown: boolean;
+      FVirtScreen: TBGRABitmap;
+      FPieceBackgr: TBGRABitmap;
+      FScreenshot: TBGRABitmap;
+      FPieces: array[1..32] of TChessPiece;
+      FAnimData: TAnimData;
+      FUpsideDown: boolean;
     public
-      constructor Create(const aBoardStyle: TBoardStyle = bsOriginal; const aUpsideDown: boolean = FALSE; const aPiecePlacement: string = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+      constructor Create(const AStyle: TBoardStyle; const AUpsideDown: boolean = FALSE; const APlacement: string = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
       destructor Destroy; override;
-      procedure SetPieceXY(const aIndex, aX, aY: integer);
-      procedure SetPieceKind(const aIndex: integer; const aType: TChessPieceKind);
-      procedure DrawPiece(const aIndex, aX, aY: integer; const aSetXY: boolean = FALSE); overload;
-      procedure ReadPlacement(const aPlacement: string; const aDrawPieces: boolean = TRUE);
+      procedure SetPieceXY(const AIndex, AX, AY: integer);
+      procedure SetPieceType(const AIndex: integer; const AType: TPieceTypeStrict);
+      procedure DrawPiece(const AIndex, AX, AY: integer; const ASetXY: boolean = FALSE); overload;
+      procedure ReadPlacement(const APlacement: string; const ADraw: boolean = TRUE);
       procedure ResetAnimatData;
-      procedure EraseBoard();
-      procedure DrawToFPGCanvas(const aCanvas: TfpgCanvas; const x, y: integer);
-      function Animate(out aAnimationEnd: boolean): boolean;
-      procedure SetAnimatData(const aIndex, aCurrentX, aCurrentY, aStepX, aStepY, aTargetX, aTargetY: integer; const aPromotion: boolean; const aPromotionKind: TChessPieceKind);
-      function FindPiece(const aX, aY: integer): integer; overload;
-      function FindPiece(const aX, aY: integer; const aColor: TChessPieceColor): integer; overload;
-      function FindPiece(const aX, aY: integer; const aColor: TChessPieceColor; const aType: TChessPieceKind): integer; overload;
-      procedure ErasePiece(const aIndex, aX, aY: integer); overload;
-      procedure ErasePiece(const aSquare: string); overload;
-      procedure MovePiece(const aIndex, aX, aY, aDX, aDY: integer; const aPromotion: boolean; const aPromotionKind: TChessPieceKind); overload;
-      procedure MovePiece(const aMove: string; const aPromotion: boolean = FALSE; const aPromotionKind: TChessPieceKind = cpkQueen); overload;
+      procedure EraseBoard;
+      procedure DrawToFPGCanvas(const ACanvas: TfpgCanvas; const x, y: integer);
+      function Animate(out AEnd: boolean): boolean;
+      procedure SetAnimatData(const AIndex, ACurrX, ACurrY, AStepX, AStepY, ATargX, ATargY: integer; const APromoType: TPieceType);
+      function FindPiece(const AX, AY: integer): integer; overload;
+      function FindPiece(const AX, AY: integer; const AColor: TPieceColorStrict): integer; overload;
+      function FindPiece(const AX, AY: integer; const AColor: TPieceColorStrict; const AType: TPieceTypeStrict): integer; overload;
+      function FindPiece(const AX, AY: integer; const AType: TPieceTypeStrict): integer; overload;
+      procedure ErasePiece(const AIndex, AX, AY: integer); overload;
+      procedure ErasePiece(const ASquare: string); overload;
+      procedure MovePiece(const AIndex, AX, AY, ADX, ADY: integer; const APromoType: TPieceType); overload;
+      procedure MovePiece(const AMove: string; const APromoType: TPieceType = ptNil); overload;
+      procedure MoveKingRook(const AMove: string; const AComputerMove: boolean);
       procedure FlipBoard;
-      procedure ChangeBoard(const aBoardStyle: TBoardStyle = bsOriginal);
-      procedure Highlight(const aX, aY: integer; const aColor: TOutlineColor; const aPieceIndex: integer);
-      procedure HighlightMove(const aMove: string; const aPieceIndex: integer);
+      procedure Highlight(const AX, AY: integer; const AColor: TBackColor; const APieceIndex: integer);
+      procedure HighlightMove(const AMove: string; const APieceIndex: integer);
       procedure ScreenSave;
       procedure ScreenRestore;
-      procedure SavePieceBackground(const aImagePos: TPoint; const aCreateFromChessboard: boolean = FALSE);
-      procedure RestorePieceBackground(const aImagePos: TPoint);
-      procedure DrawPiece(const aImagePos: TPoint; const aPieceIndex: integer); overload;
-      function XYToScreen(const aX, aY: integer): TPoint;
+      procedure SavePieceBackground(const AImagePos: TPoint; const ACreateFromChessboard: boolean = FALSE);
+      procedure RestorePieceBackground(const AImagePos: TPoint);
+      procedure DrawPiece(const AImagePos: TPoint; const APieceIndex: integer); overload;
+      function XYToScreen(const AX, AY: integer): TPoint;
       function ScreenSaved(): boolean;
-      procedure ScreenToXY(const aMousePos: TPoint; out aX, aY: integer);
-      property isUpsideDown: boolean read fUpsideDown;
+      procedure ScreenToXY(const AMousePos: TPoint; out AX, AY: integer);
+      property UpsideDown: boolean read FUpsideDown;
   end;
 
 var
-  vMoveToBeHighlighted: string;
-  vComputerCastlingFlag: boolean;
-  vKingIndex: integer;
+  LHighlighted: string;
 
 implementation
 
-constructor TBGRAChessboard.Create(const aBoardStyle: TBoardStyle; const aUpsideDown: boolean; const aPiecePlacement: string);
-{$IFDEF OPT_CAPTURE}
-var
-  vCapture: TBGRABitmap;
-{$ENDIF}
+constructor TBGRAChessboard.Create(const AStyle: TBoardStyle; const AUpsideDown: boolean; const APlacement: string);
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn('TBGRAChessboard.Create()');
-{$ENDIF}
   inherited Create;
-  Assert((gStyleData[gStyle].scale mod 2 = 0) and (gStyleData[gStyle].scale mod 5 = 0));
-  fVirtualScreen := TBGRABitmap.Create(8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
-  fPieceBackground := nil;
-  fScreenshot := nil;
+  FVirtScreen := TBGRABitmap.Create(8 * LScale, 8 * LScale);
+  FPieceBackgr := nil;
+  FScreenshot := nil;
   ResetAnimatData;
-  fUpsideDown := aUpsideDown;
+  FUpsideDown := AUpsideDown;
   EraseBoard();
-  ReadPlacement(aPiecePlacement);
-{$IFDEF OPT_CAPTURE}
-  vCapture := TBGRABitmap.Create(2 * gStyleData[gStyle].scale, 2 * gStyleData[gStyle].scale);
-  BGRAReplace(vCapture, fVirtualScreen.GetPart(RectWithSize(0, 0, 2 * gStyleData[gStyle].scale, 2 * gStyleData[gStyle].scale)));
-  vCapture.SaveToFile(Format('%d.png', [gStyle]));
-  vCapture.Free;
-{$ENDIF}
+  ReadPlacement(APlacement);
 end;
 
 destructor TBGRAChessboard.Destroy;
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn('TBGRAChessboard.Destroy');
-{$ENDIF}
-  fVirtualScreen.Free;
-  if Assigned(fPieceBackground) then
-    fPieceBackground.Free;
-  if Assigned(fScreenshot) then
-  begin
-{$IFDEF OPT_DEBUG}
-    WriteLn('fScreenshot.Free');
-{$ENDIF}
-    fScreenshot.Free;
-  end;
+  FVirtScreen.Free;
+  if Assigned(FPieceBackgr) then
+    FPieceBackgr.Free;
+  if Assigned(FScreenshot) then
+    FScreenshot.Free;
   inherited Destroy;
 end;
 
-procedure TBGRAChessboard.SetPieceXY(const aIndex, aX, aY: integer);
+procedure TBGRAChessboard.SetPieceXY(const AIndex, AX, AY: integer);
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn(Format('TBGRAChessboard.SetPieceXY(%d, %d, %d)', [aIndex, aX, aY]));
-{$ENDIF}
-  fPieces[aIndex].x := aX;
-  fPieces[aIndex].y := aY;
+  FPieces[AIndex].x := AX;
+  FPieces[AIndex].y := AY;
 end;
 
-procedure TBGRAChessboard.SetPieceKind(const aIndex: integer; const aType: TChessPieceKind);
+procedure TBGRAChessboard.SetPieceType(const AIndex: integer; const AType: TPieceTypeStrict);
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn(Format('TBGRAChessboard.SetPieceKind(%d, %s)', [aIndex, GetEnumName(TypeInfo(TChessPieceKind), Ord(aType))]));
-{$ENDIF}
-  fPieces[aIndex].kind := aType;
+  FPieces[AIndex].FType := AType;
 end;
 
-procedure TBGRAChessboard.DrawPiece(const aIndex, aX, aY: integer; const aSetXY: boolean = FALSE);
-var
-  oc: TOutlineColor;
+procedure TBGRAChessboard.DrawPiece(const AIndex, AX, AY: integer; const ASetXY: boolean = FALSE);
 begin
-  Assert(InRange(aIndex, 1, 32) and InRange(aX, 1, 8) and InRange(aY, 1, 8));
-
-  if vCurrentStyle = bsOriginal then
-    oc := ocWhite
-  else
-    oc := ocTransparent;
-  fVirtualScreen.PutImage(
-    XToScreen(aX, fUpsideDown),
-    YToScreen(aY, fUpsideDown),
-    vPieceImage[fPieces[aIndex].color, fPieces[aIndex].kind, oc],
+  Assert(InRange(AIndex, 1, 32) and InRange(AX, 1, 8) and InRange(AY, 1, 8));
+  FVirtScreen.PutImage(
+    XToScreen(AX, FUpsideDown),
+    YToScreen(AY, FUpsideDown),
+    LPieceImage[FPieces[AIndex].FColor, FPieces[AIndex].FType],
     dmDrawWithTransparency
   );
-
-  if aSetXY then SetPieceXY(aIndex, aX, aY);
+  if ASetXY then SetPieceXY(AIndex, AX, AY);
 end;
 
-procedure TBGRAChessboard.ReadPlacement(const aPlacement: string; const aDrawPieces: boolean = TRUE);
-
-  function DecodeColor(c: char): TChessPieceColor; inline;
+procedure TBGRAChessboard.ReadPlacement(const APlacement: string; const ADraw: boolean = TRUE);
+  function DecodeColor(c: char): TPieceColorStrict; inline;
+  begin
+    if c = 'w' then result := pcWhite else result := pcBlack;
+  end;
+  function DecodeType(c: char): TPieceTypeStrict; inline;
   begin
     case c of
-      'w': result := cpcWhite;
-      'b': result := cpcBlack;
+      'p': result := ptPawn;
+      'n': result := ptKnight;
+      'b': result := ptBishop;
+      'r': result := ptRook;
+      'q': result := ptQueen;
+      else result := ptKing;
     end;
   end;
-
-  function DecodeType(c: char): TChessPieceKind; inline;
-  begin
-    case c of
-      'p': result := cpkPawn;
-      'n': result := cpkKnight;
-      'b': result := cpkBishop;
-      'r': result := cpkRook;
-      'q': result := cpkQueen;
-      'k': result := cpkKing;
-    end;
-  end;
-
 const
-  SYMBOLS: set of char = ['B', 'K', 'N', 'P', 'Q', 'R', 'b', 'k', 'n', 'p', 'q', 'r', '1'..'8', '/'];
+  CSymbols: set of char = ['B', 'K', 'N', 'P', 'Q', 'R', 'b', 'k', 'n', 'p', 'q', 'r', '1'..'8', '/'];
 var
   i: integer;
   x, y: integer;
   c: char;
-  index: integer;
-  id: string;
+  LPieceIndex: integer;
+  s: string;
 begin
   i := 1;
   x := 1;
   y := 8;
-  index := 1;
-  while (i <= Length(aPlacement))
-  and (index <= 32)
-  and (aPlacement[i] in SYMBOLS) do
+  LPieceIndex := 1;
+  while (i <= Length(APlacement))
+  and (LPieceIndex <= 32)
+  and (APlacement[i] in CSymbols) do
   begin
-    c := aPlacement[i];
+    c := APlacement[i];
     if c in ['1'..'8'] then
       while c > '0' do
       begin
@@ -219,16 +171,16 @@ begin
     end else
     begin
       if c in ['B', 'K', 'N', 'P', 'Q', 'R'] then
-        id := 'w' + LowerCase(c)
+        s := 'w' + LowerCase(c)
       else
-        id := 'b' + c;
-      fPieces[index].x := x;
-      fPieces[index].y := y;
-      fPieces[index].color := DecodeColor(id[1]);
-      fPieces[index].kind := DecodeType(id[2]);
-      if aDrawPieces then
-        DrawPiece(index, x, y);
-      Inc(index);
+        s := 'b' + c;
+      FPieces[LPieceIndex].x := x;
+      FPieces[LPieceIndex].y := y;
+      FPieces[LPieceIndex].FColor := DecodeColor(s[1]);
+      FPieces[LPieceIndex].FType := DecodeType(s[2]);
+      if ADraw then
+        DrawPiece(LPieceIndex, x, y);
+      Inc(LPieceIndex);
       Inc(x);
     end;
     Inc(i);
@@ -237,104 +189,84 @@ end;
 
 procedure TBGRAChessboard.ResetAnimatData;
 const
-  ZERO: TAnimationData = (
-    action: FALSE;
-    index: 0;
-    currX: 0;
-    currY: 0;
-    stepX: 0;
-    stepY: 0;
-    targX: 0;
-    targY: 0;
-    promotion: FALSE;
-    promotionKind: cpkQueen
+  CZero: TAnimData = (
+    FAction: FALSE;
+    FIndex: 0;
+    FCurrX: 0;
+    FCurrY: 0;
+    FStepX: 0;
+    FStepY: 0;
+    FTargX: 0;
+    FTargY: 0;
+    FPromoType: ptNil
   );
 begin
-  fAnimationData := ZERO;
+  FAnimData := CZero;
 end;
 
-procedure TBGRAChessboard.EraseBoard();
+procedure TBGRAChessboard.EraseBoard;
 begin
-  fVirtualScreen.PutImage(0, 0, vChessboard, dmSet);
+  FVirtScreen.PutImage(0, 0, LChessboard, dmSet);
 end;
 
-procedure TBGRAChessboard.DrawToFPGCanvas(const aCanvas: TfpgCanvas; const x, y: integer);
+procedure TBGRAChessboard.DrawToFPGCanvas(const ACanvas: TfpgCanvas; const x, y: integer);
 begin
-  fVirtualScreen.Draw(aCanvas, x, y);
+  FVirtScreen.Draw(ACanvas, x, y);
 end;
 
-function TBGRAChessboard.Animate(out aAnimationEnd: boolean): boolean;
-var
-  oc: TOutlineColor;
+function TBGRAChessboard.Animate(out AEnd: boolean): boolean;
 begin
-  result := fAnimationData.action;
-  aAnimationEnd := FALSE;
-  with fAnimationData do
-    if action then
+  result := FAnimData.FAction;
+  AEnd := FALSE;
+  with FAnimData do
+    if FAction then
     begin
-      fVirtualScreen.PutImage(currX, currY, fPieceBackground, dmSet);
-      Inc(currX, stepX);
-      Inc(currY, stepY);
-      //BGRAReplace(fPieceBackground, fVirtualScreen.GetPart(RectWithSize(currX, currY, gStyleData[gStyle].scale, gStyleData[gStyle].scale)));
-      if Assigned(fPieceBackground) then
-        fPieceBackground.Free;
-      fPieceBackground := fVirtualScreen.GetPart(RectWithSize(currX, currY, gStyleData[gStyle].scale, gStyleData[gStyle].scale)) as TBGRABitmap;
-      if promotion then
-        if (currX = targX) and (currY = targY) then
-          fPieces[index].kind := promotionKind;
-      if vCurrentStyle = bsOriginal then
-        oc := ocWhite
-      else
-        oc := ocTransparent;
-      fVirtualScreen.PutImage(currX, currY, vPieceImage[fPieces[index].color, fPieces[index].kind, oc], dmDrawWithTransparency);
-      if (currX = targX) and (currY = targY) then
+      FVirtScreen.PutImage(FCurrX, FCurrY, FPieceBackgr, dmSet);
+      Inc(FCurrX, FStepX);
+      Inc(FCurrY, FStepY);
+      if Assigned(FPieceBackgr) then
+        FPieceBackgr.Free;
+      FPieceBackgr := FVirtScreen.GetPart(RectWithSize(FCurrX, FCurrY, LScale, LScale)) as TBGRABitmap;
+      if (FPromoType <> ptNil) and (FCurrX = FTargX) and (FCurrY = FTargY) then
+        FPieces[FIndex].FType := FPromoType;
+      FVirtScreen.PutImage(FCurrX, FCurrY, LPieceImage[FPieces[FIndex].FColor, FPieces[FIndex].FType], dmDrawWithTransparency);
+      if (FCurrX = FTargX) and (FCurrY = FTargY) then
       begin
-        aAnimationEnd := TRUE;
-        if Length(vMoveToBeHighlighted) > 0 then
+        AEnd := TRUE;
+        if Length(LHighlighted) > 0 then
         begin
-          if vComputerCastlingFlag then
-            vComputerCastlingFlag := FALSE
-          else
-          begin
-            ScreenSave;
-            if vKingIndex > 0 then
-            begin
-              HighlightMove(vMoveToBeHighlighted, vKingIndex);
-              vKingIndex := 0;
-            end else
-              HighlightMove(vMoveToBeHighlighted, index);
-            vMoveToBeHighlighted := '';
-          end;
+          ScreenSave;
+          HighlightMove(LHighlighted, FIndex);
+          LHighlighted := '';
         end;
         ResetAnimatData;
       end;
     end;
 end;
 
-procedure TBGRAChessboard.SetAnimatData(const aIndex, aCurrentX, aCurrentY, aStepX, aStepY, aTargetX, aTargetY: integer; const aPromotion: boolean; const aPromotionKind: TChessPieceKind);
+procedure TBGRAChessboard.SetAnimatData(const AIndex, ACurrX, ACurrY, AStepX, AStepY, ATargX, ATargY: integer; const APromoType: TPieceType);
 begin
   Assert(
-    (Sign(aTargetX - aCurrentX) = Sign(aStepX))
-    and ((aStepX = 0) or (Abs(aTargetX - aCurrentX) mod aStepX = 0))
-    and (Sign(aTargetY - aCurrentY) = Sign(aStepY))
-    and ((aStepY = 0) or (Abs(aTargetY - aCurrentY) mod aStepY = 0))
+    (Sign(ATargX - ACurrX) = Sign(AStepX))
+    and ((AStepX = 0) or (Abs(ATargX - ACurrX) mod AStepX = 0))
+    and (Sign(ATargY - ACurrY) = Sign(AStepY))
+    and ((AStepY = 0) or (Abs(ATargY - ACurrY) mod AStepY = 0))
   );
-  with fAnimationData do
+  with FAnimData do
   begin
-    action := TRUE;
-    index := aIndex;
-    currX := aCurrentX;
-    currY := aCurrentY;
-    stepX := aStepX;
-    stepY := aStepY;
-    targX := aTargetX;
-    targY := aTargetY;
-    promotion := aPromotion;
-    promotionKind := aPromotionKind;
+    FAction := TRUE;
+    FIndex := AIndex;
+    FCurrX := ACurrX;
+    FCurrY := ACurrY;
+    FStepX := AStepX;
+    FStepY := AStepY;
+    FTargX := ATargX;
+    FTargY := ATargY;
+    FPromoType := APromoType;
   end;
 end;
 
-function TBGRAChessboard.FindPiece(const aX, aY: integer): integer;
+function TBGRAChessboard.FindPiece(const AX, AY: integer): integer;
 var
   i: integer;
 begin
@@ -342,322 +274,275 @@ begin
   i := 1;
   while (i <= 32) and (result = 0) do
   begin
-    if (fPieces[i].x = aX)
-    and (fPieces[i].y = aY) then
+    if (FPieces[i].x = AX)
+    and (FPieces[i].y = AY) then
       result := i;
     Inc(i);
   end;
 end;
 
-function TBGRAChessboard.FindPiece(const aX, aY: integer; const aColor: TChessPieceColor): integer;
+function TBGRAChessboard.FindPiece(const AX, AY: integer; const AColor: TPieceColorStrict): integer;
 begin
-  result := FindPiece(aX, aY);
-  if (result <> 0) and (fPieces[result].color <> aColor) then
+  result := FindPiece(AX, AY);
+  if (result <> 0) and (FPieces[result].FColor <> AColor) then
     result := 0;
 end;
 
-function TBGRAChessboard.FindPiece(const aX, aY: integer; const aColor: TChessPieceColor; const aType: TChessPieceKind): integer;
+function TBGRAChessboard.FindPiece(const AX, AY: integer; const AColor: TPieceColorStrict; const AType: TPieceTypeStrict): integer;
 begin
-  result := FindPiece(aX, aY, aColor);
-  if (result <> 0) and (fPieces[result].kind <> aType) then
+  result := FindPiece(AX, AY, AColor);
+  if (result <> 0) and (FPieces[result].FType <> AType) then
     result := 0;
 end;
 
-procedure TBGRAChessboard.ErasePiece(const aIndex, aX, aY: integer);
+function TBGRAChessboard.FindPiece(const AX, AY: integer; const AType: TPieceTypeStrict): integer;
 var
-  vX, vY: integer;
-  vEmptySquare: TBGRABitmap;
+  i: integer;
 begin
-  Assert(InRange(aIndex, 1, 32) and InRange(aX, 1, 8) and InRange(aY, 1, 8));
-  vX := XToScreen(aX, fUpsideDown);
-  vY := YToScreen(aY, fUpsideDown);
-  with gStyleData[gStyle] do vEmptySquare := vChessboard.GetPart(RectWithSize(vX, vY, scale, scale)) as TBGRABitmap;
-  fVirtualScreen.PutImage(
-    vX,
-    vY,
-    vEmptySquare,
+  result := 0;
+  i := 1;
+  while (i <= 32) and (result = 0) do
+  begin
+    if (FPieces[i].x = AX)
+    and (FPieces[i].y = AY)
+    and (FPieces[i].FType = AType) then
+      result := i;
+    Inc(i);
+  end;
+end;
+
+procedure TBGRAChessboard.ErasePiece(const AIndex, AX, AY: integer);
+var
+  LX, LY: integer;
+  LEmptySquare: TBGRABitmap;
+begin
+  Assert(InRange(AIndex, 1, 32) and InRange(AX, 1, 8) and InRange(AY, 1, 8));
+  LX := XToScreen(AX, FUpsideDown);
+  LY := YToScreen(AY, FUpsideDown);
+  LEmptySquare := LChessboard.GetPart(RectWithSize(LX, LY, LScale, LScale)) as TBGRABitmap;
+  FVirtScreen.PutImage(
+    LX,
+    LY,
+    LEmptySquare,
     dmSet
   );
-  vEmptySquare.Free;
-  SetPieceXY(aIndex, 0, 0);
+  LEmptySquare.Free;
+  SetPieceXY(AIndex, 0, 0);
 end;
 
-procedure TBGRAChessboard.ErasePiece(const aSquare: string);
+procedure TBGRAChessboard.ErasePiece(const ASquare: string);
 var
   x, y, i: integer;
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn(Format('TBGRAChessboard.ErasePiece(%s)', [aSquare]));
-{$ENDIF}
-  DecodeSquare(aSquare, x, y);
+  DecodeSquare(ASquare, x, y);
   i := FindPiece(x, y);
   Assert(i > 0);
   ErasePiece(i, x, y);
 end;
 
-procedure TBGRAChessboard.MovePiece(const aIndex, aX, aY, aDX, aDY: integer; const aPromotion: boolean; const aPromotionKind: TChessPieceKind);
-const
-  STEP = 10;
+procedure TBGRAChessboard.MovePiece(const AIndex, AX, AY, ADX, ADY: integer; const APromoType: TPieceType);
 var
   a, b: integer;
-  vX1, vY1, vX2, vY2: integer;
+  x1, y1, x2, y2: integer;
+  LStep: integer;
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn(Format('TBGRAChessboard.MovePiece(%d, %d, %d, %d, %d, %s, %d)', [aIndex, aX, aY, aDX, aDY, BoolToStr(aPromotion, TRUE), Ord(aPromotionKind)]));
-{$ENDIF}
-  Assert(InRange(aIndex, 1, 32) and InRange(aX, 1, 8) and InRange(aY, 1, 8) and InRange(aDX, -8, 8) and InRange(aDY, -8, 8));
-
+  Assert(InRange(AIndex, 1, 32) and InRange(AX, 1, 8) and InRange(AY, 1, 8) and InRange(ADX, -8, 8) and InRange(ADY, -8, 8));
+  if LScale mod 10 = 0 then
+    LStep := 10
+  else if LScale mod 8 = 0 then
+    LStep := 8
+  else
+    Assert(FALSE);
   a := 1;
   b := 1;
-
-  if Abs(aDX) = 2 * Abs(aDY) then
+  if Abs(ADX) = 2 * Abs(ADY) then
     b := 2
   else
-    if Abs(aDY) = 2 * Abs(aDX) then
+    if Abs(ADY) = 2 * Abs(ADX) then
       a := 2;
-
-  vX1 := XToScreen(aX, fUpsideDown);
-  vY1 := YToScreen(aY, fUpsideDown);
-  (*
-  BGRAReplace(
-    fPieceBackground,
-    vChessboard.GetPart(RectWithSize(vX1, vY1, gStyleData[gStyle].scale, gStyleData[gStyle].scale))
-  );
-  *)
-  if Assigned(fPieceBackground) then
-    fPieceBackground.Free;
-  fPieceBackground := vChessboard.GetPart(RectWithSize(vX1, vY1, gStyleData[gStyle].scale, gStyleData[gStyle].scale)) as TBGRABitmap;
-
-  vX2 := XToScreen(aX + aDX, fUpsideDown);
-  vY2 := YToScreen(aY + aDY, fUpsideDown);
-
+  x1 := XToScreen(AX, FUpsideDown);
+  y1 := YToScreen(AY, FUpsideDown);
+  if Assigned(FPieceBackgr) then
+    FPieceBackgr.Free;
+  FPieceBackgr := LChessboard.GetPart(RectWithSize(x1, y1, LScale, LScale)) as TBGRABitmap;
+  x2 := XToScreen(AX + ADX, FUpsideDown);
+  y2 := YToScreen(AY + ADY, FUpsideDown);
   SetAnimatData(
-    aIndex,
-    vX1,
-    vY1,
-    (STEP div a) * Sign(aDX) * (2 * Ord(fUpsideDown) - 1) * -1,
-    (STEP div b) * Sign(aDY) * (2 * Ord(fUpsideDown) - 1),
-    vX2,
-    vY2,
-    aPromotion,
-    aPromotionKind
+    AIndex,
+    x1,
+    y1,
+    (LStep div a) * Sign(ADX) * (2 * Ord(FUpsideDown) - 1) * -1,
+    (LStep div b) * Sign(ADY) * (2 * Ord(FUpsideDown) - 1),
+    x2,
+    y2,
+    APromoType
   );
-
-  SetPieceXY(aIndex, aX + aDX, aY + aDY);
+  SetPieceXY(AIndex, AX + ADX, AY + ADY);
 end;
 
-procedure TBGRAChessboard.MovePiece(const aMove: string; const aPromotion: boolean; const aPromotionKind: TChessPieceKind);
+procedure TBGRAChessboard.MovePiece(const AMove: string; const APromoType: TPieceType);
 var
   x1, y1, x2, y2, i: integer;
 begin
-  DecodeMove(aMove, x1, y1, x2, y2);
+  DecodeMove(AMove, x1, y1, x2, y2);
   i := FindPiece(x1, y1);
   Assert(i > 0);
-  MovePiece(i, x1, y1, x2 - x1, y2 - y1, aPromotion, aPromotionKind);
+  MovePiece(i, x1, y1, x2 - x1, y2 - y1, APromoType);
+end;
+
+procedure TBGRAChessboard.MoveKingRook(const AMove: string; const AComputerMove: boolean);
+var
+  x1, y1, x2, y2, iKing, iRook: integer;
+begin
+  DecodeMove(AMove, x1, y1, x2, y2);
+  iKing := FindPiece(x1, y1, ptKing);
+  iRook := FindPiece(x2, y2, ptRook);
+  Assert(iKing > 0);
+  Assert(iRook > 0);
+  if AComputerMove then
+    ErasePiece(iKing, x1, y1)
+  else
+    ErasePiece(iKing, x2, y2);
+  ErasePiece(iRook, x2, y2);
+  if x2 > x1 then
+  begin
+    DrawPiece(iKing, 7, y1, TRUE);
+    DrawPiece(iRook, 6, y1, TRUE);
+  end else
+  begin
+    DrawPiece(iKing, 3, y1, TRUE);
+    DrawPiece(iRook, 4, y1, TRUE);
+  end;
 end;
 
 procedure TBGRAChessboard.FlipBoard;
 var
-  vBoard, vSquare: TBGRABitmap;
+  LBoard, LSquare: TBGRABitmap;
   x, y: integer;
 begin
-  fUpsideDown := not fUpsideDown;
-
-  vBoard := TBGRABitmap.Create(8 * gStyleData[gStyle].scale, 8 * gStyleData[gStyle].scale);
+  FUpsideDown := not FUpsideDown;
+  LBoard := TBGRABitmap.Create(8 * LScale, 8 * LScale);
   for x := 1 to 8 do
     for y := 1 to 8 do
     begin
-      vSquare := fVirtualScreen.GetPart(RectWithSize(
-        XToScreen(x, not fUpsideDown),
-        YToScreen(y, not fUpsideDown),
-        gStyleData[gStyle].scale,
-        gStyleData[gStyle].scale
+      LSquare := FVirtScreen.GetPart(RectWithSize(
+        XToScreen(x, not FUpsideDown),
+        YToScreen(y, not FUpsideDown),
+        LScale,
+        LScale
       )) as TBGRABitmap;
-      vBoard.PutImage(
-        XToScreen(x, fUpsideDown),
-        YToScreen(y, fUpsideDown),
-        vSquare,
+      LBoard.PutImage(
+        XToScreen(x, FUpsideDown),
+        YToScreen(y, FUpsideDown),
+        LSquare,
         dmSet
       );
-      vSquare.Free;
+      LSquare.Free;
     end;
-  fVirtualScreen.PutImage(0, 0, vBoard, dmSet);
-  vBoard.Free;
+  FVirtScreen.PutImage(0, 0, LBoard, dmSet);
+  LBoard.Free;
 end;
 
-procedure TBGRAChessboard.ChangeBoard(const aBoardStyle: TBoardStyle = bsOriginal);
+procedure TBGRAChessboard.Highlight(const AX, AY: integer; const AColor: TBackColor; const APieceIndex: integer);
 var
-  i: integer;
+  LSquare: TBGRABitmap;
+  LPixel: TBGRAPixel;
 begin
-  vChessboard.Free;
-  vChessboard := CreateChessboard(aBoardStyle);
-  EraseBoard();
-  for i := Low(fPieces) to High(fPieces) do
-    if fPieces[i].x > 0 then
-      DrawPiece(i, fPieces[i].x, fPieces[i].y);
-end;
-
-procedure TBGRAChessboard.Highlight(const aX, aY: integer; const aColor: TOutlineColor; const aPieceIndex: integer);
-var
-  vSquare: TBGRABitmap;
-  vColor: TBGRAPixel;
-  oc: TOutlineColor;
-begin
-{$IFDEF OPT_DEBUG}
-  WriteLn(Format('TBGRAChessboard.Highlight(%d, %d, %s, %d)', [
-    aX,
-    aY,
-    GetEnumName(TypeInfo(TOutlineColor), Ord(aColor)),
-    aPieceIndex
-  ]));
-{$ENDIF}
-  vColor :=  vSpecialColors[aColor];
-
-  case vCurrentStyle of
-    bsOriginal:
-      begin
-        with gStyleData[gStyle] do vSquare := TBGRABitmap.Create(scale, scale, vColor);
-        if (aX + aY) mod 2 = 0 then
-          vSquare.PutImage(
-            0,
-            0,
-            vDarkSquare,
-            dmDrawWithTransparency
-          );
-      end;
-    else
-      with gStyleData[gStyle] do
-      begin
-        vSquare := vChessboard.GetPart(RectWithSize(XToScreen(aX, FALSE), YToScreen(aY, FALSE), scale, scale)) as TBGRABitmap;
-        vSquare.FillRect(0, 0, scale, scale, vColor, dmDrawWithTransparency);
-      end;
-  end;
-
-  if vCurrentStyle = bsOriginal then
-    oc := aColor
-  else
-    oc := ocTransparent;
-
-  if aPieceIndex > 0 then
-    vSquare.PutImage(
+  LPixel :=  LBackColors[AColor];
+  LSquare := LChessboard.GetPart(RectWithSize(XToScreen(AX, FALSE), YToScreen(AY, FALSE), LScale, LScale)) as TBGRABitmap;
+  LSquare.FillRect(0, 0, LScale, LScale, LPixel, dmDrawWithTransparency);
+  if APieceIndex > 0 then
+    LSquare.PutImage(
       0,
       0,
-      vPieceImage[
-        fPieces[aPieceIndex].color,
-        fPieces[aPieceIndex].kind,
-        oc
+      LPieceImage[
+        FPieces[APieceIndex].FColor,
+        FPieces[APieceIndex].FType
       ],
       dmDrawWithTransparency
     );
-  fVirtualScreen.PutImage(XToScreen(aX, fUpsideDown), YToScreen(aY, fUpsideDown), vSquare, dmSet);
-  vSquare.Free;
+  FVirtScreen.PutImage(XToScreen(AX, FUpsideDown), YToScreen(AY, FUpsideDown), LSquare, dmSet);
+  LSquare.Free;
 end;
 
-procedure TBGRAChessboard.HighlightMove(const aMove: string; const aPieceIndex: integer);
+procedure TBGRAChessboard.HighlightMove(const AMove: string; const APieceIndex: integer);
 var
   x1, y1, x2, y2: integer;
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn(Format('TBGRAChessboard.HighlightMove(%s, %d)', [aMove, aPieceIndex]));
-{$ENDIF}
-  DecodeMove(aMove, x1, y1, x2, y2);
-  HighLight(x1, y1, ocGreen, 0);
-  HighLight(x2, y2, ocGreen, aPieceIndex);
+  DecodeMove(AMove, x1, y1, x2, y2);
+  HighLight(x1, y1, bcGreen, 0);
+  HighLight(x2, y2, bcGreen, APieceIndex);
 end;
 
 procedure TBGRAChessboard.ScreenSave;
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn('TBGRAChessboard.ScreenSave');
-{$ENDIF}
-  if fScreenshot = nil then with gStyleData[gStyle] do
-    fScreenshot := fVirtualScreen.GetPart(RectWithSize(0, 0, 8 * scale, 8 * scale)) as TBGRABitmap;
+  if FScreenshot = nil then
+    FScreenshot := FVirtScreen.GetPart(RectWithSize(0, 0, 8 * LScale, 8 * LScale)) as TBGRABitmap;
 end;
 
 procedure TBGRAChessboard.ScreenRestore;
 begin
-{$IFDEF OPT_DEBUG}
-  WriteLn('TBGRAChessboard.ScreenRestore');
-{$ENDIF}
-  if Assigned(fScreenshot) then
+  if Assigned(FScreenshot) then
   begin
-    fVirtualScreen.PutImage(0, 0, fScreenshot, dmSet);
-    fScreenshot.Free;
-    fScreenshot := nil;
+    FVirtScreen.PutImage(0, 0, FScreenshot, dmSet);
+    FScreenshot.Free;
+    FScreenshot := nil;
   end;
 end;
 
-procedure TBGRAChessboard.SavePieceBackground(const aImagePos: TPoint; const aCreateFromChessboard: boolean = FALSE);
+procedure TBGRAChessboard.SavePieceBackground(const AImagePos: TPoint; const ACreateFromChessboard: boolean = FALSE);
 var
-  source: TBGRABitmap;
+  LSrc: TBGRABitmap;
 begin
-  if aCreateFromChessboard then
-    source := vChessboard
+  if ACreateFromChessboard then
+    LSrc := LChessboard
   else
-    source := fVirtualScreen;
-  (*
-  BGRAReplace(
-    fPieceBackground,
-    source.GetPart(RectWithSize(aImagePos.X, aImagePos.Y, gStyleData[gStyle].scale, gStyleData[gStyle].scale))
-  );
-  *)
-  if Assigned(fPieceBackground) then
-    fPieceBackground.Free;
-  fPieceBackground := source.GetPart(RectWithSize(aImagePos.X, aImagePos.Y, gStyleData[gStyle].scale, gStyleData[gStyle].scale)) as TBGRABitmap;
+    LSrc := FVirtScreen;
+  if Assigned(FPieceBackgr) then
+    FPieceBackgr.Free;
+  FPieceBackgr := LSrc.GetPart(RectWithSize(AImagePos.X, AImagePos.Y, LScale, LScale)) as TBGRABitmap;
 end;
 
-procedure TBGRAChessboard.RestorePieceBackground(const aImagePos: TPoint);
+procedure TBGRAChessboard.RestorePieceBackground(const AImagePos: TPoint);
 begin
-  fVirtualScreen.PutImage(aImagePos.X, aImagePos.Y, fPieceBackground, dmSet);
+  FVirtScreen.PutImage(AImagePos.X, AImagePos.Y, FPieceBackgr, dmSet);
 end;
 
-procedure TBGRAChessboard.DrawPiece(const aImagePos: TPoint; const aPieceIndex: integer);
-var
-  oc: TOutlineColor;
+procedure TBGRAChessboard.DrawPiece(const AImagePos: TPoint; const APieceIndex: integer);
 begin
-  if vCurrentStyle = bsOriginal then
-    oc := ocWhite
-  else
-    oc := ocTransparent;
-  fVirtualScreen.PutImage(
-    aImagePos.X,
-    aImagePos.Y,
-    vPieceImage[
-      fPieces[aPieceIndex].color,
-      fPieces[aPieceIndex].kind,
-      oc
+  FVirtScreen.PutImage(
+    AImagePos.X,
+    AImagePos.Y,
+    LPieceImage[
+      FPieces[APieceIndex].FColor,
+      FPieces[APieceIndex].FType
     ],
     dmDrawWithTransparency
   );
 end;
 
-function TBGRAChessboard.XYToScreen(const aX, aY: integer): TPoint;
+function TBGRAChessboard.XYToScreen(const AX, AY: integer): TPoint;
 begin
-result.x := XToScreen(aX, fUpsideDown);
-result.y := YToScreen(aY, fUpsideDown);
- // SetLocation obsolete in fpc 3.1.1. 
- // result.SetLocation(XToScreen(aX, fUpsideDown), YToScreen(aY, fUpsideDown));
+  result.x := XToScreen(AX, FUpsideDown);
+  result.y := YToScreen(AY, FUpsideDown);
 end;
 
 function TBGRAChessboard.ScreenSaved(): boolean;
 begin
-  result := Assigned(fScreenshot);
+  result := Assigned(FScreenshot);
 end;
 
-procedure TBGRAChessboard.ScreenToXY(const aMousePos: TPoint; out aX, aY: integer);
+procedure TBGRAChessboard.ScreenToXY(const AMousePos: TPoint; out AX, AY: integer);
 begin
-  aX := AMousePos.X div gStyleData[gStyle].scale + 1;
-  aY := 8 - AMousePos.Y div gStyleData[gStyle].scale;
-  if isUpsideDown then
+  AX := AMousePos.X div LScale + 1;
+  AY := 8 - AMousePos.Y div LScale;
+  if UpsideDown then
   begin
-    aX := 9 - aX;
-    aY := 9 - aY;
+    AX := 9 - AX;
+    AY := 9 - AY;
   end;
 end;
 
-initialization
-  vMoveToBeHighlighted := '';
-  vComputerCastlingFlag := FALSE;
-  vKingIndex := 0;
-
+begin
+  LHighlighted := ''; 
 end.

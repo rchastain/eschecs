@@ -4,184 +4,137 @@ unit Settings;
 interface
 
 uses
-  BGRABitmapTypes, Style, Language;
+  SysUtils, BGRABitmapTypes, Images, Language, Utils;
   
-procedure ReadFromINIFile(
-  out aCurrentPosition: string;
-  out aAutoPlay, aUpsideDown, aMarble: boolean;
-  out aExePath, aHistory: string;
-  out aIndex, aEngine: integer;
-  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aMoveTime: integer;
-  out aFont: string
+procedure LoadSettings(
+  out ACurrPos: string;
+  out AAutoPlay, AUpsideDown: boolean;
+  out AStyle: TBoardStyle;
+  out AHist: string;
+  out APosIndex, AEngIndex: integer;
+  out ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  out AMoveTime: integer;
+  out AFont: string;
+  out ALang: TLanguage;
+  out AColoring: boolean;
+  out AScale: integer;
+  out AChess960: boolean
 );
-procedure WriteToINIFile(
-  const aCurrentPosition: string;
-  const aAutoPlay, aUpsideDown, aMarble: boolean;
-  const aExePath, aHistory: string;
-  const aIndex, aEngine: integer;
-  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aMoveTime: integer;
-  const aFont: string
+procedure SaveSettings(
+  const ACurrPos: string;
+  const AAutoPlay, AUpsideDown: boolean;
+  const AStyle: TBoardStyle;
+  const AHist: string;
+  const APosIndex, AEngIndex: integer;
+  const ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  const AMoveTime: integer;
+  const AFont: string;
+  const ALang: TLanguage;
+  const AColoring: boolean;
+  const AScale: integer;
+  const AChess960: boolean
 );
 
-procedure ReadStyle(out aStyle: TStyle);
-procedure WriteStyle(const aStyle: TStyle);
-procedure ReadLanguage(out aLanguage: TLanguage);
-procedure WriteLanguage(const aLanguage: TLanguage);
-procedure ReadColoring(out aColoring: boolean);
-procedure WriteColoring(const aColoring: boolean);
+const
+  CDefaultEngine = -1;
 
-var
-  vFENPath, vLOGPath, vConfigFilesPath: string;
-  
 implementation
 
 uses
-  SysUtils,
   IniFiles,
-  FEN;
+  Fen;
 
 const
-  SECTION_OPTIONS = 'options';
-  SECTION_COLORS = 'colors';
-  DEFAULT_POSITION = FENSTARTPOSITION;
-  DEFAULT_AUTOPLAY = 'TRUE';
-  DEFAULT_UPSIDEDOWN = 'FALSE';
-  DEFAULT_MARBLE = 'FALSE';
-{$IFDEF WINDOWS}
-  DEFAULT_EXEPATH = 'engines\fruit\fruit_21.exe';
-{$ELSE}
-  DEFAULT_EXEPATH = '/engines/moustique/01/moustique64';
-{$ENDIF}  
-  DEFAULT_HISTORY = '';
-  DEFAULT_INDEX = 0;
-  DEFAULT_ENGINE = -1;
-  DEFAULT_STYLE = bsSimple;
+  CSectionOptions = 'options';
+  CSectionColors = 'colors';
+  CDefaultPosition = CFenStartPosition;
+  CDefaultAutoplay = 'true';
+  CDefaultUpsideDown = 'false';
+  CDefaultStyle = bsSimple;  
+  CDefaultHistory = '';
+  CDefaultIndex = 0;
+  CDefaultMoveTime = 1000;
+  CDefaultFont = 'alpha';
+  CDefaultLanguage = lgEnglish;
+  CDefaultScale = 50;
+  CDefaultChess960 = 'false';
   
 var
-  vINIPath: string;
+  LIniFileName: TFileName;
   
-procedure ReadFromINIFile(
-  out aCurrentPosition: string;
-  out aAutoPlay, aUpsideDown, aMarble: boolean;
-  out aExePath, aHistory: string;
-  out aIndex, aEngine: integer;
-  out aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  out aMoveTime: integer;
-  out aFont: string
+procedure LoadSettings(
+  out ACurrPos: string;
+  out AAutoPlay, AUpsideDown: boolean;
+  out AStyle: TBoardStyle;
+  out AHist: string;
+  out APosIndex, AEngIndex: integer;
+  out ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  out AMoveTime: integer;
+  out AFont: string;
+  out ALang: TLanguage;
+  out AColoring: boolean;
+  out AScale: integer;
+  out AChess960: boolean
 );
 begin
-  with TIniFile.Create(vINIPath) do
+  with TIniFile.Create(LIniFileName) do
   try
-    aCurrentPosition := ReadString(SECTION_OPTIONS, 'position', DEFAULT_POSITION);
-    aAutoPlay := ReadString(SECTION_OPTIONS, 'autoplay', DEFAULT_AUTOPLAY) = 'TRUE';
-    aUpsideDown := ReadString(SECTION_OPTIONS, 'upsidedown', DEFAULT_UPSIDEDOWN) = 'TRUE';
-    aMarble := ReadString(SECTION_OPTIONS, 'marble', DEFAULT_MARBLE) = 'TRUE';
-    aExePath := ReadString(SECTION_OPTIONS, 'engine', Concat(ExtractFilePath(ParamStr(0)),DEFAULT_EXEPATH));
-    aHistory := ReadString(SECTION_OPTIONS, 'history', DEFAULT_HISTORY);
-    aIndex := ReadInteger(SECTION_OPTIONS, 'index', DEFAULT_INDEX);
-    aEngine := ReadInteger(SECTION_OPTIONS, 'engine', DEFAULT_ENGINE);
-    aLightSquareColor := StrToBGRA(ReadString(SECTION_COLORS, 'light', 'A9A9A9FF'));
-    aDarkSquareColor := StrToBGRA(ReadString(SECTION_COLORS, 'dark', '808080FF'));
-    aGreenColor := StrToBGRA(ReadString(SECTION_COLORS, 'green', '60C00080'));
-    aRedColor := StrToBGRA(ReadString(SECTION_COLORS, 'red', 'C0000080'));
-    aMoveTime := ReadInteger(SECTION_OPTIONS, 'movetime', 1000);
-    aFont := ReadString(SECTION_OPTIONS, 'font', '');
+    ACurrPos := ReadString(CSectionOptions, 'position', CDefaultPosition);
+    AAutoPlay := LowerCase(ReadString(CSectionOptions, 'autoplay', CDefaultAutoplay)) = 'true';
+    AUpsideDown := LowerCase(ReadString(CSectionOptions, 'upsidedown', CDefaultUpsideDown)) = 'true';
+    AStyle := TBoardStyle(ReadInteger(CSectionOptions, 'style', Ord(CDefaultStyle)));
+    AHist := ReadString(CSectionOptions, 'history', CDefaultHistory);
+    APosIndex := ReadInteger(CSectionOptions, 'index', CDefaultIndex);
+    AEngIndex := ReadInteger(CSectionOptions, 'engine', CDefaultEngine);
+    ALightSquareColor := StrToBGRA(ReadString(CSectionColors, 'light', 'A9A9A9FF'));
+    ADarkSquareColor := StrToBGRA(ReadString(CSectionColors, 'dark', '808080FF'));
+    AGreen := StrToBGRA(ReadString(CSectionColors, 'green', '60C00080'));
+    ARed := StrToBGRA(ReadString(CSectionColors, 'red', 'C0000080'));
+    AMoveTime := ReadInteger(CSectionOptions, 'movetime', CDefaultMoveTime);
+    AFont := ReadString(CSectionOptions, 'font', CDefaultFont);
+    ALang := TLanguage(ReadInteger(CSectionOptions, 'language', Ord(CDefaultLanguage)));
+    AColoring := LowerCase(ReadString(CSectionOptions, 'coloring', 'true')) = 'true';
+    AScale := ReadInteger(CSectionOptions, 'scale', CDefaultScale);
+    AChess960 := LowerCase(ReadString(CSectionOptions, 'chess960', CDefaultChess960)) = 'true';
   finally
     Free;
   end;
 end;
 
-procedure WriteToINIFile(
-  const aCurrentPosition: string;
-  const aAutoPlay, aUpsideDown, aMarble: boolean;
-  const aExePath, aHistory: string;
-  const aIndex, aEngine: integer;
-  const aLightSquareColor, aDarkSquareColor, aGreenColor, aRedColor: TBGRAPixel;
-  const aMoveTime: integer;
-  const aFont: string
+procedure SaveSettings(
+  const ACurrPos: string;
+  const AAutoPlay, AUpsideDown: boolean;
+  const AStyle: TBoardStyle;
+  const AHist: string;
+  const APosIndex, AEngIndex: integer;
+  const ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  const AMoveTime: integer;
+  const AFont: string;
+  const ALang: TLanguage;
+  const AColoring: boolean;
+  const AScale: integer;
+  const AChess960: boolean
 );
 begin
-  with TIniFile.Create(vINIPath) do
+  with TIniFile.Create(LIniFileName) do
   try
-    WriteString(SECTION_OPTIONS, 'position', aCurrentPosition);
-    WriteString(SECTION_OPTIONS, 'autoplay', UpperCase(BoolToStr(aAutoPlay, TRUE)));
-    WriteString(SECTION_OPTIONS, 'upsidedown', UpperCase(BoolToStr(aUpsideDown, TRUE)));
-    WriteString(SECTION_OPTIONS, 'marble', UpperCase(BoolToStr(aMarble, TRUE)));
-    WriteString(SECTION_OPTIONS, 'engine', aExePath);
-    WriteString(SECTION_OPTIONS, 'history', aHistory);
-    WriteInteger(SECTION_OPTIONS, 'index', aIndex);
-    WriteInteger(SECTION_OPTIONS, 'engine', aEngine);
-    WriteString(SECTION_COLORS, 'light', BGRAToStr(aLightSquareColor));
-    WriteString(SECTION_COLORS, 'dark', BGRAToStr(aDarkSquareColor));
-    WriteString(SECTION_COLORS, 'green', BGRAToStr(aGreenColor));
-    WriteString(SECTION_COLORS, 'red', BGRAToStr(aRedColor));
-    WriteInteger(SECTION_OPTIONS, 'movetime', aMoveTime);
-    WriteString(SECTION_OPTIONS, 'font', aFont);
-    UpdateFile;
-  finally
-    Free;
-  end;
-end;
-
-procedure ReadStyle(out aStyle: TStyle);
-begin
-  with TIniFile.Create(vINIPath) do
-  try
-    aStyle := ReadInteger(SECTION_OPTIONS, 'style', Ord(DEFAULT_STYLE));
-  finally
-    Free;
-  end;
-end;
-
-procedure WriteStyle(const aStyle: TStyle);
-begin
-  with TIniFile.Create(vINIPath) do
-  try
-    WriteInteger(SECTION_OPTIONS, 'style', aStyle);
-    UpdateFile;
-  finally
-    Free;
-  end;
-end;
-
-procedure ReadLanguage(out aLanguage: TLanguage);
-begin
-  with TIniFile.Create(vINIPath) do
-  try
-    aLanguage := TLanguage(ReadInteger(SECTION_OPTIONS, 'language', Ord(lgEnglish)));
-  finally
-    Free;
-  end;
-end;
-
-procedure WriteLanguage(const aLanguage: TLanguage);
-begin
-  with TIniFile.Create(vINIPath) do
-  try
-    WriteInteger(SECTION_OPTIONS, 'language', Ord(aLanguage));
-    UpdateFile;
-  finally
-    Free;
-  end;
-end;
-
-procedure ReadColoring(out aColoring: boolean);
-begin
-  with TIniFile.Create(vINIPath) do
-  try
-    aColoring := ReadString(SECTION_OPTIONS, 'coloring', 'TRUE') = 'TRUE';
-  finally
-    Free;
-  end;
-end;
-
-procedure WriteColoring(const aColoring: boolean);
-begin
-  with TIniFile.Create(vINIPath) do
-  try
-    WriteString(SECTION_OPTIONS, 'coloring', UpperCase(BoolToStr(aColoring, TRUE)));
+    WriteString(CSectionOptions, 'position', ACurrPos);
+    WriteString(CSectionOptions, 'autoplay', LowerCase(BoolToStr(AAutoPlay, TRUE)));
+    WriteString(CSectionOptions, 'upsidedown', LowerCase(BoolToStr(AUpsideDown, TRUE)));
+    WriteInteger(CSectionOptions, 'style', Ord(AStyle));
+    WriteString(CSectionOptions, 'history', AHist);
+    WriteInteger(CSectionOptions, 'index', APosIndex);
+    WriteInteger(CSectionOptions, 'engine', AEngIndex);
+    WriteString(CSectionColors, 'light', BGRAToStr(ALightSquareColor));
+    WriteString(CSectionColors, 'dark', BGRAToStr(ADarkSquareColor));
+    WriteString(CSectionColors, 'green', BGRAToStr(AGreen));
+    WriteString(CSectionColors, 'red', BGRAToStr(ARed));
+    WriteInteger(CSectionOptions, 'movetime', AMoveTime);
+    WriteString(CSectionOptions, 'font', AFont);
+    WriteInteger(CSectionOptions, 'language', Ord(ALang));
+    WriteString(CSectionOptions, 'coloring', LowerCase(BoolToStr(AColoring, TRUE)));
+    WriteInteger(CSectionOptions, 'scale', AScale);
+    WriteString(CSectionOptions, 'chess960', LowerCase(BoolToStr(AChess960, TRUE)));
     UpdateFile;
   finally
     Free;
@@ -189,15 +142,5 @@ begin
 end;
 
 begin
-  vConfigFilesPath := Concat(ExtractFilePath(ParamStr(0)), 'config', directoryseparator);
-  Assert(DirectoryExists(vConfigFilesPath) or CreateDir(vConfigFilesPath));
-  {
-  vLOGPath := Concat(vConfigFilesPath, ChangeFileExt(ExtractFileName(ParamStr(0)), '.log'));
-  vINIPath := ChangeFileExt(vLOGPath, '.ini');
-  vFENPath := ChangeFileExt(vLOGPath, '.fen');
-  }
-  vLOGPath := vConfigFilesPath + 'eschecs.log';
-  vINIPath := vConfigFilesPath + 'eschecs.ini';
-  vFENPath := vConfigFilesPath + 'eschecs.fen';
-  
+  LIniFileName := Concat(LConfigFilesPath, 'eschecs.ini');
 end.

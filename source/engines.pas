@@ -5,41 +5,46 @@ interface
 
 uses
   SysUtils,
-  IOUtils,
-  INIFiles;
+  IniFiles;
   
 type
   TEngineInfo = record
-    vCommand, vName, vDirectory: string;
-    vExists: boolean;
+    FCommand, FName, FDirectory: string;
+    FExists: boolean;
   end;
 
 var
-  vEngines: array of TEngineInfo;
+  LEngines: array of TEngineInfo;
 
-procedure LoadEnginesDataFromINI(const aFileName: TFileName);
+procedure LoadEnginesData(const AFileName: TFileName; const AChess960: boolean);
 
 implementation
 
-procedure LoadEnginesDataFromINI(const aFileName: TFileName);
+procedure LoadEnginesData(const AFileName: TFileName; const AChess960: boolean);
 var
   x: integer = 0;
-  section: string;
+  LSection: string;
+  n: integer = 0;
 begin
-  with TIniFile.Create(aFileName) do
+  with TIniFile.Create(AFileName) do
   try
     while x >= 0 do 
     begin
-      section := 'engine' + IntToStr(x);
-      if ReadString(section, 'name', '') <> '' then
+      LSection := 'engine' + IntToStr(x);
+      if ReadString(LSection, 'name', '') <> '' then
       begin
-        SetLength(vEngines, Succ(x));
-        with vEngines[x] do
+        if AChess960 and (LowerCase(ReadString(LSection, 'canplaychess960', '')) <> 'true') then
+          Inc(n)
+        else
         begin
-          vName := ReadString(section, 'name', '');
-          vCommand := ReadString(section, 'command', '');
-          vDirectory := ExtractFileDir(ParamStr(0)) + ReadString(section, 'workingdirectory', '');
-          vExists := FileExists(Concat(vDirectory, vCommand));
+          SetLength(LEngines, Succ(x) - n);
+          with LEngines[x - n] do
+          begin
+            FName := ReadString(LSection, 'name', '');
+            FCommand := ReadString(LSection, 'command', '');
+            FDirectory := ReadString(LSection, 'workingdirectory', '');
+            FExists := FileExists(Concat(FDirectory, FCommand));
+          end;
         end;
         Inc(x);
       end else
@@ -51,6 +56,6 @@ begin
 end;
 
 finalization
-  SetLength(vEngines, 0);
+  SetLength(LEngines, 0);
   
 end.

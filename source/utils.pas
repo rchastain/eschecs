@@ -4,7 +4,7 @@ unit Utils;
 interface
 
 uses
-  Style;
+  SysUtils;
 
 procedure DecodeSquare(const aSquare: string; out x, y: integer);
 procedure DecodeMove(const aMove: string; out x1, y1, x2, y2: integer);
@@ -12,6 +12,10 @@ function EncodeSquare(const x, y: integer): string;
 function XToScreen(const x: integer; const aUpSideDown: boolean): integer;
 function YToScreen(const y: integer; const aUpSideDown: boolean): integer;
 
+var
+  LConfigFilesPath: TFileName;
+  LScale: integer;
+  
 implementation
 
 procedure DecodeSquare(const aSquare: string; out x, y: integer);
@@ -44,7 +48,7 @@ begin
     result := 8 - x
   else
     result := x - 1;
-  result := gStyleData[gStyle].scale * result;
+  result := LScale * result;
 end;
 
 function YToScreen(const y: integer; const aUpSideDown: boolean): integer;
@@ -53,7 +57,9 @@ begin
     result := y - 1
   else
     result := 8 - y;
-  result := gStyleData[gStyle].scale * result;
+  result := LScale * result;
 end;
 
+begin
+  LConfigFilesPath := Concat(ExtractFilePath(ParamStr(0)), 'config', DirectorySeparator);
 end.

@@ -40,8 +40,8 @@ type
     FReductionKeepContrast: boolean;
     FSeparateAlphaChannel: boolean;
     procedure Init(ABox: TBGRAColorBox);
-    procedure NormalizeArrayOfColors(AColors: ArrayOfTBGRAPixel; ARedBounds, AGreenBounds, ABlueBounds, AAlphaBounds: TDimensionMinMax; AUniform: boolean);
-    procedure NormalizeArrayOfColors(AColors: ArrayOfTBGRAPixel; AColorBounds, AAlphaBounds: TDimensionMinMax);
+    procedure NormalizeArrayOfColors(AColors: ArrayOfTBGRAPixel; ARedBounds, AGreenBounds, ABlueBounds, AAlphaBounds: TDimensionMinMax; AUniform: boolean); overload;
+    procedure NormalizeArrayOfColors(AColors: ArrayOfTBGRAPixel; AColorBounds, AAlphaBounds: TDimensionMinMax); overload;
   protected
     function GetPalette: TBGRACustomApproxPalette; override;
     function GetSourceColor(AIndex: integer): TBGRAPixel; override;
@@ -55,9 +55,9 @@ type
     constructor Create(ABitmap: TBGRACustomBitmap; AAlpha: TAlphaChannelPaletteOption; AReductionColorCount: integer); override;
     destructor Destroy; override;
     procedure ApplyDitheringInplace(AAlgorithm: TDitheringAlgorithm; ABitmap: TBGRACustomBitmap; ABounds: TRect); override;
-    function GetDitheredBitmap(AAlgorithm: TDitheringAlgorithm; ABitmap: TBGRACustomBitmap; ABounds: TRect): TBGRACustomBitmap; override; overload;
+    function GetDitheredBitmap(AAlgorithm: TDitheringAlgorithm; ABitmap: TBGRACustomBitmap; ABounds: TRect): TBGRACustomBitmap; overload; override;
     function GetDitheredBitmapIndexedData(ABitDepth: integer; AByteOrder: TRawImageByteOrder; AAlgorithm: TDitheringAlgorithm;
-      ABitmap: TBGRACustomBitmap; out AScanlineSize: PtrInt): Pointer; override; overload;
+      ABitmap: TBGRACustomBitmap; out AScanlineSize: PtrInt): Pointer; overload; override;
     procedure SaveBitmapToStream(AAlgorithm: TDitheringAlgorithm;
       ABitmap: TBGRACustomBitmap; AStream: TStream; AFormat: TBGRAImageFormat); override;
   end;
@@ -264,7 +264,7 @@ begin
        v := red;
        if green<v then v := green;
        if blue<v then v := blue;
-       result -= v;
+       dec(result, v);
        result := result shl SaturationShift;
     end
   else raise exception.Create('Unknown dimension');
@@ -1369,8 +1369,8 @@ begin
   else
   begin
     result := 0;
-    if Assigned(FInferiorBranch) then result += FInferiorBranch.LeafCount;
-    if Assigned(FSuperiorBranch) then result += FSuperiorBranch.LeafCount;
+    if Assigned(FInferiorBranch) then inc(result, FInferiorBranch.LeafCount);
+    if Assigned(FSuperiorBranch) then inc(result, FSuperiorBranch.LeafCount);
   end;
 end;
 
@@ -1381,8 +1381,8 @@ begin
   else
   begin
     result := 0;
-    if Assigned(FInferiorBranch) then result += FInferiorBranch.ApproximatedColorCount;
-    if Assigned(FSuperiorBranch) then result += FSuperiorBranch.ApproximatedColorCount;
+    if Assigned(FInferiorBranch) then inc(result, FInferiorBranch.ApproximatedColorCount);
+    if Assigned(FSuperiorBranch) then inc(result, FSuperiorBranch.ApproximatedColorCount);
   end;
   if HasPureTransparentColor then inc(result);
 end;

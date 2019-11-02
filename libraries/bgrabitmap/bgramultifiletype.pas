@@ -29,8 +29,8 @@ type
     property IsEmpty: boolean read GetIsEmpty;
   end;
 
-function EntryFilename(AName,AExtension: string): TEntryFilename;
-function EntryFilename(AFilename: string): TEntryFilename;
+function EntryFilename(AName,AExtension: string): TEntryFilename; overload;
+function EntryFilename(AFilename: string): TEntryFilename; overload;
 
 type
   TMultiFileContainer = class;
@@ -47,6 +47,7 @@ type
   public
     constructor Create(AContainer: TMultiFileContainer);
     function CopyTo({%H-}ADestination: TStream): int64; virtual;
+    function CompareNameAndExtension(AName: utf8string; AExtension: utf8string; ACaseSensitive: boolean = true): integer;
     property Name: utf8string read GetName write SetName;
     property Extension: utf8string read GetExtension;
     property FileSize: int64 read GetFileSize;
@@ -71,10 +72,10 @@ type
     procedure SetRawString(AIndex: integer; AValue: RawByteString);
     procedure SetRawStringByFilename(AFilename: string; AValue: RawByteString);
   public
-    constructor Create;
-    constructor Create(AFilename: utf8string);
-    constructor Create(AStream: TStream);
-    constructor Create(AStream: TStream; AStartPos: Int64);
+    constructor Create; overload;
+    constructor Create(AFilename: utf8string); overload;
+    constructor Create(AStream: TStream); overload;
+    constructor Create(AStream: TStream; AStartPos: Int64); overload;
     function Add(AName: utf8string; AExtension: utf8string; AContent: TStream; AOverwrite: boolean = false; AOwnStream: boolean = true): integer; overload;
     function Add(AName: utf8string; AExtension: utf8string; AContent: RawByteString; AOverwrite: boolean = false): integer; overload;
     function Add(AFilename: TEntryFilename; AContent: TStream; AOverwrite: boolean = false; AOwnStream: boolean = true): integer; overload;
@@ -83,15 +84,16 @@ type
     destructor Destroy; override;
     procedure LoadFromFile(AFilename: utf8string);
     procedure LoadFromStream(AStream: TStream); virtual; abstract;
+    procedure LoadFromResource(AFilename: string); virtual;
     procedure SaveToFile(AFilename: utf8string);
     procedure SaveToStream(ADestination: TStream); virtual; abstract;
     procedure Remove(AEntry: TMultiFileEntry); virtual;
-    procedure Delete(AIndex: integer); virtual; overload;
+    procedure Delete(AIndex: integer); overload; virtual;
     function Delete(AName: utf8string; AExtension: utf8string; ACaseSensitive: boolean = True): boolean; overload;
     function Delete(AFilename: TEntryFilename; ACaseSensitive: boolean = True): boolean; overload;
     function IndexOf(AEntry: TMultiFileEntry): integer; overload;
-    function IndexOf(AName: utf8string; AExtenstion: utf8string; ACaseSensitive: boolean = True): integer; virtual; overload;
-    function IndexOf(AFilename: TEntryFilename; ACaseSensitive: boolean = True): integer;
+    function IndexOf(AName: utf8string; AExtenstion: utf8string; ACaseSensitive: boolean = True): integer; overload; virtual;
+    function IndexOf(AFilename: TEntryFilename; ACaseSensitive: boolean = True): integer; overload;
     property Count: integer read GetCount;
     property Entry[AIndex: integer]: TMultiFileEntry read GetEntry;
     property RawString[AIndex: integer]: RawByteString read GetRawString write SetRawString;
@@ -100,7 +102,7 @@ type
 
 implementation
 
-uses BGRAUTF8, strutils;
+uses BGRAUTF8, strutils, BGRABitmapTypes;
 
 { TEntryFilename }
 
@@ -194,6 +196,18 @@ begin
   result := 0;
 end;
 
+function TMultiFileEntry.CompareNameAndExtension(AName: utf8string;
+  AExtension: utf8string; ACaseSensitive: boolean): integer;
+begin
+  if ACaseSensitive then
+    result := CompareStr(AName, Name)
+  else
+    result := UTF8CompareText(AName, Name);
+
+  if result = 0 then
+    result := UTF8CompareText(AExtension, Extension);
+end;
+
 { TMultiFileContainer }
 
 function TMultiFileContainer.GetCount: integer;
@@ -210,12 +224,14 @@ begin
 end;
 
 function TMultiFileContainer.GetRawString(AIndex: integer): RawByteString;
-var s: TStringStream;
+var s: TMemoryStream;
 begin
-  s := TStringStream.Create('');
+  s := TMemoryStream.Create;
   try
     Entry[AIndex].CopyTo(s);
-    result := s.DataString;
+    setlength(result, s.Size);
+    if length(result)>0 then
+      move(s.Memory^, result[1], length(result));
   finally
     s.Free;
   end;
@@ -356,6 +372,18 @@ begin
   stream.Free;
 end;
 
+procedure TMultiFileContainer.LoadFromResource(AFilename: string);
+var
+  stream: TStream;
+begin
+  stream := BGRAResource.GetResourceStream(AFilename);
+  try
+    LoadFromStream(stream);
+  finally
+    stream.Free;
+  end;
+end;
+
 procedure TMultiFileContainer.SaveToFile(AFilename: utf8string);
 var stream: TFileStream;
 begin
@@ -414,21 +442,9 @@ function TMultiFileContainer.IndexOf(AName: utf8string; AExtenstion: utf8string;
 var
   i: Integer;
 begin
-  if ACaseSensitive then
-  begin
-    for i := 0 to Count-1 do
-      if (Entry[i].Name = AName) and (UTF8CompareText(Entry[i].Extension,AExtenstion) = 0) then
-      begin
-        result := i;
-        exit;
-      end;
-  end else
-    for i := 0 to Count-1 do
-      if (UTF8CompareText(Entry[i].Name,AName) = 0) and (UTF8CompareText(Entry[i].Extension,AExtenstion) = 0) then
-      begin
-        result := i;
-        exit;
-      end;
+  for i := 0 to Count-1 do
+    if Entry[i].CompareNameAndExtension(AName, AExtenstion, ACaseSensitive) = 0 then
+      exit(i);
   result := -1;
 end;
 

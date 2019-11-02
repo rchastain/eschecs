@@ -60,8 +60,8 @@ type
       const Buffers: array of PBGRAPixel; BufferWidth: integer;
       ADest: PBGRAPixel; ACount: integer); override;
   public
-    constructor Create(ASource: IBGRAScanner; ABounds: TRect);
-    constructor Create(ASource: TBGRACustomBitmap);
+    constructor Create(ASource: IBGRAScanner; ABounds: TRect); overload;
+    constructor Create(ASource: TBGRACustomBitmap); overload;
     property SourceBorderColor: TBGRAPixel read FSourceBorderColor write FSourceBorderColor;
     property DestinationBorderColor: TBGRAPixel read FDestinationBorderColor write FDestinationBorderColor;
     property AutoSourceBorderColor: boolean read FAutoSourceBorderColor write FAutoSourceBorderColor;
@@ -78,9 +78,9 @@ type
     function DoFilter3X3(PTop,PMiddle,PBottom: PBGRAPixel): TBGRAPixel; override;
   public
     constructor Create(ASource: IBGRAScanner; ABounds: TRect;
-                       AGammaCorrection: boolean = False);
+                       AGammaCorrection: boolean = False); overload;
     constructor Create(ASource: TBGRACustomBitmap;
-                       AGammaCorrection: boolean = False);
+                       AGammaCorrection: boolean = False); overload;
     property Opacity: Byte read FOpacity write FOpacity;
   end;
 
@@ -92,9 +92,9 @@ type
     function DoFilter3X3(PTop,PMiddle,PBottom: PBGRAPixel): TBGRAPixel; override;
   public
     constructor Create(ASource: IBGRAScanner; ABounds: TRect;
-                       AAmount: integer = 256);
+                       AAmount: integer = 256); overload;
     constructor Create(ASource: TBGRACustomBitmap;
-                       AAmount: integer = 256);
+                       AAmount: integer = 256); overload;
   end;
 
   { TBGRAEmbossHightlightScanner }
@@ -107,8 +107,8 @@ type
     function DoFilter3X3(PTop,PMiddle,PBottom: PBGRAPixel): TBGRAPixel; override;
     procedure SetSourceChannel(AValue: TChannel);
   public
-    constructor Create(ASource: IBGRAScanner; ABounds: TRect; ABoundsVisible: Boolean);
-    constructor Create(ASource: TBGRACustomBitmap; ABoundsVisible: Boolean);
+    constructor Create(ASource: IBGRAScanner; ABounds: TRect; ABoundsVisible: Boolean); overload;
+    constructor Create(ASource: TBGRACustomBitmap; ABoundsVisible: Boolean); overload;
     property FillSelection: boolean read FFillSelection write FFillSelection;
     property SourceChannel: TChannel read FSourceChannel write SetSourceChannel;
   end;
@@ -122,12 +122,7 @@ uses BGRABlend, math, SysUtils;
 procedure TBGRAEmbossHightlightScanner.SetSourceChannel(AValue: TChannel);
 begin
   FSourceChannel:=AValue;
-  case FSourceChannel of
-  cRed: FChannelOffset:= TBGRAPixel_RedByteOffset;
-  cGreen: FChannelOffset:= TBGRAPixel_GreenByteOffset;
-  cBlue: FChannelOffset:= TBGRAPixel_BlueByteOffset;
-  else {cAlpha:} FChannelOffset:= TBGRAPixel_AlphaByteOffset;
-  end;
+  FChannelOffset:= TBGRAPixel_ChannelByteOffset[FSourceChannel];
 end;
 
 function TBGRAEmbossHightlightScanner.DoFilter3X3(PTop, PMiddle,
@@ -366,14 +361,14 @@ begin
   nbA    := 0;
 
   {$hints off}
-  with PTop[0] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
-  with PTop[1] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
-  with PTop[2] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
-  with PMiddle[0] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
-  with PMiddle[2] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
-  with PBottom[0] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
-  with PBottom[1] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
-  with PBottom[2] do if alpha <> 0 then begin sumR += red * alpha; sumG += green * alpha; sumB += blue * alpha; sumA += alpha; inc(nbA); end;
+  with PTop[0] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
+  with PTop[1] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
+  with PTop[2] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
+  with PMiddle[0] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
+  with PMiddle[2] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
+  with PBottom[0] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
+  with PBottom[1] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
+  with PBottom[2] do if alpha <> 0 then begin inc(sumR, red * alpha); inc(sumG, green * alpha); inc(sumB, blue * alpha); inc(sumA, alpha); inc(nbA); end;
    {$hints on}
 
   //we finally have an average pixel

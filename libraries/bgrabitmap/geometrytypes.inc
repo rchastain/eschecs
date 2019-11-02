@@ -57,9 +57,13 @@ type
     procedure SetHeight(AValue: integer);
     procedure SetWidth(AValue: integer);
   public
-    constructor Create(Origin: TPoint; AWidth, AHeight: Longint);
-    constructor Create(ALeft, ATop, ARight, ABottom: Longint);
-    procedure Intersect(const ARect: TRect);
+    constructor Create(Origin: TPoint; AWidth, AHeight: Longint); overload;
+    constructor Create(ALeft, ATop, ARight, ABottom: Longint); overload;
+    procedure Intersect(R: TRect);
+    class function Intersect(R1: TRect; R2: TRect): TRect; static;
+    function IntersectsWith(R: TRect): Boolean;
+    class function Union(R1, R2: TRect): TRect; static;
+    procedure Union(R: TRect);
     procedure Offset(DX, DY: Longint);
     procedure Inflate(DX, DY: Longint);
     function Contains(const APoint: TPoint): boolean; overload;
@@ -85,14 +89,42 @@ type
 
   {$endif}
 
+const
+  EmptyPoint : TPoint = (X: -2147483648; Y: -2147483648);
+
+function IsEmptyPoint(const APoint: TPoint): boolean;
+
+type
+
+  { TPointFHelper }
+
+  TPointFHelper = record helper for TPointF
+    procedure Offset(const apt : TPointF); overload;
+    procedure Offset(const apt : TPoint); overload;
+    procedure Offset(dx,dy : longint); overload;
+    procedure Offset(dx,dy : single); overload;
+    procedure Scale(AScale: single);
+
+    function Ceiling: TPoint;
+    function Truncate: TPoint;
+    function Floor: TPoint;
+    function Round: TPoint;
+    function Length: Single;
+  end;
+
 type
   PRectF = ^TRectF;
 
   { TRectFHelper }
 
   TRectFHelper = record helper for TRectF
+    class function Intersect(const R1: TRectF; const R2: TRectF): TRectF; overload; static;
+    class function Union(const R1: TRectF; const R2: TRectF): TRectF; overload; static;
+    class function Union(const R1: TRectF; const R2: TRectF; ADiscardEmpty: boolean): TRectF; overload; static;
     function Union(const r: TRectF):TRectF;
     function Union(const r: TRectF; ADiscardEmpty: boolean):TRectF;
+    function IntersectsWith(const r: TRectF): boolean;
+    function IsEmpty: boolean;
   end;
 
 const
@@ -120,9 +152,11 @@ type
   public
     TopLeft, TopRight,
     BottomLeft: TPointF;
-    class function EmptyBox: TAffineBox;
-    class function AffineBox(ATopLeft, ATopRight, ABottomLeft: TPointF): TAffineBox;
-    class function AffineBox(ARectF: TRectF): TAffineBox;
+    class function EmptyBox: TAffineBox; static;
+    class function AffineBox(ATopLeft, ATopRight, ABottomLeft: TPointF): TAffineBox; overload; static;
+    class function AffineBox(ARectF: TRectF): TAffineBox; overload; static;
+    procedure Offset(AOfsX, AOfsY: single); overload;
+    procedure Offset(AOfs: TPointF); overload;
     function Contains(APoint: TPointF): boolean;
     property RectBounds: TRect read GetRectBounds;
     property RectBoundsF: TRectF read GetRectBoundsF;
@@ -141,7 +175,8 @@ type
 
   {----------------- Operators for TPointF --------------------}
   {** Creates a new structure with values ''x'' and ''y'' }
-  function PointF(x, y: single): TPointF;
+  function PointF(x, y: single): TPointF; overload;
+  function PointF(pt: TPoint): TPointF; overload;
   {** Checks if the structure is empty (equal to ''EmptyPointF'') }
   function isEmptyPointF(const pt: TPointF): boolean;
   {** Checks if both ''x'' and ''y'' are equal }
@@ -306,8 +341,8 @@ type
       procedure SetPenStyle(AValue: TPenStyle); virtual; abstract;
       procedure SetStrokeMatrix(const AValue: TAffineMatrix); virtual; abstract;
   public
-      function ComputePolyline(const APoints: array of TPointF; AWidth: single; AClosedCap: boolean = true): ArrayOfTPointF; virtual; abstract;
-      function ComputePolyline(const APoints: array of TPointF; AWidth: single; APenColor: TBGRAPixel; AClosedCap: boolean = true): ArrayOfTPointF; virtual; abstract;
+      function ComputePolyline(const APoints: array of TPointF; AWidth: single; AClosedCap: boolean = true): ArrayOfTPointF; overload; virtual; abstract;
+      function ComputePolyline(const APoints: array of TPointF; AWidth: single; APenColor: TBGRAPixel; AClosedCap: boolean = true): ArrayOfTPointF; overload; virtual; abstract;
       function ComputePolylineAutoCycle(const APoints: array of TPointF; AWidth: single): ArrayOfTPointF; virtual; abstract;
       function ComputePolygon(const APoints: array of TPointF; AWidth: single): ArrayOfTPointF; virtual; abstract;
       property Style: TPenStyle read GetPenStyle write SetPenStyle;
@@ -322,7 +357,13 @@ type
 
 type
   {* Point in 3D with single-precision floating point coordinates }
-  TPoint3D = record x,y,z: single;
+
+  { TPoint3D }
+
+  TPoint3D = record
+    x,y,z: single;
+    procedure Offset(const point3D: TPoint3D);
+    procedure Scale(AScale: single);
   end;
 
   {----------------- Operators for TPoint3D ---------------}
@@ -360,11 +401,11 @@ type
   {----------- Line and polygon functions -----------}
   {** Computes the intersection of two lines. If they are parallel, returns
       the middle of the segment between the two origins }
-  function IntersectLine(line1, line2: TLineDef): TPointF;
+  function IntersectLine(line1, line2: TLineDef): TPointF; overload;
   {** Computes the intersection of two lines. If they are parallel, returns
       the middle of the segment between the two origins. The value ''parallel''
       is set to indicate if the lines were parallel }
-  function IntersectLine(line1, line2: TLineDef; out parallel: boolean): TPointF;
+  function IntersectLine(line1, line2: TLineDef; out parallel: boolean): TPointF; overload;
   {** Checks if the polygon formed by the given points is convex. ''IgnoreAlign''
       specifies that if the points are aligned, it should still be considered as convex }
   function IsConvex(const pts: array of TPointF; IgnoreAlign: boolean = true): boolean;
@@ -376,6 +417,8 @@ type
 
 type
   TBGRACustomPathCursor = class;
+  TBGRAPathDrawProc = procedure(const APoints: array of TPointF; AClosed: boolean; AData: Pointer) of object;
+  TBGRAPathFillProc = procedure(const APoints: array of TPointF; AData: pointer) of object;
 
   {* A path is the ability to define a contour with ''moveTo'', ''lineTo''...
      Even if it is an interface, it must not implement reference counting. }
@@ -401,9 +444,15 @@ type
     {** Copy the content of this path to the specified destination }
     procedure copyTo(dest: IBGRAPath);
     {** Returns the content of the path as an array of points }
-    function getPoints: ArrayOfTPointF;
+    function getPoints: ArrayOfTPointF; overload;
     {** Returns the content of the path as an array of points with the transformation specified by ''AMatrix'' }
-    function getPoints(AMatrix: TAffineMatrix): ArrayOfTPointF;
+    function getPoints(AMatrix: TAffineMatrix): ArrayOfTPointF; overload;
+    {** Calls a given draw procedure for each sub path with computed coordinates for rendering }
+    procedure stroke(ADrawProc: TBGRAPathDrawProc; AData: pointer); overload;
+    procedure stroke(ADrawProc: TBGRAPathDrawProc; const AMatrix: TAffineMatrix; AData: pointer); overload;
+    {** Calls a given fill procedure for each sub path with computed coordinates for rendering }
+    procedure fill(AFillProc: TBGRAPathFillProc; AData: pointer); overload;
+    procedure fill(AFillProc: TBGRAPathFillProc; const AMatrix: TAffineMatrix; AData: pointer); overload;
     {** Returns a cursor to go through the path. The cursor must be freed by calling ''Free''. }
     function getCursor: TBGRACustomPathCursor;
   end;
@@ -424,8 +473,12 @@ type
     procedure closedSpline(const pts: array of TPointF; style: TSplineStyle); virtual; abstract;
     procedure copyTo(dest: IBGRAPath); virtual; abstract;
   protected
-    function getPoints: ArrayOfTPointF; virtual; abstract;
-    function getPoints(AMatrix: TAffineMatrix): ArrayOfTPointF; virtual; abstract;
+    function getPoints: ArrayOfTPointF; overload; virtual; abstract;
+    function getPoints(AMatrix: TAffineMatrix): ArrayOfTPointF; overload; virtual; abstract;
+    procedure stroke(ADrawProc: TBGRAPathDrawProc; AData: pointer); overload; virtual; abstract;
+    procedure stroke(ADrawProc: TBGRAPathDrawProc; const AMatrix: TAffineMatrix; AData: pointer); overload; virtual; abstract;
+    procedure fill(AFillProc: TBGRAPathFillProc; AData: pointer); overload; virtual; abstract;
+    procedure fill(AFillProc: TBGRAPathFillProc; const AMatrix: TAffineMatrix; AData: pointer); overload; virtual; abstract;
     function getLength: single; virtual; abstract;
     function getCursor: TBGRACustomPathCursor; virtual; abstract;
   protected
@@ -519,6 +572,7 @@ type
     {** Last polygon is on top }
     poLastOnTop);
 
+  PIntersectionInfo = ^TIntersectionInfo;
   { TIntersectionInfo }
   {* Contains an intersection between an horizontal line and any shape. It
      is used when filling shapes }
@@ -570,11 +624,13 @@ type
     {** The color changes along a diamond shape }
     gtDiamond,
     {** The color changes in a radial way from a given center }
-    gtRadial);
+    gtRadial,
+    {** The color changes according to the angle relative to a given center }
+    gtAngular);
 const
   {** List of string to represent gradient types }
   GradientTypeStr : array[TGradientType] of string
-  = ('Linear','Reflected','Diamond','Radial');
+  = ('Linear','Reflected','Diamond','Radial','Angular');
   {** Returns the gradient type represented by the given string }
   function StrToGradientType(str: string): TGradientType;
 
@@ -670,9 +726,30 @@ begin
   self.Bottom := ABottom;
 end;
 
-procedure TRectHelper.Intersect(const ARect: TRect);
+procedure TRectHelper.Intersect(R: TRect);
 begin
-  IntersectRect(self, self, ARect);
+  IntersectRect(self, self, R);
+end;
+
+class function TRectHelper.Intersect(R1: TRect; R2: TRect): TRect;
+begin
+  result := EmptyRect;
+  IntersectRect(result, R1, R2);
+end;
+
+function TRectHelper.IntersectsWith(R: TRect): Boolean;
+begin
+  Result := (Left < R.Right) and (R.Left < Right) and (Top < R.Bottom) and (R.Top < Bottom);
+end;
+
+class function TRectHelper.Union(R1, R2: TRect): TRect;
+begin
+  UnionRect(Result, R1, R2);
+end;
+
+procedure TRectHelper.Union(R: TRect);
+begin
+  UnionRect(self, self, R);
 end;
 
 procedure TRectHelper.Offset(DX, DY: Longint);
@@ -687,8 +764,8 @@ end;
 
 function TRectHelper.Contains(const APoint: TPoint): boolean;
 begin
-  result := (APoint.X >= Left) and (APoint.X <= Right) and
-    (APoint.Y >= Top) and (APoint.Y <= Bottom);
+  result := (APoint.X >= Left) and (APoint.X < Right) and
+    (APoint.Y >= Top) and (APoint.Y < Bottom);
 end;
 
 function TRectHelper.Contains(const ARect: TRect): boolean;
@@ -716,26 +793,138 @@ end;
 
 {$ENDIF}
 
+function IsEmptyPoint(const APoint: TPoint): boolean;
+begin
+  result := (APoint.x = -2147483648) or (APoint.y = -2147483648);
+end;
+
+procedure TPointFHelper.Offset(const apt: TPointF);
+begin
+  self.x += apt.x;
+  self.y += apt.y;
+end;
+
+procedure TPointFHelper.Offset(const apt: TPoint);
+begin
+  self.x += apt.x;
+  self.y += apt.y;
+end;
+
+procedure TPointFHelper.Offset(dx, dy: longint);
+begin
+  if isEmptyPointF(self) then exit;
+  self.x += dx;
+  self.y += dy;
+end;
+
+procedure TPointFHelper.Offset(dx, dy: single);
+begin
+  if isEmptyPointF(self) then exit;
+  self.x += dx;
+  self.y += dy;
+end;
+
+procedure TPointFHelper.Scale(AScale: single);
+begin
+  if not isEmptyPointF(self) then
+  begin
+    self.x *= AScale;
+    self.y *= AScale;
+  end;
+end;
+
+function TPointFHelper.Ceiling: TPoint;
+begin
+  if isEmptyPointF(self) then
+    result := EmptyPoint
+  else
+  begin
+    result.x:=ceil(x);
+    result.y:=ceil(y);
+  end;
+end;
+
+function TPointFHelper.Truncate: TPoint;
+begin
+  if isEmptyPointF(self) then
+    result := EmptyPoint
+  else
+  begin
+    result.x:=trunc(x);
+    result.y:=trunc(y);
+  end;
+end;
+
+function TPointFHelper.Floor: TPoint;
+begin
+  if isEmptyPointF(self) then
+    result := EmptyPoint
+  else
+  begin
+    result.x:=Math.floor(x);
+    result.y:=Math.floor(y);
+  end;
+end;
+
+function TPointFHelper.Round: TPoint;
+begin
+  if isEmptyPointF(self) then
+    result := EmptyPoint
+  else
+  begin
+    result.x:=System.round(x);
+    result.y:=System.round(y);
+  end;
+end;
+
+function TPointFHelper.Length: Single;
+begin
+  result:= VectLen(self);
+end;
+
+class function TRectFHelper.Intersect(const R1: TRectF; const R2: TRectF): TRectF;
+begin
+  result.left:=max(R1.left,R2.left);
+  result.top:=max(R1.top,R2.top);
+  result.right:=min(R1.right,R2.right);
+  result.bottom:=min(R1.bottom,R2.bottom);
+  if (result.left >= result.right) or (result.top >= result.bottom) then
+    result := EmptyRectF;
+end;
+
+class function TRectFHelper.Union(const R1: TRectF; const R2: TRectF): TRectF;
+begin
+  result.left:=min(R1.left,R2.left);
+  result.top:=min(R1.top,R2.top);
+  result.right:=max(R1.right,R2.right);
+  result.bottom:=max(R1.bottom,R2.bottom);
+end;
+
+class function TRectFHelper.Union(const R1: TRectF; const R2: TRectF; ADiscardEmpty: boolean): TRectF;
+begin
+  if ADiscardEmpty and IsEmptyRectF(R1) then result:= R2 else
+  if ADiscardEmpty and IsEmptyRectF(R2) then result:= R1 else
+    result := Union(R1,R2);
+end;
+
 function TRectFHelper.Union(const r: TRectF): TRectF;
 begin
-  result.left:=min(r.left,left);
-  result.top:=min(r.top,top);
-  result.right:=max(r.right,right);
-  result.bottom:=max(r.bottom,bottom);
+  result := TRectF.Union(self, r);
 end;
 
 function TRectFHelper.Union(const r: TRectF; ADiscardEmpty: boolean): TRectF;
 begin
-  if ADiscardEmpty then
-  begin
-    if IsEmptyRectF(r) then
-      result:= self
-    else if IsEmptyRectF(self) then
-      result:= r
-    else
-      result := self.Union(r);
-  end else
-    result := self.Union(r);
+  result := TRectF.Union(self, r, ADiscardEmpty);
+end;
+
+function TRectFHelper.IntersectsWith(const r: TRectF): boolean;
+begin
+  result:= not TRectF.Intersect(self, r).IsEmpty;
+end;
+
+function TRectFHelper.IsEmpty: boolean;
+begin
+  result:= IsEmptyRectF(self);
 end;
 
 { TAffineBox }
@@ -801,7 +990,7 @@ begin
   u := TopRight-TopLeft;
   lenU := VectLen(u);
   if lenU = 0 then exit(0);
-  u *= 1/lenU;
+  u.Scale(1/lenU);
   v := BottomLeft-TopLeft;
   lenH := PointF(-u.y,u.x)*v;
   result := abs(lenU*lenH);
@@ -834,6 +1023,18 @@ begin
   result.TopLeft := ARectF.TopLeft;
   result.TopRight := PointF(ARectF.Right, ARectF.Top);
   result.BottomLeft := PointF(ARectF.Left, ARectF.Bottom);
+end;
+
+procedure TAffineBox.Offset(AOfsX, AOfsY: single);
+begin
+  TopLeft.Offset(AOfsX,AOfsY);
+  TopRight.Offset(AOfsX,AOfsY);
+  BottomLeft.Offset(AOfsX,AOfsY);
+end;
+
+procedure TAffineBox.Offset(AOfs: TPointF);
+begin
+  Offset(AOfs.X,AOfs.Y);
 end;
 
 function TAffineBox.Contains(APoint: TPointF): boolean;
@@ -1070,6 +1271,22 @@ begin
   result.z := v1.z*factor;
 end;
 
+{ TPoint3D }
+
+procedure TPoint3D.Offset(const point3D: TPoint3D);
+begin
+  self.x += point3d.x;
+  self.y += point3d.y;
+  self.z += point3d.z;
+end;
+
+procedure TPoint3D.Scale(AScale: single);
+begin
+  self.x *= AScale;
+  self.y *= AScale;
+  self.z *= AScale;
+end;
+
 function Point3D(x, y, z: single): TPoint3D;
 begin
   result.x := x;
@@ -1174,6 +1391,17 @@ begin
   Result.y := y;
 end;
 
+function PointF(pt: TPoint): TPointF;
+begin
+  if IsEmptyPoint(pt) then
+    result:= EmptyPointF
+  else
+  begin
+    Result.x := pt.x;
+    Result.y := pt.y;
+  end;
+end;
+
 function PointsF(const pts: array of TPointF): ArrayOfTPointF;
 var
   i: Integer;
@@ -1203,7 +1431,10 @@ end;
 
 function VectLen(v: TPointF): single;
 begin
-  result := sqrt(v*v);
+  if isEmptyPointF(v) then
+    result := EmptySingle
+  else
+    result := sqrt(v*v);
 end;
 
 function VectDet(v1, v2: TPointF): double;
@@ -1342,23 +1573,23 @@ begin
   { Determine line definitions }
   seg1.origin := pt1;
   seg1.dir := pt2-pt1;
-  seg1len := sqrt(sqr(seg1.dir.X)+sqr(seg1.dir.Y));
+  seg1len := VectLen(seg1.dir);
   if seg1len = 0 then
   begin
     result := false;
     exit;
   end;
-  seg1.dir *= 1/seg1len;
+  seg1.dir.Scale(1/seg1len);
 
   seg2.origin := pt3;
   seg2.dir := pt4-pt3;
-  seg2len := sqrt(sqr(seg2.dir.X)+sqr(seg2.dir.Y));
+  seg2len := VectLen(seg2.dir);
   if seg2len = 0 then
   begin
     result := false;
     exit;
   end;
-  seg2.dir *= 1/seg2len;
+  seg2.dir.Scale(1/seg2len);
 
   //obviously parallel
   if seg1.dir = seg2.dir then

@@ -151,8 +151,8 @@ type
     FetchDirectory: string;
     FetchThrowsException: boolean;
 
-    constructor Create;
-    constructor Create(ASurface: TBGRACustomBitmap);
+    constructor Create; overload;
+    constructor Create(ASurface: TBGRACustomBitmap); overload;
     destructor Destroy; override;
     procedure Clear; virtual;
     function FetchObject(AName: string; SwapFacesOrientation: boolean = true): IBGRAObject3D;
@@ -168,8 +168,8 @@ type
     procedure LookRight(angleDeg: single);
     procedure LookUp(angleDeg: single);
     procedure LookDown(angleDeg: single);
-    procedure Render; virtual;
-    procedure Render(ARenderer: TCustomRenderer3D);
+    procedure Render;  overload; virtual;
+    procedure Render(ARenderer: TCustomRenderer3D); overload;
     function CreateObject: IBGRAObject3D; overload;
     function CreateObject(ATexture: IBGRAScanner): IBGRAObject3D; overload;
     function CreateObject(AColor: TBGRAPixel): IBGRAObject3D; overload;
@@ -178,15 +178,15 @@ type
     function CreateHalfSphere(ARadius: Single; AHorizPrecision: integer = 6; AVerticalPrecision : integer = 6): IBGRAObject3D; overload;
     function CreateHalfSphere(ARadius: Single; AColor: TBGRAPixel; AHorizPrecision: integer = 6; AVerticalPrecision : integer = 6): IBGRAObject3D; overload;
     procedure RemoveObject(AObject: IBGRAObject3D);
-    function AddDirectionalLight(ADirection: TPoint3D; ALightness: single = 1; AMinIntensity : single = 0): IBGRADirectionalLight3D;
-    function AddDirectionalLight(ADirection: TPoint3D; AColor: TBGRAPixel; AMinIntensity: single = 0): IBGRADirectionalLight3D;
-    function AddPointLight(AVertex: IBGRAVertex3D; AOptimalDistance: single; ALightness: single = 1; AMinIntensity : single = 0): IBGRAPointLight3D;
-    function AddPointLight(AVertex: IBGRAVertex3D; AOptimalDistance: single; AColor: TBGRAPixel; AMinIntensity: single = 0): IBGRAPointLight3D;
+    function AddDirectionalLight(ADirection: TPoint3D; ALightness: single = 1; AMinIntensity : single = 0): IBGRADirectionalLight3D; overload;
+    function AddDirectionalLight(ADirection: TPoint3D; AColor: TBGRAPixel; AMinIntensity: single = 0): IBGRADirectionalLight3D; overload;
+    function AddPointLight(AVertex: IBGRAVertex3D; AOptimalDistance: single; ALightness: single = 1; AMinIntensity : single = 0): IBGRAPointLight3D; overload;
+    function AddPointLight(AVertex: IBGRAVertex3D; AOptimalDistance: single; AColor: TBGRAPixel; AMinIntensity: single = 0): IBGRAPointLight3D; overload;
     procedure RemoveLight(ALight: IBGRALight3D);
     procedure SetZoom(value: Single); overload;
     procedure SetZoom(value: TPointF); overload;
-    function CreateMaterial: IBGRAMaterial3D;
-    function CreateMaterial(ASpecularIndex: integer): IBGRAMaterial3D;
+    function CreateMaterial: IBGRAMaterial3D; overload;
+    function CreateMaterial(ASpecularIndex: integer): IBGRAMaterial3D; overload;
     function GetMaterialByName(AName: string): IBGRAMaterial3D;
     procedure UpdateMaterials; virtual;
     procedure UpdateMaterial(AMaterialName: string); virtual;
@@ -380,7 +380,7 @@ var i: integer;
 begin
   result := 0;
   for i := 0 to Object3DCount-1 do
-    result += Object3D[i].TotalVertexCount;
+    inc(result, Object3D[i].TotalVertexCount);
 end;
 
 function TBGRAScene3D.GetAmbiantLightColor: TBGRAPixel;
@@ -393,7 +393,7 @@ var i: integer;
 begin
   result := 0;
   for i := 0 to Object3DCount-1 do
-    result += Object3D[i].FaceCount;
+    inc(result, Object3D[i].FaceCount);
 end;
 
 function TBGRAScene3D.GetLight(AIndex: integer): IBGRALight3D;
@@ -421,7 +421,7 @@ var i: integer;
 begin
   result := 0;
   for i := 0 to Object3DCount-1 do
-    result += Object3D[i].TotalNormalCount;
+    inc(result, Object3D[i].TotalNormalCount);
 end;
 
 function TBGRAScene3D.GetAmbiantLightness: single;
@@ -1051,7 +1051,7 @@ begin
     FAmbiantLightColorF,
     FLights);
   DoRender;
-  FRenderer.Free;
+  FreeAndNil(FRenderer);
 end;
 
 procedure TBGRAScene3D.Render(ARenderer: TCustomRenderer3D);
@@ -1231,7 +1231,7 @@ var
        faceDesc.Positions3D[NewVCount] := faceDesc.Positions3D[n1]*(1-t) + faceDesc.Positions3D[n2]*t;
        faceDesc.Normals3D[NewVCount] := faceDesc.Normals3D[n1]*(1-t) + faceDesc.Normals3D[n2]*t;
        faceDesc.Projections[NewVCount] := ComputeCoordinate(faceDesc.Positions3D[NewVCount]);
-       NewVCount += 1;
+       inc(NewVCount);
     end;
 
     procedure LoadVertex(idxL: integer; idxV: integer);
@@ -1319,7 +1319,7 @@ var
              end else
              begin
                LoadVertex(NewVCount, j);
-               NewVCount += 1;
+               inc(NewVCount);
              end;
              LastVisibleVertex := j;
            end;
@@ -1349,7 +1349,7 @@ var
          lnFaceVertexMix:
              for j := 0 to VCount-1 do
              begin
-               faceDesc.Normals3D[j] += ViewNormal_128;
+               faceDesc.Normals3D[j].Offset(ViewNormal_128);
                Normalize3D_128(faceDesc.Normals3D[j]);
              end;
        end;

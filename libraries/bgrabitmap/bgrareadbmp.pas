@@ -124,6 +124,7 @@ type
       property OutputHeight: integer read FOutputHeight;
       property TransparencyOption: TBMPTransparencyOption read FTransparencyOption write FTransparencyOption;
       function GetQuickInfo(AStream: TStream): TQuickImageInfo; override;
+      function GetBitmapDraft(AStream: TStream; {%H-}AMaxWidth, AMaxHeight: integer; out AOriginalWidth,AOriginalHeight: integer): TBGRACustomBitmap; override;
   end;
 
 function MakeBitmapFileHeader(AData: TStream): TBitMapFileHeader;
@@ -226,7 +227,7 @@ var headerSize: dword;
   totalDepth: integer;
   headerPos: int64;
 begin
-  fillchar({%H-}result, sizeof(result), 0);
+  {$PUSH}{$HINTS OFF}fillchar({%H-}result, sizeof({%H-}result), 0);{$POP}
   headerPos := AStream.Position;
   if AStream.Read({%H-}headerSize, sizeof(headerSize)) <> sizeof(headerSize) then exit;
   headerSize := LEtoN(headerSize);
@@ -234,7 +235,7 @@ begin
   //check presence of file header
   if (headerSize and $ffff) = BMmagic then
   begin
-    headerPos += sizeof(TBitMapFileHeader);
+    inc(headerPos, sizeof(TBitMapFileHeader));
     AStream.Position := headerPos;
     if AStream.Read(headerSize, sizeof(headerSize)) <> sizeof(headerSize) then exit;
     headerSize := LEtoN(headerSize);
@@ -275,8 +276,28 @@ begin
   end;
 end;
 
-procedure TBGRAReaderBMP.FreeBufs;
+function TBGRAReaderBMP.GetBitmapDraft(AStream: TStream; AMaxWidth,
+  AMaxHeight: integer; out AOriginalWidth, AOriginalHeight: integer): TBGRACustomBitmap;
+var
+  bmpFormat: TBGRAReaderBMP;
+  prevStreamPos: Int64;
+begin
+  bmpFormat:= TBGRAReaderBMP.Create;
+  bmpFormat.Subformat:= Subformat;
+  bmpFormat.MinifyHeight := AMaxHeight*2;
+  result := BGRABitmapFactory.Create;
+  prevStreamPos := AStream.Position;
+  try
+    result.LoadFromStream(AStream, bmpFormat);
+    AOriginalWidth:= result.Width;
+    AOriginalHeight:= bmpFormat.OriginalHeight;
+  finally
+    bmpFormat.Free;
+    AStream.Position := prevStreamPos;
+  end;
+end;
 
+procedure TBGRAReaderBMP.FreeBufs;
 begin
   If (LineBuf<>Nil) then
     begin
@@ -808,6 +829,7 @@ begin
      end else
      if FTransparencyOption = toOpaque then
      begin
+       {$PUSH}{$WARNINGS OFF}
        if TBGRAPixel_RGBAOrder then
        begin
         PSrc := LineBuf;
@@ -828,8 +850,10 @@ begin
           Inc(PSrc,4);
         end;
        end;
+       {$POP}
      end else
      begin
+       {$PUSH}{$WARNINGS OFF}
        if TBGRAPixel_RGBAOrder then
        begin
         PSrc := LineBuf;
@@ -852,6 +876,7 @@ begin
            Inc(PSrc,4);
          end;
        end;
+       {$POP}
      end;
     end;
 end;

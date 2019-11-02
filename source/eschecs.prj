@@ -17,8 +17,8 @@ order14=0
 order15=0
 order16=0
 [projectoptions]
-projectdir=/home/fred/eschecs/source
-projectfilename=/home/fred/eschecs/source/eschecs.prj
+projectdir=/home/roland/Documents/pascal/echecs/eschecs5/source
+projectfilename=/home/roland/Documents/pascal/echecs/eschecs5/source/eschecs.prj
 findinfiledialog=67
  [findinfileadialogfo.subdirs]
  value=1
@@ -112,7 +112,7 @@ replacedialog=15
  y=302
  cx=427
  cy=163
-options=114
+options=149
  [projectoptionsfo.toolshortcuts]
  dropdowncolwidths=3
   70
@@ -137,20 +137,22 @@ options=114
  width9=338
  sortdescend9=0
  [projectoptionsfo.twidgetgrid4]
- propcolwidthref=654
- width0=96
- sortdescend0=0
- sortdescend1=0
- width2=73
- sortdescend2=0
- width3=313
- sortdescend3=0
- width4=331
- sortdescend4=0
+ propcolwidthref=587
+ width_newfonames=96
+ sortdescend_newfonames=0
+ sortdescend_newinheritedforms=0
+ width_newfonamebases=73
+ sortdescend_newfonamebases=0
+ width_newfoformsuffix=69
+ sortdescend_newfoformsuffix=0
+ width_newfosources=309
+ sortdescend_newfosources=0
+ width_mewfoforms=267
+ sortdescend_mewfoforms=0
  sorted=0
  col=-1073741823
  row=-1073741823
- rowheight=16
+ rowheight=17
  [projectoptionsfo.newfile]
  firsttab=0
  index=0
@@ -174,9 +176,36 @@ options=114
  x=0
  y=160
  xprop=1
- yprop=0.31417624521073
+ yprop=0.31346153846154
  [projectoptionsfo.macrogrid]
- propcolwidthref=585
+ propcolwidthref=637
+ sortdescend0=0
+ sortdescend1=0
+ sortdescend2=0
+ sortdescend3=0
+ sortdescend4=0
+ sortdescend5=0
+ width6=146
+ sortdescend6=0
+ width7=625
+ sortdescend7=0
+ [projectoptionsfo.makeoptionsgrid]
+ propcolwidthref=770
+ values0=13
+  Define Object Pascal
+  Exe path to /.
+  Output to /units
+  Debug
+  Windows graphic
+  Re-build all
+  Optimizations
+  Debug
+  BGRABITMAP
+  OPT_SOUND
+  OPT_HIGHLIGHT
+  Verbosity
+  OPT_ECO
+ width0=57
  sortdescend0=0
  sortdescend1=0
  sortdescend2=0
@@ -185,18 +214,21 @@ options=114
  sortdescend5=0
  sortdescend6=0
  sortdescend7=0
+ values8=13
+  -l -Mobjfpc -Schi
+  -FE.
+  -FUunits
+  -ghl
+  -WG
+  -B
+  -O1 -XX -Xs -CX
+  -dOPT_DEBUG
+  -dBGRABITMAP_USE_FPGUI
+  -dOPT_SOUND
+  -dOPT_HIGHLIGHT
+  -vewnhibq
+  -dOPT_ECO
  sortdescend8=0
- sortdescend9=0
- width10=146
- sortdescend10=0
- width11=569
- sortdescend11=0
- [projectoptionsfo.comment_1]
- value=
- [projectoptionsfo.comment_B]
- value=
- [projectoptionsfo.comment_M]
- value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
  index=2
@@ -218,7 +250,10 @@ options=114
  [projectoptionsfo.ttabwidget2]
  firsttab=0
  index=0
- [projectoptionsfo.setting_tab]
+ [projectoptionsfo.ttabwidget3]
+ firsttab=0
+ index=0
+ [projectoptionsfo.tabwidget]
  firsttab=0
  index=2
  [projectoptionsfo]
@@ -242,9 +277,125 @@ colordialog=5
  y=234
  cx=338
  cy=298
+sourcefilemasks=5
+ "*.pas" "*.dpr" "*.pp" "*.inc" "*.lpr"
+ "*.c" "*.cc" "*.h"
+ "*.mfm"
+ "*.ipf"
+ "*.sql"
+syntaxdeffiles=5
+ ${SYNTAXDEFDIR}pascal_ideu.sdef
+ ${SYNTAXDEFDIR}cpp.sdef
+ ${SYNTAXDEFDIR}objecttext.sdef
+ ${SYNTAXDEFDIR}ipf2.sdef
+ ${SYNTAXDEFDIR}sql.sdef
+filemasknames=5
+ Source
+ Forms
+ Text
+ IPF help
+ All Files
+filemasks=5
+ "*.pp" "*.pas" "*.inc" "*.dpr" "*.lpr"
+ *.mfm
+ *.txt
+ *.ipf
+ *
+codetemplatedirs=1
+ ${TEMPLATEDIR}
+showgrid=1
+snaptogrid=1
+moveonfirstclick=1
+noformdesignerdocking=0
+componenthints=1
+gridsizex=8
+gridsizey=8
+autoindent=1
+blockindent=2
+linenumberson=1
+rightmarginon=1
+rightmarginchars=80
+scrollheight=0
+tabstops=2
+spacetabs=1
+showtabs=0
+tabindent=0
+editfontname=mseide_source
+editfontheight=16
+editfontwidth=0
+editfontextraspace=0
+editfontcolor=-1879048183
+editbkcolor=-1879048186
+statementcolor=14745599
+pairmarkcolor=-1610612712
+pairmaxrowcount=100
+editfontantialiased=1
+editmarkbrackets=1
+editmarkpairwords=1
+backupfilecount=0
+encoding=0
+eolstyle=1
+trimtrailingwhitespace=0
+debugcommand=${DEBUGGER}
+debugoptions=
+debugtarget=
+runcommand=
+xtermcommand=xterm -S${PTSN}/${PTSH}
+remoteconnection=
+uploadcommand=
+gdbprocessor=Auto
+gdbservercommand=
+gdbservercommandattach=
+beforeconnect=
+afterconnect=
+beforeload=
+afterload=
+beforerun=
+sourcebase=
+sourcedirs=11
+ ${FPCSRCDIR}/
+ ../libraries/bgrabitmap/*/
+ ../libraries/uos/
+ ../libraries/bgrabitmap/
+ ../libraries/fpgui/src/
+ ../libraries/fpgui/src/gui/
+ ../libraries/fpgui/src/corelib/
+ ../libraries/fpgui/src/corelib/gdi/
+ ../libraries/fpgui/src/corelib/x11/
+ ./*/
+ ./
+defines=0
+progparameters=
+progworkingdirectory=
+envvarnames=0
+envvarvalues=0
+defineson=0
+stoponexception=0
+valuehints=1
+activateonbreak=1
+raiseonbreak=1
+showconsole=1
+externalconsole=0
+settty=1
+gdbdownload=0
+downloadalways=0
+restartgdbbeforeload=0
+startupbkpt=0
+startupbkpton=0
+gdbsimulator=0
+gdbserverstartonce=0
+gdbloadtimeout=
+gdbserverwait=0
+nogdbserverexit=0
+gdbservertty=0
+exceptclassnames=1
+ EconvertError
+exceptignore=1
+ 0
+nodebugbeginend=0
+fpcgdbworkaround=1
 mainfile=${PROJECTDIR}/${PROJECTNAME}.pas
 targetfile=${PROJECTDIR}/${PROJECTNAME}
-messageoutputfile=
 makecommand=${COMPILER}
 makedir=
 unitdirs=11
@@ -280,6 +431,7 @@ makeoptions=13
  -dOPT_HIGHLIGHT
  -vewnhibq
  -dOPT_ECO
+reversepathorder=0
 makeoptpurpose=13
  Define Object Pascal
  Exe path to /.
@@ -294,105 +446,64 @@ makeoptpurpose=13
  OPT_HIGHLIGHT
  Verbosity
  OPT_ECO
-compilerused=29
- ${COMPILER} (Default)
- Pascal 1
- Pascal 2
- Pascal 3
- Pascal 4
- Pascal 5
- Pascal 6
- Pascal 7
- Pascal 8
- C 1
- C 2
- C 3
- C 4
- C 5
- C 6
- C 7
- C 8
- Java 1
- Java 2
- Java 3
- Java 4
- Python 1
- Python 2
- Python 3
- Python 4
- Other 1
- Other 2
- Other 3
- Other 4
-debuggerused=6
- ${DEBUGGER} (Default)
- Debugger 1
- Debugger 2
- Debugger 3
- Debugger 4
- None
-exeused=14
- ${EXEEXT} (Default)
- No Extension
- .exe
- .com
- .bin
- .prog
- .pyc
- .class
- .so
- .dll
- .lib
- .o
- .res
- .inf
-codetemplatedirs=1
- ${TEMPLATEDIR}
-toolmenus=1
-   fpGUI &DocView  
-toolfiles=1
- ${DOCVIEWDIR}/docview
-toolparams=1
- FPCHELP -k ${cursword}
+befcommandon=0
+makeoptionson=13
+ 4095
+ 4095
+ 4095
+ 3840
+ 4032
+ 248
+ 4092
+ 3843
+ 4095
+ 4095
+ 4095
+ 4095
+ 4095
+aftcommandon=0
+unitdirson=11
+ 196863
+ 200703
+ 200703
+ 200703
+ 200703
+ 196863
+ 196800
+ 196863
+ 196671
+ 196863
+ 196863
+uid=0
+macroon=4
+ 1
+ 3
+ 6
+ 4
+macronames=4
+ TargetCPU
+ TargetOS
+ TargetCPU
+ TargetOS
+macrovalues=4
+ x86_64
+ linux
+ i386
+ win32
+groupcomments=6
+ Linux 64-bit
+ Linux 32-bit
+ Windows 32-bit
+ 
+ 
+ 
+fontalias=0
 fontnames=0
-scriptbeforecopy=
-scriptaftercopy=
-newprojectfiles=4
- ${TEMPLATEDIR}/fpc_fpgui/files/fpg_single.pas
- ${TEMPLATEDIR}/fpc_fpgui/files/dummy
- ${TEMPLATEDIR}/fpc_fpgui/files/dummy
- ${TEMPLATEDIR}/fpc_fpgui/files/dummy
-newprojectfilesdest=4
- ${%PROJECTNAME%}.pas
- ${%PROJECTDIR%}/units/i386-linux/dummy
- ${%PROJECTDIR%}/units/x86_64-linux/dummy
- ${%PROJECTDIR%}/units/i386-freebsd/dummy
-newfinames=1
- Program
-newfifilters=1
- "*.pas" "*.pp"
-newfiexts=1
- pas
-newfisources=1
- ${TEMPLATEDIR}/fpc_fpgui/files/fpg_single.pas
-newfonames=1
- Mainform
-newfonamebases=1
- 
-newfosources=1
- ${TEMPLATEDIR}/fpc_fpgui/files/fpg_single.pas
-newfoforms=1
- 
-forcezorder=-1
-stripmessageesc=0
-copymessages=0
-closemessages=0
-enablepurpose=1
-enablesource=0
-checkmethods=1
-colorerror=-1610612717
-colorwarning=-1610612712
-colornote=-1610612716
+fontancestors=0
+fontoptions=0
+fontheights=0
+fontwidths=0
+fontxscales=0
 usercolors=30
  0
  0
@@ -457,158 +568,36 @@ usercolorcomment=30
  
 formatmacronames=0
 formatmacrovalues=0
-settingsfile=
-settingseditor=0
-settingsdebugger=0
-settingsstorage=0
-settingsprojecttree=0
-settingsautoload=0
-settingsautosave=0
-modulenames=0
-moduletypes=0
-modulefiles=0
-befcommandon=0
-makeoptionson=13
- 4095
- 4095
- 4095
- 3840
- 4032
- 248
- 4092
- 3843
- 4095
- 4095
- 4095
- 4095
- 4095
-compilerusedon=29
- 3887
- 0
- 16
- 64
- 128
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
-debuggerusedon=6
- 3844
- 0
- 0
- 0
- 0
- 251
-exeusedon=14
- 3903
- 0
- 192
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
-comment_M=
-comment_B=
-comment_1=
-comment_2=
-comment_3=
-comment_4=
-comment_5=
-comment_6=
-comment_7=
-comment_8=
-comment_9=
-comment_0=
-project_name=Eschecs
-project_creator=R. Chastain
-project_copyright=
-project_license=
-project_time=01:54:38
-project_date=25/11/2018
-project_comment=UCI chess GUI
-aftcommandon=0
-unitdirson=11
- 196863
- 200703
- 200703
- 200703
- 200703
- 196863
- 196800
- 196863
- 196671
- 196863
- 196863
-macroon=4
- 1
- 3
- 6
- 4
-macronames=4
- TargetCPU
- TargetOS
- TargetCPU
- TargetOS
-macrovalues=4
- x86_64
- linux
- i386
- win32
-macrogroup=0
-groupcomments=10
- Linux 64-bit
- Linux 32-bit
- Windows 32-bit
+scriptbeforecopy=
+scriptaftercopy=
+newprojectfiles=4
+ ${TEMPLATEDIR}/fpc_fpgui/files/fpg_single.pas
+ ${TEMPLATEDIR}/fpc_fpgui/files/dummy
+ ${TEMPLATEDIR}/fpc_fpgui/files/dummy
+ ${TEMPLATEDIR}/fpc_fpgui/files/dummy
+newprojectfilesdest=4
+ ${%PROJECTNAME%}.pas
+ ${%PROJECTDIR%}/units/i386-linux/dummy
+ ${%PROJECTDIR%}/units/x86_64-linux/dummy
+ ${%PROJECTDIR%}/units/i386-freebsd/dummy
+newfinames=1
+ Program
+newfifilters=1
+ "*.pas" "*.pp"
+newfiexts=1
+ pas
+newfisources=1
+ ${TEMPLATEDIR}/fpc_fpgui/files/fpg_single.pas
+newfonames=1
+ Mainform
+newfonamebases=1
  
+newfoformsuffixes=1
  
+newfosources=1
+ ${TEMPLATEDIR}/fpc_fpgui/files/fpg_single.pas
+newfoforms=1
  
- 
- 
- 
- 
-toolsave=1
- 0
-toolhide=1
- 0
-toolparse=1
- 0
-toolmessages=1
- 0
-toolshortcuts=1
- -1
-fontalias=0
-fontancestors=0
-fontheights=0
-fontwidths=0
-fontoptions=0
-fontxscales=0
 expandprojectfilemacros=4
  1
  -1
@@ -621,124 +610,51 @@ loadprojectfile=4
  0
 newinheritedforms=1
  0
-uid=0
-sourcefilemasks=5
- "*.pas" "*.dpr" "*.pp" "*.inc" "*.lpr"
- "*.c" "*.cc" "*.h"
- "*.mfm"
- "*.ipf"
- "*.sql"
-syntaxdeffiles=5
- ${SYNTAXDEFDIR}pascal_ideu.sdef
- ${SYNTAXDEFDIR}cpp.sdef
- ${SYNTAXDEFDIR}objecttext.sdef
- ${SYNTAXDEFDIR}ipf2.sdef
- ${SYNTAXDEFDIR}sql.sdef
-filemasknames=5
- Source
- Forms
- Text
- IPF help
- All Files
-filemasks=5
- "*.pp" "*.pas" "*.inc" "*.dpr" "*.lpr"
- *.mfm
- *.txt
- *.ipf
- *
-showgrid=1
-snaptogrid=1
-moveonfirstclick=1
-noformdesignerdocking=0
-componenthints=1
-gridsizex=8
-gridsizey=8
-autoindent=1
-blockindent=2
-linenumberson=1
-rightmarginon=1
-rightmarginchars=80
-scrollheight=0
-tabstops=2
-spacetabs=1
-showtabs=0
-tabindent=0
-editfontname=mseide_source
-editfontheight=16
-editfontwidth=0
-editfontextraspace=0
-editfontcolor=-1879048183
-editbkcolor=-1879048186
-statementcolor=14745599
-pairmarkcolor=-1610612712
-editfontantialiased=1
-editmarkbrackets=1
-editmarkpairwords=1
-fpgdesigner=1
-backupfilecount=0
-encoding=0
-eolstyle=1
-trimtrailingwhitespace=0
-codetemplatedirs=1
- ${TEMPLATEDIR}
-debugcommand=${DEBUGGER}
-debugoptions=
-debugtarget=
-runcommand=
-xtermcommand=xterm -S${PTSN}/${PTSH}
-remoteconnection=
-uploadcommand=
-gdbprocessor=Auto
-gdbservercommand=
-gdbservercommandattach=
-beforeconnect=
-afterconnect=
-beforeload=
-afterload=
-beforerun=
-sourcebase=
-sourcedirs=11
- ${FPCSRCDIR}/
- ../libraries/bgrabitmap/*/
- ../libraries/uos/
- ../libraries/bgrabitmap/
- ../libraries/fpgui/src/
- ../libraries/fpgui/src/gui/
- ../libraries/fpgui/src/corelib/
- ../libraries/fpgui/src/corelib/gdi/
- ../libraries/fpgui/src/corelib/x11/
- ./*/
- ./
-defines=0
-progparameters=
-progworkingdirectory=
-envvarnames=0
-envvarvalues=0
-defineson=0
-stoponexception=0
-valuehints=1
-activateonbreak=1
-raiseonbreak=1
-showconsole=1
-externalconsole=0
-settty=1
-gdbdownload=0
-downloadalways=0
-restartgdbbeforeload=0
-startupbkpt=0
-startupbkpton=0
-gdbsimulator=0
-gdbserverstartonce=0
-gdbloadtimeout=
-gdbserverwait=0
-nogdbserverexit=0
-gdbservertty=0
-exceptclassnames=1
- EconvertError
-exceptignore=1
+toolmenus=1
+   fpGUI &DocView  
+toolfiles=1
+ ${DOCVIEWDIR}/docview
+toolparams=1
+ FPCHELP -k ${cursword}
+toolsave=1
  0
-nodebugbeginend=0
-fpcgdbworkaround=1
+toolhide=1
+ 0
+toolparse=1
+ 0
+toolmessages=1
+ 0
+toolshortcuts=1
+ -1
+settingsfile=
+settingsautoload=0
+settingsautosave=0
+settingseditor=0
+settingsdebugger=0
+settingsmake=1
+settingsmacros=0
+settingsfontalias=0
+settingsusercolors=0
+settingsformatmacros=0
+settingstemplates=0
+settingstools=0
+settingsstorage=0
+settingscomponentstore=0
+settingsprojecttree=0
+settingslayout=0
+messageoutputfile=
+modulenames=0
+moduletypes=0
+modulefiles=0
+macrogroup=0
+forcezorder=-1
+stripmessageesc=0
+copymessages=0
+closemessages=0
+checkmethods=1
+colorerror=-1610612717
+colorwarning=-1610612712
+colornote=-1610612716
 sigsettings=27
  1,1,T,F
  3,3,T,F
@@ -768,16 +684,6 @@ sigsettings=27
  29,29,T,F
  30,30,T,F
 defaultmake=4
-[breakpoints]
-on=0
-path=0
-line=0
-address=0
-addbkpt=0
-ignore=0
-condition=0
-panels=1
- panel1
 units=
  (
  a=0,8229,6,Pascal Units
@@ -790,8 +696,18 @@ files=
  (
  a=0,8228,6,Text Files
  )
+[breakpoints]
+on=0
+path=0
+line=0
+address=0
+addbkpt=0
+ignore=0
+condition=0
+panels=1
+ panel1
 [componentstore]
-storedir=/home/fred/msegui/apps/ide/compstore/
+storedir=/home/roland/Applications/mseide/apps/ide/compstore/
 filename=
 [components]
 [selecteditpage]
@@ -858,7 +774,7 @@ bookmarks10=0
 bookmarks11=0
 bookmarks12=0
 sourcefiles=13
- ${PROJECTDIR}/eschecs.pas
+ /home/roland/Documents/pascal/echecs/eschecs5/source/eschecs.pas
  ${PROJECTDIR}/sound.pas
  ${PROJECTDIR}/log.pas
  /home/fred/eschecs_errorfriend/source/log.pas
@@ -903,25 +819,38 @@ modules=0
 moduleoptions=0
 visiblemodules=0
 nomenumodules=0
-[sourcefo.files_tab]
-order=13
- 0
- 6
- 5
- 8
- 4
- 7
- 11
- 2
- 12
- 9
- 10
- 1
- 3
+[sourcefo.tabwidget]
+tabsize=114
 firsttab=0
 index=0
 [layout]
-windowlayout=569
+windowlayout=533
+ [mainfo.openform]
+ filenames=0
+ filecolwidth=0
+ x=0
+ y=0
+ cx=0
+ cy=0
+ filehistory=0
+ filefilterindex=0
+ filefilter=
+ [mainfo.projectfiledia]
+ filecolwidth=174
+ x=0
+ y=0
+ cx=0
+ cy=0
+ [mainfo.openfile]
+ filenames=0
+ filecolwidth=0
+ x=0
+ y=0
+ cx=0
+ cy=0
+ filehistory=0
+ filefilterindex=0
+ filefilter=
  [mainfo.basedock]
  splitdir=2
  useroptions=268450944
@@ -961,7 +890,7 @@ windowlayout=569
  rcy=0
  wsize=0
  active=0
- visible=1
+ visible=0
  [threadsfo]
  splitdir=0
  useroptions=268451945
@@ -983,7 +912,7 @@ windowlayout=569
  [memoryfo]
  splitdir=0
  useroptions=268451963
- stackedunder=dialogfilesfo
+ stackedunder=cpuc86_64fo
  parent=
  mdistate=0
  nx=0
@@ -1010,7 +939,7 @@ windowlayout=569
  [disassfo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=findinfilefo
  parent=
  mdistate=0
  nx=0
@@ -1029,7 +958,7 @@ windowlayout=569
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=symbolfo
  parent=
  mdistate=0
  nx=0
@@ -1055,7 +984,7 @@ windowlayout=569
  x=0
  y=0
  cx=205
- cy=521
+ cy=501
  rcx=0
  rcy=0
  [projecttreefo.grid]
@@ -1067,7 +996,7 @@ windowlayout=569
  sorted=0
  col=1
  row=-1073741823
- rowheight=16
+ rowheight=17
  [stackfo]
  splitdir=0
  useroptions=268460137
@@ -1077,10 +1006,10 @@ windowlayout=569
  ny=0
  ncx=0
  ncy=0
- x=423
- y=321
- cx=344
- cy=155
+ x=0
+ y=0
+ cx=0
+ cy=0
  rcx=0
  rcy=0
  wsize=0
@@ -1147,7 +1076,7 @@ windowlayout=569
  [objectinspectorfo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=breakpointsfo
  parent=
  mdistate=0
  nx=0
@@ -1172,7 +1101,7 @@ windowlayout=569
  [symbolfo]
  splitdir=0
  useroptions=268451963
- stackedunder=
+ stackedunder=componentstorefo
  parent=
  mdistate=0
  nx=0
@@ -1268,15 +1197,15 @@ windowlayout=569
  ncx=0
  ncy=0
  x=0
- y=585
+ y=563
  cx=1356
- cy=105
+ cy=102
  rcx=0
  rcy=0
  [componentstorefo]
  splitdir=0
  useroptions=268460155
- stackedunder=
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1339,7 +1268,7 @@ windowlayout=569
  [componentpalettefo]
  splitdir=0
  useroptions=268460139
- stackedunder=
+ stackedunder=disassfo
  parent=
  mdistate=3
  nx=0
@@ -1359,7 +1288,7 @@ windowlayout=569
  activetab=0
  [debuggerfo]
  splitdir=0
- useroptions=24683
+ useroptions=268460139
  parent=mainfo.basedock
  visible=1
  mdistate=0
@@ -1370,61 +1299,12 @@ windowlayout=569
  x=0
  y=0
  cx=1356
- cy=58
+ cy=56
  rcx=0
  rcy=0
- [debuggerfo.basedock]
- splitdir=2
- useroptions=268582019
- parent=debuggerfo.container
- visible=1
- mdistate=0
- nx=0
- ny=0
- ncx=1356
- ncy=61
- x=0
- y=0
- cx=1356
- cy=61
- rcx=0
- rcy=0
- [debuggerfo.edit_options]
- value=1
- [debuggerfo.edit_compilernum]
- value=0
- [debuggerfo.edit_compiler]
- value=Pascal
- [debuggerfo.file_history]
- value=/home/fred/eschecs/source/eschecs.pas
- history=20
-  /home/fred/eschecs/source/eschecs.pas
-  /home/fred/eschecs/source/messagefrm.pas
-  /home/fred/eschecs/source/settings.pas
-  /home/fred/eschecs/source/engines.pas
-  /home/fred/eschecs_colorstatus/source/eschecs.pas
-  /home/fred/eschecs_colorstatus/source/eschecs.res
-  /home/fred/eschecs/source/board.pas
-  /home/fred/eschecs_prerel2/source/eschecs.pas
-  /home/fred/eschecs/source/version.inc
-  /home/fred/eschecs_prerel2/source/version.inc
-  /home/fred/eschecs_colorstatus/source/version.inc
-  /home/fred/ideu/src/main.pas
-  /home/fred/ideu/src/msefiledialog.pas
-  /home/fred/ideu/src/dialogfiles.pas
-  /home/fred/ideu/src/findinfileform.mfm
-  /home/fred/ideu/src/messageform.pas
-  /home/fred/eschecs/source/eco/eco.pas
-  /home/fred/eschecs_image/source/messagefrm.pas
-  /home/fred/eschecs_image/source/eco/eco.pas
-  /home/fred/eschecs_image/source/eschecs.pas
- [debuggerfo.project_options]
- value=1
- [debuggerfo.hints]
- value=1
  [sourcefo]
  splitdir=0
- useroptions=16489
+ useroptions=268451945
  parent=mainfo.panel1.container
  visible=1
  mdistate=0
@@ -1435,31 +1315,18 @@ windowlayout=569
  x=208
  y=0
  cx=1148
- cy=521
+ cy=501
  rcx=0
  rcy=0
- [sourcefo.files_tab]
- order=13
-  0
-  6
-  5
-  8
-  4
-  7
-  11
-  2
-  12
-  9
-  10
-  1
-  3
- firsttab=0
- index=0
+ [actionsmo.watchesonact]
+ checked=1
+ [actionsmo.bluedotsonact]
+ checked=1
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=targetconsolefo
+ stackedunder=componentpalettefo
  parent=
  mdistate=0
  nx=0
@@ -1486,9 +1353,9 @@ windowlayout=569
  ncx=0
  ncy=0
  x=0
- y=61
+ y=59
  cx=1356
- cy=521
+ cy=501
  rcx=0
  rcy=0
 [targetconsole]

@@ -1,0 +1,28 @@
+Here are the open source libraries used by uos:
+
+=> SoundTouch audio processing library.
+   Copyright (c) Olli Parviainen.
+   http://www.surina.net/soundtouch/
+
+=> PortAudio Cross-Platform Audio API.
+   Copyright (c) Ross Bencina and Phil Burk
+   http://www.portaudio.com/
+
+=> SndFile audio processing library.
+   Copyright (c) Erik de Castro Lopo <erikd@mega-nerd.com>
+   http://www.mega-nerd.com/libsndfile/
+
+=> Mpg123 audio processing library. 
+   Copyright (c) Thomas Orgis <thomas@orgis.org>
+   http://www.mpg123.de/
+
+=> Bs2b stereo to binaural library. 
+   Copyright (c) Boris Mikhaylov
+   http://bs2b.sourceforge.net/
+
+=> FAAD2 (AAC) audio processing library.
+   Copyright (C) M. Bakker, Nero AG. 
+   http://www.nero.com/
+
+=> Opus audio processing library.
+   http://opus-codec.org

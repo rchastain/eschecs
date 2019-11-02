@@ -45,14 +45,14 @@ type
     function GetMimeType: string; override;
     procedure AddLayerFromPhoxoData(const ABlockHeader: TPhoxoBlockHeader; ABlockData: PByte);
   public
-    constructor Create; override; overload;
-    constructor Create(AWidth, AHeight: integer); override; overload;
+    constructor Create; overload; override;
+    constructor Create(AWidth, AHeight: integer); overload; override;
     procedure LoadFromStream(AStream: TStream); override;
     procedure LoadFromFile(const filenameUTF8: string); override;
     procedure SaveToFile(const filenameUTF8: string); override;
     procedure SaveToStream(AStream: TStream); override;
-    class function CheckFormat(Stream: TStream; ARestorePosition: boolean): boolean;
-    class function ReadBlock(Stream: TStream; out AHeader: TPhoxoBlockHeader; out ABlockData: PByte): boolean;
+    class function CheckFormat(Stream: TStream; ARestorePosition: boolean): boolean; static;
+    class function ReadBlock(Stream: TStream; out AHeader: TPhoxoBlockHeader; out ABlockData: PByte): boolean; static;
     property DPIX: integer read FDPIX;
     property DPIY: integer read FDPIY;
   end;

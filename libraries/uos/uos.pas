@@ -74,7 +74,7 @@ uos_cdrom,
 Classes, ctypes, Math, sysutils;
 
 const
-  uos_version : cint32 = 2180813;
+  uos_version : cint32 = 2181218;
   
 {$IF DEFINED(bs2b)}
   BS2B_HIGH_CLEVEL = (CInt32(700)) or ((CInt32(30)) shl 16);
@@ -752,7 +752,6 @@ type
 // Channels : delault : -1 (2:stereo) (0: no channels, 1:mono, 2:stereo, ...)
 // FramesCount : default : -1 (= 1024 * 2) 
 
-
   function AddIntoMemoryStream(var MemoryStream: TMemoryStream; SampleRate: LongInt; 
        SampleFormat: LongInt ; Channels: LongInt; FramesCount: LongInt): LongInt;  
 // Add a Output into TMemoryStream
@@ -1329,6 +1328,7 @@ var
   uosDefaultDeviceIn: cint32 = -1;
   uosDefaultDeviceOut: cint32 = -1;
   uosInit: Tuos_Init = nil;
+  uosisactif : boolean = true;
 
  {$IF DEFINED(windows)}
   old8087cw: word;
@@ -1545,9 +1545,6 @@ begin
   f.Free;
 end;
 
-
-
-
 function WriteWaveFromMem(FileName: UTF8String; Data: Tuos_FileBuffer): word;
 var
   f: TFileStream;
@@ -1622,6 +1619,7 @@ begin
   Data.data.Free;
 end;
 
+{$IF DEFINED(portaudio) or DEFINED(sndfile)}
 function mpg_read_stream(ahandle: Pointer; AData: Pointer; ACount: Integer): Integer; cdecl;
 var
   Stream: TStream absolute ahandle;
@@ -1647,6 +1645,12 @@ begin
  end; 
 end; 
 
+procedure mpg_close_stream(ahandle: Pointer);// not used, uos does it...
+begin
+  TObject(ahandle).Free;
+end;
+{$endif}
+
 {$IF DEFINED(webstream)}
 // should use this for pipes vs memorystream ?
 function mpg_seek_url(ahandle: Pointer; aoffset: Integer): Integer; cdecl; 
@@ -1663,11 +1667,6 @@ begin
   end;
 end;
 {$endif}
-
-procedure mpg_close_stream(ahandle: Pointer);// not used, uos does it...
-begin
-  TObject(ahandle).Free;
-end;
 
 function Filetobuffer(Filename: Pchar; OutputIndex: cint32;
   SampleFormat: cint32 ; FramesCount: cint32; var outmemory: TDArFloat;
@@ -2637,8 +2636,8 @@ begin
   4://  DSPFFTLowPass
   begin
   StreamIn[InputIndex].DSP[FilterIndex].fftdata.C :=
-  1 / Tan(Pi * (HighFrequency - LowFrequency + 1) /
-  StreamIn[InputIndex].Data.SampleRate);
+  1 / Tan(Pi * HighFrequency / StreamIn[InputIndex].Data.SampleRate);
+  
   StreamIn[InputIndex].DSP[FilterIndex].fftdata.a3[0] :=
   1 / (1 + Sqrt(2) * StreamIn[InputIndex].DSP[FilterIndex].fftdata.C +
   StreamIn[InputIndex].DSP[FilterIndex].fftdata.C *
@@ -2660,9 +2659,9 @@ begin
 
   5://  DSPFFTHighPass
   begin
-  StreamIn[InputIndex].DSP[FilterIndex].fftdata.C :=
-  Tan(Pi * (HighFrequency - LowFrequency + 1) /
-  StreamIn[InputIndex].Data.SampleRate);
+   StreamIn[InputIndex].DSP[FilterIndex].fftdata.C :=
+   Tan(Pi * LowFrequency / StreamIn[InputIndex].Data.SampleRate);
+  
   StreamIn[InputIndex].DSP[FilterIndex].fftdata.a3[0] :=
   1 / (1 + Sqrt(2) * StreamIn[InputIndex].DSP[FilterIndex].fftdata.C +
   StreamIn[InputIndex].DSP[FilterIndex].fftdata.C *
@@ -5652,13 +5651,14 @@ function Tuos_Player.AddFromFileIntoMemory(Filename: Pchar; OutputIndex: cint32;
   end else  result := -2;  
    
   end; 
-  
-  function m_get_filelen(pms: PMemoryStream): tsf_count_t; cdecl; 
+
+{$IF DEFINED(portaudio) or DEFINED(sndfile)}  
+  function m_get_filelen(pms: PMemoryStream): tuos_count_t; cdecl; 
 begin
  Result:= pms^.Size;
 end;
  
-function m_seek(offset: tsf_count_t; whence: cint32; pms: PMemoryStream): tsf_count_t; cdecl; 
+function m_seek(offset: tuos_count_t; whence: cint32; pms: PMemoryStream): tuos_count_t; cdecl; 
 Const
  SEEK_SET = 0;
  SEEK_CUR = 1;
@@ -5673,21 +5673,22 @@ Result:= 0 ;
 
 end;
  
-function m_read(const buf: Pointer; count: Tsf_count_t; pms: PMemoryStream): Tsf_count_t; cdecl; 
+function m_read(const buf: Pointer; count: Tuos_count_t; pms: PMemoryStream): Tuos_count_t; cdecl; 
 
 begin
 Result := pms^.Read(buf^,count);
 end;
  
-function m_write(const buf: Pointer; count: Tsf_count_t; pms: PMemoryStream): Tsf_count_t; cdecl; 
+function m_write(const buf: Pointer; count: Tuos_count_t; pms: PMemoryStream): Tuos_count_t; cdecl; 
 begin
  Result:= pms^.Write(buf^,count);
 end;
  
-function m_tell(pms: PMemoryStream): Tsf_count_t; cdecl; 
+function m_tell(pms: PMemoryStream): Tuos_count_t; cdecl; 
 begin
  Result:= pms^.Position;
 end;
+{$endif}
 
 function Tuos_Player.AddFromMemoryStreamDec(var MemoryStream: TMemoryStream; var Bufferinfos: Tuos_bufferinfos;
  OutputIndex: cint32; FramesCount: cint32): cint32;
@@ -8541,14 +8542,14 @@ begin
 
  repeat
 
-   DoLoopBeginMethods;
+  if uosisactif then DoLoopBeginMethods else nofree := false;
  
    CheckIfPaused ;// is there a pause waiting ?
 // Dealing with input
   for x := 0 to high(StreamIn) do
   begin
  
-  if StreamIn[x].data.hasfilters then
+  if (StreamIn[x].data.hasfilters) and uosisactif then
   begin
   setlength(StreamIn[x].Data.levelfiltersar,StreamIn[x].Data.nbfilters * StreamIn[x].Data.channels );
   StreamIn[x].Data.incfilters := 0;
@@ -8569,7 +8570,7 @@ begin
   {$IF DEFINED(debug) and DEFINED(unix)}
    WriteLn('Before StreamIn[x].Data.Seekable = True');
   {$endif}
-  if (StreamIn[x].Data.Poseek > -1) and (StreamIn[x].Data.Seekable = True) then
+  if (StreamIn[x].Data.Poseek > -1) and (StreamIn[x].Data.Seekable = True) and uosisactif then
   begin// there is a seek waiting
 
   DoSeek(x);
@@ -8590,8 +8591,9 @@ begin
   writeln('DSPin BeforeBufProc 2');
   {$endif}   
 
+ if uosisactif then
+  begin
   CheckIfPaused ;// is there a pause waiting ?
-   
   case StreamIn[x].Data.TypePut of
  
   0:// It is a input from audio file.
@@ -8622,6 +8624,8 @@ begin
   ReadMemDec(x);
 
   end;//case StreamIn[x].Data.TypePut of
+  
+  end else StreamIn[x].Data.OutFrames := 0;
   
   if StreamIn[x].Data.OutFrames = 0 then StreamIn[x].Data.status := 0;
 
@@ -8723,7 +8727,7 @@ begin
   writeln('Give Buffer to Output');
   {$endif}
  
-  for x := 0 to high(StreamOut) do
+  if uosisactif then for x := 0 to high(StreamOut) do
 
   if (StreamOut[x].Data.Enabled = True)
   then
@@ -8787,7 +8791,7 @@ begin
   {$endif}
  
 // DSPOut AfterBuffProc
-  if (length(StreamOut[x].DSP) > 0) then
+  if (length(StreamOut[x].DSP) > 0) and uosisactif then
 
   DoDSPOutAfterBufProc(x) ;
 
@@ -8806,10 +8810,13 @@ begin
   end;
 //
  
+ if uosisactif then begin
   if plugenabled = True then
   WriteOutPlug(x, x2)
   else// No plugin
   WriteOut(x, x2);
+  end;
+  
   end;
   end;
  
@@ -8817,7 +8824,7 @@ begin
    WriteLn('Before LoopEndProc ------------------------------');
   {$endif}
 
-  DoLoopEndMethods;
+ if uosisactif then DoLoopEndMethods;
 
   if length(StreamIn) > 1 then// clear buffer for multi-input
   for x2 := 0 to high(StreamIn) do
@@ -8858,9 +8865,9 @@ begin
  writeln('EndProc---');
  {$endif}
 
-  DoEndProc;
+ if uosisactif then  DoEndProc;
 
- if EndProcOnly <> nil then EndProcOnly;
+if uosisactif then if EndProcOnly <> nil then EndProcOnly;
          
   isAssigned := false ;
   

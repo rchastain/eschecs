@@ -3,11 +3,10 @@ unit Connect;
 
 interface
 
-function CreateConnectedProcess(aProcessName: string): boolean;
+function CreateConnectedProcess(AProcessName: string): boolean;
 procedure FreeConnectedProcess;
 function ReadProcessOutput: string;
-function ReadProcessError: string;
-procedure WriteProcessInput(const aStr: string);
+procedure WriteProcessInput(const AStr: string);
 
 implementation
 
@@ -15,70 +14,66 @@ uses
   SysUtils, Classes, Process;
 
 var
-  vProcess: TProcess;
+  LProcess: TProcess;
 
 function ReadProcessOutput: string;
 var
   NoMoreOutput: boolean;
 
-  procedure DoStuffForProcess(aProcess: TProcess);
+  procedure DoStuffForProcess(AProcess: TProcess);
   var
     Buffer: string;
     BytesAvailable: DWord;
     BytesRead: LongInt;
   begin
-    if aProcess.Running then
+    if AProcess.Running then
     begin
-      BytesAvailable := aProcess.Output.NumBytesAvailable;
+      BytesAvailable := AProcess.Output.NumBytesAvailable;
       BytesRead := 0;
       while BytesAvailable > 0 do
       begin
         SetLength(Buffer, BytesAvailable);
-        BytesRead := aProcess.Output.Read(Buffer[1], BytesAvailable);
+        BytesRead := AProcess.Output.Read(Buffer[1], BytesAvailable);
         result := result + Copy(Buffer, 1, BytesRead);
-        BytesAvailable := aProcess.Output.NumBytesAvailable;
+        BytesAvailable := AProcess.Output.NumBytesAvailable;
         NoMoreOutput := FALSE;
       end;
     end;
   end;
+  
 begin
   result := '';
   repeat
     NoMoreOutput := TRUE;
-    DoStuffForProcess(vProcess);
+    DoStuffForProcess(LProcess);
   until NoMoreOutput;
 end;
 
-function ReadProcessError: string;
-begin
-  result := '';
-end;
-
-function CreateConnectedProcess(aProcessName: string): boolean;
+function CreateConnectedProcess(AProcessName: string): boolean;
 begin
   result := FALSE;
-  vProcess := TProcess.Create(nil);
-  vProcess.Options := [poUsePipes, poStdErrToOutput, poNoConsole];
-  vProcess.Executable := aProcessName;
-  vProcess.Execute;
+  LProcess := TProcess.Create(nil);
+  LProcess.Options := [poUsePipes, poStdErrToOutput, poNoConsole];
+  LProcess.Executable := AProcessName;
+  LProcess.Execute;
   result := TRUE;
 end;
 
 procedure FreeConnectedProcess;
 begin
-  if vProcess.Running then
-    vProcess.Terminate(0);
-  vProcess.Free;
+  if LProcess.Running then
+    LProcess.Terminate(0);
+  LProcess.Free;
 end;
 
-procedure WriteProcessInput(const aStr: string);
+procedure WriteProcessInput(const AStr: string);
 var
   s: string;
 begin
-  if vProcess.Running then
+  if LProcess.Running then
   begin
-    s := aStr + #10;
-    vProcess.Input.Write(s[1], Length(s));
+    s := AStr + #10;
+    LProcess.Input.Write(s[1], Length(s));
   end;
 end;
 

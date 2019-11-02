@@ -18,8 +18,8 @@ type
   private
     FFileName: utf8string;
   public
-    constructor Create(const AFileName: utf8string; Mode: Word);
-    constructor Create(const AFileName: utf8string; Mode: Word; Rights: Cardinal);
+    constructor Create(const AFileName: utf8string; Mode: Word); overload;
+    constructor Create(const AFileName: utf8string; Mode: Word; Rights: Cardinal); overload;
     destructor Destroy; override;
     property FileName: utf8string Read FFilename;
   end;
@@ -59,8 +59,8 @@ type
   string4 = string[4];
 
 function UTF8CharacterLength(p: PChar): integer;
-function UTF8Length(const s: string): PtrInt;
-function UTF8Length(p: PChar; ByteCount: PtrInt): PtrInt;
+function UTF8Length(const s: string): PtrInt; overload;
+function UTF8Length(p: PChar; ByteCount: PtrInt): PtrInt; overload;
 function UnicodeCharToUTF8(u: cardinal): string4;
 function UTF8ReverseString(const s: string): string;
 function UTF8CodepointToUnicode(p: PChar; ACodePointLen: integer): cardinal;
@@ -563,6 +563,8 @@ begin
     u := UTF8CodepointToUnicode(p, charLen);
     case u of
       UNICODE_POP_DIRECTIONAL_ISOLATE: if isolateNesting > 0 then dec(isolateNesting);
+      UNICODE_LEFT_TO_RIGHT_OVERRIDE: exit(ubcLeftToRight);
+      UNICODE_RIGHT_TO_LEFT_OVERRIDE: exit(ubcRightToLeft);
     end;
     curBidi := GetUnicodeBidiClass(u);
     if isolateNesting = 0 then

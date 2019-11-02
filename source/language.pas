@@ -4,8 +4,7 @@ unit language;
 interface
 
 uses
-  SysUtils,
-  Style;
+  SysUtils;
   
 type
   TText = (
@@ -18,6 +17,7 @@ type
     txAutoPlay,
     txBoard,
     txNew,
+    txNew960,
     txFlip,
     txOptions,
     txColoring,
@@ -36,7 +36,6 @@ type
 
     txAboutMessage,
     txIllegalMove,
-    txChangeSaved,
         
     txWhiteToMove,
     txBlackToMove,
@@ -50,22 +49,20 @@ type
     txWaiting,
     txUciOk,
     txConnectionFailure
-   );
+  );
   
   TLanguage = (lgDutch, lgEnglish, lgFrench, lgGerman, lgSpanish);
 
-function GetText(const aText: TText): string;
-function GetStyleName(const aStyle: TStyle): string;
-function GetLanguageName(const aLanguage: TLanguage): string;
+function GetText(const AText: TText): string;
 
 var
-  gLanguage: TLanguage;
+  LLang: TLanguage;
   
 implementation
 
 const
-  TEXTS: array[TLanguage, TText] of string = ((
-    // lgDutch
+  CText: array[TLanguage, TText] of string = ((
+    (* lgDutch *)
     'Eschecs', // txEschecs
     'Redden', // txSave
     'Verlaten', // txQuit
@@ -75,6 +72,7 @@ const
     'Automatisch antwoord', // txAutoPlay
     'Schaakbord', // txBoard
     'Nieuwe partij', // txNewGame
+    'Nieuwe partij schaak 960', // txNew960
     'Het schaakbord draaien', // txFlip
     'Opties', // txOptions
     'Kleur van het schaakbord', // txColoring
@@ -91,9 +89,8 @@ const
     'Volume', // txVolume
     'Actief', // txEnabled
 
-    'Schaakspel in Pascal geschreven door Roland Chastain.', // txAbout
+    'Schaakspel in Pascal geschreven door Roland Chastain', // txAbout
     'Illegale beweging.', // txIllegalMove
-    'The change will be effective at the next launch of the application.', // txChangeSaved
 
     'Wit aan zet.', // txWhiteToMove
     'Zwart aan zet.', // txBlackToMove
@@ -108,7 +105,7 @@ const
     'UCI protocol aanvaard.'#10'Schaakengine: %s'#10'Schepper: %s', // txUciOk
     'Kan niet verbinden met de engine.' // txConnectionFailure
   ), (
-    // lgEnglish
+    (* lgEnglish *)
     'Eschecs', // txEschecs
     'Save', // txSave
     'Quit', // txQuit
@@ -118,6 +115,7 @@ const
     'Autoplay', // txAutoPlay
     'Board', // txBoard
     'New game', // txNewGame
+    'New chess 960 game', // txNew960
     'Flip board', // txFlip
     'Options', // txOptions
     'Square coloring', // txColoring
@@ -134,9 +132,8 @@ const
     'Volume', // txVolume
     'Enabled', // txEnabled
 
-    'Pascal chess program by Roland Chastain.', // txAbout
+    'Pascal chess program by Roland Chastain', // txAbout
     'Illegal move.', // txIllegalMove
-    'The change will be effective at the next launch of the application.', // txChangeSaved
 
     'White to move.', // txWhiteToMove
     'Black to move.', // txBlackToMove
@@ -151,7 +148,7 @@ const
     'UCI protocol accepted.'#10'Engine name: %s'#10'Author: %s', // txUciOk
     'Cannot connect to the engine.' // txConnectionFailure
   ), (
-    // lgFrench
+    (* lgFrench *)
     'Eschecs', // txEschecs
     'Sauver', // txSave
     'Quitter', // txQuit
@@ -161,6 +158,7 @@ const
     'Réponse automatique', // txAutoPlay
     'Échiquier', // txBoard
     'Nouvelle partie', // txNewGame
+    'Nouvelle partie d''échecs 960', // txNew960
     'Tourner l''échiquier', // txFlip
     'Options', // txOptions
     'Coloriage des cases', // txColoring
@@ -177,9 +175,8 @@ const
     'Volume ', // txVolume
     'Activé', // txEnabled
 
-    'Programme d''échecs en Pascal par Roland Chastain.', // txAbout
+    'Programme d''échecs en Pascal par Roland Chastain', // txAbout
     'Coup illégal.', // txIllegalMove
-    'La modification sera effective au prochain lancement de l''application.', // txChangeSaved
     
     'Blancs au trait.', // txWhiteToMove
     'Noirs au trait.', // txBlackToMove
@@ -194,7 +191,7 @@ const
     'Protocole UCI accepté.'#10'Nom du moteur : %s'#10'Auteur : %s', // txUciOk
     'Impossible d''établir une connexion avec le moteur.' // txConnectionFailure
   ), (
-    // lgGerman
+    (* lgGerman *)
     'Eschecs', // txEschecs
     'Speichern', // txSave
     'Ende', // txQuit
@@ -204,6 +201,7 @@ const
     'Autoantwort', // txAutoPlay
     'Brett', // txBoard
     'Neue Partie', // txNewGame
+    'Neue Partie Schach 960', // txNew960
     'Drehen', // txFlip
     'Optionen', // txOptions
     'Färbung des Schachbretts', // txColoring
@@ -220,9 +218,8 @@ const
     'Volume', // txVolume
     'Enabled', // txEnabled
   
-    'Pascal Schachprogramm von Roland Chastain.', // txAbout
+    'Pascal Schachprogramm von Roland Chastain', // txAbout
     'Ungültiger Zug.', // txIllegalMove
-    'The change will be effective at the next launch of the application.', // txChangeSaved
     
     'Weiß am Zug.', // txWhiteToMove
     'Schwarz am Zug.', // txBlackToMove
@@ -237,7 +234,7 @@ const
     'UCI Protokoll akzeptiert.'#10'Engine Name: %s'#10'Programmierer: %s', // txUciOk
     'Verbindung mit Engine nicht möglich.' // txConnectionFailure
   ), (
-    // lgSpanish
+    (* lgSpanish *)
     'Eschecs', // txEschecs
     'Guardar', // txSave
     'Salir', // txQuit
@@ -247,6 +244,7 @@ const
     'Partida automática', // txAutoPlay
     'Tablero', // txBoard
     'Nuevo juego', // txNewGame
+    'Nuevo juego ajedrez 960', // txNew960
     'Invertir el tablero', // txFlip
     'Opciones', // txOptions
     'Colorear el tablero de ajedrez', // txColoring
@@ -263,9 +261,8 @@ const
     'Volumen', //txVolume
     'Activo',//txEnabled
 
-    'Programa de Ajedrez en Pascal por Roland Chastain.', // txAbout
+    'Programa de Ajedrez en Pascal por Roland Chastain', // txAbout
     'Movimiento ilegal.', // txIllegalMove
-    'The change will be effective at the next launch of the application.', // txChangeSaved
     
     'Blancas mueven.', // txWhiteToMove
     'Negras mueven.', // txBlackToMove
@@ -280,70 +277,10 @@ const
     'Protocolo UCI aceptado.'#10'Nombre del motor: %s'#10'Autor: %s', // txUciOk
     'No pudo conectarse al motor.' // txConnectionFailure
   ));
-  
-  STYLENAME: array[TLanguage, TStyle] of string = ((
-    // lgDutch
-    'Schaakbord 240 Mini',
-    'Schaakbord 320 Origineel',
-    'Schaakbord 480 Eenvoudig',
-    'Schaakbord 480 Marmer',
-    'Schaakbord 480 Nieuw',
-    'Schaakbord 640 Hout'
-  ), (
-    // lgEnglish
-    'Chessboard 240 Mini',
-    'Chessboard 320 Original',
-    'Chessboard 480 Simple',
-    'Chessboard 480 Marble',
-    'Chessboard 480 New',
-    'Chessboard 640 Wood'
-  ), (
-    // lgFrench
-    'Échiquier 240 Mini',
-    'Échiquier 320 Original',
-    'Échiquier 480 Simple',
-    'Échiquier 480 Marbre',
-    'Échiquier 480 Nouveau',
-    'Échiquier 640 Bois'
-  ), (
-    // lgGerman
-    'Schachbrett 240 Mini',
-    'Schachbrett 320 Original',
-    'Schachbrett 480 Einfach',
-    'Schachbrett 480 Marmor',
-    'Schachbrett 480 Neu',
-    'Schachbrett 640 Holz'
-  ), (
-    // lgSpanish
-    'Tablero 240 Mini',
-    'Tablero 320 Original',
-    'Tablero 480 Sencillo',
-    'Tablero 480 Mármol',
-    'Tablero 480 Nuevo',
-    'Tablero 640 Madera'
-  ));
 
-function GetText(const aText: TText): string;
+function GetText(const AText: TText): string;
 begin
-  result := TEXTS[gLanguage, aText];
-end;
-
-function GetStyleName(const aStyle: TStyle): string;
-begin
-  result := STYLENAME[gLanguage, aStyle];
-end;
-
-function GetLanguageName(const aLanguage: TLanguage): string;
-const
-  S: array[TLanguage] of string = (
-    'Dutch',
-    'English',
-    'French',
-    'German',
-    'Spanish'
-  );
-begin
-  result := S[aLanguage];
+  result := CText[LLang, AText];
 end;
 
 end.

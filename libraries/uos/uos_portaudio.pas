@@ -19,10 +19,14 @@ uses
 const
 libpa=
  {$IFDEF unix}
- 'libportaudio.so.2';
+{$IFDEF darwin}
+ 'libportaudio.2.dylib';
   {$ELSE}
+ 'libportaudio.so.2';
+  {$ENDIF}    
+   {$ELSE}
  'portaudio.dll';
-  {$ENDIF}  
+  {$ENDIF} 
 
 type
   PaError = CInt32;

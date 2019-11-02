@@ -1,5 +1,5 @@
 
-unit movelist;
+unit MoveList;
 
 {$H+}
 {$ASSERTIONS ON}
@@ -16,9 +16,9 @@ type
   public
     constructor Create(const ALine: string);
     destructor Destroy; override;
-    function GetCount(): integer;
-    procedure Append(const aMove: string); overload;
-    procedure Append(const aMove: string; const aPreserve: integer); overload;
+    function GetCount: integer;
+    procedure Append(const AMove: string); overload;
+    procedure Append(const AMove: string; const APreserve: integer); overload;
     procedure Clear;
     function GetString(const AMoveCount: integer = MAXINT): string;
   end;
@@ -59,23 +59,23 @@ begin
   Clear;
 end;
 
-function TMoveList.GetCount(): integer;
+function TMoveList.GetCount: integer;
 begin
   result := Length(FArray);
 end;
 
-procedure TMoveList.Append(const aMove: string);
+procedure TMoveList.Append(const AMove: string);
 begin
   SetLength(FArray, Succ(Length(FArray)));
-  FArray[High(FArray)] := aMove;
+  FArray[High(FArray)] := AMove;
 end;
 
-procedure TMoveList.Append(const aMove: string; const aPreserve: integer);
+procedure TMoveList.Append(const AMove: string; const APreserve: integer);
 begin
-  Assert(aPreserve <= GetCount());
-  if aPreserve < GetCount() then
-    SetLength(FArray, aPreserve);
-  Append(aMove);
+  Assert(APreserve <= GetCount);
+  if APreserve < GetCount then
+    SetLength(FArray, APreserve);
+  Append(AMove);
 end;
 
 procedure TMoveList.Clear;
@@ -88,7 +88,7 @@ var
   i, j: integer;
 begin
   result := '';
-  j := GetCount();
+  j := GetCount;
   if AMoveCount < j then
     j := AMoveCount;
   for i := 0 to Pred(j) do
@@ -97,40 +97,40 @@ end;
 
 procedure TMoveList.FillArray(const ALine: string);
 var
-  vCharIndex, vMoveCount: integer;
+  LCharIndex, LMoveCount: integer;
   
   procedure Cut(const ALength: integer);
   const
-    INCREMENT = 100;
+    CInc = 100;
   begin
-    Inc(vMoveCount);
-    if Length(FArray) < vMoveCount then SetLength(FArray, Length(FArray) + INCREMENT);
-    FArray[Pred(vMoveCount)] := Copy(ALine, vCharIndex, ALength);
-    Inc(vCharIndex, ALength);
+    Inc(LMoveCount);
+    if Length(FArray) < LMoveCount then SetLength(FArray, Length(FArray) + CInc);
+    FArray[Pred(LMoveCount)] := Copy(ALine, LCharIndex, ALength);
+    Inc(LCharIndex, ALength);
   end;
   
 begin
-  vCharIndex := 1;
-  vMoveCount := 0;
-  while vCharIndex <= Length(ALine) - 3 do
+  LCharIndex := 1;
+  LMoveCount := 0;
+  while LCharIndex <= Length(ALine) - 3 do
   begin
-    if  (ALine[vCharIndex + 0] in ['a'..'h'])
-    and (ALine[vCharIndex + 1] in ['1'..'8'])
-    and (ALine[vCharIndex + 2] in ['a'..'h'])
-    and (ALine[vCharIndex + 3] in ['1'..'8']) then
+    if  (ALine[LCharIndex + 0] in ['a'..'h'])
+    and (ALine[LCharIndex + 1] in ['1'..'8'])
+    and (ALine[LCharIndex + 2] in ['a'..'h'])
+    and (ALine[LCharIndex + 3] in ['1'..'8']) then
     begin
-      if vCharIndex = Length(ALine) - 3 then
+      if LCharIndex = Length(ALine) - 3 then
         Cut(4)
-      else if (vCharIndex = Length(ALine) - 4) then
+      else if (LCharIndex = Length(ALine) - 4) then
         Cut(5)
-      else if (ALine[vCharIndex + 4] in ['n', 'b', 'r', 'q']) and (ALine[vCharIndex + 5] in ['a'..'h']) then
+      else if (ALine[LCharIndex + 4] in ['n', 'b', 'r', 'q']) and (ALine[LCharIndex + 5] in ['a'..'h']) then
         Cut(5)
       else
         Cut(4);
     end else
       Break;
   end;
-  SetLength(FArray, vMoveCount);
+  SetLength(FArray, LMoveCount);
 end;
 
 end.

@@ -29,7 +29,6 @@ type
     function GetCompressedSize: int64;
     function GetIsDirectory: boolean;
     procedure SetIsCompressed(AValue: boolean);
-    constructor Create(AContainer: TMultiFileContainer; AFilename: TEntryFilename; AStream: TStream; AOwnStream: boolean; AUncompressedSize: int64; AFlags: Word);
     procedure LoadExtraFromEmbeddedStream(ADataStream: TStream; AStartPos: int64);
     procedure SaveToEmbeddedStream(AEntryStream, ADataStream: TStream; AStartPos: int64; out uncompressedSize: int64);
   protected
@@ -45,8 +44,9 @@ type
     function InternalCopyTo({%H-}ADestination: TStream): int64;
   public
     function CopyTo({%H-}ADestination: TStream): int64; override;
-    constructor Create(AContainer: TMultiFileContainer; AFilename: TEntryFilename; AUncompressedStream: TStream; AOwnStream: boolean);
+    constructor Create(AContainer: TMultiFileContainer; AFilename: TEntryFilename; AUncompressedStream: TStream; AOwnStream: boolean); overload;
     constructor CreateDirectory(AContainer: TMultiFileContainer; AFilename: TEntryFilename);
+    constructor CreateFromData(AContainer: TMultiFileContainer; AFilename: TEntryFilename; AStream: TStream; AOwnStream: boolean; AUncompressedSize: int64; AFlags: Word);
     destructor Destroy; override;
     property EmbeddedStreamPos: int64 read FEmbeddedStreamPos write FEmbeddedStreamPos;
     property IsCompressed: boolean read GetIsCompressed write SetIsCompressed;
@@ -68,14 +68,17 @@ type
     function SplitPath(APath: utf8string): TMemDirectoryPath;
   public
     constructor Create(AParentDirectory: TMemDirectory = nil);
+    function Equals(Obj: TObject): boolean; override;
     procedure LoadFromStream(AStream: TStream); override;
-    class function CheckHeader(AStream: TStream): boolean;
+    class function CheckHeader(AStream: TStream): boolean; static;
     procedure LoadFromEmbeddedStream(ARootStream, ADataStream: TStream; AStartPos: int64);
     procedure SaveToStream(ADestination: TStream); override;
     procedure SaveToEmbeddedStream(ARootDest, ADataDest: TStream; AStartPos: int64);
     function AddDirectory(AName: utf8string; AExtension: utf8string= ''; ACaseSensitive: boolean= true): integer;
+    function Rename(AName: utf8string; AExtension: utf8string; ANewName: utf8string; ACaseSensitive: boolean= true): boolean;
     function FindPath(APath: utf8String; ACaseSensitive: boolean = true): TMemDirectory;
     function FindEntry(APath: utf8String; ACaseSensitive: boolean = true): TMemDirectoryEntry;
+    procedure CopyTo(ADest: TMemDirectory; ARecursive: boolean);
     property IsEntryCompressed[AIndex: integer]: boolean read GetEntryCompressed write SetEntryCompressed;
     property Directory[AIndex: integer]: TMemDirectory read GetDirectory;
     property IsDirectory[AIndex: integer]: boolean read GetIsDirectory;
@@ -202,7 +205,7 @@ begin
     try
       if compressedSize <> 0 then
         entryData.CopyFrom(ADataStream, compressedSize);
-      newEntry := TMemDirectoryEntry.Create(self, EntryFilename(filename), entryData, true,
+      newEntry := TMemDirectoryEntry.CreateFromData(self, EntryFilename(filename), entryData, true,
                   uncompressedSize, entryRec.Flags);
       newEntry.LoadExtraFromEmbeddedStream(ADataStream, AStartPos);
       AddEntry(newEntry);
@@ -317,6 +320,23 @@ begin
   result := AddEntry(newEntry);
 end;
 
+function TMemDirectory.Rename(AName: utf8string; AExtension: utf8string;
+  ANewName: utf8string; ACaseSensitive: boolean): boolean;
+var
+  idx, i: Integer;
+begin
+  idx := IndexOf(AName, AExtension, ACaseSensitive);
+  if idx = -1 then exit(false);
+  for i := 0 to Count-1 do
+  if i <> idx then
+  begin
+    if Entry[i].CompareNameAndExtension(ANewName,AExtension,ACaseSensitive) = 0 then
+      raise exception.Create('Name with extension already in use');
+  end;
+  Entry[idx].Name := ANewName;
+  exit(true);
+end;
+
 function TMemDirectory.FindPath(APath: utf8String; ACaseSensitive: boolean): TMemDirectory;
 var
   path: TMemDirectoryPath;
@@ -391,6 +411,24 @@ begin
   path.Free;
 end;
 
+procedure TMemDirectory.CopyTo(ADest: TMemDirectory; ARecursive: boolean);
+var
+  i, idxDir: Integer;
+  entryContent: TMemoryStream;
+begin
+  for i := 0 to Count-1 do
+    if IsDirectory[i] and ARecursive then
+    begin
+      idxDir := ADest.AddDirectory(Entry[i].Name,Entry[i].Extension);
+      Directory[i].CopyTo(ADest.Directory[idxDir], true);
+    end else
+    begin
+      entryContent := TMemoryStream.Create;
+      Entry[i].CopyTo(entryContent);
+      ADest.Add(Entry[i].Name,Entry[i].Extension,entryContent,false,true);
+    end;
+end;
+
 function TMemDirectory.SplitPath(APath: utf8string): TMemDirectoryPath;
 var idx,idxSlash: integer;
 begin
@@ -414,6 +452,42 @@ constructor TMemDirectory.Create(AParentDirectory: TMemDirectory);
 begin
   inherited Create;
   FParentDirectory := AParentDirectory;
+end;
+
+function TMemDirectory.Equals(Obj: TObject): boolean;
+var
+  other: TMemDirectory;
+  i, j: Integer;
+  data,otherData: TMemoryStream;
+  different: Boolean;
+begin
+  if Obj = self then exit(true);
+  if not (Obj is TMemDirectory) then exit(false);
+  other := TMemDirectory(Obj);
+  if other.Count <> Count then exit(false);
+  for i := 0 to Count-1 do
+  begin
+    j := other.IndexOf(Entry[i].Name,Entry[i].Extension,true);
+    if j = -1 then exit(false);
+    if IsDirectory[i] then
+    begin
+      if not other.IsDirectory[j] then exit(false);
+      if not other.Directory[j].Equals(Directory[i]) then exit(false);
+    end else
+    if Entry[i].FileSize <> other.Entry[j].FileSize then exit(false)
+    else
+    begin
+      data := TMemoryStream.Create;
+      otherData := TMemoryStream.Create;
+      Entry[i].CopyTo(data);
+      other.Entry[j].CopyTo(otherData);
+      different := not CompareMem(data.Memory, otherData.Memory, data.Size);
+      data.Free;
+      otherData.Free;
+      if different then exit(false);
+    end;
+  end;
+  result := true;
 end;
 
 { TMemDirectoryEntry }
@@ -531,11 +605,10 @@ end;
 constructor TMemDirectoryEntry.Create(AContainer: TMultiFileContainer; AFilename: TEntryFilename;
   AUncompressedStream: TStream; AOwnStream: boolean);
 begin
-  inherited Create(AContainer);
-  Create(AContainer, AFilename, AUncompressedStream, AOwnStream, AUncompressedStream.Size, 0);
+  CreateFromData(AContainer, AFilename, AUncompressedStream, AOwnStream, AUncompressedStream.Size, 0);
 end;
 
-constructor TMemDirectoryEntry.Create(AContainer: TMultiFileContainer; AFilename: TEntryFilename;
+constructor TMemDirectoryEntry.CreateFromData(AContainer: TMultiFileContainer; AFilename: TEntryFilename;
   AStream: TStream; AOwnStream: boolean;
   AUncompressedSize: int64; AFlags: Word);
 begin
@@ -599,6 +672,7 @@ begin
   FStream := nil;
   FUncompressedSize:= 0;
   FFlags := MemDirectoryEntry_FlagDirectory;
+  FContainer := AContainer;
   FMemDirectory := TMemDirectory.Create(Container as TMemDirectory);
 end;
 

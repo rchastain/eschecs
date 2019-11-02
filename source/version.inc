@@ -1,26 +1,25 @@
 
 const
-  VERSION = '4.0.0';
-  DEFAULT_TITLE = 'Eschecs'; 
-
- {$if defined(cpu64) and defined(windows)}
-  OSTYPE = 'win64';
- {$ENDIF}
- {$if defined(cpu86) and defined(windows)}
-  OSTYPE = 'win32';
- {$ENDIF}
- {$if defined(cpu64) and defined(linux)}
-  OSTYPE = 'lin64';
- {$ENDIF}
- {$if defined(cpu86) and defined(linux)}
-  OSTYPE = 'lin32';
-  {$ENDIF}
- {$if defined(cpuarm) and defined(linux)}
-  OSTYPE = 'arm32';
- {$ENDIF}
- {$if defined(cpu64) and defined(freebsd)}
- OSTYPE = 'bsd64';
- {$ENDIF}
- {$if defined(cpu86) and defined(freebsd)}
- OSTYPE = 'bsd32';
- {$ENDIF}
+  CVersion = '5.0.0';
+  CDefaultTitle = 'Eschecs'; 
+{$if defined(cpu64) and defined(windows)}
+  COsType = 'win64';
+{$ENDIF}
+{$if defined(cpu86) and defined(windows)}
+  COsType = 'win32';
+{$ENDIF}
+{$if defined(cpu64) and defined(linux)}
+  COsType = 'lin64';
+{$ENDIF}
+{$if defined(cpu86) and defined(linux)}
+  COsType = 'lin32';
+{$ENDIF}
+{$if defined(cpuarm) and defined(linux)}
+  COsType = 'arm32';
+{$ENDIF}
+{$if defined(cpu64) and defined(freebsd)}
+  COsType = 'bsd64';
+{$ENDIF}
+{$if defined(cpu86) and defined(freebsd)}
+  COsType = 'bsd32';
+{$ENDIF}
