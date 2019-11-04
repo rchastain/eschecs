@@ -2615,8 +2615,10 @@ end;
 
 procedure TfpgGDICanvas.DoDrawImagePart(x, y: TfpgCoord; img: TfpgImageBase; xi, yi, w, h: integer);
 const
-  DSTCOPY     = $00AA0029;
-  ROP_DSPDxax = $00E20746;
+  //DSTCOPY     = $00AA0029;
+  //ROP_DSPDxax = $00E20746;
+  DSTCOPY: DWORD     = $AA0029;
+  ROP_DSPDxax: DWORD = $E20746;
 var
   tmpdc: HDC;
   rop: longword;
