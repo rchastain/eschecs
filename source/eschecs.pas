@@ -151,29 +151,45 @@ const
   
 var
   LListener: TThread;
-  LLog: TextFile;
 
-procedure Log(const ALine: string; const AFlush: boolean = TRUE); overload;
+procedure Log(const ALine: string); overload;
 var
+  LLog: TextFile;
+  LFileName: string;
   LTime: string;
 begin
-  LTime := DateTimeToStr(Now());
+  LFileName := Concat(LConfigFilesPath, CLogName);
+  Assign(LLog, LFileName);
+  if FileExists(LFileName) then
+    Append(LLog)
+  else
+    Rewrite(LLog);
+  LTime := DateTimeToStr(Now);
   WriteLn(LLog, LTime, ' ', ALine);
-  if AFlush then
-    Flush(LLog);
+  Close(LLog);
 end;
 
 procedure Log(const AText, AInsert: string); overload;
 var
+  LLog: TextFile;
+  LFileName: string;
+  LTime: string;
   LList: TStringList;
   i: integer;
 begin
+  LFileName := Concat(LConfigFilesPath, CLogName);
+  Assign(LLog, LFileName);
+  if FileExists(LFileName) then
+    Append(LLog)
+  else
+    Rewrite(LLog);
+  LTime := DateTimeToStr(Now);
   LList := TStringList.Create;
   ExtractStrings([#10, #13], [' '], PChar(AText), LList);
-  for i := 0 to LList.Count - 2 do
-    Log(Concat(AInsert, ' ', LList[i]), FALSE);
-  Log(Concat(AInsert, ' ', LList[LList.Count - 1]));
+  for i := 0 to Pred(LList.Count) do
+    WriteLn(LLog, LTime, ' ', AInsert, ' ', LList[i]);
   LList.Free;
+  Close(LLog);
 end;
 
 procedure Send(const ACommand: string);
@@ -378,7 +394,7 @@ begin
     if FileExists(LFileName) then
       LoadEnginesData(LFileName, FChess960)
     else
-      Log(Format('Fichier introuvable : %s', [LFileName]));
+      ShowMessage(Format('Fichier introuvable : %s', [LFileName]));
   end;
   
   FValidator := TValidator.Create;
@@ -453,25 +469,25 @@ begin
   FMenuBar.SetPosition(0, 0, 9 * LScale, 24);
   
   FXLegend := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/x/%d.png', [LScale]); Assert(FileExists(LFileName)); 
+  LFileName := Format('./images/legend/x/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
   LLegend := TBGRABitmap.Create(LFileName);
   FXLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FYLegend := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/y/%d.png', [LScale]); Assert(FileExists(LFileName));
+  LFileName := Format('./images/legend/y/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FXLegendInv := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/x/inv/%d.png', [LScale]); Assert(FileExists(LFileName)); 
+  LFileName := Format('./images/legend/x/inv/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
   LLegend := TBGRABitmap.Create(LFileName);
   FXLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FYLegendInv := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/y/inv/%d.png', [LScale]); Assert(FileExists(LFileName));
+  LFileName := Format('./images/legend/y/inv/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
@@ -1049,7 +1065,7 @@ begin
       Free;
     end
   else
-    Log(Format('Fichier introuvable "%s"', [LFile]));
+    ShowMessage(Format('Fichier introuvable: %s', [LFile]));
 end;
 
 var
@@ -1130,11 +1146,9 @@ begin
 end;
 
 begin
-  if DirectoryExists(LConfigFilesPath) then
+  Assert(DirectoryExists(LConfigFilesPath), Format('Répertoire introuvable : %s', [LConfigFilesPath]));
+  
   try
-    Assign(LLog, Concat(LConfigFilesPath, CLogName));
-    Rewrite(LLog);
-    
     fpgApplication.Initialize;
     fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, SizeOf(vfd_eschecs), 0, 0);
     if fpgStyleManager.SetStyle('eschecs_style') then
@@ -1146,8 +1160,6 @@ begin
     FreeUos;
     LForm.Free;
     fpgApplication.Terminate;
-    
-    Close(LLog);
   except
     on E: Exception do
       WriteLn(E.ClassName, ': ', E.Message);

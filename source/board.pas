@@ -352,7 +352,7 @@ begin
   else if LScale mod 8 = 0 then
     LStep := 8
   else
-    Assert(FALSE);
+    Assert(FALSE, Format('Valeur incorrecte : %d', [LScale]));
   a := 1;
   b := 1;
   if Abs(ADX) = 2 * Abs(ADY) then

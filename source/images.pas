@@ -91,6 +91,7 @@ function CreateChessboard(const AStyle: TBoardStyle; const AScale: integer): TBG
 var
   x, y: integer;
   textureClaire, textureFoncee: TBGRABitmap;
+  LFileName: string;
 begin
   case AStyle of
     bsSimple:
@@ -122,12 +123,16 @@ begin
         textureFoncee.Free;
       end;
     bsWood:
-      result := TBGRABitmap.Create(Concat(
-        ExtractFilePath(ParamStr(0)),
-        Format(CPicturesPath, ['wood', AScale]),
-        DirectorySeparator,
-        'board.png'
-      ));
+      begin
+        LFileName := Concat(
+          ExtractFilePath(ParamStr(0)),
+          Format(CPicturesPath, ['wood', AScale]),
+          DirectorySeparator,
+          'board.png'
+        );
+        Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
+        result := TBGRABitmap.Create(LFileName);
+      end;
   end;
 end;
 
@@ -151,7 +156,7 @@ begin
         CTypeChars[t],
         '.png'
       );
-      Assert(FileExists(LFileName));
+      Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
       LPieceImage[c, t] := TBGRABitmap.Create(LFileName);
     end;
   LChessboard := CreateChessboard(AStyle, AScale);

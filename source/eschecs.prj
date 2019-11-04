@@ -17,8 +17,8 @@ order14=0
 order15=0
 order16=0
 [projectoptions]
-projectdir=/home/roland/Documents/pascal/echecs/eschecs5/source
-projectfilename=/home/roland/Documents/pascal/echecs/eschecs5/source/eschecs.prj
+projectdir=/C:/Roland/pascal/echecs/eschecs5/source
+projectfilename=/C:/Roland/pascal/echecs/eschecs5/source/eschecs.prj
 findinfiledialog=67
  [findinfileadialogfo.subdirs]
  value=1
@@ -112,7 +112,7 @@ replacedialog=15
  y=302
  cx=427
  cy=163
-options=149
+options=141
  [projectoptionsfo.toolshortcuts]
  dropdowncolwidths=3
   70
@@ -152,7 +152,7 @@ options=149
  sorted=0
  col=-1073741823
  row=-1073741823
- rowheight=17
+ rowheight=15
  [projectoptionsfo.newfile]
  firsttab=0
  index=0
@@ -174,9 +174,9 @@ options=149
  sortdescend6=0
  [projectoptionsfo.macrosplitter]
  x=0
- y=160
+ y=161
  xprop=1
- yprop=0.31346153846154
+ yprop=0.31297709923664
  [projectoptionsfo.macrogrid]
  propcolwidthref=637
  sortdescend0=0
@@ -191,7 +191,7 @@ options=149
  sortdescend7=0
  [projectoptionsfo.makeoptionsgrid]
  propcolwidthref=770
- values0=13
+ values0=9
   Define Object Pascal
   Exe path to /.
   Output to /units
@@ -199,12 +199,8 @@ options=149
   Windows graphic
   Re-build all
   Optimizations
-  Debug
   BGRABITMAP
-  OPT_SOUND
-  OPT_HIGHLIGHT
   Verbosity
-  OPT_ECO
  width0=57
  sortdescend0=0
  sortdescend1=0
@@ -214,24 +210,20 @@ options=149
  sortdescend5=0
  sortdescend6=0
  sortdescend7=0
- values8=13
+ values8=9
   -l -Mobjfpc -Schi
-  -FE.
+  -FE..
   -FUunits
   -ghl
   -WG
   -B
   -O1 -XX -Xs -CX
-  -dOPT_DEBUG
   -dBGRABITMAP_USE_FPGUI
-  -dOPT_SOUND
-  -dOPT_HIGHLIGHT
   -vewnhibq
-  -dOPT_ECO
  sortdescend8=0
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=2
+ index=1
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=814
  width0=47
@@ -262,12 +254,18 @@ options=149
  y=107
  cx=863
  cy=573
-settings=8
- [settings_form]
- x=448
- y=98
- cx=469
- cy=539
+settings=14
+ [settingsfo.macrogrid]
+ propcolwidthref=302
+ width0=151
+ sortdescend0=0
+ width1=144
+ sortdescend1=0
+ [settingsfo]
+ x=300
+ y=91
+ cx=348
+ cy=570
  wsize=0
  active=1
  visible=1
@@ -398,41 +396,36 @@ mainfile=${PROJECTDIR}/${PROJECTNAME}.pas
 targetfile=${PROJECTDIR}/${PROJECTNAME}
 makecommand=${COMPILER}
 makedir=
-unitdirs=11
+unitdirs=10
  ../libraries/lazutils
  ./*
  ../libraries/uos
- ../libraries
  ../libraries/bgrabitmap
  ../libraries/fpgui
- ..\libraries\fpgui\src\corelib\gdi
- ../libraries/fpgui/src
- ../libraries/fpgui/src/corelib/x11
- ../libraries/fpgui/src/gui
- ../libraries/fpgui/src/corelib
+ ../libraries/fpgui/141/src/corelib/gdi
+ ../libraries/fpgui/141/src
+ ../libraries/fpgui/141/src/corelib/x11
+ ../libraries/fpgui/141/src/gui
+ ../libraries/fpgui/141/src/corelib
 unitpref=-Fu
 incpref=-Fi
 libpref=-Fl
 objpref=-Fo
-targpref=-o
+targpref=
 befcommand=0
 aftcommand=0
-makeoptions=13
+makeoptions=9
  -l -Mobjfpc -Schi
- -FE.
+ -FE..
  -FUunits
  -ghl
  -WG
  -B
  -O1 -XX -Xs -CX
- -dOPT_DEBUG
  -dBGRABITMAP_USE_FPGUI
- -dOPT_SOUND
- -dOPT_HIGHLIGHT
  -vewnhibq
- -dOPT_ECO
 reversepathorder=0
-makeoptpurpose=13
+makeoptpurpose=9
  Define Object Pascal
  Exe path to /.
  Output to /units
@@ -440,40 +433,31 @@ makeoptpurpose=13
  Windows graphic
  Re-build all
  Optimizations
- Debug
  BGRABITMAP
- OPT_SOUND
- OPT_HIGHLIGHT
  Verbosity
- OPT_ECO
 befcommandon=0
-makeoptionson=13
- 4095
- 4095
- 4095
- 3840
- 4032
- 248
- 4092
- 3843
- 4095
- 4095
- 4095
- 4095
- 4095
+makeoptionson=9
+ 63
+ 63
+ 63
+ 0
+ 0
+ 56
+ 60
+ 63
+ 63
 aftcommandon=0
-unitdirson=11
- 196863
- 200703
- 200703
- 200703
- 200703
- 196863
- 196800
- 196863
+unitdirson=10
  196671
- 196863
- 196863
+ 196671
+ 196671
+ 196671
+ 196671
+ 196611
+ 196671
+ 196668
+ 196671
+ 196671
 uid=0
 macroon=4
  1
@@ -707,7 +691,7 @@ condition=0
 panels=1
  panel1
 [componentstore]
-storedir=/home/roland/Applications/mseide/apps/ide/compstore/
+storedir=/C:/MSEide/msegui/apps/ide/compstore/
 filename=
 [components]
 [selecteditpage]
@@ -747,7 +731,7 @@ findhistory=20
  sdmove
 findoptions=1
 editpos=13
- 0,161
+ 2,17
  0,-1073741823
  0,-1073741823
  0,-1073741823
@@ -774,7 +758,7 @@ bookmarks10=0
 bookmarks11=0
 bookmarks12=0
 sourcefiles=13
- /home/roland/Documents/pascal/echecs/eschecs5/source/eschecs.pas
+ /C:/Roland/pascal/echecs/eschecs5/source/eschecs.pas
  ${PROJECTDIR}/sound.pas
  ${PROJECTDIR}/log.pas
  /home/fred/eschecs_errorfriend/source/log.pas
@@ -912,7 +896,7 @@ windowlayout=533
  [memoryfo]
  splitdir=0
  useroptions=268451963
- stackedunder=cpuc86_64fo
+ stackedunder=cpui386fo
  parent=
  mdistate=0
  nx=0
@@ -984,7 +968,7 @@ windowlayout=533
  x=0
  y=0
  cx=205
- cy=501
+ cy=506
  rcx=0
  rcy=0
  [projecttreefo.grid]
@@ -996,7 +980,7 @@ windowlayout=533
  sorted=0
  col=1
  row=-1073741823
- rowheight=17
+ rowheight=16
  [stackfo]
  splitdir=0
  useroptions=268460137
@@ -1197,9 +1181,9 @@ windowlayout=533
  ncx=0
  ncy=0
  x=0
- y=563
+ y=568
  cx=1356
- cy=102
+ cy=103
  rcx=0
  rcy=0
  [componentstorefo]
@@ -1315,28 +1299,28 @@ windowlayout=533
  x=208
  y=0
  cx=1148
- cy=501
+ cy=506
  rcx=0
  rcy=0
  [actionsmo.watchesonact]
  checked=1
  [actionsmo.bluedotsonact]
  checked=1
- [cpuc86_64fo]
+ [cpui386fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
  stackedunder=componentpalettefo
  parent=
- mdistate=0
+ mdistate=3
  nx=0
  ny=0
  ncx=0
  ncy=0
- x=183
- y=113
- cx=352
- cy=277
+ x=337
+ y=295
+ cx=273
+ cy=207
  rcx=0
  rcy=0
  wsize=0
@@ -1355,7 +1339,7 @@ windowlayout=533
  x=0
  y=59
  cx=1356
- cy=501
+ cy=506
  rcx=0
  rcy=0
 [targetconsole]
