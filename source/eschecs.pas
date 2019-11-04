@@ -469,25 +469,29 @@ begin
   FMenuBar.SetPosition(0, 0, 9 * LScale, 24);
   
   FXLegend := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/x/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
+  LFileName := Format('%simages/legend/x/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
+  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
   LLegend := TBGRABitmap.Create(LFileName);
   FXLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FYLegend := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/y/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
+  LFileName := Format('%simages/legend/y/%d.png', [ExtractFilePath(ParamStr(0)),LScale]);
+  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FXLegendInv := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/x/inv/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
+  LFileName := Format('%simages/legend/x/inv/%d.png', [ExtractFilePath(ParamStr(0)),LScale]);
+  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
   LLegend := TBGRABitmap.Create(LFileName);
   FXLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FYLegendInv := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('./images/legend/y/inv/%d.png', [LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
+  LFileName := Format('%simages/legend/y/inv/%d.png', [ExtractFilePath(ParamStr(0)),LScale]);
+  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;

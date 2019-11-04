@@ -30,7 +30,7 @@ procedure FreePictures;
 implementation
 
 const
-  CPicturesPath = 'images/pieces/%s/%d';
+  CPicturesPath = 'images/pieces/%s/%d/';
 
 function Interp256(value1, value2, position: integer): integer; inline; overload;
 begin
@@ -127,7 +127,6 @@ begin
         LFileName := Concat(
           ExtractFilePath(ParamStr(0)),
           Format(CPicturesPath, ['wood', AScale]),
-          DirectorySeparator,
           'board.png'
         );
         Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
@@ -151,7 +150,6 @@ begin
       LFileName := Concat(
         ExtractFilePath(ParamStr(0)),
         Format(CPicturesPath, [LFont, AScale]),
-        DirectorySeparator,
         CColorChars[c],
         CTypeChars[t],
         '.png'
