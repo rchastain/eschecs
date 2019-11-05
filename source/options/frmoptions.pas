@@ -20,8 +20,11 @@ uses
   fpg_dialogs,
   fpg_checkbox,
   
+  BGRABitmapTypes,
+  
   Language,
-  Images;
+  Images,
+  Settings;
 
 type
   TConfigForm = class(TfpgForm)
@@ -74,10 +77,71 @@ procedure TConfigForm.btStartClick (Sender: TObject );
 const
   CBoolStr: array[boolean] of string = ('false', 'true');
 var
+  LCurrPos: string;
+  LAuto, LUpsideDown: boolean;
+  LStyle: TBoardStyle;
+  LMoveHist: string;
+  LPosIndex, LEngIndex: integer;
+  LLSColor, LDSColor, LGreen, LRed: TBGRAPixel;
+  LMoveTime: integer;
+  LFont: string;
+  LLang: TLanguage;
+  LColoring: boolean;
+  LScale: integer;
+  LChess960: boolean;
   p: TProcess;
 begin
+  LoadSettings(
+    LCurrPos,
+    LAuto,
+    LUpsideDown,
+    LStyle,
+    LMoveHist,
+    LPosIndex,
+    LEngIndex,
+    LLSColor,
+    LDSColor,
+    LGreen,
+    LRed,
+    LMoveTime,
+    LFont,
+    LLang,
+    LColoring,
+    LScale,
+    LChess960
+  );
+  
+  LChess960 := ckChess960.Checked;
+  LColoring := ckColoring.Checked;
+  LFont := LowerCase(cbFont.Text);
+  LLang := TLanguage(cbLang.FocusItem);
+  LMoveTime := StrToIntDef(edTime.Text, 1000);
+  LScale := StrToIntDef(cbSize.Text, 50);
+  LStyle := TBoardStyle(cbStyle.FocusItem);
+  
+  SaveSettings(
+    LCurrPos,
+    LAuto,
+    LUpsideDown,
+    LStyle,
+    LMoveHist,
+    LPosIndex,
+    LEngIndex,
+    LLSColor,
+    LDSColor,
+    LGreen,
+    LRed,
+    LMoveTime,
+    LFont,
+    LLang,
+    LColoring,
+    LScale,
+    LChess960
+  );
+  
   p := TProcess.Create(nil);
   p.Executable := 'eschecs';
+  (*
   p.Parameters.Add(Format('/chess960=%s', [CBoolStr[ckChess960.Checked]]));
   p.Parameters.Add(Format('/coloring=%s', [CBoolStr[ckColoring.Checked]]));
   p.Parameters.Add(Format('/font=%s', [LowerCase(cbFont.Text)]));
@@ -85,6 +149,7 @@ begin
   p.Parameters.Add(Format('/movetime=%s', [edTime.Text]));
   p.Parameters.Add(Format('/scale=%s', [cbSize.Text]));
   p.Parameters.Add(Format('/style=%d', [cbStyle.FocusItem]));
+  *)
   p.Execute;
   p.Free;
   btQuitClick(nil);

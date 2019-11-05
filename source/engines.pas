@@ -25,6 +25,7 @@ var
   x: integer = 0;
   LSection: string;
   n: integer = 0;
+  s: string;
 begin
   with TIniFile.Create(AFileName) do
   try
@@ -43,6 +44,9 @@ begin
             FName := ReadString(LSection, 'name', '');
             FCommand := ReadString(LSection, 'command', '');
             FDirectory := ReadString(LSection, 'workingdirectory', '');
+            s := Concat(ExtractFilePath(ParamStr(0)), FDirectory);
+            if DirectoryExists(s) then
+              FDirectory := s;
             FExists := FileExists(Concat(FDirectory, FCommand));
           end;
         end;
