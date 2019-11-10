@@ -85,8 +85,13 @@ begin
 end;
 
 procedure TConfigForm.cbFontChange(Sender: TObject);
+var
+  i: integer;
 begin
   PopulateSize;
+  for i := 0 to Pred(cbSize.Items.Count) do
+    if cbSize.Items[i] = IntToStr(LScale) then
+      cbSize.FocusItem := i;
 end;
 
 procedure TConfigForm.ckChess960Change(Sender: TObject);
@@ -320,7 +325,7 @@ begin
     Name := 'lbTime';
     SetPosition(10, 190, 150, 16);
     FontDesc := '#Label1';
-    Hint := 'Time available for computer move (in milliseconds)';
+    Hint := '';
     Text := 'Move time';
   end;
 
@@ -331,7 +336,8 @@ begin
     SetPosition(10, 208, 150, 22);
     ExtraHint := '';
     FontDesc := '#Edit1';
-    Hint := '';
+    Hint := 'Time available for computer move, in milliseconds.';
+    ShowHint := TRUE;
     TabOrder := 4;
     Text := '500';
   end; 
@@ -342,7 +348,8 @@ begin
     Name := 'ckColoring';
     SetPosition(10, 235, 150, 20);
     FontDesc := '#Label1';
-    Hint := 'Color last move squares';
+    Hint := 'Coloring of last move squares.';
+    ShowHint := TRUE;
     TabOrder := 5;
     Text := 'Color last move';
   end;
@@ -353,7 +360,8 @@ begin
     Name := 'ckChess960';
     SetPosition(10, 260, 150, 20);
     FontDesc := '#Label1';
-    Hint := 'Fischer random chess';
+    Hint := 'Fischer random chess.';
+    ShowHint := TRUE;
     TabOrder := 6;
     Text := 'Chess 960';
     OnChange := @ckChess960Change;
@@ -366,7 +374,8 @@ begin
     SetPosition(10, 285, 150, 24);
     Text := 'Delete current game';
     FontDesc := '#Label1';
-    Hint := 'Required if you wish to activate or deactivate chess 960';
+    Hint := 'Required to activate or deactivate chess 960.';
+    ShowHint := TRUE;
     ImageName := '';
     TabOrder := 7;
     OnClick := @btDeleteClick;
@@ -379,7 +388,8 @@ begin
     SetPosition(10, 314, 150, 24);
     Text := 'Start Eschecs';
     FontDesc := '#Label1';
-    Hint := '';
+    Hint := 'Starts Eschecs and closes this application.';
+    ShowHint := TRUE;
     ImageName := '';
     TabOrder := 8;
     OnClick := @btStartClick;
@@ -428,9 +438,11 @@ begin
       cbFont.FocusItem := i;
       cbFontChange(nil);
     end;
+  (*
   for i := 0 to Pred(cbSize.Items.Count) do
     if cbSize.Items[i] = IntToStr(LScale) then
       cbSize.FocusItem := i;
+  *)
   cbStyle.FocusItem := Ord(LStyle);
   cbLang.FocusItem := Ord(LLang);
   edTime.Text := IntToStr(LMoveTime);

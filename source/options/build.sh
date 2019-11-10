@@ -1,2 +1,2 @@
 
-fpc -dRELEASE @extrafpc.cfg options.pas
+fpc -dDEBUG @extrafpc.cfg options.pas
