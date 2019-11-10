@@ -41,9 +41,12 @@ type
     edTime: TfpgEdit;
     ckColoring: TfpgCheckBox;
     ckChess960: TfpgCheckBox;
+    btDelete: TfpgButton;
     btStart: TfpgButton;
     btQuit: TfpgButton;
     procedure cbFontChange(Sender: TObject);
+    procedure ckChess960Change(Sender: TObject);
+    procedure btDeleteClick(Sender: TObject);
     procedure btStartClick(Sender: TObject);
     procedure btQuitClick(Sender: TObject);
     procedure PopulateFont;
@@ -56,6 +59,20 @@ type
 
 implementation
 
+var
+  LCurrPos: string;
+  LAuto, LUpsideDown: boolean;
+  LStyle: TBoardStyle;
+  LMoveHist: string;
+  LPosIndex, LEngIndex: integer;
+  LLSColor, LDSColor, LGreen, LRed: TBGRAPixel;
+  LMoveTime: integer;
+  LFont: string;
+  LLang: TLanguage;
+  LColoring: boolean;
+  LScale: integer;
+  LChess960: boolean;
+  
 function Capitalize(const AStr: string): string;
 begin
   if Length(AStr) = 0 then
@@ -70,47 +87,26 @@ end;
 procedure TConfigForm.cbFontChange(Sender: TObject);
 begin
   PopulateSize;
-  PopulateStyle;
+end;
+
+procedure TConfigForm.ckChess960Change(Sender: TObject);
+begin
+  LCurrPos := CDefaultPosition[ckChess960.Checked];
+end;
+
+procedure TConfigForm.btDeleteClick(Sender: TObject);
+begin
+  LPosIndex := 0;
+  LCurrPos := CDefaultPosition[ckChess960.Checked];
+  DeleteFile(Concat(ExtractFilePath(ParamStr(0)), 'config/eschecs.fen'));
+  ckChess960.Enabled := TRUE;
+  btDelete.Enabled := FALSE;
 end;
 
 procedure TConfigForm.btStartClick (Sender: TObject );
-const
-  CBoolStr: array[boolean] of string = ('false', 'true');
 var
-  LCurrPos: string;
-  LAuto, LUpsideDown: boolean;
-  LStyle: TBoardStyle;
-  LMoveHist: string;
-  LPosIndex, LEngIndex: integer;
-  LLSColor, LDSColor, LGreen, LRed: TBGRAPixel;
-  LMoveTime: integer;
-  LFont: string;
-  LLang: TLanguage;
-  LColoring: boolean;
-  LScale: integer;
-  LChess960: boolean;
   p: TProcess;
 begin
-  LoadSettings(
-    LCurrPos,
-    LAuto,
-    LUpsideDown,
-    LStyle,
-    LMoveHist,
-    LPosIndex,
-    LEngIndex,
-    LLSColor,
-    LDSColor,
-    LGreen,
-    LRed,
-    LMoveTime,
-    LFont,
-    LLang,
-    LColoring,
-    LScale,
-    LChess960
-  );
-  
   LChess960 := ckChess960.Checked;
   LColoring := ckColoring.Checked;
   LFont := LowerCase(cbFont.Text);
@@ -141,15 +137,6 @@ begin
   
   p := TProcess.Create(nil);
   p.Executable := 'eschecs';
-  (*
-  p.Parameters.Add(Format('/chess960=%s', [CBoolStr[ckChess960.Checked]]));
-  p.Parameters.Add(Format('/coloring=%s', [CBoolStr[ckColoring.Checked]]));
-  p.Parameters.Add(Format('/font=%s', [LowerCase(cbFont.Text)]));
-  p.Parameters.Add(Format('/language=%d', [cbLang.FocusItem]));
-  p.Parameters.Add(Format('/movetime=%s', [edTime.Text]));
-  p.Parameters.Add(Format('/scale=%s', [cbSize.Text]));
-  p.Parameters.Add(Format('/style=%d', [cbStyle.FocusItem]));
-  *)
   p.Execute;
   p.Free;
   btQuitClick(nil);
@@ -167,7 +154,6 @@ var
   LIndex: integer;
 begin
   cbFont.Items.Clear;
-  
   LList := TStringList.Create;
   LList.Sorted := TRUE;
   if FindFirst(
@@ -184,10 +170,6 @@ begin
   for LIndex := 0 to LList.Count - 1 do
     cbFont.Items.Add(LLIst[LIndex]);
   LList.Free;
-  
-  cbFont.FocusItem := 0;
-  cbFont.OnChange := @cbFontChange;
-  cbFontChange(nil);
 end;
 
 procedure TConfigForm.PopulateSize;
@@ -197,11 +179,10 @@ var
   LIndex: integer;
 begin
   cbSize.Items.Clear;
-  
   LList := TStringList.Create;
   LList.Sorted := TRUE;
   if FindFirst(
-    Concat(ExtractFilePath(ParamStr(0)), 'images/pieces/', LowerCase(cbFont.Text),'/*'),
+    Concat(ExtractFilePath(ParamStr(0)), 'images/pieces/', LowerCase(cbFont.Text), '/*'),
     faAnyFile or faDirectory,
     LRec
   ) = 0 then
@@ -214,9 +195,6 @@ begin
   for LIndex := 0 to LList.Count - 1 do
     cbSize.Items.Add(LLIst[LIndex]);
   LList.Free;
-  
-  cbSize.FocusItem := 0;
-  //cbSize.OnChange := @cbSizeChange;
 end;
 
 procedure TConfigForm.PopulateLang;
@@ -230,8 +208,6 @@ begin
     LName := Copy(GetEnumName(TypeInfo(TLanguage), Ord(LLang)), 3);
     cbLang.Items.Add(LName);
   end;
-  cbLang.FocusItem := 0;
-  //cbLang.OnChange := @cbLangChange;
 end;
 
 procedure TConfigForm.PopulateStyle;
@@ -245,14 +221,14 @@ begin
     LName := Copy(GetEnumName(TypeInfo(TBoardStyle), Ord(LStyle)), 3);
     cbStyle.Items.Add(LName);
   end;
-  cbStyle.FocusItem := 0;
-  //cbLang.OnChange := @cbLangChange;
 end;
 
 procedure TConfigForm.AfterCreate;
+var
+  i: integer;
 begin
   Name := 'MainForm';
-  SetPosition(300, 200, 170, 361);
+  SetPosition(300, 200, 170, 377);
   WindowTitle := 'Eschecs Options';
   Hint := '';
   WindowPosition := wpOneThirdDown;
@@ -271,17 +247,18 @@ begin
   with cbFont do
   begin
     Name := 'cbFont';
-    SetPosition(10, 29, 150, 22);
+    SetPosition(10, 28, 150, 22);
     FontDesc := '#List';
     Hint := '';
-    //TabOrder := 0;
+    TabOrder := 0;
+    OnChange := @cbFontChange;
   end;
 
   lbSize := TfpgLabel.Create(self);
   with lbSize do
   begin
     Name := 'lbSize';
-    SetPosition(10, 57, 150, 16);
+    SetPosition(10, 55, 150, 16);
     FontDesc := '#Label1';
     Hint := '';
     Text := 'Pieces size';
@@ -291,17 +268,17 @@ begin
   with cbSize do
   begin
     Name := 'cbSize';
-    SetPosition(10, 76, 150, 22);
+    SetPosition(10, 73, 150, 22);
     FontDesc := '#List';
     Hint := '';
-    //TabOrder := 0;
+    TabOrder := 1;
   end;
 
   lbStyle := TfpgLabel.Create(self);
   with lbStyle do
   begin
     Name := 'lbStyle';
-    SetPosition(10, 104, 150, 16);
+    SetPosition(10, 100, 150, 16);
     FontDesc := '#Label1';
     Hint := '';
     Text := 'Chessboard style';
@@ -311,17 +288,17 @@ begin
   with cbStyle do
   begin
     Name := 'cbStyle';
-    SetPosition(10, 123, 150, 22);
+    SetPosition(10, 118, 150, 22);
     FontDesc := '#List';
     Hint := '';
-    //TabOrder := 0;
+    TabOrder := 2;
   end;
 
   lbLang := TfpgLabel.Create(self);
   with lbLang do
   begin
     Name := 'lbLang';
-    SetPosition(10, 151, 150, 16);
+    SetPosition(10, 145, 150, 16);
     FontDesc := '#Label1';
     Hint := '';
     Text := 'Language';
@@ -331,17 +308,17 @@ begin
   with cbLang do
   begin
     Name := 'cbLang';
-    SetPosition(10, 170, 150, 22);
+    SetPosition(10, 163, 150, 22);
     FontDesc := '#List';
     Hint := '';
-    //TabOrder := 0;
+    TabOrder := 3;
   end;
 
   lbTime := TfpgLabel.Create(self);
   with lbTime do
   begin
     Name := 'lbTime';
-    SetPosition(10, 198, 150, 16);
+    SetPosition(10, 190, 150, 16);
     FontDesc := '#Label1';
     Hint := 'Time available for computer move (in milliseconds)';
     Text := 'Move time';
@@ -351,11 +328,11 @@ begin
   with edTime do
   begin
     Name := 'edTime';
-    SetPosition(10, 217, 150, 22);
+    SetPosition(10, 208, 150, 22);
     ExtraHint := '';
     FontDesc := '#Edit1';
     Hint := '';
-    //TabOrder := 1;
+    TabOrder := 4;
     Text := '500';
   end; 
 
@@ -363,36 +340,48 @@ begin
   with ckColoring do
   begin
     Name := 'ckColoring';
-    SetPosition(10, 245, 150, 20);
+    SetPosition(10, 235, 150, 20);
     FontDesc := '#Label1';
     Hint := 'Color last move squares';
-    //TabOrder := 9;
+    TabOrder := 5;
     Text := 'Color last move';
-    //OnChange := @ckColoringChange;
   end;
 
   ckChess960 := TfpgCheckBox.Create(self);
   with ckChess960 do
   begin
     Name := 'ckChess960';
-    SetPosition(10, 271, 150, 20);
+    SetPosition(10, 260, 150, 20);
     FontDesc := '#Label1';
     Hint := 'Fischer random chess';
-    //TabOrder := 9;
+    TabOrder := 6;
     Text := 'Chess 960';
-    //OnChange := @ckColoringChange;
+    OnChange := @ckChess960Change;
+  end;
+
+  btDelete := TfpgButton.Create(self);
+  with btDelete do
+  begin
+    Name := 'btDelete';
+    SetPosition(10, 285, 150, 24);
+    Text := 'Delete current game';
+    FontDesc := '#Label1';
+    Hint := 'Required if you wish to activate or deactivate chess 960';
+    ImageName := '';
+    TabOrder := 7;
+    OnClick := @btDeleteClick;
   end;
 
   btStart := TfpgButton.Create(self);
   with btStart do
   begin
     Name := 'btStart';
-    SetPosition(10, 297, 150, 24);
+    SetPosition(10, 314, 150, 24);
     Text := 'Start Eschecs';
     FontDesc := '#Label1';
     Hint := '';
     ImageName := '';
-    //TabOrder := 7;
+    TabOrder := 8;
     OnClick := @btStartClick;
   end;
   
@@ -400,18 +389,55 @@ begin
   with btQuit do
   begin
     Name := 'btQuit';
-    SetPosition(10, 327, 150, 24);
+    SetPosition(10, 343, 150, 24);
     Text := 'Quit';
     FontDesc := '#Label1';
     Hint := '';
     ImageName := '';
-    //TabOrder := 7;
+    TabOrder := 9;
     OnClick := @btQuitClick;
   end;
   
   PopulateFont;
-  PopulateLang;
   PopulateStyle;
+  PopulateLang;
+  
+  LoadSettings(
+    LCurrPos,
+    LAuto,
+    LUpsideDown,
+    LStyle,
+    LMoveHist,
+    LPosIndex,
+    LEngIndex,
+    LLSColor,
+    LDSColor,
+    LGreen,
+    LRed,
+    LMoveTime,
+    LFont,
+    LLang,
+    LColoring,
+    LScale,
+    LChess960
+  );
+  
+  for i := 0 to Pred(cbFont.Items.Count) do
+    if UpperCase(cbFont.Items[i]) = UpperCase(LFont) then
+    begin
+      cbFont.FocusItem := i;
+      cbFontChange(nil);
+    end;
+  for i := 0 to Pred(cbSize.Items.Count) do
+    if cbSize.Items[i] = IntToStr(LScale) then
+      cbSize.FocusItem := i;
+  cbStyle.FocusItem := Ord(LStyle);
+  cbLang.FocusItem := Ord(LLang);
+  edTime.Text := IntToStr(LMoveTime);
+  ckColoring.Checked := LColoring;
+  ckChess960.Checked := LChess960;
+  ckChess960.Enabled := (LPosIndex = 0) and not FileExists(Concat(ExtractFilePath(ParamStr(0)), 'config/eschecs.fen'));
+  btDelete.Enabled := not ckChess960.Enabled;
 end;
 
 end.
