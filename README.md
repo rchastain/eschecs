@@ -1,7 +1,7 @@
 
-*Eschecs* is a chess playing program, using the [UCI protocol](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with a chess engine.
-
 ![alt text](screenshots/eschecs500d.png)
+
+*Eschecs* is a chess playing program, using the [UCI protocol](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) to dialog with a chess engine.
 
 ## I. User's Guide
 
