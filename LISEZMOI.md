@@ -1,7 +1,5 @@
 
-*Eschecs* est un jeu d'échecs gratuit, qui utilise le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
-
-*Eschecs* inclut un module original, appelé *Moustique*. *Eschecs* et *Moustique* sont des programmes Pascal à code source ouvert.
+*Eschecs* est un programme de jeu d'échecs utilisant le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
 
 ## I. Guide de l'utilisateur
 
@@ -11,7 +9,7 @@ Pour déplacer une pièce, faites-la glisser avec la souris jusqu'à la case d'a
 
 ### B. Adversaire artificiel
 
-Au lancement de l'application, le moteur par défaut est chargé (Fruit, ou le dernier moteur utilisé). Vous pouvez choisir un autre adversaire dans la liste des modules (menu "Coups").
+Au lancement de l'application, un moteur par défaut est chargé. Vous pouvez choisir un autre adversaire dans la liste des modules (menu "Coups").
 
 ### C. Modes de jeu
 
@@ -53,13 +51,13 @@ Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini
 
 ## IV. Crédits
 
-L'échiquier de 320 sur 320 (avec ses pièces) est une reproduction du jeu *Fritz 1.0,* un programme d'échecs de Mathias Feist, Frans Morsch et Mathias Wüllenweber.
+L'échiquier en bois et ses pièces sont l'œuvre de [Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
-L'échiquier de 640 est [l'œuvre de Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
+L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Montreal* est une police de caractères de Gary Katch.
 
-Les pièces de l'échiquier de 480 proviennent de la police *Chess Mark*. L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Alpha* est une police de caractères d'Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin. *Chess Montreal* est une police de caractères de Gary Katch. 
+*Chess Alpha* est une police de caractères d'Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin.
 
-*Fruit 2.1* est un programme d'échecs de Fabien Letouzey. *Moustique* est un programme d'échecs de Roland Chastain, basé sur *Schachspiel* de Jürgen Schlottke et sur *Mater* de Valentin Albillo.
+*Fruit 2.1* est un programme d'échecs de Fabien Letouzey. *Moustique* est un programme d'échecs de Roland Chastain, basé sur *Schachspiel* de Jürgen Schlottke.
 
 [fpGUI](https://github.com/graemeg/fpGUI) est une bibliothèque multiplateforme de Graeme Geldenhuys, pour la réalisation d'applications graphiques en Pascal.
 

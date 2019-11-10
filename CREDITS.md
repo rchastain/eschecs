@@ -1,13 +1,13 @@
 
 ## Credits
 
-The [320 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/1.png) (with its pieces) is a reproduction of the game *Fritz 1.0,* a chess program by Mathias Feist, Frans Morsch and Mathias Wüllenweber.
+The wood chessboard and its pieces are the work of [Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
-The [640 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/5.png) is [the work of Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
+The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Montreal* is a TrueType font by Gary Katch.
 
-The pieces from the [480 chessboard](https://raw.githubusercontent.com/rchastain/eschecs/master/styles/2.png) comes from the Chess Mark font. The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Alpha* is a TrueType font by Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* are TrueType fonts by Armando Marroquin. *Chess Montreal* is a TrueType font by Gary Katch.
+*Chess Alpha* is a TrueType font by Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* are TrueType fonts by Armando Marroquin.
 
-*Fruit 2.1* is a chess program by Fabien Letouzey. *Moustique* is a UCI engine by Roland Chastain, based on *Schachspiel* by Jürgen Schlottke and on *Mater* by Valentin Albillo.
+*Fruit 2.1* is a chess program by Fabien Letouzey. *Moustique* is a UCI engine by Roland Chastain, based on *Schachspiel* by Jürgen Schlottke.
 
 [fpGUI](https://github.com/graemeg/fpGUI) is a cross-platform GUI toolkit using Free Pascal, by Graeme Geldenhuys.
 

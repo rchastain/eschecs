@@ -29,7 +29,7 @@ type
       FList, FHistory: TStringList;
       FState: TChessState;
     public
-      constructor Create(const AFenRecord: string = CFenStartPosition);
+      constructor Create(const AFenRecord: string);
       destructor Destroy; override;
       procedure Think;
       function IsLegal(const AMove: string): boolean;

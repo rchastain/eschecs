@@ -47,7 +47,10 @@ uses
 const
   CSectionOptions = 'options';
   CSectionColors = 'colors';
-  CDefaultPosition = CFenStartPosition;
+  CDefaultPosition: array[boolean] of string = (
+    CFenStartPosition,
+    CFenStartPosition518
+  );
   CDefaultAutoplay = 'true';
   CDefaultUpsideDown = 'false';
   CDefaultStyle = bsSimple;  
@@ -79,7 +82,8 @@ procedure LoadSettings(
 begin
   with TIniFile.Create(LIniFileName) do
   try
-    ACurrPos := ReadString(CSectionOptions, 'position', CDefaultPosition);
+    AChess960 := LowerCase(ReadString(CSectionOptions, 'chess960', CDefaultChess960)) = 'true';
+    ACurrPos := ReadString(CSectionOptions, 'position', CDefaultPosition[AChess960]);
     AAutoPlay := LowerCase(ReadString(CSectionOptions, 'autoplay', CDefaultAutoplay)) = 'true';
     AUpsideDown := LowerCase(ReadString(CSectionOptions, 'upsidedown', CDefaultUpsideDown)) = 'true';
     AStyle := TBoardStyle(ReadInteger(CSectionOptions, 'style', Ord(CDefaultStyle)));
@@ -95,7 +99,6 @@ begin
     ALang := TLanguage(ReadInteger(CSectionOptions, 'language', Ord(CDefaultLanguage)));
     AColoring := LowerCase(ReadString(CSectionOptions, 'coloring', 'true')) = 'true';
     AScale := ReadInteger(CSectionOptions, 'scale', CDefaultScale);
-    AChess960 := LowerCase(ReadString(CSectionOptions, 'chess960', CDefaultChess960)) = 'true';
   finally
     Free;
   end;

@@ -133,7 +133,7 @@ type
     procedure OnComputerMove;
     procedure OnUserIllegalMove;
     procedure SetComputerColor(const AAutoPlay: boolean);
-    procedure NewPosition(const APos: string = CFenStartPosition; const AHistory: string = '');
+    procedure NewPosition(const APos: string; const AHistory: string = '');
     function TryNavigate(const ACurrIndex: integer; const ANavig: TNavigation): integer;
     procedure PlaySound(const ASound: integer);
     procedure CloseAll(Sender: TObject);
@@ -405,7 +405,7 @@ begin
   if FileExists(FFenFileName) then
     FPosHist.LoadfromFile(FFenFileName)
   else
-    FPosHist.Append(CFenStartPosition);
+    FPosHist.Append(LCurrPos);
   
   FPgnData := TStringList.Create;
   FPgnData.Append(LCurrPos);
@@ -436,8 +436,8 @@ begin
     AddMenuItem('-', '', nil);
     AddMenuItem(GetText(txVolume) + ':', '', nil);
     AddMenuItem('100 %', '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem('75 %',  '', @OtherItemClicked).Checked := TRUE;
-    AddMenuItem('50 %',  '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem('75 %',  '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem('50 %',  '', @OtherItemClicked).Checked := TRUE;
     AddMenuItem('25 %',  '', @OtherItemClicked).Checked := FALSE;
   end;
   with FBoardSubMenu do
