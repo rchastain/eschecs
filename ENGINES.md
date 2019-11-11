@@ -10,4 +10,4 @@
 | Moustique | ![alt text](logos/moustique/Farman-F455-Moustique.bmp) | Jürgen Schlottke, Roland Chastain | UCI| No | Pascal | [Website](https://sites.google.com/view/eschecs/moustique) [Website](https://github.com/rchastain/moustique) |
 | Sapeli | ![alt text](logos/sapeli/logo.jpg) | Toni Helminen | UCI| Yes | C | [Website](https://github.com/SamuraiDangyo/Sapeli) |
 | Senpai | ![alt text](logos/senpai/senpai2_2_102.bmp) | Fabien Letouzey | UCI| Yes | C++ | [Website](http://www.amateurschach.de/main/_senpai.htm) |
-| SlowChess | ![alt text](logos/slowchess/slow-thumb.gif) | Jonathan Kreuzer | UCI| Yes | C++ | [Website](https://www.3dkingdoms.com/chess/slow.htm) |
+| SlowChess | ![alt text](logos/slowchess/logo.bmp) | Jonathan Kreuzer | UCI| Yes | C++ | [Website](https://www.3dkingdoms.com/chess/slow.htm) |
