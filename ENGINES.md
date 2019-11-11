@@ -2,6 +2,7 @@
 | Engine | Logo | Author | Protocol | FRC support | Language | Link |
 | --- | --- | --- | --- | --- | --- | --- |
 | Alouette | ![alt text](logos/alouette/logo.bmp) | Roland Chastain | UCI| Yes | Pascal | [Website](https://sites.google.com/view/eschecs/alouette) [Website](https://github.com/rchastain/alouette) |
+| Cheng | ![alt text](logos/cheng/logo.bmp) | Martin Sedlak | UCI| Yes | C++ | [Website](http://www.vlasak.biz/cheng/) |
 | Floyd | ![alt text](logos/floyd/floyd-logo.png) | Marcel van Kervinck | UCI| No | C | [Website](https://marcelk.net/floyd/) [Website](https://github.com/kervinck/floyd) |
 | Fridolin | ![alt text](logos/fridolin/Fridolin.jpg) | Christian Sommerfeld | UCI| Yes | C++ | [Website](https://sites.google.com/site/fridolinchess/) |
 | Galjoen | ![alt text](logos/galjoen/galjoen_100x50.png) | Werner Taelemans | UCI| Yes | C++ | [Website](http://www.goudengaljoen.be/) |

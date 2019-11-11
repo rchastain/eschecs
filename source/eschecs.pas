@@ -265,9 +265,10 @@ begin
   Randomize;
   Name := 'MainForm';
   WindowTitle := 'Eschecs';
-  //BackGroundColor := $80000001;
+  BackGroundColor := $80000001;
   Hint := '';
   IconName := 'vfd.eschecs';
+  ShowHint := TRUE;
   WindowPosition := wpOneThirdDown;
   OnResize := @OnResized;
   FChessboardWidget := TfpgWidget.Create(self);
@@ -326,7 +327,9 @@ begin
   with FMenuBar do
   begin
     Name := 'FMenuBar';
-    Align := alTop;
+    //Align := alTop;
+    SetPosition(0, 0, 9 * 40, 24);
+    Anchors := [anLeft, anRight, anTop];
   end;
   FEschecsSubMenu := TfpgPopupMenu.Create(self);
   with FEschecsSubMenu do Name := 'FEschecsSubMenu';
@@ -636,6 +639,12 @@ begin
   FDragging := FALSE;
   FChessboard.ScreenToXY(AMousePos, X, Y);
   FUserMove := Concat(FUserMove, EncodeSquare(X, Y));
+  
+  if (FUserMove = 'e1g1') and FGame.IsLegal('e1h1') and FGame.IsCastling('e1h1') then FUserMove := 'e1h1';
+  if (FUserMove = 'e1c1') and FGame.IsLegal('e1a1') and FGame.IsCastling('e1a1') then FUserMove := 'e1a1';
+  if (FUserMove = 'e8g8') and FGame.IsLegal('e8h8') and FGame.IsCastling('e8h8') then FUserMove := 'e8h8';
+  if (FUserMove = 'e8c8') and FGame.IsLegal('e8a8') and FGame.IsCastling('e8a8') then FUserMove := 'e8a8';
+  
   if FGame.IsLegal(FUserMove) then
   begin
     FChessboard.RestorePieceBackground(FMousePos - FDragPos);
@@ -1047,11 +1056,11 @@ begin
   FRightLegendWidget.Left := FChessboardWidget.Left + FChessboardWidget.Width;
   FBottomLegendWidget.Top := FChessboardWidget.Bottom;
   FBottomLegendWidget.Left := FChessboardWidget.Left;
-  FChessboardWidget.UpdateWindowPosition;
-  FTopLegendWidget.UpdateWindowPosition;
-  FLeftLegendWidget.UpdateWindowPosition;
-  FRightLegendWidget.UpdateWindowPosition;
-  FBottomLegendWidget.UpdateWindowPosition;
+  FChessboardWidget.UpdatePosition;
+  FTopLegendWidget.UpdatePosition;
+  FLeftLegendWidget.UpdatePosition;
+  FRightLegendWidget.UpdatePosition;
+  FBottomLegendWidget.UpdatePosition;
 end;
 
 function TMainForm.LoadFrcPos(const ANumber: integer): string;
