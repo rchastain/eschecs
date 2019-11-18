@@ -35,13 +35,27 @@ workingdirectory=engines/win64/moustique/02/
 canplaychess960=false
 
 [engine5]
+command=PolarEngine2.0B5.exe
+name=PolarEngine
+protocol=uci
+workingdirectory=engines/win64/polar/20/
+canplaychess960=false
+
+[engine6]
+command=rodent-iv-x64.exe
+name=Rodent
+protocol=uci
+workingdirectory=engines/win64/rodent/022/
+canplaychess960=false
+
+[engine7]
 command=sapeli.exe
 name=Sapeli
 protocol=uci
 workingdirectory=engines/win64/sapeli/153/
 canplaychess960=true
 
-[engine6]
+[engine8]
 command=slow64.exe
 name=SlowChess
 protocol=uci
