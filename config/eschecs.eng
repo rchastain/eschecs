@@ -1,42 +1,56 @@
 
 [engine0]
-command=alouette64.exe
+command=alouette64
 name=Alouette
 protocol=uci
-workingdirectory=engines/win64/alouette/009/
+workingdirectory=engines/linux/alouette/009/
 canplaychess960=true
 
 [engine1]
-command=floyd0.9.w64.exe
+command=floyd0.9.linux.x86-64
 name=Floyd
 protocol=uci
-workingdirectory=engines/win64/floyd/09/
+workingdirectory=engines/linux/floyd/09/
 canplaychess960=false
 
 [engine2]
-command=Fridolin300.exe
+command=Fridolin300
 name=Fridolin
 protocol=uci
-workingdirectory=engines/win64/fridolin/300/
+workingdirectory=engines/linux/fridolin/300/
 canplaychess960=true
 
 [engine3]
-command=moustique64.exe
-name=Moustique
+command=galjoen_linux
+name=Galjoen
 protocol=uci
-workingdirectory=engines/win64/moustique/01/
-canplaychess960=false
+workingdirectory=engines/linux/galjoen/0401/
+canplaychess960=true
 
 [engine4]
-command=sapeli.exe
-name=Sapeli
+command=Monolith_1_x64
+name=Monolith
 protocol=uci
-workingdirectory=engines/win64/sapeli/153/
+workingdirectory=engines/linux/monolith/10/
 canplaychess960=true
 
 [engine5]
-command=slow64.exe
-name=SlowChess
+command=moustique64
+name=Moustique
 protocol=uci
-workingdirectory=engines/win64/slowchess/classic/15/
+workingdirectory=engines/linux/moustique/02/
+canplaychess960=false
+
+[engine6]
+command=sapeli
+name=Sapeli
+protocol=uci
+workingdirectory=engines/linux/sapeli/153/
+canplaychess960=true
+
+[engine7]
+command=senpai
+name=Senpai
+protocol=uci
+workingdirectory=engines/linux/senpai/20/
 canplaychess960=true

@@ -389,17 +389,12 @@ begin
   if CommandLine.HasOption('chess960', LBool) then FChess960 := LBool;
   *)
   FFenFileName := Concat(LConfigFilesPath, 'eschecs.fen');
-  LFileName := Concat(LConfigFilesPath, COsType, '.eng');
+  
+  LFileName := Concat(LConfigFilesPath, 'eschecs.eng');
   if FileExists(LFileName) then
     LoadEnginesData(LFileName, FChess960)
   else
-  begin
-    LFileName := Concat(LConfigFilesPath, 'eschecs.eng');
-    if FileExists(LFileName) then
-      LoadEnginesData(LFileName, FChess960)
-    else
-      ShowMessage(Format('Fichier introuvable : %s', [LFileName]));
-  end;
+    ShowMessage(Format('Fichier introuvable : %s', [LFileName]));
   
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(LCurrPos));
