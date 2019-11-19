@@ -4,8 +4,8 @@ unit Settings;
 interface
 
 uses
-  SysUtils, BGRABitmapTypes, Images, Language, Utils;
-  
+  SysUtils, BGRABitmapTypes, Images, Language, Utils, Fen;
+
 procedure LoadSettings(
   out ACurrPos: string;
   out AAutoPlay, AUpsideDown: boolean;
@@ -37,20 +37,19 @@ procedure SaveSettings(
 
 const
   CDefaultEngine = -1;
-
-implementation
-
-uses
-  IniFiles,
-  Fen;
-
-const
-  CSectionOptions = 'options';
-  CSectionColors = 'colors';
   CDefaultPosition: array[boolean] of string = (
     CFenStartPosition,
     CFenStartPosition518
   );
+  
+implementation
+
+uses
+  IniFiles;
+
+const
+  CSectionOptions = 'options';
+  CSectionColors = 'colors';
   CDefaultAutoplay = 'true';
   CDefaultUpsideDown = 'false';
   CDefaultStyle = bsSimple;  

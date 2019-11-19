@@ -139,6 +139,7 @@ type
     procedure CloseAll(Sender: TObject);
     procedure SaveGame(Sender: TObject);
     procedure OnResized(Sender: TObject);
+    procedure OnShown(Sender: TObject);
     function LoadFrcPos(const ANumber: integer): string;
   end;
 
@@ -271,6 +272,7 @@ begin
   ShowHint := TRUE;
   WindowPosition := wpOneThirdDown;
   OnResize := @OnResized;
+  OnShow := @OnShown;
   FChessboardWidget := TfpgWidget.Create(self);
   with FChessboardWidget do
   begin
@@ -1056,11 +1058,17 @@ begin
   FRightLegendWidget.Left := FChessboardWidget.Left + FChessboardWidget.Width;
   FBottomLegendWidget.Top := FChessboardWidget.Bottom;
   FBottomLegendWidget.Left := FChessboardWidget.Left;
-  FChessboardWidget.UpdatePosition;
-  FTopLegendWidget.UpdatePosition;
-  FLeftLegendWidget.UpdatePosition;
-  FRightLegendWidget.UpdatePosition;
-  FBottomLegendWidget.UpdatePosition;
+  FChessboardWidget.UpdateWindowPosition;
+  FTopLegendWidget.UpdateWindowPosition;
+  FLeftLegendWidget.UpdateWindowPosition;
+  FRightLegendWidget.UpdateWindowPosition;
+  FBottomLegendWidget.UpdateWindowPosition;
+end;
+
+procedure TMainForm.OnShown(Sender: TObject);
+begin
+  WriteLn('OnShown');
+  Invalidate;
 end;
 
 function TMainForm.LoadFrcPos(const ANumber: integer): string;
