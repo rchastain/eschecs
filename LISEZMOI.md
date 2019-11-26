@@ -41,6 +41,8 @@ Pour la commande "go", *Eschecs* utilise la syntaxe suivante :
 
 Vous pouvez changer la valeur du paramètre en éditant le fichier **eschecs.ini**, qui se trouve dans le répertoire **config**.
 
+Vous pouvez aussi lancer *Eschecs* au moyen de l'application *Options*.
+
 ## III. Guide du programmeur
 
 ### A. Compilation
