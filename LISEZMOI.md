@@ -53,13 +53,22 @@ Vous pouvez aussi lancer *Eschecs* au moyen de l'application *Options*.
 
 ## IV. Crédits
 
+### A. Graphisme.
+
 L'échiquier en bois et ses pièces sont l'œuvre de [Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
 
 L'icône d'*Eschecs* vient de la police [Chess Montreal](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Montreal* est une police de caractères de Gary Katch.
 
 *Chess Alpha* est une police de caractères d'Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* sont des polices de caractères d'Armando Marroquin.
 
+### B. Effets sonores.
+
+
+### C. Moteurs.
+
 *Fruit 2.1* est un programme d'échecs de Fabien Letouzey. *Moustique* est un programme d'échecs de Roland Chastain, basé sur *Schachspiel* de Jürgen Schlottke.
+
+### D. Bibliothèques.
 
 [fpGUI](https://github.com/graemeg/fpGUI) est une bibliothèque multiplateforme de Graeme Geldenhuys, pour la réalisation d'applications graphiques en Pascal.
 
