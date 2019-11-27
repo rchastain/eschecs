@@ -51,7 +51,7 @@ type
     txConnectionFailure
   );
   
-  TLanguage = (lgDutch, lgEnglish, lgFrench, lgGerman, lgSpanish);
+  TLanguage = (lgCzech, lgDutch, lgEnglish, lgFrench, lgGerman, lgSpanish);
 
 function GetText(const AText: TText): string;
 
@@ -62,6 +62,49 @@ implementation
 
 const
   CText: array[TLanguage, TText] of string = ((
+    (* lgCzech *)
+    'Eschecs', // txEschecs
+    'Uložit', // txSave
+    'Konec', // txQuit
+    'O aplikaci Eschecs', // txAbout
+    'Tahy', // txMoves
+    'Počítač', // txComputerMove
+    'Odpovědět automaticky', // txAutoPlay
+    'Šachovnice', // txBoard
+    'Nová hra', // txNewGame
+    'Nová hra chess 960', // txNew960
+    'Otočit šachovnici', // txFlip
+    'Nastavení', // txOptions
+    'Barva dlaždic', // txColoring
+    'Zvuk', // txSound
+    'Proměna', // txPromotion
+    'Jezdec', // txKnight
+    'Střelec', // txBishop
+    'Věž', // txRook
+    'Dáma', // txQueen
+
+    'Zpráva', // txTitleMessage
+    'Styl', // txStyle
+    'Jazyk', // txLanguage
+    'Hlasitost', // txVolume
+    'Povoleno', // txEnabled
+
+    'Šachový program v Pascalu od Rolanda Chastaina', // txAbout
+    'Neplatný tah.', // txIllegalMove
+
+    'Bílý na tahu.', // txWhiteToMove
+    'Černý na tahu.', // txBlackToMove
+    'Bílý vyhrál.', // txWhiteWins
+    'Černý vyhrál.', // txBlackWins
+    'Šach!', // txCheck
+    'Mat!', // txCheckmate
+    'Pat!', // txStalemate
+    'Remíza!', // txDraw
+
+    'Prosím počkejte...', // txWaiting
+    'UCI protokol přijat.'#10'Název motoru: %s'#10'Autor: %s', // txUciOk
+    'Nemohu se připojit k motoru.' // txConnectionFailure
+  ), (
     (* lgDutch *)
     'Eschecs', // txEschecs
     'Redden', // txSave
