@@ -605,14 +605,25 @@ end;
 procedure TMainForm.WidgetMouseMove(Sender: TObject; AShift: TShiftState; const AMousePos: TPoint);
 var
   X, Y: integer;
+  LMousePos: TPoint;
 begin
   if FDragging then
   begin
+    LMousePos := AMousePos;
+    if LMousePos.X - FDragPos.X < 0 then
+      LMousePos.X := FDragPos.X
+    else if LMousePos.X - FDragPos.X > 7 * LScale then
+      LMousePos.X := 7 * LScale + FDragPos.X;
+    if LMousePos.Y - FDragPos.Y < 0 then
+      LMousePos.Y := FDragPos.Y
+    else if LMousePos.Y - FDragPos.Y > 7 * LScale then
+      LMousePos.Y := 7 * LScale + FDragPos.Y;
+    
     FChessboard.RestorePieceBackground(FMousePos - FDragPos);
-    FChessboard.SavePieceBackground(AMousePos - FDragPos);
-    FChessboard.DrawPiece(AMousePos - FDragPos, FPieceIndex);
+    FChessboard.SavePieceBackground(LMousePos - FDragPos);
+    FChessboard.DrawPiece(LMousePos - FDragPos, FPieceIndex);
     FChessboardWidget.Invalidate;
-    FMousePos := AMousePos;
+    FMousePos := LMousePos;
   end else
   begin
     FChessboard.ScreenToXY(AMousePos, X, Y);

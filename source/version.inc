@@ -1,6 +1,6 @@
 
 const
-  CVersion = '5.0.0';
+  CVersion = '5.0.1';
   CDefaultTitle = 'Eschecs'; 
 {$if defined(cpu64) and defined(windows)}
   COsType = 'win64';
