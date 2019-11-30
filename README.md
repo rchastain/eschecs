@@ -86,6 +86,8 @@ See [this page](https://github.com/rchastain/eschecs/blob/master/ENGINES.md) for
 
 Thanks to John Bennett and to Norbert Raimund Leisner for the Moustique logo, a picture of the Farman F455 Moustique. Thanks to Johann Elsass for his graphical snippets. Thank to Fred van Stappen, for his valuable contribution concerning Unix compatibility, sound, bug fixes, and kind support.
 
+Thanks to the translators: Martin Sedlak (Czech), Jean-Luc Gofflot (Dutch), Ñuño Martínez (Spanish). The German version was made by several members of the [German speaking Lazarus forum](https://www.lazarusforum.de/index.php).
+
 ## V. Author
 
 *Eschecs* is a Pascal program by Roland Chastain, with contributions by Johann Elsass and Fred van Stappen.
