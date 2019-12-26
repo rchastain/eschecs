@@ -140,6 +140,7 @@ type
     procedure SaveGame(Sender: TObject);
     procedure OnResized(Sender: TObject);
     function LoadFrcPos(const ANumber: integer): string;
+    procedure DropPiece(const AMousePos: TPoint; const ABortMove: boolean = FALSE);
   end;
 
 {$I icon.inc}
@@ -606,18 +607,21 @@ procedure TMainForm.WidgetMouseMove(Sender: TObject; AShift: TShiftState; const 
 var
   X, Y: integer;
   LMousePos: TPoint;
+  LTolerance: integer;
 begin
   if FDragging then
   begin
     LMousePos := AMousePos;
-    if LMousePos.X - FDragPos.X < 0 then
-      LMousePos.X := FDragPos.X
-    else if LMousePos.X - FDragPos.X > 7 * LScale then
-      LMousePos.X := 7 * LScale + FDragPos.X;
-    if LMousePos.Y - FDragPos.Y < 0 then
-      LMousePos.Y := FDragPos.Y
-    else if LMousePos.Y - FDragPos.Y > 7 * LScale then
-      LMousePos.Y := 7 * LScale + FDragPos.Y;
+    
+    LTolerance := LScale div 3;
+    if (LMousePos.X - FDragPos.X < 0 - LTolerance)
+    or (LMousePos.X - FDragPos.X > 7 * LScale + LTolerance)
+    or (LMousePos.Y - FDragPos.Y < 0 - LTolerance)
+    or (LMousePos.Y - FDragPos.Y > 7 * LScale + LTolerance) then
+    begin
+      DropPiece(LMousePos, TRUE);
+      Exit;
+    end;
     
     FChessboard.RestorePieceBackground(FMousePos - FDragPos);
     FChessboard.SavePieceBackground(LMousePos - FDragPos);
@@ -635,57 +639,10 @@ begin
 end;
 
 procedure TMainForm.WidgetMouseUp(Sender: TObject; AButton: TMouseButton; AShift: TShiftState; const AMousePos: TPoint);
-var
-  LType: TPieceType;
-  X, Y: integer;
-  LSkip: boolean;
 begin
   if not FDragging then
     Exit;
-  FDragging := FALSE;
-  FChessboard.ScreenToXY(AMousePos, X, Y);
-  FUserMove := Concat(FUserMove, EncodeSquare(X, Y));
-  
-  if (FUserMove = 'e1g1') and FGame.IsLegal('e1h1') and FGame.IsCastling('e1h1') then FUserMove := 'e1h1';
-  if (FUserMove = 'e1c1') and FGame.IsLegal('e1a1') and FGame.IsCastling('e1a1') then FUserMove := 'e1a1';
-  if (FUserMove = 'e8g8') and FGame.IsLegal('e8h8') and FGame.IsCastling('e8h8') then FUserMove := 'e8h8';
-  if (FUserMove = 'e8c8') and FGame.IsLegal('e8a8') and FGame.IsCastling('e8a8') then FUserMove := 'e8a8';
-  
-  if FGame.IsLegal(FUserMove) then
-  begin
-    FChessboard.RestorePieceBackground(FMousePos - FDragPos);
-    if FGame.IsPromotion(FUserMove) then
-    begin
-      FChessboard.SavePieceBackground(FChessboard.XYToScreen(X, Y), TRUE);
-      FChessboard.RestorePieceBackground(FChessboard.XYToScreen(X, Y));
-      FChessboard.DrawPiece(FChessboard.XYToScreen(X, Y), FPieceIndex);
-      FChessboardWidget.Invalidate;
-      LType := SelectPieceType;
-    end else
-      LType := ptNil;
-    DoMove(FUserMove, LType, FALSE, LSkip);
-    if LType <> ptNil then
-      FChessboard.SetPieceType(FPieceIndex, LType);
-    if not LSkip then
-    begin
-      FChessboard.SetPieceXY(FPieceIndex, X, Y);
-      FChessboard.DrawPiece(FChessboard.XYToScreen(X, Y), FPieceIndex);
-      if FColoring then
-      begin
-        FChessboard.ScreenSave;
-        FChessboard.HighlightMove(FUserMove, FPieceIndex);
-      end;
-    end;
-    FChessboardWidget.Invalidate;
-    OnMoveDone(FMoveHist.GetString(FCurrPosIndex));
-  end else
-  begin
-    FChessboard.RestorePieceBackground(FMousePos - FDragPos);
-    FChessboard.DrawPiece(FInitPos, FPieceIndex);
-    FChessboardWidget.Invalidate;
-    if Copy(FUserMove, 3, 2) <> Copy(FUserMove, 1, 2) then
-      OnUserIllegalMove;
-  end;
+  DropPiece(AMousePos);
 end;
   
 procedure TMainForm.ItemExitClicked(Sender: TObject);
@@ -1086,6 +1043,58 @@ begin
     end
   else
     ShowMessage(Format('Fichier introuvable: %s', [LFile]));
+end;
+
+procedure TMainForm.DropPiece(const AMousePos: TPoint; const ABortMove: boolean);
+var
+  LType: TPieceType;
+  X, Y: integer;
+  LSkip: boolean;
+begin
+  FDragging := FALSE;
+  FChessboard.ScreenToXY(AMousePos, X, Y);
+  FUserMove := Concat(FUserMove, EncodeSquare(X, Y));
+  
+  if (FUserMove = 'e1g1') and FGame.IsLegal('e1h1') and FGame.IsCastling('e1h1') then FUserMove := 'e1h1';
+  if (FUserMove = 'e1c1') and FGame.IsLegal('e1a1') and FGame.IsCastling('e1a1') then FUserMove := 'e1a1';
+  if (FUserMove = 'e8g8') and FGame.IsLegal('e8h8') and FGame.IsCastling('e8h8') then FUserMove := 'e8h8';
+  if (FUserMove = 'e8c8') and FGame.IsLegal('e8a8') and FGame.IsCastling('e8a8') then FUserMove := 'e8a8';
+  
+  if FGame.IsLegal(FUserMove) and not ABortMove then
+  begin
+    FChessboard.RestorePieceBackground(FMousePos - FDragPos);
+    if FGame.IsPromotion(FUserMove) then
+    begin
+      FChessboard.SavePieceBackground(FChessboard.XYToScreen(X, Y), TRUE);
+      FChessboard.RestorePieceBackground(FChessboard.XYToScreen(X, Y));
+      FChessboard.DrawPiece(FChessboard.XYToScreen(X, Y), FPieceIndex);
+      FChessboardWidget.Invalidate;
+      LType := SelectPieceType;
+    end else
+      LType := ptNil;
+    DoMove(FUserMove, LType, FALSE, LSkip);
+    if LType <> ptNil then
+      FChessboard.SetPieceType(FPieceIndex, LType);
+    if not LSkip then
+    begin
+      FChessboard.SetPieceXY(FPieceIndex, X, Y);
+      FChessboard.DrawPiece(FChessboard.XYToScreen(X, Y), FPieceIndex);
+      if FColoring then
+      begin
+        FChessboard.ScreenSave;
+        FChessboard.HighlightMove(FUserMove, FPieceIndex);
+      end;
+    end;
+    FChessboardWidget.Invalidate;
+    OnMoveDone(FMoveHist.GetString(FCurrPosIndex));
+  end else
+  begin
+    FChessboard.RestorePieceBackground(FMousePos - FDragPos);
+    FChessboard.DrawPiece(FInitPos, FPieceIndex);
+    FChessboardWidget.Invalidate;
+    if Copy(FUserMove, 3, 2) <> Copy(FUserMove, 1, 2) then
+      OnUserIllegalMove;
+  end;
 end;
 
 var
