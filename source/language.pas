@@ -51,7 +51,7 @@ type
     txConnectionFailure
   );
   
-  TLanguage = (lgCzech, lgDutch, lgEnglish, lgFrench, lgGerman, lgSpanish);
+  TLanguage = (lgCzech, lgDutch, lgEnglish, lgFrench, lgGerman, lgItalian, lgSpanish);
 
 function GetText(const AText: TText): string;
 
@@ -276,6 +276,49 @@ const
     'Bitte warten.', // txWaiting
     'UCI Protokoll akzeptiert.'#10'Engine Name: %s'#10'Programmierer: %s', // txUciOk
     'Verbindung mit Engine nicht möglich.' // txConnectionFailure
+  ), (
+    (* lgItalian *)
+    'Eschecs', // txEschecs
+    'Salva', // txSave
+    'Esci', // txQuit
+    'Informazioni su Eschecs', // txAbout
+    'Movimento', // txMoves
+    'Movimento Computer', // txComputerMove
+    'Autoplay', // txAutoPlay
+    'Scacchiera', // txBoard
+    'Nuova partita', // txNewGame
+    'Nuova partita scacchi 960', // txNew960
+    'Inverti scacchiera', // txFlip
+    'Opzioni', // txOptions
+    'Colori', // txColoring
+    'Suoni', // txSound
+    'Promozione', // txPromotion
+    'Cavallo', // txKnight
+    'Alfiere', // txBishop
+    'Torre', // txRook
+    'Regina', // txQueen
+
+    'Messaggio', // txTitleMessage
+    'Stile', // txStyle
+    'Lingua', // txLanguage
+    'Volume', // txVolume
+    'Abilitato', // txEnabled
+
+    'Programma scacchi in Pascal di Roland Chastain', // txAbout
+    'Mossa non valida', // txIllegalMove
+
+    'Mossa al bianco.', // txWhiteToMove
+    'Mossa al nero.', // txBlackToMove
+    'Vince il bianco.', // txWhiteWins
+    'Vince il nero.', // txBlackWins
+    'Verifica!', // txCheck
+    'Checkmate!', // txCheckmate
+    'Stalemate!', // txStalemate
+    'Disegno!', // txDraw
+
+    'Attendere...', // txWaiting
+    'Accettato protocollo UCI.'#10'Nome Engine: %s'#10'Autore: %s', // txUciOk
+    'Impossibile collegarsi all''engine.' // txConnectionFailure
   ), (
     (* lgSpanish *)
     'Eschecs', // txEschecs
