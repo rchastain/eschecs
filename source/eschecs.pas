@@ -47,7 +47,8 @@ uses
   FrmAbout,
   FrmPromotion,
   Style,
-  Pgn;
+  Pgn,
+  Eco;
 
 {$IFDEF WINDOWS}
 {$R eschecs.res}
@@ -96,6 +97,7 @@ type
     FFenFileName: TFileName;
     FXLegend, FYLegend, FXLegendInv, FYLegendInv: TBGRABitmap;
     FChess960: boolean;
+    FOpeningName: string;
     procedure HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean); override;
   public
     destructor Destroy; override;
@@ -900,6 +902,11 @@ begin
     FStatusBar.BackgroundColor := $FFB3B8
   else
     FStatusBar.BackgroundColor := $FFFFFF;
+  if (AHistory <> '') and not FChess960 then
+  begin
+    FOpeningName := GetOpening(AHistory);
+    WindowTitle := FOpeningName;
+  end;
   FWaitingForUserMove := not (FGame.state in [csCheckmate, csStalemate, csDraw]);
 end;
 
