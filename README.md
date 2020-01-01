@@ -54,6 +54,42 @@ You can change the value of the parameter by editing **eschecs.ini**, which stan
 
 *Eschecs* uses [fpGUI][1], [BGRABitmap][2] and [uos][3] libraries.
 
+There are three methods to compile *Eschecs*.
+
+You can use the script *build.cmd* (for Windows) or *build.sh* (for Linux). Free Pascal must be installed on your system.
+
+You can use the [Lazarus](https://sourceforge.net/projects/lazarus/) project files *eschecs.lpi* and *options.lpi*. There are, indeed, two applications to compile.
+
+You can also use the [MSEide](https://sourceforge.net/projects/mseide-msegui/) project files *eschecs.prj* and *options.prj*.
+
+### B. Sound library binaries installation
+
+Once the application is compiled, you need to download the binaries of the uos library, and install them in the *audio* directory.
+
+```
++---audio
+|   +---lib
+|   |   +---FreeBSD
+|   |   |   +---32bit
+|   |   |   \---64bit
+|   |   +---Linux
+|   |   |   +---32bit
+|   |   |   +---64bit
+|   |   |   \---arm_raspberrypi
+|   |   +---Mac
+|   |   |   +---32bit
+|   |   |   \---64bit
+|   |   \---Windows
+|   |       +---32bit
+|   |       \---64bit
+```
+
+You can download uos library binaries [here](https://github.com/fredvs/uos/releases/).
+
+### C. Engines and configuration file.
+
+Finally, you need one or several UCI engines. To install your engines, you need to edit with your favourite text editor the file *eschecs.eng* in the *config* directory. Of course, in the release packages, some engines are already included and installed.
+
 ## IV. Credits
 
 ### A. Chess pieces pictures

@@ -51,6 +51,40 @@ Vous pouvez aussi lancer *Eschecs* au moyen de l'application *Options*.
 
 *Eschecs* utilise les bibliothèques [fpGUI][1], [BGRABitmap][2] et [uos][3].
 
+Il ya trois manières de compiler *Eschecs*.
+
+Vous pouvez utiliser le fichier de commandes *build.cmd* (sous Windows) ou *build.sh* (sous Linux). Free Pascal doit être installé sur votre ordinateur.
+
+Vous pouvez aussi utiliser les fichiers projet [Lazarus](https://sourceforge.net/projects/lazarus/) *eschecs.lpi* et *options.lpi*. Il y a, en effet, deux applications à compiler.
+
+Vous pouvez enfin utiliser les fichiers projet [MSEide](https://sourceforge.net/projects/mseide-msegui/) *eschecs.prj* et *options.prj*.
+
+### B. Installation des fichiers binaires de la bibliothèque uos
+
+Une fois que vous avez compil l'application, vous devez vous procurer les fichiers binares de la bibliothèque utilisée pour le son, et de les placer dans le dossier *audio*, comme ceci.
+
+```
++---audio
+|   +---lib
+|   |   +---FreeBSD
+|   |   |   +---32bit
+|   |   |   \---64bit
+|   |   +---Linux
+|   |   |   +---32bit
+|   |   |   +---64bit
+|   |   |   \---arm_raspberrypi
+|   |   +---Mac
+|   |   |   +---32bit
+|   |   |   \---64bit
+|   |   \---Windows
+|   |       +---32bit
+|   |       \---64bit
+```
+
+Vous pouvez télécharger ces fichiers binaires [ici](https://github.com/fredvs/uos/releases/).
+
+Si vous ne vous souciez guère d'entre des sons, vous pouvez passer ignorer cette étape.
+
 ## IV. Crédits
 
 ### A. Graphisme.
