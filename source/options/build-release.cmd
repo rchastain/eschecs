@@ -1,3 +1,3 @@
 @echo off
 
-fpc -dRELEASE -dGDI @extrafpc.cfg options.pas
+fpc -dRELEASE @extrafpc.cfg options.pas

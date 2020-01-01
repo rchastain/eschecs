@@ -14,41 +14,55 @@ workingdirectory=engines/windows/cheng/439/
 canplaychess960=true
 
 [engine2]
+command=CT800_V1.34_x32.exe
+name=CT800
+protocol=uci
+workingdirectory=engines/windows/ct800/134/
+canplaychess960=false
+
+[engine3]
 command=floyd0.9.w32.exe
 name=Floyd
 protocol=uci
 workingdirectory=engines/windows/floyd/09/
 canplaychess960=false
 
-[engine3]
+[engine4]
 command=Fridolin-v2.00-32.exe
 name=Fridolin
 protocol=uci
 workingdirectory=engines/windows/fridolin/200/
 canplaychess960=true
 
-[engine4]
+[engine5]
 command=galjoen_w32.exe
 name=Galjoen
 protocol=uci
 workingdirectory=engines/windows/galjoen/040/
 canplaychess960=true
 
-[engine5]
+[engine6]
 command=Hermann.exe
 name=Hermann
 protocol=uci
 workingdirectory=engines/windows/hermann/28/
 canplaychess960=true
 
-[engine6]
+[engine7]
 command=moustique32.exe
 name=Moustique
 protocol=uci
 workingdirectory=engines/windows/moustique/03/
 canplaychess960=false
 
-[engine7]
+[engine8]
+command=Wb2Uci.exe
+name=N.E.G.
+protocol=uci
+workingdirectory=engines/windows/neg/12/
+canplaychess960=false
+
+[engine9]
 command=Pharaon.exe
 name=Pharaon
 protocol=uci

@@ -38,7 +38,7 @@ canplaychess960=true
 command=moustique64
 name=Moustique
 protocol=uci
-workingdirectory=engines/linux/moustique/02/
+workingdirectory=engines/linux/moustique/03/
 canplaychess960=false
 
 [engine6]

@@ -1,3 +1,3 @@
 @echo off
 
-fpc -dDEBUG -dGDI @extrafpc.cfg options.pas
+fpc -dDEBUG @extrafpc.cfg options.pas

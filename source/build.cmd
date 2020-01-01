@@ -1,3 +1,3 @@
 @echo off
 
-fpc -dDEBUG -dGDI @extrafpc.cfg eschecs.pas
+fpc -dDEBUG @extrafpc.cfg eschecs.pas
