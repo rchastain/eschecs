@@ -86,10 +86,6 @@ Once the application is compiled, you need to download the binaries of the uos l
 
 You can download uos library binaries [here](https://github.com/fredvs/uos/releases/).
 
-### C. Engines and configuration file.
-
-Finally, you need one or several UCI engines. To install your engines, you need to edit with your favourite text editor the file *eschecs.eng* in the *config* directory. Of course, in the release packages, some engines are already included and installed.
-
 ## IV. Credits
 
 ### A. Chess pieces pictures
