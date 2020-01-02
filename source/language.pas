@@ -297,25 +297,25 @@ const
     'Alfiere', // txBishop
     'Torre', // txRook
     'Regina', // txQueen
-
+ 
     'Messaggio', // txTitleMessage
     'Stile', // txStyle
     'Lingua', // txLanguage
     'Volume', // txVolume
     'Abilitato', // txEnabled
-
+ 
     'Programma scacchi in Pascal di Roland Chastain', // txAbout
     'Mossa non valida', // txIllegalMove
-
+ 
     'Mossa al bianco.', // txWhiteToMove
     'Mossa al nero.', // txBlackToMove
     'Vince il bianco.', // txWhiteWins
     'Vince il nero.', // txBlackWins
-    'Verifica!', // txCheck
-    'Checkmate!', // txCheckmate
-    'Stalemate!', // txStalemate
-    'Disegno!', // txDraw
-
+    'Scacco!', // txCheck
+    'Scaccomatto!', // txCheckmate
+    'Stallo!', // txStalemate
+    'Pareggio!', // txDraw
+ 
     'Attendere...', // txWaiting
     'Accettato protocollo UCI.'#10'Nome Engine: %s'#10'Autore: %s', // txUciOk
     'Impossibile collegarsi all''engine.' // txConnectionFailure

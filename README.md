@@ -86,6 +86,10 @@ Once the application is compiled, you need to download the binaries of the uos l
 
 You can download uos library binaries [here](https://github.com/fredvs/uos/releases/).
 
+### C. Engines and configuration file.
+
+Finally, you need one or several UCI engines. To install your engines, you need to edit with your favourite text editor the file *eschecs.eng* in the *config* directory. Of course, in the release packages, some engines are already included and installed.
+
 ## IV. Credits
 
 ### A. Chess pieces pictures
@@ -118,7 +122,7 @@ See [this page](https://github.com/rchastain/eschecs/blob/master/ENGINES.md) for
 
 Thanks to John Bennett and to Norbert Raimund Leisner for the Moustique logo, a picture of the Farman F455 Moustique. Thanks to Johann Elsass for his graphical snippets. Thank to Fred van Stappen, for his valuable contribution concerning Unix compatibility, sound, bug fixes, and kind support.
 
-Thanks to the translators: Martin Sedlak (Czech), Jean-Luc Gofflot (Dutch), Ñuño Martínez (Spanish). The German version was made by several members of the [German speaking Lazarus forum](https://www.lazarusforum.de/index.php).
+Thanks to the translators: Martin Sedlak (Czech), Jean-Luc Gofflot (Dutch), Marcello Basso (Italian), Ñuño Martínez (Spanish). The German version was made by several members of the [German speaking Lazarus forum](https://www.lazarusforum.de/index.php).
 
 ## V. Author
 
