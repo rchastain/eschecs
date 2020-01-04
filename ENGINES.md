@@ -18,5 +18,6 @@
 | Sapeli | 1.53 | ![alt text](logos/sapeli/logo.jpg) | Toni Helminen | UCI | C | Yes | D | [Website](https://github.com/SamuraiDangyo/Sapeli) |
 | Senpai | 2.0 | ![alt text](logos/senpai/senpai2_2_102.bmp) | Fabien Letouzey | UCI | C++ | Yes | E | [Website](http://www.amateurschach.de/main/_senpai.htm) |
 | SlowChess |  | ![alt text](logos/slowchess/slow.bmp) | Jonathan Kreuzer | UCI | C++ | Yes | E | [Website](https://www.3dkingdoms.com/chess/slow.htm) |
+| Xadreco | 5.71 | ![alt text](logos/xadreco/xadreco-logo1.jpg) | Ruben Carlo Benante | XBoard | C | No | B | [Website](https://github.com/drbeco/xadreco) |
 
-The indication of engines strength is approximate. For more precise information, please see the excellent [CCRL website](https://www.computerchess.org.uk/ccrl/).
+The indication of engines strength is approximate. For more precise information, please see the [CCRL website](https://www.computerchess.org.uk/ccrl/).
