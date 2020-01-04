@@ -2,8 +2,9 @@
 | Engine | Version | Logo | Author | Protocol | Code source | FRC support | Strength | Link |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Alouette | 0.0.9 | ![alt text](logos/alouette/logo.bmp) | Roland Chastain | UCI | Pascal | Yes | A | [Website](https://sites.google.com/view/eschecs/alouette) [Website](https://github.com/rchastain/alouette) |
-| Cheng | 4.39 | ![alt text](logos/cheng/logo.bmp) | Martin Sedlak | UCI | C++ | Yes | E | [Website](http://www.vlasak.biz/cheng/) |
+| Cheng4 | 0.39 | ![alt text](logos/cheng/logo.bmp) | Martin Sedlak | UCI | C++ | Yes | E | [Website](http://www.vlasak.biz/cheng/) |
 | CT800 | 1.34 | ![alt text](logos/ct800/CT800_V1.34_x32.png) | Rasmus Althoff | UCI | C | No | D | [Website](https://www.ct800.net/) |
+| Enxadrista | 1.01 | ![alt text](logos/enxadrista/enxadrista.gif) | Alcides Schulz | XBoard | C# | No | A | [Website](https://github.com/alcides-schulz/Xadrez) |
 | Floyd | 0.9 | ![alt text](logos/floyd/floyd-logo.png) | Marcel van Kervinck | UCI | C | No | E | [Website](https://marcelk.net/floyd/) [Website](https://github.com/kervinck/floyd) |
 | Fridolin | 2.00 | ![alt text](logos/fridolin/Fridolin.jpg) | Christian Sommerfeld | UCI | C++ | Yes | E | [Website](https://sites.google.com/site/fridolinchess/) |
 | Galjoen | 0.40 | ![alt text](logos/galjoen/galjoen_100x50.png) | Werner Taelemans | UCI | C++ | Yes | E | [Website](http://www.goudengaljoen.be/) |
