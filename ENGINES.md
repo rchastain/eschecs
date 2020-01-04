@@ -7,6 +7,7 @@
 | Floyd | 0.9 | ![alt text](logos/floyd/floyd-logo.png) | Marcel van Kervinck | UCI | C | No | E | [Website](https://marcelk.net/floyd/) [Website](https://github.com/kervinck/floyd) |
 | Fridolin | 2.00 | ![alt text](logos/fridolin/Fridolin.jpg) | Christian Sommerfeld | UCI | C++ | Yes | E | [Website](https://sites.google.com/site/fridolinchess/) |
 | Galjoen | 0.40 | ![alt text](logos/galjoen/galjoen_100x50.png) | Werner Taelemans | UCI | C++ | Yes | E | [Website](http://www.goudengaljoen.be/) |
+| Geko | 0.4.3 | ![alt text](logos/geko/geko_043.bmp) | Giuseppe Cannella | XBoard |  | No | C | [Website](https://github.com/gekomad) |
 | Hermann | 2.8 | ![alt text](logos/hermann/hermann-2.jpg) | Volker Annuss | UCI |  | Yes | E | [Website](http://www.nnuss.de/Hermann/) |
 | Monolith | 1.0 | ![alt text](logos/monolith/Monolith_04.png) | Jonas Mayr | UCI | C++ | Yes | E | [Website](https://github.com/cimarronOST/Monolith) |
 | Moustique | 0.3 | ![alt text](logos/moustique/Farman-F455-Moustique.bmp) | Jürgen Schlottke, Roland Chastain | UCI | Pascal | No | B | [Website](https://sites.google.com/view/eschecs/moustique) [Website](https://github.com/rchastain/moustique) |
