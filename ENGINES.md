@@ -10,6 +10,8 @@
 | Galjoen | 0.40 | ![alt text](logos/galjoen/galjoen_100x50.png) | Werner Taelemans | UCI | C++ | Yes | E | [Website](http://www.goudengaljoen.be/) |
 | Geko | 0.4.3 | ![alt text](logos/geko/geko_043.bmp) | Giuseppe Cannella | XBoard |  | No | C | [Website](https://github.com/gekomad) |
 | Hermann | 2.8 | ![alt text](logos/hermann/hermann-2.jpg) | Volker Annuss | UCI |  | Yes | E | [Website](http://www.nnuss.de/Hermann/) |
+| La Dame Blanche | 2.0 | ![alt text](logos/ladameblanche/ladameblanche.gif) | Marc-Philippe Huget | XBoard |  | No | D | [Website](http://www.quarkchess.de/ladameblanche/) |
+| LittleWing | 0.6 | ![alt text](logos/littlewing/littlewing.gif) | Vincent Ollivier | UCI | Rust | No | D | [Website](https://vinc.cc/projects/littlewing/) [Website](https://github.com/vinc/littlewing) |
 | Monolith | 1.0 | ![alt text](logos/monolith/Monolith_04.png) | Jonas Mayr | UCI | C++ | Yes | E | [Website](https://github.com/cimarronOST/Monolith) |
 | Moustique | 0.3 | ![alt text](logos/moustique/Farman-F455-Moustique.bmp) | Jürgen Schlottke, Roland Chastain | UCI | Pascal | No | B | [Website](https://sites.google.com/view/eschecs/moustique) [Website](https://github.com/rchastain/moustique) |
 | N.E.G. | 1.2 | ![alt text](logos/neg/neg.gif) | Harm Geert Muller | XBoard | C | No | A | [Website](https://home.hccnet.nl/h.g.muller/chess.html) |
