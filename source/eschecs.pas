@@ -98,6 +98,8 @@ type
     FXLegend, FYLegend, FXLegendInv, FYLegendInv: TBGRABitmap;
     FChess960: boolean;
     FOpeningName: string;
+    FSendMsgGoTime: cardinal;
+    FCheckTimeElapsed: boolean;
     procedure HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean); override;
   public
     destructor Destroy; override;
@@ -527,6 +529,7 @@ begin
     BGRABitmapVersionStr
   ]));
   
+  FCheckTimeElapsed := FALSE;
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
@@ -786,6 +789,14 @@ procedure TMainForm.InternalTimerFired(Sender: TObject);
 var
   LAnimationTerminated: boolean;
 begin
+  if FWaiting and FCheckTimeElapsed then
+  begin
+    if GetTickCount64 - FSendMsgGoTime > FMoveTime then
+    begin
+      Send(MsgStop);
+      FCheckTimeElapsed := FALSE;
+    end;
+  end;
   if FChessboard.Animate(LAnimationTerminated) or FComputerCastling then
     FChessboardWidget.Invalidate
   else
@@ -803,6 +814,7 @@ begin
           end;
         1:
           begin
+            FCheckTimeElapsed := FALSE;
           end;
         2:
           begin
@@ -812,6 +824,8 @@ begin
             FWaiting := TRUE;
             FStatusBar.Text := GetText(txWaiting);
             FWaitingForUserMove := FALSE;
+            FCheckTimeElapsed := TRUE;
+            FSendMsgGoTime := GetTickCount64;
           end;
       end;
     end;

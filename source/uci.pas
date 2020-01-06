@@ -9,6 +9,7 @@ function MsgNewGame: string;
 function MsgIsReady: string;
 function MsgPosition(const AFenPosition: string): string;
 function MsgGo(const AMoveTime: integer): string;
+function MsgStop: string;
 function MsgQuit: string;
 
 function IsMsgUciOk(const AMsg: string; out AEngineName, AAuthor: string; out AOptChess960: boolean): boolean;
@@ -28,6 +29,7 @@ type
     ucIsReady,
     ucPosition,
     ucGo,
+    ucStop,
     ucQuit
   );
 
@@ -39,6 +41,7 @@ const
     'isready',
     'position fen %s',
     'go movetime %d',
+    'stop',
     'quit'
   );
   
@@ -70,6 +73,11 @@ end;
 function MsgGo(const AMoveTime: integer): string;
 begin
   result := Format(CPatterns[ucGo], [AMoveTime]);
+end;
+
+function MsgStop: string;
+begin
+  result := CPatterns[ucStop];
 end;
 
 function MsgQuit: string;
