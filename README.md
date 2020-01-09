@@ -64,25 +64,7 @@ You can also use the [MSEide](https://sourceforge.net/projects/mseide-msegui/) p
 
 ### B. Sound library binaries installation
 
-Once the application is compiled, you need to download the binaries of the uos library, and install them in the *audio* directory.
-
-```
-+---audio
-|   +---lib
-|   |   +---FreeBSD
-|   |   |   +---32bit
-|   |   |   \---64bit
-|   |   +---Linux
-|   |   |   +---32bit
-|   |   |   +---64bit
-|   |   |   \---arm_raspberrypi
-|   |   +---Mac
-|   |   |   +---32bit
-|   |   |   \---64bit
-|   |   \---Windows
-|   |       +---32bit
-|   |       \---64bit
-```
+Once the application is compiled, you need to download the binaries of the uos library, and install them in the *audio* directory, so that if you OS is (for example) Windows 64, the uos binaries will be in *<eschecs>\audio\lib\Windows\64bit* directory.
 
 You can download uos library binaries [here](https://github.com/fredvs/uos/releases/).
 
