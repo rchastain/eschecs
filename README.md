@@ -80,7 +80,7 @@ The wood chessboard and its pieces are the work of [Daniela Di Lena](https://dil
 
 The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html). *Chess Montreal* is a TrueType font by Gary Katch.
 
-*Chess Alpha* is a TrueType font by Eric Bentzen. *Chess Condal, Chess Line, Chess Mark* are TrueType fonts by Armando Marroquin.
+*Chess Alpha* is a TrueType font by Eric Bentzen. *Chess Condal, Chess Line, Chess Lucena, Chess Magnetic, Chess Mark* are TrueType fonts by Armando Hernandez Marroquin.
 
 ### B. Sound effects
 
