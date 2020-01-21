@@ -358,11 +358,6 @@ var
   LIndex: integer;
   LFileName: TFileName;
   LMoveHist: string;
-  (*
-  LStr: string;
-  LInt: integer;
-  LBool: boolean;
-  *)
   LLegend: TBGRABitmap;
 begin
   LoadSettings(
@@ -384,18 +379,10 @@ begin
     LScale,
     FChess960
   );
-  (*
-  if CommandLine.HasOption('coloring', LBool) then FColoring := LBool;
-  if CommandLine.HasOption('font', LStr) then LFont := LStr;
-  if CommandLine.HasOption('language', LInt) then LLang := TLanguage(LInt);
-  if CommandLine.HasOption('movetime', LInt) then FMoveTime := LInt;
-  if CommandLine.HasOption('scale', LInt) then LScale := LInt;
-  if CommandLine.HasOption('style', LInt) then FStyle := TBoardStyle(LInt);
-  if CommandLine.HasOption('chess960', LBool) then FChess960 := LBool;
-  *)
+  
   FFenFileName := Concat(LConfigFilesPath, 'eschecs.fen');
   
-  LFileName := Concat(LConfigFilesPath, 'eschecs.eng');
+  LFileName := Concat(LConfigFilesPath, 'eschecs-', COsType, '.eng');
   if FileExists(LFileName) then
     LoadEnginesData(LFileName, FChess960)
   else
