@@ -1,6 +1,8 @@
 
 *Eschecs* est un programme de jeu d'échecs utilisant le [protocole UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) pour dialoguer avec des joueurs d'échecs artificiels.
 
+![alt text](screenshots/eschecs500f.png)
+
 ## I. Guide de l'utilisateur
 
 ### A. Déplacement des pièces
@@ -61,29 +63,18 @@ Vous pouvez enfin utiliser les fichiers projet [MSEide](https://sourceforge.net/
 
 ### B. Installation des fichiers binaires de la bibliothèque uos
 
-Une fois que vous avez compil l'application, vous devez vous procurer les fichiers binares de la bibliothèque utilisée pour le son, et de les placer dans le dossier *audio*, comme ceci.
+Une fois que vous avez compilé l'application, vous devez vous procurer les fichiers binaires de la bibliothèque utilisée pour le son, et de les placer dans le dossier *audio*, comme ceci.
 
 ```
 +---audio
 |   +---lib
-|   |   +---FreeBSD
-|   |   |   +---32bit
-|   |   |   \---64bit
 |   |   +---Linux
-|   |   |   +---32bit
-|   |   |   +---64bit
-|   |   |   \---arm_raspberrypi
-|   |   +---Mac
-|   |   |   +---32bit
-|   |   |   \---64bit
 |   |   \---Windows
-|   |       +---32bit
-|   |       \---64bit
 ```
 
 Vous pouvez télécharger ces fichiers binaires [ici](https://github.com/fredvs/uos/releases/).
 
-Si vous ne vous souciez guère d'entre des sons, vous pouvez passer ignorer cette étape.
+Si vous ne vous souciez pas d'entendre des sons, vous pouvez passer ignorer cette étape.
 
 ## IV. Crédits
 
