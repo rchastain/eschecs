@@ -8,9 +8,9 @@ canplaychess960=true
 
 [engine1]
 command=cheng4.exe
-name=Cheng
+name=Cheng4
 protocol=uci
-workingdirectory=engines/windows/cheng/439/
+workingdirectory=engines/windows/cheng4/039/
 canplaychess960=true
 
 [engine2]
@@ -49,22 +49,37 @@ workingdirectory=engines/windows/hermann/28/
 canplaychess960=true
 
 [engine7]
+command=littlewing32.exe
+name=Little Wing
+protocol=uci
+workingdirectory=engines/windows/littlewing/06/
+canplaychess960=false
+
+[engine8]
 command=moustique32.exe
 name=Moustique
 protocol=uci
 workingdirectory=engines/windows/moustique/03/
 canplaychess960=false
 
-[engine8]
+[engine9]
 command=Wb2Uci.exe
 name=N.E.G.
 protocol=uci
-workingdirectory=engines/windows/neg/12/
+workingdirectory=engines/windows/neg/13/
 canplaychess960=false
 
-[engine9]
+[engine10]
 command=Pharaon.exe
 name=Pharaon
 protocol=uci
 workingdirectory=engines/windows/pharaon/351/
 canplaychess960=true
+
+[engine11]
+command=Wb2Uci.exe
+name=Ram
+protocol=uci
+workingdirectory=engines/windows/ram/20/
+canplaychess960=false
+
