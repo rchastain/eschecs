@@ -276,16 +276,16 @@ end;
 
 function TChessPosition.IsCastlingCheck(const ACastling: TCastling): boolean;
 var
-  x, y, dx: integer;
+  x, y, dx, xdest: integer;
   c: TPieceColorStrict;
   x1, x2, y1, y2: integer;
   i: integer;
 begin
   case ACastling of
-    caWH: begin y := 1; dx := -1; c := pcWhite; end;
-    caWA: begin y := 1; dx :=  1; c := pcWhite; end;
-    caBH: begin y := 8; dx := -1; c := pcBlack; end;
-    caBA: begin y := 8; dx :=  1; c := pcBlack; end;
+    caWH: begin y := 1; dx := -1; xdest := 7; c := pcWhite; end;
+    caWA: begin y := 1; dx :=  1; xdest := 3; c := pcWhite; end;
+    caBH: begin y := 8; dx := -1; xdest := 7; c := pcBlack; end;
+    caBA: begin y := 8; dx :=  1; xdest := 3; c := pcBlack; end;
   end;
   x := FData.FCastling[ACastling];
   repeat
@@ -298,8 +298,8 @@ begin
   begin
     StrToMove(FList[i], x1, y1, x2, y2);
     if (y2 = y)
-    and (x2 > Min(x, FData.FCastling[ACastling]))
-    and (x2 < Max(x, FData.FCastling[ACastling])) then
+    and (x2 >= Min(x, {FData.FCastling[ACastling]}xdest))
+    and (x2 <= Max(x, {FData.FCastling[ACastling]}xdest)) then
       result := TRUE
     else
       Inc(i);

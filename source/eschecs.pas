@@ -906,7 +906,7 @@ begin
   if (AHistory <> '') and not FChess960 then
   begin
     FOpeningName := GetOpening(AHistory);
-    WindowTitle := FOpeningName;
+    //WindowTitle := FOpeningName;
   end;
   FWaitingForUserMove := not (FGame.state in [csCheckmate, csStalemate, csDraw]);
 end;
