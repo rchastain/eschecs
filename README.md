@@ -9,7 +9,15 @@
 
 *Eschecs* is shipped with an engine. If you wish to use another engine, start *Eschecs* with the engine path as parameter.
 
+```
+./eschecs /home/roland/uciengines/ct800/142/source/application-uci/output/CT800_V1.42
+```
+
+You can find [here](https://github.com/rchastain/eschecs/blob/master/ENGINES.md) a collection of UCI engines that you could use with *Eschecs*.
+
 ### Command line options
+
+The behaviour and the appearance of the application can be set using the following command line parameters.
 
 | Parameter name | Parameter value |
 | --- | --- |
@@ -24,8 +32,8 @@
 | -f \<v\>, --fischerandom=\<v\> | Play Fischer Random Chess. Possible values: false, true. |
 | -w \<v\>, --white=\<v\> | Color of white squares, in RRGGBBAA format. |
 | -b \<v\>, --black=\<v\> | Color of black squares. |
-| -g \<v\>, --green=\<v\> | Color of legal target squares. |
-| -r \<v\>, --red=\<v\> | Color of white squares. |
+| -g \<v\>, --green=\<v\> | Color used to show legal target squares. |
+| -r \<v\>, --red=\<v\> | Color used to show that a king is in check. |
 
 #### Available fonts and sizes
 
@@ -49,10 +57,56 @@
 * Italian
 * Spanish
 
+Thanks to the translators:
+
+* Martin Sedlak (Czech)
+* Jean-Luc Gofflot (Dutch)
+* Users of the [German speaking Lazarus forum](https://www.lazarusforum.de/index.php) (German)
+* Marcello Basso (Italian)
+* Ñuño Martínez (Spanish)
+
+### Keyboard Controls
+
+    ↑   Go to the last position
+    ↓   Go back to the first position
+    ←   Go back to the previous position
+    →   Go to the next position
+    ESC Close the application
+
 ## Technical informations
 
-*Eschecs* is a Pascal program. If you wish to compile it yourself, you will need fpGUI, BGRABitmap and uos libraries.
+*Eschecs* is a Pascal program. If you wish to compile it yourself, you will need the Free Pascal compiler, and the following libraries:
+
+* [fpGUI](https://github.com/graemeg/fpGUI)
+* [BGRABitmap](https://github.com/bgrabitmap/bgrabitmap)
+* [LazUtils](https://sourceforge.net/projects/lazarus/)
+* [uos](https://github.com/fredvs/uos)
+
+## Authors
+
+*Eschecs* is a Pascal program by Roland Chastain, with contributions by Johann Elsass and Fred van Stappen.
+
+## Credits
+
+### Graphics
+
+The application icon is the white king of the [Chess Montreal font](http://alcor.concordia.ca/~gpkatch/montreal_font.html).
+
+The wood chessboard and its pieces are the work of [Daniela Di Lena](https://dilena.de/chess-artwork-pieces-and-board-art-assets).
+
+The other pieces set has been made from TrueType chess fonts:
+
+* *Chess Alpha* by Eric Bentzen
+* *Chess Condal, Chess Line, Chess Mark* by Armando Marroquin
+* *Chess Montreal* by Gary Katch
+
+### Sounds
+
+The sound effects come from [Lichess][1], the well-known chess server by Thibault Duplessis, and from [The Essential Retro Video Game Sound Effects Collection][2] by Juhani Junkala.
 
 ## Screenshot
 
 ![alt text](images/screenshots/eschecs500f.png)
+
+[1]: https://github.com/ornicar/lila/tree/master/public/sound
+[2]: https://opengameart.org/content/512-sound-effects-8-bit-style
