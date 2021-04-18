@@ -15,7 +15,11 @@
 
 You can find [here](https://github.com/rchastain/eschecs/blob/master/ENGINES.md) a collection of UCI engines that you could use with *Eschecs*.
 
-### Command line options
+## Screenshot
+
+![alt text](images/screenshots/eschecs500f.png)
+
+## Command line options
 
 The behaviour and the appearance of the application can be set using the following command line parameters.
 
@@ -35,7 +39,7 @@ The behaviour and the appearance of the application can be set using the followi
 | -g \<v\>, --green=\<v\> | Color used to show legal target squares. |
 | -r \<v\>, --red=\<v\> | Color used to show that a king is in check. |
 
-#### Available fonts and sizes
+### Available fonts and sizes
 
 * Alpha    30, 40, 50, 60, 70, 80, 90, 100
 * Condal   30, 40, 50, 60, 70, 80, 90, 100
@@ -47,7 +51,7 @@ The behaviour and the appearance of the application can be set using the followi
 * Usual    30, 40, 50, 60, 70, 80, 90, 100
 * Wood     30, 40, 50, 60, 70, 80
 
-#### Available languages
+### Available languages
 
 * Czech
 * Dutch
@@ -65,7 +69,7 @@ Thanks to the translators:
 * Marcello Basso (Italian)
 * Ñuño Martínez (Spanish)
 
-### Keyboard Controls
+## Keyboard Controls
 
     ↑   Go to the last position
     ↓   Go back to the first position
@@ -103,10 +107,6 @@ The other pieces set has been made from TrueType chess fonts:
 ### Sounds
 
 The sound effects come from [Lichess][1], the well-known chess server by Thibault Duplessis, and from [The Essential Retro Video Game Sound Effects Collection][2] by Juhani Junkala.
-
-## Screenshot
-
-![alt text](images/screenshots/eschecs500f.png)
 
 [1]: https://github.com/ornicar/lila/tree/master/public/sound
 [2]: https://opengameart.org/content/512-sound-effects-8-bit-style

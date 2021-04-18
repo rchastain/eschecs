@@ -1,4 +1,8 @@
 
+# Engines
+
+Here are a list of UCI engines, with an approximate estimation of their strength, from A (very weak) to E (very strong).
+
 | Engine | Version | Logo | Author | Protocol | Code source | FRC support | Strength | Link |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Alouette | 0.0.9 | ![alt text](images/logos/alouette/logo.bmp) | Roland Chastain | UCI | Pascal | Yes | A | [Website](https://sites.google.com/view/eschecs/alouette) [Website](https://github.com/rchastain/alouette) |
@@ -23,4 +27,4 @@
 | SlowChess |  | ![alt text](images/logos/slowchess/slow.bmp) | Jonathan Kreuzer | UCI | C++ | Yes | E | [Website](https://www.3dkingdoms.com/chess/slow.htm) |
 | Xadreco | 5.71 | ![alt text](images/logos/xadreco/xadreco-logo1.jpg) | Ruben Carlo Benante | XBoard | C | No | B | [Website](https://github.com/drbeco/xadreco) |
 
-The indication of engines strength is approximate. For more precise information, please see the [CCRL website](https://www.computerchess.org.uk/ccrl/).
+For more precise information, please see the [CCRL website](https://www.computerchess.org.uk/ccrl/).
