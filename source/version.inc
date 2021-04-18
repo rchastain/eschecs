@@ -1,25 +1,4 @@
 
 const
-  CVersion = '5.0.6';
+  CVersion = '5.1.0';
   CDefaultTitle = 'Eschecs'; 
-{$IF DEFINED(CPU64) AND DEFINED(WINDOWS)}
-  COsType = 'win64';
-{$ENDIF}
-{$IF DEFINED(CPU86) AND DEFINED(WINDOWS)}
-  COsType = 'win32';
-{$ENDIF}
-{$IF DEFINED(CPU64) AND DEFINED(LINUX)}
-  COsType = 'lin64';
-{$ENDIF}
-{$IF DEFINED(CPU86) AND DEFINED(LINUX)}
-  COsType = 'lin32';
-{$ENDIF}
-{$IF DEFINED(CPUARM) AND DEFINED(LINUX)}
-  COsType = 'arm32';
-{$ENDIF}
-{$IF DEFINED(CPU64) AND DEFINED(FREEBSD)}
-  COsType = 'bsd64';
-{$ENDIF}
-{$IF DEFINED(CPU86) AND DEFINED(FREEBSD)}
-  COsType = 'bsd32';
-{$ENDIF}

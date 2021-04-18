@@ -1,10 +1,6 @@
 
 program Eschecs;
 
-{$IFDEF UNIX}
-{$DEFINE USECTHREADS}
-{$ENDIF}
-
 uses
 {$IFDEF UNIX}
   CThreads,
@@ -32,9 +28,7 @@ uses
   Utils,
   Language,
   Connect,
-{$IFDEF UNIX}
   Permission,
-{$ENDIF}
   Settings,
   Validator,
   ChessTypes,
@@ -76,7 +70,7 @@ type
     FUserColor: TPieceColorStrict;
     FComputerColor: TPieceColor;
     FWaiting: boolean;
-    FEngine: {integer}TFileName;
+    FEngine: TFileName;
     FEngineExists: boolean;
     FConnected: boolean;
     FMoveHist: TMoveList;
@@ -123,9 +117,7 @@ type
     FMovesSubMenu: TfpgPopupMenu;
     FBoardSubMenu: TfpgPopupMenu;
     FOptionsSubMenu: TfpgPopupMenu;
-    FAudioSubMenu: TfpgPopupMenu;
     FTimer: TfpgTimer;
-    procedure ItemExitClicked(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
     procedure ItemNewGame960Clicked(Sender: TObject);
     procedure OtherItemClicked(Sender: TObject);
@@ -138,7 +130,7 @@ type
     procedure NewPosition(const APos: string; const AHistory: string = '');
     function TryNavigate(const ACurrIndex: integer; const ANavig: TNavigation): integer;
     procedure PlaySound(const ASound: integer);
-    procedure CloseAll(Sender: TObject);
+    procedure ItemQuitClicked(Sender: TObject);
     procedure SaveGame(Sender: TObject);
     procedure OnResized(Sender: TObject);
     function LoadFrcPos(const ANumber: integer): string;
@@ -148,7 +140,6 @@ type
 {$I icon.inc}
 
 const
-  CFirstEngineItem = 3;
   CLogName = 'eschecs.log';
   
 var
@@ -196,7 +187,12 @@ end;
 
 procedure Send(const ACommand: string);
 begin
-  WriteProcessInput(ACommand);
+  try
+    WriteProcessInput(ACommand);
+  except
+    on E: Exception do
+      WriteLn(ErrOutput, {$I %FILE%}, ' ', {$I %LINE%}, ' ', E.Message);
+  end;
   Log(ACommand, '>');
 end;
 
@@ -238,10 +234,11 @@ begin
   if FConnected then
   begin
     Send(MsgQuit);
-    FreeConnectedProcess;
-    LListener.Terminate;
-    LListener.WaitFor;
+    Sleep(200);
   end;
+  FreeConnectedProcess;
+  LListener.Terminate;
+  LListener.WaitFor;
   LListener.Free;
   FMoveHist.Free;
   FPosHist.Free;
@@ -342,8 +339,6 @@ begin
   with FBoardSubMenu   do Name := 'FBoardSubMenu';
   FOptionsSubMenu := TfpgPopupMenu.Create(self);
   with FOptionsSubMenu do Name := 'FOptionsSubMenu';
-  FAudioSubMenu   := TfpgPopupMenu.Create(self);
-  with FAudioSubMenu   do Name := 'FAudioSubMenu';
   InitForm;
 end;
 
@@ -399,25 +394,13 @@ begin
   with FEschecsSubMenu do
   begin
     AddMenuItem(GetText(txSave), 'Ctrl+S', @SaveGame);
-    AddMenuItem(GetText(txSave) + ' + ' + GetText(txQuit), 'Esc', @ItemExitClicked);
-    AddMenuItem('-', '', nil);
-    AddMenuItem(GetText(txQuit), 'Ctrl+Q', @CloseAll);
+    AddMenuItem(GetText(txQuit), 'Ctrl+Q', @ItemQuitClicked);
     AddMenuItem('-', '', nil);
     AddMenuItem(GetText(txAbout), '', @OtherItemClicked);
   end;
   with FOptionsSubMenu do
   begin
-    AddMenuItem(GetText(txSound), '',    nil).SubMenu := FAudioSubMenu;
-  end;
-  with FAudioSubMenu do
-  begin
-    AddMenuItem(GetText(txEnabled), '', @OtherItemClicked).Checked := TRUE;
-    AddMenuItem('-', '', nil);
-    AddMenuItem(GetText(txVolume) + ':', '', nil);
-    AddMenuItem('100 %', '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem('75 %',  '', @OtherItemClicked).Checked := FALSE;
-    AddMenuItem('50 %',  '', @OtherItemClicked).Checked := TRUE;
-    AddMenuItem('25 %',  '', @OtherItemClicked).Checked := FALSE;
+    AddMenuItem(GetText(txSound), '', @OtherItemClicked).Checked := TRUE;
   end;
   with FBoardSubMenu do
   begin
@@ -485,11 +468,12 @@ begin
   FWaitingForReadyOk := 0;
   FWaitingForUserMove := TRUE;
   
-  Log(Format('Eschecs %s %s %s %s FPC %s fpGUI %s BGRABitmap %s', [
+  Log(Format('Eschecs %s %s %s %s %s FPC %s fpGUI %s BGRABitmap %s', [
     CVersion,
-    COsType,
     {$I %DATE%},
     {$I %TIME%},
+    {$I %FPCTARGETCPU%},
+    {$I %FPCTARGETOS%},
     {$I %FPCVERSION%},
     FPGUI_VERSION,
     BGRABitmapVersionStr
@@ -500,18 +484,19 @@ begin
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
   
-  FConnected := FileExists(FEngine)
-(*
-{$IFDEF UNIX}
-    and IsFileExecutable(FEngine) or MakeFileExecutable(FEngine)
-{$ENDIF}
-*)
-    and SetCurrentDir(ExtractFileDir(FEngine))
-    and CreateConnectedProcess(ExtractFileName(FEngine));
+  try
+    FConnected := FileExists(FEngine)
+      and MakeFileExecutableIf(FEngine) (* Make file executable if necessary. *)
+      and SetCurrentDir(ExtractFileDir(FEngine))
+      and CreateConnectedProcess(ExtractFileName(FEngine));
+  except
+    on E: Exception do
+      WriteLn(E.Message);
+  end;
     
   if FConnected then
   begin
-    Log(Format('Connecté à %s.', [FEngine]));
+    Log(Format('Engine connected [%s]', [FEngine]));
     LListener.Start;
     Send(MsgUci);
   end else
@@ -519,13 +504,13 @@ begin
   
   if LoadSoundLib < 0 then
   begin
-    FAudioSubMenu.MenuItem(0).Checked := FALSE;
-    FAudioSubMenu.MenuItem(0).Enabled := FALSE;
-  end else 
+    FOptionsSubMenu.MenuItem(0).Checked := FALSE;
+    FOptionsSubMenu.MenuItem(0).Enabled := FALSE;
+  end{ else 
   begin
-    FAudioSubMenu.MenuItem(0).Checked := TRUE;
-    FAudioSubMenu.MenuItem(0).Enabled := TRUE;
-  end;
+    FOptionsSubMenu.MenuItem(0).Checked := TRUE;
+    FOptionsSubMenu.MenuItem(0).Enabled := TRUE;
+  end};
   FComputerCastling := FALSE;
 end;
 
@@ -629,19 +614,6 @@ begin
     Exit;
   DropPiece(AMousePos);
 end;
-  
-procedure TMainForm.ItemExitClicked(Sender: TObject);
-begin
-  FTimer.Enabled := FALSE;
-  if FConnected then
-  begin
-    Send(MsgQuit);
-    Sleep(500);
-    FreeConnectedProcess;
-  end; 
-  SaveGame(Sender);
-  Close;
-end;
 
 procedure TMainForm.ItemNewGameClicked(Sender: TObject);
 const
@@ -679,14 +651,12 @@ begin
 end;
 
 procedure TMainForm.OtherItemClicked(Sender: TObject);
-var
-  i, j: integer;
 begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = GetText(txAbout) then
         TfpgMessageDialog.Information(GetText(txAbout), 'Eschecs ' + CVersion + LineEnding + GetText(txAboutMessage))
-    else
+      else
       if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
       else
@@ -707,38 +677,8 @@ begin
         FRightLegendWidget.Invalidate;
         FBottomLegendWidget.Invalidate;
       end else
-      if Text = GetText(txEnabled) then
-      begin
+      if Text = GetText(txSound) then
         Checked := not Checked;
-      end else
-      if Text = '100 %' then
-      begin
-        for i := 3 to 6 do
-          FAudioSubMenu.MenuItem(i).Checked := FALSE;
-        Checked := TRUE;
-        SetSoundVolume(100);
-      end else
-      if Text = '75 %' then
-      begin
-        for i := 3 to 6 do
-          FAudioSubMenu.MenuItem(i).Checked := FALSE;
-        Checked := TRUE;
-        SetSoundVolume(75);
-      end else
-      if Text = '50 %' then
-      begin
-        for i := 3 to 6 do
-          FAudioSubMenu.MenuItem(i).Checked := FALSE;
-        Checked := TRUE;
-        SetSoundVolume(50);
-      end else
-      if Text = '25 %' then
-      begin
-        for i := 3 to 6 do
-          FAudioSubMenu.MenuItem(i).Checked := FALSE;
-        Checked := TRUE;
-        SetSoundVolume(25);
-      end;
 end;
 
 procedure TMainForm.InternalTimerFired(Sender: TObject);
@@ -943,18 +883,13 @@ end;
 
 procedure TMainForm.PlaySound(const ASound: integer);
 begin
-  if FAudioSubMenu.MenuItem(0).Checked then
+  if FOptionsSubMenu.MenuItem(0).Checked then
     Play(ASound);
 end;
 
-procedure TMainForm.CloseAll(Sender: TObject);
+procedure TMainForm.ItemQuitClicked(Sender: TObject);
 begin
   FTimer.Enabled := FALSE;
-  if FConnected then
-  begin
-    Send(MsgQuit);
-    FreeConnectedProcess;
-  end;
   Close;
 end;
 
@@ -1017,12 +952,12 @@ begin
     try
       LoadFromFile(LFile);
       result := Strings[ANumber];
-      Log(Format('Position de départ n° %d.', [ANumber]));
+      Log(Format('Start position n. %d.', [ANumber]));
     finally
       Free;
     end
   else
-    ShowMessage(Format('Fichier introuvable: %s', [LFile]));
+    ShowMessage(Format('File not found: %s', [LFile]));
 end;
 
 procedure TMainForm.DropPiece(const AMousePos: TPoint; const ABortMove: boolean);
@@ -1101,7 +1036,7 @@ begin
   Log(FMessage, '<');
   if IsMsgUciOk(FMessage, LName, LAuthor, LFrcAvail) then
   begin
-    Log(Format('Protocole accepté. Moteur %s. Auteur %s.', [LName, LAuthor]));
+    Log(Format('UCI protocol accepted.' + LineEnding + 'Engine name: %s' + LineEnding + 'Author: %s', [LName, LAuthor]));
     if LForm.FChess960 then
     begin
       if LFrcAvail then
@@ -1151,7 +1086,7 @@ begin
 end;
 
 begin
-  Assert(DirectoryExists(LConfigFilesPath), Format('Répertoire introuvable : %s', [LConfigFilesPath]));
+  Assert(DirectoryExists(LConfigFilesPath), Format('Directory not found: %s', [LConfigFilesPath]));
   
   try
     fpgApplication.Initialize;

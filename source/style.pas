@@ -116,6 +116,6 @@ begin
 end;
 
 initialization
-  fpgStyleManager.RegisterClass('eschecs_style', TextStyle);
+  fpgStyleManager.RegisterClass('eschecs', TextStyle);
 
 end.

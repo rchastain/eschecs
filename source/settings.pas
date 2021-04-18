@@ -11,13 +11,12 @@ procedure LoadSettings(
   out AAutoPlay, AUpsideDown: boolean;
   out AStyle: TBoardStyle;
   out AHist: string;
-  out APosIndex{, AEngIndex}: integer;
+  out APosIndex: integer;
   out AEngine: TFileName;
   out ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
   out AMoveTime: integer;
   out AFont: string;
   out ALang: TLanguage;
-  out AColoring: boolean;
   out AScale: integer;
   out AChess960: boolean
 );
@@ -26,19 +25,26 @@ procedure SaveSettings(
   const AAutoPlay, AUpsideDown: boolean;
   const AStyle: TBoardStyle;
   const AHist: string;
-  const APosIndex{, AEngIndex}: integer;
+  const APosIndex: integer;
   const AEngine: TFileName;
   const ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
   const AMoveTime: integer;
   const AFont: string;
   const ALang: TLanguage;
-  const AColoring: boolean;
   const AScale: integer;
   const AChess960: boolean
 );
 
 const
-  CDefaultEngine = {-1}'engine/cheng4/cheng4_linux_x64';
+{$IFDEF MSWINDOWS}
+  CDefaultEngine = 'engine/cheng4/cheng4_x64.exe';
+{$ELSE}
+{$IFDEF LINUX}
+  CDefaultEngine = 'engine/cheng4/cheng4_linux_x64';
+{$ELSE}
+  CDefaultEngine = 'engine/cheng4/cheng4_osx_x64';
+{$ENDIF}
+{$ENDIF}
   CDefaultPosition: array[boolean] of string = (
     CFenStartPosition,
     CFenStartPosition518
@@ -71,13 +77,12 @@ procedure LoadSettings(
   out AAutoPlay, AUpsideDown: boolean;
   out AStyle: TBoardStyle;
   out AHist: string;
-  out APosIndex{, AEngIndex}: integer;
+  out APosIndex: integer;
   out AEngine: TFileName;
   out ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
   out AMoveTime: integer;
   out AFont: string;
   out ALang: TLanguage;
-  out AColoring: boolean;
   out AScale: integer;
   out AChess960: boolean
 );
@@ -99,7 +104,6 @@ begin
     AMoveTime := ReadInteger(CSectionOptions, 'movetime', CDefaultMoveTime);
     AFont := ReadString(CSectionOptions, 'font', CDefaultFont);
     ALang := TLanguage(ReadInteger(CSectionOptions, 'language', Ord(CDefaultLanguage)));
-    AColoring := LowerCase(ReadString(CSectionOptions, 'coloring', 'true')) = 'true';
     AScale := ReadInteger(CSectionOptions, 'scale', CDefaultScale);
   finally
     Free;
@@ -111,13 +115,12 @@ procedure SaveSettings(
   const AAutoPlay, AUpsideDown: boolean;
   const AStyle: TBoardStyle;
   const AHist: string;
-  const APosIndex{, AEngIndex}: integer;
+  const APosIndex: integer;
   const AEngine: TFileName;
   const ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
   const AMoveTime: integer;
   const AFont: string;
   const ALang: TLanguage;
-  const AColoring: boolean;
   const AScale: integer;
   const AChess960: boolean
 );
@@ -138,7 +141,6 @@ begin
     WriteInteger(CSectionOptions, 'movetime', AMoveTime);
     WriteString(CSectionOptions, 'font', AFont);
     WriteInteger(CSectionOptions, 'language', Ord(ALang));
-    WriteString(CSectionOptions, 'coloring', LowerCase(BoolToStr(AColoring, TRUE)));
     WriteInteger(CSectionOptions, 'scale', AScale);
     WriteString(CSectionOptions, 'chess960', LowerCase(BoolToStr(AChess960, TRUE)));
     UpdateFile;
