@@ -41,7 +41,7 @@ uses
   Game,
   Uci,
   Fen,
-  Engines,
+  //Engines,
   Sound,
   MoveList,
   FrmAbout,
@@ -78,7 +78,8 @@ type
     FUserColor: TPieceColorStrict;
     FComputerColor: TPieceColor;
     FWaiting: boolean;
-    FEngine: integer;
+    FEngine: {integer}TFileName;
+    FEngineExists: boolean;
     FConnected: boolean;
     FMoveHist: TMoveList;
     FPosHist: TStringList;
@@ -381,13 +382,13 @@ begin
   );
   
   FFenFileName := Concat(LConfigFilesPath, 'eschecs.fen');
-  
+  (*
   LFileName := Concat(LConfigFilesPath, 'eschecs-', COsType, '.eng');
   if FileExists(LFileName) then
     LoadEnginesData(LFileName, FChess960)
   else
     ShowMessage(Format('Fichier introuvable : %s', [LFileName]));
-  
+  *)
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(LCurrPos));
   FMoveHist := TMoveList.Create(LMoveHist);
@@ -440,6 +441,7 @@ begin
   begin
     AddMenuItem(GetText(txComputerMove), '', @OtherItemClicked);
     AddMenuItem(GetText(txAutoPlay),     '', @OtherItemClicked).Checked := LAuto;
+    (*
     AddMenuItem('-', '', nil);
     for LIndex := 0 to High(LEngines) do
       with AddMenuItem(LEngines[LIndex].FName, '', @OtherItemClicked) do
@@ -450,6 +452,7 @@ begin
         if Enabled and (FEngine = CDefaultEngine) then
           FEngine := LIndex;
       end;
+    *)
   end;
   SetPosition(0, 0, 9 * LScale, 24 + 9 * LScale + 24);
   WindowTitle := CDefaultTitle;
@@ -520,9 +523,29 @@ begin
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
+  
+  (*
   with FMovesSubMenu do
     if MenuItem(FEngine + CFirstEngineItem).Enabled then
       OtherItemClicked(MenuItem(FEngine + CFirstEngineItem));
+  *)
+  FConnected := FileExists(FEngine)
+(*
+{$IFDEF UNIX}
+    and IsFileExecutable(FEngine) or MakeFileExecutable(FEngine)
+{$ENDIF}
+*)
+    and SetCurrentDir(ExtractFileDir(FEngine))
+    and CreateConnectedProcess(ExtractFileName(FEngine));
+    
+  if FConnected then
+  begin
+    Log(Format('Connecté à %s.', [FEngine]));
+    LListener.Start;
+    Send(MsgUci);
+  end else
+    TfpgMessageDialog.Information('Error', GetText(txConnectionFailure));
+  
   if LoadSoundLib < 0 then
   begin
     FAudioSubMenu.MenuItem(0).Checked := FALSE;
@@ -640,6 +663,12 @@ end;
 procedure TMainForm.ItemExitClicked(Sender: TObject);
 begin
   FTimer.Enabled := FALSE;
+  if FConnected then
+  begin
+    Send(MsgQuit);
+    Sleep(500);
+    FreeConnectedProcess;
+  end; 
   SaveGame(Sender);
   Close;
 end;
@@ -745,30 +774,6 @@ begin
           FAudioSubMenu.MenuItem(i).Checked := FALSE;
         Checked := TRUE;
         SetSoundVolume(25);
-      end else
-      for i := 0 to High(LEngines) do if Text = LEngines[i].FName then
-      begin
-        for j := 0 to High(LEngines) do
-          FMovesSubMenu.MenuItem(j + CFirstEngineItem).Checked := j = i;
-        if FConnected then
-        begin
-          Send(MsgQuit);
-          FreeConnectedProcess;
-        end;
-        with LEngines[i] do
-          FConnected :=
-            SetCurrentDir(ExtractFileDir(ParamStr(0)))
-            and FileExists(Concat(FDirectory, FCommand))
-            and SetCurrentDir(FDirectory)
-            and CreateConnectedProcess(FCommand);
-        if FConnected then
-        begin
-          Log(Format('Connecté à %s.', [LEngines[i].FName]));
-          LListener.Start;
-          Send(MsgUci);
-          FEngine := i;
-        end else
-          ShowAboutForm(GetText(txConnectionFailure), '',  GetText(txTitleMessage), GetText(txQuit), '');
       end;
 end;
 
@@ -982,6 +987,11 @@ end;
 procedure TMainForm.CloseAll(Sender: TObject);
 begin
   FTimer.Enabled := FALSE;
+  if FConnected then
+  begin
+    Send(MsgQuit);
+    FreeConnectedProcess;
+  end;
   Close;
 end;
 
