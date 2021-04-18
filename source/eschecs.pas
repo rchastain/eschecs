@@ -43,7 +43,6 @@ uses
   Fen,
   Sound,
   MoveList,
-  FrmAbout,
   FrmPromotion,
   Style,
   Pgn,
@@ -354,7 +353,6 @@ const
 var
   LCurrPos: string;
   LAuto: boolean;
-  LIndex: integer;
   LFileName: TFileName;
   LMoveHist: string;
   LLegend: TBGRABitmap;
@@ -517,7 +515,7 @@ begin
     LListener.Start;
     Send(MsgUci);
   end else
-    TfpgMessageDialog.Information('Error', GetText(txConnectionFailure));
+    TfpgMessageDialog.Information('Connection failed', GetText(txConnectionFailure));
   
   if LoadSoundLib < 0 then
   begin
@@ -687,13 +685,7 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = GetText(txAbout) then
-        ShowAboutForm(
-          Concat('Eschecs ', CVersion),
-          GetText(txAboutMessage),
-          GetText(txAbout),
-          GetText(txQuit),
-          'Website'
-        )
+        TfpgMessageDialog.Information(GetText(txAbout), 'Eschecs ' + CVersion + LineEnding + GetText(txAboutMessage))
     else
       if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
@@ -1007,11 +999,11 @@ begin
   FRightLegendWidget.Left := FChessboardWidget.Left + FChessboardWidget.Width;
   FBottomLegendWidget.Top := FChessboardWidget.Bottom;
   FBottomLegendWidget.Left := FChessboardWidget.Left;
-  FChessboardWidget.UpdateWindowPosition;
-  FTopLegendWidget.UpdateWindowPosition;
-  FLeftLegendWidget.UpdateWindowPosition;
-  FRightLegendWidget.UpdateWindowPosition;
-  FBottomLegendWidget.UpdateWindowPosition;
+  FChessboardWidget.UpdatePosition;
+  FTopLegendWidget.UpdatePosition;
+  FLeftLegendWidget.UpdatePosition;
+  FRightLegendWidget.UpdatePosition;
+  FBottomLegendWidget.UpdatePosition;
 end;
 
 function TMainForm.LoadFrcPos(const ANumber: integer): string;
@@ -1144,7 +1136,7 @@ begin
       LForm.DoMove(LMove, LType, TRUE, LSkip);
     end else
     begin
-      ShowAboutForm(GetText(txIllegalMove), LMove,  GetText(txTitleMessage), GetText(txQuit), '');
+      TfpgMessageDialog.Information(GetText(txTitleMessage), GetText(txIllegalMove) + LineEnding + LMove);
       LForm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       LForm.FComputerColor := pcNil;
     end;
@@ -1164,7 +1156,7 @@ begin
   try
     fpgApplication.Initialize;
     fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, SizeOf(vfd_eschecs), 0, 0);
-    if fpgStyleManager.SetStyle('eschecs_style') then
+    if fpgStyleManager.SetStyle('eschecs') then
       fpgStyle := fpgStyleManager.Style;
     fpgApplication.CreateForm(TMainForm, LForm);
     fpgApplication.MainForm := LForm;
