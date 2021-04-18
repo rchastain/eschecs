@@ -7,7 +7,7 @@
 
 ## Usage
 
-*Eschecs* is shipped with an engine. If you wish to use another engine, start *Eschecs* with the engine path as parameter.
+*Eschecs* is shipped with an engine (Cheng). If you wish to use another one, start *Eschecs* with the engine path as parameter.
 
 ```
 ./eschecs /home/roland/uciengines/ct800/142/source/application-uci/output/CT800_V1.42
@@ -19,37 +19,41 @@ You can find [here](https://github.com/rchastain/eschecs/blob/master/ENGINES.md)
 
 ![alt text](images/screenshots/eschecs500f.png)
 
+You can see moer screenshots on [this page](https://github.com/rchastain/eschecs/blob/master/images/screenshots/README.md).
+
 ## Command line options
 
-The behaviour and the appearance of the application can be set using the following command line parameters.
+The behaviour and the appearance of *Eschecs* can be set using the following command line parameters.
 
 | Parameter name | Parameter value |
 | --- | --- |
 | -p \<v\>, --position=\<v\> | The position to be loaded, in FEN format. |
-| -a \<v\>, --autoplay=\<v\> | The computer will be the second player. Possible values: false, true. |
-| -u \<v\>, --upsidedown=\<v\> | Draw the chessboard upside down. Possible values: false, true. |
-| -c \<v\>, --chessboard=\<v\> | Appearance of the chessboard. Possible values: simple, marble, marble2, wood. |
+| -a \<v\>, --autoplay=\<v\> | The computer will be the second player. Possible values: **false**, **true**. |
+| -u \<v\>, --upsidedown=\<v\> | Draw the chessboard upside down. Possible values: **false**, **true**. |
+| -c \<v\>, --chessboard=\<v\> | Appearance of the chessboard. Possible values: **simple**, **marble**, **marble2**, **wood**. |
 | -m \<v\>, --movetime=\<v\> | Time allowed for the computer move, in milliseconds. |
 | -f \<v\>, --font=\<v\> | Piece set. See below possible values. |
 | -l \<v\>, --language=\<v\> | Language. See below possible values. |
 | -s \<v\>, --size=\<v\> | Size of the square. See below possible values for each font. |
-| -f \<v\>, --fischerandom=\<v\> | Play Fischer Random Chess. Possible values: false, true. |
-| -w \<v\>, --white=\<v\> | Color of white squares, in RRGGBBAA format. |
-| -b \<v\>, --black=\<v\> | Color of black squares. |
-| -g \<v\>, --green=\<v\> | Color used to show legal target squares. |
-| -r \<v\>, --red=\<v\> | Color used to show that a king is in check. |
+| -f \<v\>, --fischerandom=\<v\> | Play Fischer Random Chess. Possible values: **false**, **true**. |
+| -w \<v\>, --white=\<v\> | Color of white squares, in **RRGGBBAA** format. |
+| -b \<v\>, --black=\<v\> | Color of black squares, same format. |
+| -g \<v\>, --green=\<v\> | Color for legal target squares. |
+| -r \<v\>, --red=\<v\> | Color for the square of a king being in check. |
+
+The settings and the current game are automatically saved when you close the application, and reloaded when you start it. (Excepted when you use the -p parameter: in that case the previous game will not be reloaded.)
 
 ### Available fonts and sizes
 
-* Alpha    30, 40, 50, 60, 70, 80, 90, 100
-* Condal   30, 40, 50, 60, 70, 80, 90, 100
-* Line     30, 40, 50, 60, 70, 80, 90, 100
-* Lucena   30, 40, 50, 60, 70, 80, 90, 100
-* Magnetic 30, 40, 50, 60, 70, 80, 90, 100
-* Mark     30, 40, 50, 60, 70, 80, 90, 100
-* Montreal 30, 40, 50, 60, 70, 80, 90, 100
-* Usual    30, 40, 50, 60, 70, 80, 90, 100
-* Wood     30, 40, 50, 60, 70, 80
+* Alpha&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Condal&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Line&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Lucena&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Magnetic&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Mark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Montreal&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Usual&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
+* Wood&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80
 
 ### Available languages
 
