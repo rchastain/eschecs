@@ -38,7 +38,7 @@ procedure SaveSettings(
 );
 
 const
-  CDefaultEngine = {-1}'engines/cheng4/cheng4_linux_x64';
+  CDefaultEngine = {-1}'engine/cheng4/cheng4_linux_x64';
   CDefaultPosition: array[boolean] of string = (
     CFenStartPosition,
     CFenStartPosition518
