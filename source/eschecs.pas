@@ -92,7 +92,6 @@ type
     FWaitingForReadyOk: integer;
     FWaitingForUserMove: boolean;
     FPgnData: TStringList;
-    FColoring: boolean;
     FComputerCastling: boolean;
     FFenFileName: TFileName;
     FXLegend, FYLegend, FXLegendInv, FYLegendInv: TBGRABitmap;
@@ -375,7 +374,6 @@ begin
     FMoveTime,
     LFont,
     LLang,
-    FColoring,
     LScale,
     FChess960
   );
@@ -587,8 +585,7 @@ begin
       FUserMove := EncodeSquare(X, Y);
       FDragging := TRUE;
       FChessboard.SavePieceBackground(FInitPos, TRUE);
-      if FColoring then
-        FChessboard.ScreenRestore;
+      FChessboard.ScreenRestore;
     end;
   end;
 end;
@@ -833,8 +830,7 @@ begin
       LSymbol := '';
     if AComputerMove then
       FChessboard.MovePiece(AMove, APromotion);
-    if FColoring then
-      LHighlighted := AMove;
+    LHighlighted := AMove;
   end;
   LSanMove := FGame.GetSan(AMove);
   FGame.DoMove(Concat(AMove, LSymbol));
@@ -856,7 +852,7 @@ var
   LX, LY: integer;
   LIndex: integer;
 begin
-  if FColoring and FGame.Check and FChessboard.ScreenSaved then
+  if FGame.Check and FChessboard.ScreenSaved then
   begin
     FGame.GetKingCheckedXY(LX, LY);
     LIndex := FChessboard.FindPiece(LX, LY);
@@ -987,7 +983,6 @@ begin
     FMoveTime,
     LFont,
     LLang,
-    FColoring,
     LScale,
     FChess960
   );
@@ -1072,11 +1067,8 @@ begin
     begin
       FChessboard.SetPieceXY(FPieceIndex, X, Y);
       FChessboard.DrawPiece(FChessboard.XYToScreen(X, Y), FPieceIndex);
-      if FColoring then
-      begin
-        FChessboard.ScreenSave;
-        FChessboard.HighlightMove(FUserMove, FPieceIndex);
-      end;
+      FChessboard.ScreenSave;
+      FChessboard.HighlightMove(FUserMove, FPieceIndex);
     end;
     FChessboardWidget.Invalidate;
     OnMoveDone(FMoveHist.GetString(FCurrPosIndex));
@@ -1148,8 +1140,7 @@ begin
         end
       else
         LType := ptNil;
-      if LForm.FColoring then
-        LForm.FChessboard.ScreenRestore;
+      LForm.FChessboard.ScreenRestore;
       LForm.DoMove(LMove, LType, TRUE, LSkip);
     end else
     begin
