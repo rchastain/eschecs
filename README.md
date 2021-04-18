@@ -11,21 +11,21 @@
 
 ### Command line options
 
-| Parameter | Meaning |
+| Parameter name | Parameter value |
 | --- | --- |
-| -p \<value\>, --value=\<value\> | The position to be loaded, in FEN format. |
-| -a \<value\>, --autoplay=\<value\> | The computer will be the second player. Possible values: false, true. |
-| -u \<value\>, --upsidedown=\<value\> | Draw the chessboard upside down. Possible values: false, true. |
-| -c \<value\>, --chessboard=\<value\> | Appearance of the chessboard. Possible values: simple, marble, marble2, wood. |
-| -m \<value\>, --movetime=\<value\> | Time allowed for the computer move, in milliseconds. |
-| -f \<value\>, --font=\<value\> | Piece set. See below possible values. |
-| -l \<value\>, --language=\<value\> | Language. See below possible values. |
-| -s \<value\>, --size=\<value\> | Size of the square. See below possible values for each font. |
-| -f \<value\>, --fischerandom=\<value\> | Play Fischer Random Chess. Possible values: false, true. |
-| -w \<value\>, --white=\<value\> | Color of white squares, in RRGGBBAA format. |
-| -b \<value\>, --black=\<value\> | Color of black squares, in RRGGBBAA format. |
-| -g \<value\>, --green=\<value\> | Color of legal target squares, in RRGGBBAA format. |
-| -r \<value\>, --red=\<value\> | Color of white squares, in RRGGBBAA format. |
+| -p \<v\>, --position=\<v\> | The position to be loaded, in FEN format. |
+| -a \<v\>, --autoplay=\<v\> | The computer will be the second player. Possible values: false, true. |
+| -u \<v\>, --upsidedown=\<v\> | Draw the chessboard upside down. Possible values: false, true. |
+| -c \<v\>, --chessboard=\<v\> | Appearance of the chessboard. Possible values: simple, marble, marble2, wood. |
+| -m \<v\>, --movetime=\<v\> | Time allowed for the computer move, in milliseconds. |
+| -f \<v\>, --font=\<v\> | Piece set. See below possible values. |
+| -l \<v\>, --language=\<v\> | Language. See below possible values. |
+| -s \<v\>, --size=\<v\> | Size of the square. See below possible values for each font. |
+| -f \<v\>, --fischerandom=\<v\> | Play Fischer Random Chess. Possible values: false, true. |
+| -w \<v\>, --white=\<v\> | Color of white squares, in RRGGBBAA format. |
+| -b \<v\>, --black=\<v\> | Color of black squares. |
+| -g \<v\>, --green=\<v\> | Color of legal target squares. |
+| -r \<v\>, --red=\<v\> | Color of white squares. |
 
 #### Available fonts and sizes
 
