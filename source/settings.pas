@@ -91,7 +91,6 @@ begin
     AStyle := TBoardStyle(ReadInteger(CSectionOptions, 'style', Ord(CDefaultStyle)));
     AHist := ReadString(CSectionOptions, 'history', CDefaultHistory);
     APosIndex := ReadInteger(CSectionOptions, 'index', CDefaultIndex);
-    //AEngIndex := ReadInteger(CSectionOptions, 'engine', CDefaultEngine);
     AEngine := ReadString(CSectionOptions, 'engine', CDefaultEngine);
     ALightSquareColor := StrToBGRA(ReadString(CSectionColors, 'light', 'A9A9A9FF'));
     ADarkSquareColor := StrToBGRA(ReadString(CSectionColors, 'dark', '808080FF'));
@@ -131,7 +130,6 @@ begin
     WriteInteger(CSectionOptions, 'style', Ord(AStyle));
     WriteString(CSectionOptions, 'history', AHist);
     WriteInteger(CSectionOptions, 'index', APosIndex);
-    //WriteInteger(CSectionOptions, 'engine', AEngIndex);
     WriteString(CSectionColors, 'engine', AEngine);
     WriteString(CSectionColors, 'light', BGRAToStr(ALightSquareColor));
     WriteString(CSectionColors, 'dark', BGRAToStr(ADarkSquareColor));

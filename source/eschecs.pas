@@ -41,7 +41,6 @@ uses
   Game,
   Uci,
   Fen,
-  //Engines,
   Sound,
   MoveList,
   FrmAbout,
@@ -382,13 +381,6 @@ begin
   );
   
   FFenFileName := Concat(LConfigFilesPath, 'eschecs.fen');
-  (*
-  LFileName := Concat(LConfigFilesPath, 'eschecs-', COsType, '.eng');
-  if FileExists(LFileName) then
-    LoadEnginesData(LFileName, FChess960)
-  else
-    ShowMessage(Format('Fichier introuvable : %s', [LFileName]));
-  *)
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(LCurrPos));
   FMoveHist := TMoveList.Create(LMoveHist);
@@ -441,18 +433,6 @@ begin
   begin
     AddMenuItem(GetText(txComputerMove), '', @OtherItemClicked);
     AddMenuItem(GetText(txAutoPlay),     '', @OtherItemClicked).Checked := LAuto;
-    (*
-    AddMenuItem('-', '', nil);
-    for LIndex := 0 to High(LEngines) do
-      with AddMenuItem(LEngines[LIndex].FName, '', @OtherItemClicked) do
-      begin
-        with LEngines[LIndex] do
-          Enabled := FExists{$IFDEF UNIX} and IsFileExecutable(Concat(FDirectory, FCommand)) or MakeFileExecutable(Concat(FDirectory, FCommand)){$ENDIF};
-        Checked := FALSE;
-        if Enabled and (FEngine = CDefaultEngine) then
-          FEngine := LIndex;
-      end;
-    *)
   end;
   SetPosition(0, 0, 9 * LScale, 24 + 9 * LScale + 24);
   WindowTitle := CDefaultTitle;
@@ -524,11 +504,6 @@ begin
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
   
-  (*
-  with FMovesSubMenu do
-    if MenuItem(FEngine + CFirstEngineItem).Enabled then
-      OtherItemClicked(MenuItem(FEngine + CFirstEngineItem));
-  *)
   FConnected := FileExists(FEngine)
 (*
 {$IFDEF UNIX}
