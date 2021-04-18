@@ -45,15 +45,17 @@ The settings and the current game are automatically saved when you close the app
 
 ### Available fonts and sizes
 
-* Alpha&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Condal&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Line&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Lucena&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Magnetic&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Mark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Montreal&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Usual&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80, 90, 100
-* Wood&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30, 40, 50, 60, 70, 80
+```
+Alpha    30, 40, 50, 60, 70, 80, 90, 100
+Condal   30, 40, 50, 60, 70, 80, 90, 100
+Line     30, 40, 50, 60, 70, 80, 90, 100
+Lucena   30, 40, 50, 60, 70, 80, 90, 100
+Magnetic 30, 40, 50, 60, 70, 80, 90, 100
+Mark     30, 40, 50, 60, 70, 80, 90, 100
+Montreal 30, 40, 50, 60, 70, 80, 90, 100
+Usual    30, 40, 50, 60, 70, 80, 90, 100
+Wood     30, 40, 50, 60, 70, 80
+```
 
 ### Available languages
 
