@@ -19,7 +19,7 @@ You can find [here](https://github.com/rchastain/eschecs/blob/master/ENGINES.md)
 
 ![alt text](images/screenshots/eschecs500f.png)
 
-You can see moer screenshots on [this page](https://github.com/rchastain/eschecs/blob/master/images/screenshots/README.md).
+You can see more screenshots on [this page](https://github.com/rchastain/eschecs/blob/master/images/screenshots/README.md).
 
 ## Command line options
 
@@ -41,7 +41,7 @@ The behaviour and the appearance of *Eschecs* can be set using the following com
 | -g \<v\>, --green=\<v\> | Color for legal target squares. |
 | -r \<v\>, --red=\<v\> | Color for the square of a king being in check. |
 
-The settings and the current game are automatically saved when you close the application, and reloaded when you start it. (Excepted when you use the -p parameter: in that case the previous game will not be reloaded.)
+The settings and the current game are automatically saved when you close the application, and reloaded when you start it. (Excepted when you use the `-p` parameter: in that case the previous game will not be reloaded.)
 
 ### Available fonts and sizes
 
@@ -89,7 +89,7 @@ Thanks to the translators:
 
 * [fpGUI](https://github.com/graemeg/fpGUI)
 * [BGRABitmap](https://github.com/bgrabitmap/bgrabitmap)
-* [LazUtils](https://sourceforge.net/projects/lazarus/)
+* LazUtils from the [Lazarus](https://sourceforge.net/projects/lazarus/) Component Library
 * [uos](https://github.com/fredvs/uos)
 
 ## Authors
