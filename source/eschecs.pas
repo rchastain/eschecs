@@ -19,6 +19,7 @@ uses
   fpg_panel,
   fpg_stylemanager,
   fpg_widget,
+  fpg_cmdlineparams,
   
   BGRABitmap,
   BGRABitmapTypes,
@@ -118,6 +119,8 @@ type
     FBoardSubMenu: TfpgPopupMenu;
     FOptionsSubMenu: TfpgPopupMenu;
     FTimer: TfpgTimer;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure ItemNewGameClicked(Sender: TObject);
     procedure ItemNewGame960Clicked(Sender: TObject);
     procedure OtherItemClicked(Sender: TObject);
@@ -144,7 +147,7 @@ const
   
 var
   LListener: TThread;
-
+    
 procedure Log(const ALine: string); overload;
 var
   LLog: TextFile;
@@ -216,8 +219,19 @@ begin
   end;
 end;
 
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  DebugLn('FormCreate');
+end;
+
+procedure TMainForm.FormShow(Sender: TObject);
+begin
+  DebugLn('FormShow');
+end;
+
 procedure TMainForm.HandleKeyPress(var KeyCode: word; var ShiftState: TShiftState; var Consumed: boolean);
 begin
+  DebugLn('HandleKeyPress');
   case KeyCode of
     KeyLeft,
     KeyBackspace: FCurrPosIndex := TryNavigate(FCurrPosIndex, nvPrevious);
@@ -229,6 +243,7 @@ end;
 
 destructor TMainForm.Destroy;
 begin
+  DebugLn('Destroy');
   FChessboard.Free;
   FGame.Free;
   if FConnected then
@@ -262,6 +277,7 @@ end;
 
 procedure TMainForm.AfterCreate;
 begin
+  DebugLn('AfterCreate');
   Randomize;
   Name := 'MainForm';
   WindowTitle := 'Eschecs';
@@ -270,6 +286,8 @@ begin
   IconName := 'vfd.eschecs';
   ShowHint := TRUE;
   WindowPosition := wpOneThirdDown;
+  OnCreate := @FormCreate;
+  OnShow := @FormShow;
   OnResize := @OnResized;
   FChessboardWidget := TfpgWidget.Create(self);
   with FChessboardWidget do
@@ -327,7 +345,7 @@ begin
   with FMenuBar do
   begin
     Name := 'FMenuBar';
-    //Align := alTop;
+    Align := alTop;
     SetPosition(0, 0, 9 * 40, 24);
     Anchors := [anLeft, anRight, anTop];
   end;
@@ -339,19 +357,28 @@ begin
   with FBoardSubMenu   do Name := 'FBoardSubMenu';
   FOptionsSubMenu := TfpgPopupMenu.Create(self);
   with FOptionsSubMenu do Name := 'FOptionsSubMenu';
+  
   InitForm;
 end;
 
 procedure TMainForm.InitForm;
 const
   CMenuBarHeight = 24;
+  CBoolStr: array[boolean] of Tfpgstring = ('false', 'true');
 var
   LCurrPos: string;
   LAuto: boolean;
   LFileName: TFileName;
   LMoveHist: string;
   LLegend: TBGRABitmap;
+  LCmdIntf: ICmdLineParams;
+  LErr: Tfpgstring;
+  LArr: TStringArray;
 begin
+  DebugLn('InitForm');
+  
+  (* Load settings from *.ini file *)
+  
   LoadSettings(
     LCurrPos,
     LAuto,
@@ -371,7 +398,105 @@ begin
     FChess960
   );
   
+  (* Read command line parameters *)
+  
+  if Supports(fpgApplication, ICmdLineParams, LCmdIntf) then
+  begin
+    if LCmdIntf.ParamCount > 0 then
+    begin
+      try
+        LErr := LCmdIntf.CheckOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', 'autoplay: black: chessboard: fischerandom: font: green: language: movetime: position: red: size: upsidedown: volume: white:');
+      except
+        on E: Exception do
+          WriteLn(ErrOutput, {$I %FILE%}, ' ', {$I %LINE%}, ' ', Format('Invalid command line option: %s', [E.Message]));
+      end;
+      if Length(LErr) > 0 then
+        DebugLn('LErr=', LErr)
+      else
+      begin
+        if LCmdIntf.HasOption('p', 'position') then
+        begin
+          //DebugLn('position=', LCmdIntf.GetOptionValue('p', 'position'));
+          LCurrPos := LCmdIntf.GetOptionValue('p', 'position');
+        end;
+        if LCmdIntf.HasOption('a', 'autoplay') then
+        begin
+          //DebugLn('autoplay=', LCmdIntf.GetOptionValue('a', 'autoplay'));
+          //LAuto := LCmdIntf.GetOptionValue('a', 'autoplay');
+        end;
+        if LCmdIntf.HasOption('u', 'upsidedown') then
+        begin
+          //DebugLn('upsidedown=', CBoolStr[LCmdIntf.HasOption('u', 'upsidedown')]);
+          FUpsideDown := LCmdIntf.HasOption('u', 'upsidedown');
+        end;
+        if LCmdIntf.HasOption('c', 'chessboard') then
+        begin
+          //DebugLn('chessboard=', LCmdIntf.GetOptionValue('c', 'chessboard'));
+          
+        end;
+        if LCmdIntf.HasOption('m', 'movetime') then
+        begin
+          //DebugLn('movetime=', LCmdIntf.GetOptionValue('m', 'movetime'));
+          
+        end;
+        if LCmdIntf.HasOption('f', 'font') then
+        begin
+          //DebugLn('font=', LCmdIntf.GetOptionValue('f', 'font'));
+          
+        end;
+        if LCmdIntf.HasOption('l', 'language') then
+        begin
+          //DebugLn('language=', LCmdIntf.GetOptionValue('l', 'language'));
+          
+        end;
+        if LCmdIntf.HasOption('s', 'size') then
+        begin
+          //DebugLn('size=', LCmdIntf.GetOptionValue('s', 'size'));
+          
+        end;
+        if LCmdIntf.HasOption('f', 'fischerandom') then
+        begin
+          //DebugLn('fischerandom=', LCmdIntf.GetOptionValue('f', 'fischerandom'));
+          
+        end;
+        if LCmdIntf.HasOption('w', 'white') then
+        begin
+          //DebugLn('white=', LCmdIntf.GetOptionValue('w', 'white'));
+          
+        end;
+        if LCmdIntf.HasOption('b', 'black') then
+        begin
+          //DebugLn('black=', LCmdIntf.GetOptionValue('b', 'black'));
+          
+        end;
+        if LCmdIntf.HasOption('g', 'green') then
+        begin
+          //DebugLn('green=', LCmdIntf.GetOptionValue('g', 'green'));
+          
+        end;
+        if LCmdIntf.HasOption('r', 'red') then
+        begin
+          //DebugLn('red=', LCmdIntf.GetOptionValue('r', 'red'));
+          
+        end;
+        try
+          LArr := LCmdIntf.GetNonOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', ['autoplay:', 'black:', 'chessboard:', 'fischerandom:', 'font:', 'green:', 'language:', 'movetime:', 'position:', 'red:', 'size:', 'upsidedown:', 'volume:', 'white:']);
+        except
+          on E: Exception do
+            WriteLn(ErrOutput, {$I %FILE%}, ' ', {$I %LINE%}, ' ', Format('Invalid command line option: %s', [E.Message]));
+        end;
+        if Length(LArr) = 1 then
+        begin
+          //DebugLn('LArr[0]=', LArr[0]);
+          FEngine := LArr[0];
+        end;
+      end;
+    end;
+  end else
+    WriteLn(ErrOutput, 'Cannot process command line parameters');
+  
   FFenFileName := Concat(LConfigFilesPath, 'eschecs.fen');
+  
   FValidator := TValidator.Create;
   Assert(FValidator.IsFEN(LCurrPos));
   FMoveHist := TMoveList.Create(LMoveHist);
@@ -413,6 +538,7 @@ begin
     AddMenuItem(GetText(txComputerMove), '', @OtherItemClicked);
     AddMenuItem(GetText(txAutoPlay),     '', @OtherItemClicked).Checked := LAuto;
   end;
+  
   SetPosition(0, 0, 9 * LScale, 24 + 9 * LScale + 24);
   WindowTitle := CDefaultTitle;
   MinWidth := 9 * LScale;
@@ -429,21 +555,21 @@ begin
   LLegend.Free;
   
   FYLegend := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/y/%d.png', [ExtractFilePath(ParamStr(0)),LScale]);
+  LFileName := Format('%simages/legend/y/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
   Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FXLegendInv := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/x/inv/%d.png', [ExtractFilePath(ParamStr(0)),LScale]);
+  LFileName := Format('%simages/legend/x/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
   Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
   LLegend := TBGRABitmap.Create(LFileName);
   FXLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FYLegendInv := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/y/inv/%d.png', [ExtractFilePath(ParamStr(0)),LScale]);
+  LFileName := Format('%simages/legend/y/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
   Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
@@ -460,6 +586,7 @@ begin
   FUserMove := '';
   OnMoveDone(FMoveHist.GetString(FCurrPosIndex), FALSE);
   SetComputerColor(FMovesSubMenu.MenuItem(1).Checked);
+  
   LListener := TListener.Create(TRUE);
   LListener.Priority := tpHigher;
   FWaiting := FALSE;
@@ -506,11 +633,7 @@ begin
   begin
     FOptionsSubMenu.MenuItem(0).Checked := FALSE;
     FOptionsSubMenu.MenuItem(0).Enabled := FALSE;
-  end{ else 
-  begin
-    FOptionsSubMenu.MenuItem(0).Checked := TRUE;
-    FOptionsSubMenu.MenuItem(0).Enabled := TRUE;
-  end};
+  end;
   FComputerCastling := FALSE;
 end;
 
@@ -889,6 +1012,7 @@ end;
 
 procedure TMainForm.ItemQuitClicked(Sender: TObject);
 begin
+  DebugLn('ItemQuitClicked');
   FTimer.Enabled := FALSE;
   Close;
 end;
@@ -1085,6 +1209,7 @@ begin
   end;
 end;
 
+procedure MainProc;
 begin
   Assert(DirectoryExists(LConfigFilesPath), Format('Directory not found: %s', [LConfigFilesPath]));
   
@@ -1104,4 +1229,8 @@ begin
     on E: Exception do
       WriteLn(E.ClassName, ': ', E.Message);
   end;
+end;
+
+begin
+  MainProc;
 end.
