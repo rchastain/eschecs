@@ -3,14 +3,14 @@
 
 ## Overview
 
-*Eschecs* is a graphical interface to play chess against [UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) engines.
+*Eschecs* is a simple graphical interface to play chess against [UCI](http://www.shredderchess.com/chess-info/features/uci-universal-chess-interface.html) engines.
 
 ## Usage
 
 *Eschecs* is shipped with an engine (Cheng). If you wish to use another one, start *Eschecs* with the engine path as parameter.
 
 ```
-./eschecs /home/roland/uciengines/ct800/142/source/application-uci/output/CT800_V1.42
+./eschecs /home/robert/uciengines/CT800_V1.42
 ```
 
 You can find [here](https://github.com/rchastain/eschecs/blob/master/ENGINES.md) a collection of UCI engines that you could use with *Eschecs*.
@@ -30,7 +30,7 @@ The behaviour and the appearance of *Eschecs* can be set using the following com
 | `-p <v>`, `--position=<v>` | The position to be loaded, in FEN format. |
 | `-a <v>`, `--autoplay=<v>` | The computer will be the second player. Possible values: **false**, **true**. |
 | `-u <v>`, `--upsidedown=<v>` | Draw the chessboard upside down. Possible values: **false**, **true**. |
-| `-c <v>`, `--chessboard=<v>` | Appearance of the chessboard. Possible values: **simple**, **marble**, **marble2**, **wood**. |
+| `-c <v>`, `--chessboard=<v>` | Appearance of the chessboard. Possible values: **simple**, **marble**, **wood**. |
 | `-m <v>`, `--movetime=<v>` | Time allowed for the computer move, in milliseconds. |
 | `-f <v>`, `--font=<v>` | Piece set. See below possible values. |
 | `-l <v>`, `--language=<v>` | Language. See below possible values. |
@@ -40,7 +40,7 @@ The behaviour and the appearance of *Eschecs* can be set using the following com
 | `-g <v>`, `--green=<v>` | Color for legal target squares. |
 | `-r <v>`, `--red=<v>` | Color for the square of a king being in check. |
 
-The settings and the current game are automatically saved when you close the application, and reloaded when you start it. (Excepted when you use the `-p` parameter: in that case the previous game will not be reloaded.)
+The settings and the current game are automatically saved when you close the application, and reloaded when you start it.
 
 ### Available fonts and sizes
 

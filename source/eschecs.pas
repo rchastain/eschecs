@@ -421,6 +421,14 @@ begin
         begin
           DebugLn('position = [', LCmdIntf.GetOptionValue('p', 'position'), ']');
           LCurrPos := Trim(LCmdIntf.GetOptionValue('p', 'position'));
+          (*
+          FMoveHist.Clear;
+          FPosHist.Clear;
+          FPosHist.Append(LCurrPos);
+          FPgnData.Clear;
+          FPgnData.Append(LCurrPos);
+          FCurrPosIndex := 0;
+          *)
         end;
         if LCmdIntf.HasOption('a', 'autoplay') then
         begin
@@ -478,17 +486,6 @@ begin
           s := Trim(LCmdIntf.GetOptionValue('s', 'size'));
           LScale := StrToIntDef(s, 40);
         end;
-        (*
-        if LCmdIntf.HasOption('f', 'fischerandom') then
-        begin
-          DebugLn('fischerandom = [', LCmdIntf.GetOptionValue('f', 'fischerandom'), ']');
-          s :=Trim(LCmdIntf.GetOptionValue('f', 'fischerandom'));
-          try
-            FChess960 := StrToBool(s);
-          except
-          end;
-        end;
-        *)
         if LCmdIntf.HasOption('w', 'white') then
         begin
           DebugLn('white = [', LCmdIntf.GetOptionValue('w', 'white'), ']');          
@@ -552,9 +549,7 @@ begin
   end;
   with FEschecsSubMenu do
   begin
-    (*
-    AddMenuItem(GetText(txSave), 'Ctrl+S', @SaveGame);
-    *)
+   {AddMenuItem(GetText(txSave), 'Ctrl+S', @SaveGame);}
     AddMenuItem(GetText(txQuit), 'Ctrl+Q', @ItemQuitClicked);
     AddMenuItem('-', '', nil);
     AddMenuItem(GetText(txAbout), '', @OtherItemClicked);
@@ -1177,21 +1172,23 @@ procedure TListener.OnEngineMessage;
 var
   LName, LAuthor, LMove, LTypeStr: string;
   LType: TPieceType;
-  LFrcAvail: boolean;
+  LCanPlayFischerChess: boolean;
   LSkip: boolean;
 begin
   LSkip := FALSE;
   Log(FMessage, '<');
-  if IsMsgUciOk(FMessage, LName, LAuthor, LFrcAvail) then
+  if IsMsgUciOk(FMessage, LName, LAuthor, LCanPlayFischerChess) then
   begin
     Log(Format('UCI protocol accepted [%s, %s]', [LName, LAuthor]));
-    if LForm.FChess960 then
+    
+    if LCanPlayFischerChess then
     begin
-      if LFrcAvail then
-        Send(MsgSetOption('UCI_Chess960', TRUE))
-      else
-        ShowMessage('Option UCI_Chess960 not available.');
-    end;
+      LForm.FBoardSubMenu.MenuItem(1).Enabled := TRUE;
+      if LForm.FChess960 then
+        Send(MsgSetOption('UCI_Chess960', TRUE));
+    end else
+      LForm.FBoardSubMenu.MenuItem(1).Enabled := FALSE;
+    
     Send(MsgNewGame);
     LForm.WindowTitle := LName;
   end else
