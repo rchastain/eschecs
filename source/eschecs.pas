@@ -366,6 +366,8 @@ end;
 procedure TMainForm.InitForm;
 const
   CMenuBarHeight = 24;
+  CDefaultVolume = 25;
+  CMaxVolume = 75;
 var
   LCurrPos: string;
   LAuto: boolean;
@@ -376,7 +378,7 @@ var
   LErr: Tfpgstring;
   LArr: TStringArray;
   s: string;
-  LVolume: integer;
+  LVolume: integer = 25;
 begin
   DebugLn('InitForm');
   
@@ -419,9 +421,10 @@ begin
       begin
         if LCmdIntf.HasOption('p', 'position') then
         begin
-          DebugLn('position = [', LCmdIntf.GetOptionValue('p', 'position'), ']');
-          LCurrPos := Trim(LCmdIntf.GetOptionValue('p', 'position'));
+          s := LCmdIntf.GetOptionValue('p', 'position'); DebugLn('position = [', s, ']');
+          LCurrPos := Trim(s);
           (*
+          // Trop tôt !
           FMoveHist.Clear;
           FPosHist.Clear;
           FPosHist.Append(LCurrPos);
@@ -432,8 +435,8 @@ begin
         end;
         if LCmdIntf.HasOption('a', 'autoplay') then
         begin
-          DebugLn('autoplay = [', LCmdIntf.GetOptionValue('a', 'autoplay'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('a', 'autoplay'));
+          s := LCmdIntf.GetOptionValue('a', 'autoplay'); DebugLn('autoplay = [', s, ']');
+          s := Trim(s);
           try
             LAuto := StrToBool(s);
           except
@@ -441,8 +444,8 @@ begin
         end;
         if LCmdIntf.HasOption('u', 'upsidedown') then
         begin
-          DebugLn('upsidedow = [', LCmdIntf.GetOptionValue('u', 'upsidedow'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('u', 'upsidedown'));
+          s := LCmdIntf.GetOptionValue('u', 'upsidedow'); DebugLn('upsidedow = [', s, ']');
+          s := Trim(s);
           try
             FUpsideDown := StrToBool(s);
           except
@@ -450,9 +453,9 @@ begin
         end;
         if LCmdIntf.HasOption('c', 'chessboard') then
         begin
-          DebugLn('chessboard = [', LCmdIntf.GetOptionValue('c', 'chessboard'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('c', 'chessboard'));
-          s := LowerCase(s);
+          s := LCmdIntf.GetOptionValue('c', 'chessboard');
+          DebugLn('chessboard = [', s, ']');
+          s := LowerCase(Trim(s));
           if      s = 'simple'  then FStyle := bsSimple
           else if s = 'marble'  then FStyle := bsMarbleI
           else if s = 'marble2' then FStyle := bsMarbleII
@@ -460,21 +463,20 @@ begin
         end;
         if LCmdIntf.HasOption('m', 'movetime') then
         begin
-          DebugLn('movetime = [', LCmdIntf.GetOptionValue('m', 'movetime'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('m', 'movetime'));
+          s := LCmdIntf.GetOptionValue('m', 'movetime'); DebugLn('movetime = [', s, ']');
+          s := Trim(s);
           FMoveTime := StrToIntDef(s, 999);
         end;
         if LCmdIntf.HasOption('f', 'font') then
         begin
-          DebugLn('font = [', LCmdIntf.GetOptionValue('f', 'font'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('f', 'font'));
-          s := LowerCase(s);
+          s := LCmdIntf.GetOptionValue('f', 'font'); DebugLn('font = [', s, ']');
+          s := LowerCase(Trim(s));
           LFont := s;
         end;
         if LCmdIntf.HasOption('l', 'language') then
         begin
-          DebugLn('language = [', LCmdIntf.GetOptionValue('l', 'language'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('l', 'language'));
+          s := LCmdIntf.GetOptionValue('l', 'language'); DebugLn('language = [', s, ']');
+          s := Trim(s);
           try
             LLang := TLanguage(GetEnumValue(TypeInfo(TLanguage), 'lg' + s));
           except
@@ -482,34 +484,37 @@ begin
         end;
         if LCmdIntf.HasOption('s', 'size') then
         begin
-          DebugLn('size = [', LCmdIntf.GetOptionValue('s', 'size'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('s', 'size'));
+          s := LCmdIntf.GetOptionValue('s', 'size'); DebugLn('size = [', s, ']');
+          s := Trim(s);
           LScale := StrToIntDef(s, 40);
         end;
         if LCmdIntf.HasOption('w', 'white') then
         begin
-          DebugLn('white = [', LCmdIntf.GetOptionValue('w', 'white'), ']');          
+          s := LCmdIntf.GetOptionValue('w', 'white');
+          DebugLn('white = [', s, ']');          
         end;
         if LCmdIntf.HasOption('b', 'black') then
         begin
-          DebugLn('black = [', LCmdIntf.GetOptionValue('b', 'black'), ']');          
+          s := LCmdIntf.GetOptionValue('b', 'black');
+          DebugLn('black = [', s, ']');          
         end;
         if LCmdIntf.HasOption('g', 'green') then
         begin
-          DebugLn('green = [', LCmdIntf.GetOptionValue('g', 'green'), ']');          
+          s := LCmdIntf.GetOptionValue('g', 'green');
+          DebugLn('green = [', s, ']');          
         end;
         if LCmdIntf.HasOption('r', 'red') then
         begin
-          DebugLn('red = [', LCmdIntf.GetOptionValue('r', 'red'), ']');          
+          s := LCmdIntf.GetOptionValue('r', 'red');
+          DebugLn('red = [', s, ']');          
         end;
         if LCmdIntf.HasOption('v', 'volume') then
         begin
-          DebugLn('volume = [', LCmdIntf.GetOptionValue('v', 'volume'), ']');
-          s := Trim(LCmdIntf.GetOptionValue('v', 'volume'));
-          LVolume := StrToIntDef(s, 50);
-          LVolume := Min(LVolume, 100);
-          LVolume := Max(LVolume, 0);
-          SetSoundVolume(LVolume);          
+          s := LCmdIntf.GetOptionValue('v', 'volume'); DebugLn('volume = [', s, ']');
+          s := Trim(s);
+          LVolume := StrToIntDef(s, Pred(CDefaultVolume));
+          LVolume := Min(LVolume, CMaxVolume);
+          LVolume := Max(LVolume, 0);          
         end;
         try
           LArr := LCmdIntf.GetNonOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', ['autoplay:', 'black:', 'chessboard:', 'font:', 'green:', 'language:', 'movetime:', 'position:', 'red:', 'size:', 'upsidedown:', 'volume:', 'white:']);
@@ -579,29 +584,25 @@ begin
   FMenuBar.SetPosition(0, 0, 9 * LScale, 24);
   
   FXLegend := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/x/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
-  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
+  LFileName := Format('%simages/legend/x/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
   LLegend := TBGRABitmap.Create(LFileName);
   FXLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FYLegend := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/y/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
-  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
+  LFileName := Format('%simages/legend/y/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FXLegendInv := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/x/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
-  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
+  LFileName := Format('%simages/legend/x/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
   LLegend := TBGRABitmap.Create(LFileName);
   FXLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
   
   FYLegendInv := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/y/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
-  Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
+  LFileName := Format('%simages/legend/y/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
   LLegend := TBGRABitmap.Create(LFileName);
   FYLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
   LLegend.Free;
@@ -646,7 +647,9 @@ begin
   end else
     ShowMessage(GetText(txConnectionFailure));
   
-  if LoadSoundLib < 0 then
+  if LoadSoundLib >= 0 then
+    SetSoundVolume(LVolume)
+  else
   begin
     FOptionsSubMenu.MenuItem(0).Checked := FALSE;
     FOptionsSubMenu.MenuItem(0).Enabled := FALSE;

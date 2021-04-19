@@ -47,6 +47,7 @@ var
   LPortAudio, LMpg123, LAudioPath, LSndFilesPath: string;
   x: integer;
 begin
+  //WriteLn('LoadSoundLib(', AUseSystemLib, ')');
   LAudioPath := ExtractFilePath(ParamStr(0)) + 'audio' + DirectorySeparator;
   LSndFilesPath := LAudioPath + 'sound' + DirectorySeparator;
 {$IFDEF windows}
@@ -109,6 +110,7 @@ procedure SetSoundVolume(AVol: shortint);
 var
   x: integer;
 begin
+  //WriteLn('SetSoundVolume(', AVol, ')');
   if LLoaded then
     for x := 0 to 5 do
       uos_OutputSetDSPVolume(x, 0, AVol / 100, AVol / 100, TRUE);
