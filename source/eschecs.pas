@@ -149,7 +149,7 @@ const
   
 var
   LListener: TThread;
-    
+  
 procedure Log(const ALine: string); overload;
 var
   LLog: TextFile;
@@ -377,8 +377,10 @@ var
   LCmdIntf: ICmdLineParams;
   LErr: Tfpgstring;
   LArr: TStringArray;
+  LLoadSoundLib: integer;
+  LVolume: integer = CDefaultVolume;
+  LExpr: TRegExpr;
   s: string;
-  LVolume: integer = 25;
 begin
   DebugLn('InitForm');
   
@@ -396,6 +398,10 @@ begin
     LDSColor,
     LBackColors[bcGreen],
     LBackColors[bcRed],
+    LLMColor,
+    LLMColor2,
+    LDMColor,
+    LDMColor2,
     FMoveTime,
     LFont,
     LLang,
@@ -410,7 +416,7 @@ begin
     if LCmdIntf.ParamCount > 0 then
     begin
       try
-        LErr := LCmdIntf.CheckOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', 'autoplay: black: chessboard: font: green: language: movetime: position: red: size: upsidedown: volume: white:');
+        LErr := LCmdIntf.CheckOptions('a:b:c:f:g:l:m:p:r:s:t:u:v:w:', 'autoplay: black: chessboard: font: green: language: marblecolors: position: red: size: time: upsidedown: volume: white:');
       except
         on E: Exception do
           Log('EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
@@ -457,13 +463,15 @@ begin
           DebugLn('chessboard = [', s, ']');
           s := LowerCase(Trim(s));
           if      s = 'simple'  then FStyle := bsSimple
-          else if s = 'marble'  then FStyle := bsMarbleI
-          else if s = 'marble2' then FStyle := bsMarbleII
+          else if s = 'marbleoriginal'  then FStyle := bsMarbleOriginal
+          else if s = 'marblenew' then FStyle := bsMarbleNew
+          else if s = 'marblecustom' then FStyle := bsMarbleCustom
+          else if s = 'marble' then FStyle := bsMarbleOriginal
           else if s = 'wood'    then FStyle := bsWood;
         end;
-        if LCmdIntf.HasOption('m', 'movetime') then
+        if LCmdIntf.HasOption('t', 'time') then
         begin
-          s := LCmdIntf.GetOptionValue('m', 'movetime'); DebugLn('movetime = [', s, ']');
+          s := LCmdIntf.GetOptionValue('t', 'time'); DebugLn('time = [', s, ']');
           s := Trim(s);
           FMoveTime := StrToIntDef(s, 999);
         end;
@@ -508,6 +516,24 @@ begin
           s := LCmdIntf.GetOptionValue('r', 'red');
           DebugLn('red = [', s, ']');          
         end;
+        if LCmdIntf.HasOption('m', 'marblecolors') then
+        begin
+          s := LCmdIntf.GetOptionValue('m', 'marblecolors');
+          DebugLn('marblecolors = [', s, ']');
+          s := UpperCase(s);          
+          LExpr := TRegExpr.Create('([\dA-F]{8}),([\dA-F]{8}),([\dA-F]{8}),([\dA-F]{8})');
+          try          
+          if LExpr.Exec(s) then
+            begin
+              LLMColor := StrToBGRA(LExpr.Match[1]);
+              LLMColor2 := StrToBGRA(LExpr.Match[2]);
+              LDMColor := StrToBGRA(LExpr.Match[3]);
+              LDMColor2 := StrToBGRA(LExpr.Match[4]);
+            end;
+          except
+          end;         
+          LExpr.Free;                    
+        end;
         if LCmdIntf.HasOption('v', 'volume') then
         begin
           s := LCmdIntf.GetOptionValue('v', 'volume'); DebugLn('volume = [', s, ']');
@@ -517,7 +543,7 @@ begin
           LVolume := Max(LVolume, 0);          
         end;
         try
-          LArr := LCmdIntf.GetNonOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', ['autoplay:', 'black:', 'chessboard:', 'font:', 'green:', 'language:', 'movetime:', 'position:', 'red:', 'size:', 'upsidedown:', 'volume:', 'white:']);
+          LArr := LCmdIntf.GetNonOptions('a:b:c:f:g:l:m:p:r:s:t:u:v:w:', ['autoplay:', 'black:', 'chessboard:', 'font:', 'green:', 'language:', 'marblecolors:', 'position:', 'red:', 'size:', 'time:', 'upsidedown:', 'volume:', 'white:']);
         except
           on E: Exception do
             WriteLn('EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
@@ -647,7 +673,9 @@ begin
   end else
     ShowMessage(GetText(txConnectionFailure));
   
-  if LoadSoundLib >= 0 then
+  LLoadSoundLib := LoadSoundLib(FALSE); // TRUE = Use system libraries
+  Log(Format('LoadSoundLib = %d', [LLoadSoundLib])); 
+  if LLoadSoundLib >= 0 then
     SetSoundVolume(LVolume)
   else
   begin
@@ -1053,6 +1081,10 @@ begin
     FCurrPosIndex,
     FEngine,
     LLSColor, LDSColor, LBackColors[bcGreen], LBackColors[bcRed],
+    LLMColor,
+    LLMColor2,
+    LDMColor,
+    LDMColor2,
     FMoveTime,
     LFont,
     LLang,

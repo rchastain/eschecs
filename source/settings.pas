@@ -13,7 +13,7 @@ procedure LoadSettings(
   out AHist: string;
   out APosIndex: integer;
   out AEngine: TFileName;
-  out ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  out ALightSquareColor, ADarkSquareColor, AGreen, ARed, ALightMarbleColor, ALightMarbleColor2, ADarkMarbleColor, ADarkMarbleColor2: TBGRAPixel;
   out AMoveTime: integer;
   out AFont: string;
   out ALang: TLanguage;
@@ -27,7 +27,7 @@ procedure SaveSettings(
   const AHist: string;
   const APosIndex: integer;
   const AEngine: TFileName;
-  const ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  const ALightSquareColor, ADarkSquareColor, AGreen, ARed, ALightMarbleColor, ALightMarbleColor2, ADarkMarbleColor, ADarkMarbleColor2: TBGRAPixel;
   const AMoveTime: integer;
   const AFont: string;
   const ALang: TLanguage;
@@ -79,7 +79,7 @@ procedure LoadSettings(
   out AHist: string;
   out APosIndex: integer;
   out AEngine: TFileName;
-  out ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  out ALightSquareColor, ADarkSquareColor, AGreen, ARed, ALightMarbleColor, ALightMarbleColor2, ADarkMarbleColor, ADarkMarbleColor2: TBGRAPixel;
   out AMoveTime: integer;
   out AFont: string;
   out ALang: TLanguage;
@@ -101,6 +101,10 @@ begin
     ADarkSquareColor := StrToBGRA(ReadString(CSectionColors, 'dark', '808080FF'));
     AGreen := StrToBGRA(ReadString(CSectionColors, 'green', '60C00080'));
     ARed := StrToBGRA(ReadString(CSectionColors, 'red', 'C0000080'));
+    ALightMarbleColor := StrToBGRA(ReadString(CSectionColors, 'lightmarble', 'EEEEEEFF'));
+    ALightMarbleColor2 := StrToBGRA(ReadString(CSectionColors, 'lightmarble2', 'CCCCCCFF'));
+    ADarkMarbleColor := StrToBGRA(ReadString(CSectionColors, 'darkmarble', '444444FF'));
+    ADarkMarbleColor2 := StrToBGRA(ReadString(CSectionColors, 'darkmarble2', '666666FF'));
     AMoveTime := ReadInteger(CSectionOptions, 'movetime', CDefaultMoveTime);
     AFont := ReadString(CSectionOptions, 'font', CDefaultFont);
     ALang := TLanguage(ReadInteger(CSectionOptions, 'language', Ord(CDefaultLanguage)));
@@ -117,7 +121,7 @@ procedure SaveSettings(
   const AHist: string;
   const APosIndex: integer;
   const AEngine: TFileName;
-  const ALightSquareColor, ADarkSquareColor, AGreen, ARed: TBGRAPixel;
+  const ALightSquareColor, ADarkSquareColor, AGreen, ARed, ALightMarbleColor, ALightMarbleColor2, ADarkMarbleColor, ADarkMarbleColor2: TBGRAPixel;
   const AMoveTime: integer;
   const AFont: string;
   const ALang: TLanguage;
@@ -138,6 +142,10 @@ begin
     WriteString(CSectionColors, 'dark', BGRAToStr(ADarkSquareColor));
     WriteString(CSectionColors, 'green', BGRAToStr(AGreen));
     WriteString(CSectionColors, 'red', BGRAToStr(ARed));
+    WriteString(CSectionColors, 'lightmarble', BGRAToStr(ALightMarbleColor));
+    WriteString(CSectionColors, 'lightmarble2', BGRAToStr(ALightMarbleColor2));
+    WriteString(CSectionColors, 'darkmarble', BGRAToStr(ADarkMarbleColor));
+    WriteString(CSectionColors, 'darkmarble2', BGRAToStr(ADarkMarbleColor2));
     WriteInteger(CSectionOptions, 'movetime', AMoveTime);
     WriteString(CSectionOptions, 'font', AFont);
     WriteInteger(CSectionOptions, 'language', Ord(ALang));

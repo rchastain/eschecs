@@ -14,7 +14,7 @@ uses
   ChessTypes;
 
 type
-  TBoardStyle = (bsSimple, bsMarbleI, bsMarbleII, bsWood);
+  TBoardStyle = (bsSimple, bsMarbleOriginal, bsMarbleNew, bsMarbleCustom, bsWood);
   TBackColor = (bcGreen, bcRed);
   
 var
@@ -22,6 +22,7 @@ var
   LPieceImage: array[TPieceColorStrict, TPieceTypeStrict] of TBGRABitmap;
   LBackColors: array[TBackColor] of TBGRAPixel;
   LLSColor, LDSColor: TBGRAPixel;
+  LLMColor, LLMColor2, LDMColor, LDMColor2: TBGRAPixel; (* Light marble, dark marble *)
   LFont: string;
 
 procedure CreatePictures(const AStyle: TBoardStyle; const AScale: integer);
@@ -100,10 +101,10 @@ begin
         for x := 0 to 7 do for y := 0 to 7 do if Odd(x) xor Odd(y) then
           result.FillRect(RectWithSize(x * AScale, y * AScale, AScale, AScale), LDSColor, dmSet);
       end;
-    bsMarbleI, bsMarbleII:
+    bsMarbleOriginal, bsMarbleNew, bsMarbleCustom:
       begin
         result := TBGRABitmap.Create(8 * AScale, 8 * AScale);
-        if AStyle = bsMarbleI then
+        if AStyle = bsMarbleOriginal then
         begin
           textureClaire := CreateMarbleTexture(8 * (AScale div 5), 8 * (AScale div 5));
           textureFoncee := CreateMarbleTexture(8 * (AScale div 5), 8 * (AScale div 5));
@@ -111,9 +112,14 @@ begin
           textureFoncee.InplaceGrayscale;
           textureFoncee.FillRect(0, 0, 8 * (AScale div 5), 8 * (AScale div 5), BGRA(80, 60, 0, 128), dmDrawWithTransparency);
         end else
+        if AStyle = bsMarbleNew then
         begin
           textureClaire := CreateLightMarbleTexture(8 * (AScale div 5), 8 * (AScale div 5));
           textureFoncee := CreateDarkMarbleTexture(8 * (AScale div 5), 8 * (AScale div 5));
+        end else
+        begin
+          textureClaire := CreateMarbleTexture(8 * (AScale div 5), 8 * (AScale div 5), LLMColor2, LLMColor);
+          textureFoncee := CreateMarbleTexture(8 * (AScale div 5), 8 * (AScale div 5), LDMColor2, LDMColor);
         end;
         for x := 0 to 7 do for y := 0 to 7 do if Odd(x) xor Odd(y) then
           result.FillRect(RectWithSize(x * AScale, y * AScale, AScale, AScale), textureFoncee, dmSet)

@@ -17,7 +17,7 @@ You can find [here](https://github.com/rchastain/eschecs/blob/master/ENGINES.md)
 
 ## Screenshot
 
-![alt text](images/screenshots/eschecs500f.png)
+![alt text](images/screenshots/eschecs510a.png)
 
 You can see more screenshots on [this page](https://github.com/rchastain/eschecs/blob/master/images/screenshots/README.md).
 
@@ -29,9 +29,10 @@ The behaviour and the appearance of *Eschecs* can be set using the following com
 | --- | --- |
 | `-p <v>`, `--position=<v>` | The position to be loaded, in FEN format. |
 | `-a <v>`, `--autoplay=<v>` | The computer will be the second player. Possible values: **false**, **true**. |
+| `-t <v>`, `--time=<v>` | Time allowed for the computer move, in milliseconds. |
 | `-u <v>`, `--upsidedown=<v>` | Draw the chessboard upside down. Possible values: **false**, **true**. |
-| `-c <v>`, `--chessboard=<v>` | Appearance of the chessboard. Possible values: **simple**, **marble**, **wood**. |
-| `-m <v>`, `--movetime=<v>` | Time allowed for the computer move, in milliseconds. |
+| `-c <v>`, `--chessboard=<v>` | Appearance of the chessboard. Possible values: **simple**, **marble**, **marblenew**, **marblecustom**, **wood**. |
+| `-m <v>`, `--marblecolors=<v>` | Marble colors, in **RRGGBBAA,RRGGBBAA,RRGGBBAA,RRGGBBAA** format. |
 | `-f <v>`, `--font=<v>` | Piece set. See below possible values. |
 | `-l <v>`, `--language=<v>` | Language. See below possible values. |
 | `-s <v>`, `--size=<v>` | Size of the square. See below possible values for each font. |
@@ -40,7 +41,9 @@ The behaviour and the appearance of *Eschecs* can be set using the following com
 | `-g <v>`, `--green=<v>` | Color for legal target squares. |
 | `-r <v>`, `--red=<v>` | Color for the square of a king being in check. |
 
-The settings and the current game are automatically saved when you close the application, and reloaded when you start it.
+See *start.sh* for command line examples.
+
+The settings will be automatically saved when you close the application, and reloaded when you start it.
 
 ### Available fonts and sizes
 
@@ -90,6 +93,10 @@ Thanks to the translators:
 * [BGRABitmap](https://github.com/bgrabitmap/bgrabitmap)
 * LazUtils from the [Lazarus](https://sourceforge.net/projects/lazarus/) library
 * [uos](https://github.com/fredvs/uos)
+
+An easy method to build the program is to open a terminal in *source* folder and type `make`. But before doing that, you will have to edit libraries path in *extrafpc.cfg*. (The provided *Makefile* has been made for Linux. It you try to compile on another OS, you could have to retouch it.)
+
+You can also create a Lazarus or an MSEide project.
 
 ## Authors
 
