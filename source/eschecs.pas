@@ -10,6 +10,8 @@ uses
   SysUtils,
   StrUtils,
   RegExpr,
+  TypInfo,
+  Math,
   
   fpg_base,
   fpg_dialogs,
@@ -194,7 +196,7 @@ begin
     WriteProcessInput(ACommand);
   except
     on E: Exception do
-      WriteLn(ErrOutput, {$I %FILE%}, ' ', {$I %LINE%}, ' ', E.Message);
+      Log('EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
   end;
   Log(ACommand, '>');
 end;
@@ -364,7 +366,6 @@ end;
 procedure TMainForm.InitForm;
 const
   CMenuBarHeight = 24;
-  CBoolStr: array[boolean] of Tfpgstring = ('false', 'true');
 var
   LCurrPos: string;
   LAuto: boolean;
@@ -374,6 +375,8 @@ var
   LCmdIntf: ICmdLineParams;
   LErr: Tfpgstring;
   LArr: TStringArray;
+  s: string;
+  LVolume: integer;
 begin
   DebugLn('InitForm');
   
@@ -405,10 +408,10 @@ begin
     if LCmdIntf.ParamCount > 0 then
     begin
       try
-        LErr := LCmdIntf.CheckOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', 'autoplay: black: chessboard: fischerandom: font: green: language: movetime: position: red: size: upsidedown: volume: white:');
+        LErr := LCmdIntf.CheckOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', 'autoplay: black: chessboard: font: green: language: movetime: position: red: size: upsidedown: volume: white:');
       except
         on E: Exception do
-          WriteLn(ErrOutput, {$I %FILE%}, ' ', {$I %LINE%}, ' ', Format('Invalid command line option: %s', [E.Message]));
+          Log('EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
       end;
       if Length(LErr) > 0 then
         DebugLn('LErr=', LErr)
@@ -416,84 +419,115 @@ begin
       begin
         if LCmdIntf.HasOption('p', 'position') then
         begin
-          //DebugLn('position=', LCmdIntf.GetOptionValue('p', 'position'));
-          LCurrPos := LCmdIntf.GetOptionValue('p', 'position');
+          DebugLn('position = [', LCmdIntf.GetOptionValue('p', 'position'), ']');
+          LCurrPos := Trim(LCmdIntf.GetOptionValue('p', 'position'));
         end;
         if LCmdIntf.HasOption('a', 'autoplay') then
         begin
-          //DebugLn('autoplay=', LCmdIntf.GetOptionValue('a', 'autoplay'));
-          //LAuto := LCmdIntf.GetOptionValue('a', 'autoplay');
+          DebugLn('autoplay = [', LCmdIntf.GetOptionValue('a', 'autoplay'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('a', 'autoplay'));
+          try
+            LAuto := StrToBool(s);
+          except
+          end;
         end;
         if LCmdIntf.HasOption('u', 'upsidedown') then
         begin
-          //DebugLn('upsidedown=', CBoolStr[LCmdIntf.HasOption('u', 'upsidedown')]);
-          FUpsideDown := LCmdIntf.HasOption('u', 'upsidedown');
+          DebugLn('upsidedow = [', LCmdIntf.GetOptionValue('u', 'upsidedow'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('u', 'upsidedown'));
+          try
+            FUpsideDown := StrToBool(s);
+          except
+          end;
         end;
         if LCmdIntf.HasOption('c', 'chessboard') then
         begin
-          //DebugLn('chessboard=', LCmdIntf.GetOptionValue('c', 'chessboard'));
-          
+          DebugLn('chessboard = [', LCmdIntf.GetOptionValue('c', 'chessboard'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('c', 'chessboard'));
+          s := LowerCase(s);
+          if      s = 'simple'  then FStyle := bsSimple
+          else if s = 'marble'  then FStyle := bsMarbleI
+          else if s = 'marble2' then FStyle := bsMarbleII
+          else if s = 'wood'    then FStyle := bsWood;
         end;
         if LCmdIntf.HasOption('m', 'movetime') then
         begin
-          //DebugLn('movetime=', LCmdIntf.GetOptionValue('m', 'movetime'));
-          
+          DebugLn('movetime = [', LCmdIntf.GetOptionValue('m', 'movetime'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('m', 'movetime'));
+          FMoveTime := StrToIntDef(s, 999);
         end;
         if LCmdIntf.HasOption('f', 'font') then
         begin
-          //DebugLn('font=', LCmdIntf.GetOptionValue('f', 'font'));
-          
+          DebugLn('font = [', LCmdIntf.GetOptionValue('f', 'font'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('f', 'font'));
+          s := LowerCase(s);
+          LFont := s;
         end;
         if LCmdIntf.HasOption('l', 'language') then
         begin
-          //DebugLn('language=', LCmdIntf.GetOptionValue('l', 'language'));
-          
+          DebugLn('language = [', LCmdIntf.GetOptionValue('l', 'language'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('l', 'language'));
+          try
+            LLang := TLanguage(GetEnumValue(TypeInfo(TLanguage), 'lg' + s));
+          except
+          end;
         end;
         if LCmdIntf.HasOption('s', 'size') then
         begin
-          //DebugLn('size=', LCmdIntf.GetOptionValue('s', 'size'));
-          
+          DebugLn('size = [', LCmdIntf.GetOptionValue('s', 'size'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('s', 'size'));
+          LScale := StrToIntDef(s, 40);
         end;
+        (*
         if LCmdIntf.HasOption('f', 'fischerandom') then
         begin
-          //DebugLn('fischerandom=', LCmdIntf.GetOptionValue('f', 'fischerandom'));
-          
+          DebugLn('fischerandom = [', LCmdIntf.GetOptionValue('f', 'fischerandom'), ']');
+          s :=Trim(LCmdIntf.GetOptionValue('f', 'fischerandom'));
+          try
+            FChess960 := StrToBool(s);
+          except
+          end;
         end;
+        *)
         if LCmdIntf.HasOption('w', 'white') then
         begin
-          //DebugLn('white=', LCmdIntf.GetOptionValue('w', 'white'));
-          
+          DebugLn('white = [', LCmdIntf.GetOptionValue('w', 'white'), ']');          
         end;
         if LCmdIntf.HasOption('b', 'black') then
         begin
-          //DebugLn('black=', LCmdIntf.GetOptionValue('b', 'black'));
-          
+          DebugLn('black = [', LCmdIntf.GetOptionValue('b', 'black'), ']');          
         end;
         if LCmdIntf.HasOption('g', 'green') then
         begin
-          //DebugLn('green=', LCmdIntf.GetOptionValue('g', 'green'));
-          
+          DebugLn('green = [', LCmdIntf.GetOptionValue('g', 'green'), ']');          
         end;
         if LCmdIntf.HasOption('r', 'red') then
         begin
-          //DebugLn('red=', LCmdIntf.GetOptionValue('r', 'red'));
-          
+          DebugLn('red = [', LCmdIntf.GetOptionValue('r', 'red'), ']');          
+        end;
+        if LCmdIntf.HasOption('v', 'volume') then
+        begin
+          DebugLn('volume = [', LCmdIntf.GetOptionValue('v', 'volume'), ']');
+          s := Trim(LCmdIntf.GetOptionValue('v', 'volume'));
+          LVolume := StrToIntDef(s, 50);
+          LVolume := Min(LVolume, 100);
+          LVolume := Max(LVolume, 0);
+          SetSoundVolume(LVolume);          
         end;
         try
-          LArr := LCmdIntf.GetNonOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', ['autoplay:', 'black:', 'chessboard:', 'fischerandom:', 'font:', 'green:', 'language:', 'movetime:', 'position:', 'red:', 'size:', 'upsidedown:', 'volume:', 'white:']);
+          LArr := LCmdIntf.GetNonOptions('a:b:c:f:g:l:m:p:r:s:u:v:w:', ['autoplay:', 'black:', 'chessboard:', 'font:', 'green:', 'language:', 'movetime:', 'position:', 'red:', 'size:', 'upsidedown:', 'volume:', 'white:']);
         except
           on E: Exception do
-            WriteLn(ErrOutput, {$I %FILE%}, ' ', {$I %LINE%}, ' ', Format('Invalid command line option: %s', [E.Message]));
+            WriteLn('EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
         end;
         if Length(LArr) = 1 then
         begin
-          //DebugLn('LArr[0]=', LArr[0]);
           FEngine := LArr[0];
         end;
       end;
     end;
   end else
-    WriteLn(ErrOutput, 'Cannot process command line parameters');
+    Log('Cannot process command line parameters');
   
   FFenFileName := Concat(LConfigFilesPath, 'eschecs.fen');
   
@@ -518,7 +552,9 @@ begin
   end;
   with FEschecsSubMenu do
   begin
+    (*
     AddMenuItem(GetText(txSave), 'Ctrl+S', @SaveGame);
+    *)
     AddMenuItem(GetText(txQuit), 'Ctrl+Q', @ItemQuitClicked);
     AddMenuItem('-', '', nil);
     AddMenuItem(GetText(txAbout), '', @OtherItemClicked);
@@ -595,31 +631,17 @@ begin
   FWaitingForReadyOk := 0;
   FWaitingForUserMove := TRUE;
   
-  Log(Format('Eschecs %s %s %s %s %s FPC %s fpGUI %s BGRABitmap %s', [
-    CVersion,
-    {$I %DATE%},
-    {$I %TIME%},
-    {$I %FPCTARGETCPU%},
-    {$I %FPCTARGETOS%},
-    {$I %FPCVERSION%},
-    FPGUI_VERSION,
-    BGRABitmapVersionStr
-  ]));
+  Log(Format('Eschecs %s %s %s %s %s FPC %s fpGUI %s BGRABitmap %s', [CVersion, {$I %DATE%}, {$I %TIME%}, {$I %FPCTARGETCPU%}, {$I %FPCTARGETOS%}, {$I %FPCVERSION%}, FPGUI_VERSION, BGRABitmapVersionStr]));
   
   FCheckTimeElapsed := FALSE;
   FTimer := TfpgTimer.Create(10);
   FTimer.OnTimer := @InternalTimerFired;
   FTimer.Enabled := TRUE;
   
-  try
-    FConnected := FileExists(FEngine)
-      and MakeFileExecutableIf(FEngine) (* Make file executable if necessary. *)
-      and SetCurrentDir(ExtractFileDir(FEngine))
-      and CreateConnectedProcess(ExtractFileName(FEngine));
-  except
-    on E: Exception do
-      WriteLn(E.Message);
-  end;
+  FConnected := FileExists(FEngine)
+    and MakeFileExecutableIf(FEngine) (* Make file executable if necessary. *)
+    and SetCurrentDir(ExtractFileDir(FEngine))
+    and CreateConnectedProcess(ExtractFileName(FEngine));
     
   if FConnected then
   begin
@@ -627,13 +649,14 @@ begin
     LListener.Start;
     Send(MsgUci);
   end else
-    TfpgMessageDialog.Information('Connection failed', GetText(txConnectionFailure));
+    ShowMessage(GetText(txConnectionFailure));
   
   if LoadSoundLib < 0 then
   begin
     FOptionsSubMenu.MenuItem(0).Checked := FALSE;
     FOptionsSubMenu.MenuItem(0).Enabled := FALSE;
   end;
+  
   FComputerCastling := FALSE;
 end;
 
@@ -778,7 +801,7 @@ begin
   if Sender is TfpgMenuItem then
     with TfpgMenuItem(Sender) do
       if Text = GetText(txAbout) then
-        TfpgMessageDialog.Information(GetText(txAbout), 'Eschecs ' + CVersion + LineEnding + GetText(txAboutMessage))
+        ShowMessage('Eschecs ' + CVersion + LineEnding + GetText(txAboutMessage))
       else
       if Text = GetText(txComputerMove) then
         FComputerColor := FGame.ActiveColor
@@ -1014,6 +1037,7 @@ procedure TMainForm.ItemQuitClicked(Sender: TObject);
 begin
   DebugLn('ItemQuitClicked');
   FTimer.Enabled := FALSE;
+  SaveGame(Sender);
   Close;
 end;
 
@@ -1160,7 +1184,7 @@ begin
   Log(FMessage, '<');
   if IsMsgUciOk(FMessage, LName, LAuthor, LFrcAvail) then
   begin
-    Log(Format('UCI protocol accepted.' + LineEnding + 'Engine name: %s' + LineEnding + 'Author: %s', [LName, LAuthor]));
+    Log(Format('UCI protocol accepted [%s, %s]', [LName, LAuthor]));
     if LForm.FChess960 then
     begin
       if LFrcAvail then
@@ -1195,7 +1219,7 @@ begin
       LForm.DoMove(LMove, LType, TRUE, LSkip);
     end else
     begin
-      TfpgMessageDialog.Information(GetText(txTitleMessage), GetText(txIllegalMove) + LineEnding + LMove);
+      ShowMessage(GetText(txIllegalMove) + LineEnding + LMove);
       LForm.FMovesSubMenu.MenuItem(1).Checked := FALSE;
       LForm.FComputerColor := pcNil;
     end;
@@ -1227,7 +1251,7 @@ begin
     fpgApplication.Terminate;
   except
     on E: Exception do
-      WriteLn(E.ClassName, ': ', E.Message);
+      Log(E.ClassName + ': ' + E.Message);
   end;
 end;
 

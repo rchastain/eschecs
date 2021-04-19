@@ -150,7 +150,7 @@ const
   ), (
     (* lgEnglish *)
     'Eschecs', // txEschecs
-    'Save', // txSave
+    'Save game', // txSave
     'Quit', // txQuit
     'About Eschecs', // txAbout
     'Moves', // txMoves
@@ -193,7 +193,7 @@ const
   ), (
     (* lgFrench *)
     'Eschecs', // txEschecs
-    'Sauver', // txSave
+    'Enregistrer la partie', // txSave
     'Quitter', // txQuit
     'À propos d''Eschecs', // txAbout
     'Coups', // txMoves
