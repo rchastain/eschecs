@@ -237,6 +237,7 @@ begin
     KeyRight:     FCurrPosIndex := TryNavigate(FCurrPosIndex, nvNext);
     KeyUp:        FCurrPosIndex := TryNavigate(FCurrPosIndex, nvLast);
     KeyDown:      FCurrPosIndex := TryNavigate(FCurrPosIndex, nvFirst);
+    KeyEscape:    ItemQuitClicked(nil);
   end;
 end;
 
@@ -416,15 +417,15 @@ begin
         LErr := LCmdIntf.CheckOptions('a:b:c:f:g:l:m:p:r:s:t:u:v:w:', 'autoplay: black: chessboard: font: green: language: marblecolors: position: red: size: time: upsidedown: volume: white:');
       except
         on E: Exception do
-          Log('EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
+          DebugLn('** Command line ** EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
       end;
       if Length(LErr) > 0 then
-        DebugLn('LErr=', LErr)
+        DebugLn('CheckOptions = ', LErr)
       else
       begin
         if LCmdIntf.HasOption('p', 'position') then
         begin
-          s := LCmdIntf.GetOptionValue('p', 'position'); DebugLn('position = [', s, ']');
+          s := LCmdIntf.GetOptionValue('p', 'position'); DebugLn('** Command line ** position = [', s, ']');
           LCurrPos := Trim(s);
           (*
           // Trop tôt !
@@ -438,7 +439,7 @@ begin
         end;
         if LCmdIntf.HasOption('a', 'autoplay') then
         begin
-          s := LCmdIntf.GetOptionValue('a', 'autoplay'); DebugLn('autoplay = [', s, ']');
+          s := LCmdIntf.GetOptionValue('a', 'autoplay'); DebugLn('** Command line ** autoplay = [', s, ']');
           s := Trim(s);
           try
             LAuto := StrToBool(s);
@@ -447,7 +448,7 @@ begin
         end;
         if LCmdIntf.HasOption('u', 'upsidedown') then
         begin
-          s := LCmdIntf.GetOptionValue('u', 'upsidedow'); DebugLn('upsidedow = [', s, ']');
+          s := LCmdIntf.GetOptionValue('u', 'upsidedown'); DebugLn('** Command line ** upsidedown = [', s, ']');
           s := Trim(s);
           try
             FUpsideDown := StrToBool(s);
@@ -456,31 +457,30 @@ begin
         end;
         if LCmdIntf.HasOption('c', 'chessboard') then
         begin
-          s := LCmdIntf.GetOptionValue('c', 'chessboard');
-          DebugLn('chessboard = [', s, ']');
+          s := LCmdIntf.GetOptionValue('c', 'chessboard'); DebugLn('** Command line ** chessboard = [', s, ']');
           s := LowerCase(Trim(s));
-          if      s = 'simple'  then FStyle := bsSimple
-          else if s = 'marbleoriginal'  then FStyle := bsMarbleOriginal
-          else if s = 'marblenew' then FStyle := bsMarbleNew
-          else if s = 'marblecustom' then FStyle := bsMarbleCustom
-          else if s = 'marble' then FStyle := bsMarbleOriginal
-          else if s = 'wood'    then FStyle := bsWood;
+          if      s = 'simple'         then FStyle := bsSimple
+          else if s = 'marbleoriginal' then FStyle := bsMarbleOriginal
+          else if s = 'marblenew'      then FStyle := bsMarbleNew
+          else if s = 'marblecustom'   then FStyle := bsMarbleCustom
+          else if s = 'marble'         then FStyle := bsMarbleOriginal
+          else if s = 'wood'           then FStyle := bsWood;
         end;
         if LCmdIntf.HasOption('t', 'time') then
         begin
-          s := LCmdIntf.GetOptionValue('t', 'time'); DebugLn('time = [', s, ']');
+          s := LCmdIntf.GetOptionValue('t', 'time'); DebugLn('** Command line ** time = [', s, ']');
           s := Trim(s);
           FMoveTime := StrToIntDef(s, 999);
         end;
         if LCmdIntf.HasOption('f', 'font') then
         begin
-          s := LCmdIntf.GetOptionValue('f', 'font'); DebugLn('font = [', s, ']');
+          s := LCmdIntf.GetOptionValue('f', 'font'); DebugLn('** Command line ** font = [', s, ']');
           s := LowerCase(Trim(s));
           LFont := s;
         end;
         if LCmdIntf.HasOption('l', 'language') then
         begin
-          s := LCmdIntf.GetOptionValue('l', 'language'); DebugLn('language = [', s, ']');
+          s := LCmdIntf.GetOptionValue('l', 'language'); DebugLn('** Command line ** language = [', s, ']');
           s := Trim(s);
           try
             LLang := TLanguage(GetEnumValue(TypeInfo(TLanguage), 'lg' + s));
@@ -489,38 +489,65 @@ begin
         end;
         if LCmdIntf.HasOption('s', 'size') then
         begin
-          s := LCmdIntf.GetOptionValue('s', 'size'); DebugLn('size = [', s, ']');
+          s := LCmdIntf.GetOptionValue('s', 'size'); DebugLn('** Command line ** size = [', s, ']');
           s := Trim(s);
           LScale := StrToIntDef(s, 40);
         end;
         if LCmdIntf.HasOption('w', 'white') then
         begin
-          s := LCmdIntf.GetOptionValue('w', 'white');
-          DebugLn('white = [', s, ']');          
+          s := LCmdIntf.GetOptionValue('w', 'white'); DebugLn('** Command line ** white = [', s, ']');
+          s := UpperCase(Trim(s));
+          LExpr := TRegExpr.Create('^[\dA-F]{8}$');
+          try          
+            if LExpr.Exec(s) then
+              LLSColor := StrToBGRA(LExpr.Match[0]);
+          except
+          end;         
+          LExpr.Free;          
         end;
         if LCmdIntf.HasOption('b', 'black') then
         begin
-          s := LCmdIntf.GetOptionValue('b', 'black');
-          DebugLn('black = [', s, ']');          
+          s := LCmdIntf.GetOptionValue('b', 'black'); DebugLn('** Command line ** black = [', s, ']');
+          s := UpperCase(Trim(s));
+          LExpr := TRegExpr.Create('^[\dA-F]{8}$');
+          try          
+            if LExpr.Exec(s) then
+              LDSColor := StrToBGRA(LExpr.Match[0]);
+          except
+          end;         
+          LExpr.Free;          
         end;
         if LCmdIntf.HasOption('g', 'green') then
         begin
-          s := LCmdIntf.GetOptionValue('g', 'green');
-          DebugLn('green = [', s, ']');          
+          s := LCmdIntf.GetOptionValue('g', 'green'); DebugLn('** Command line ** green = [', s, ']');
+          s := UpperCase(Trim(s));
+          LExpr := TRegExpr.Create('^[\dA-F]{8}$');
+          try          
+            if LExpr.Exec(s) then
+              LBackColors[bcGreen] := StrToBGRA(LExpr.Match[0]);
+          except
+          end;         
+          LExpr.Free;          
         end;
         if LCmdIntf.HasOption('r', 'red') then
         begin
-          s := LCmdIntf.GetOptionValue('r', 'red');
-          DebugLn('red = [', s, ']');          
+          s := LCmdIntf.GetOptionValue('r', 'red'); DebugLn('** Command line ** red = [', s, ']');
+          s := UpperCase(Trim(s));
+          LExpr := TRegExpr.Create('^[\dA-F]{8}$');
+          try          
+            if LExpr.Exec(s) then
+              LBackColors[bcRed] := StrToBGRA(LExpr.Match[0]);
+          except
+          end;         
+          LExpr.Free          
         end;
         if LCmdIntf.HasOption('m', 'marblecolors') then
         begin
-          s := LCmdIntf.GetOptionValue('m', 'marblecolors');
-          DebugLn('marblecolors = [', s, ']');
-          s := UpperCase(s);          
-          LExpr := TRegExpr.Create('([\dA-F]{8}),([\dA-F]{8}),([\dA-F]{8}),([\dA-F]{8})');
+          s := LCmdIntf.GetOptionValue('m', 'marblecolors'); DebugLn('** Command line ** marblecolors = [', s, ']');
+          s := UpperCase(Trim(s));          
+          LExpr := TRegExpr.Create('^([\dA-F]{8}),([\dA-F]{8}),([\dA-F]{8}),([\dA-F]{8})$');
           try          
-          if LExpr.Exec(s) then
+            if LExpr.Exec(s) then
             begin
               LLMColor := StrToBGRA(LExpr.Match[1]);
               LLMColor2 := StrToBGRA(LExpr.Match[2]);
@@ -533,7 +560,7 @@ begin
         end;
         if LCmdIntf.HasOption('v', 'volume') then
         begin
-          s := LCmdIntf.GetOptionValue('v', 'volume'); DebugLn('volume = [', s, ']');
+          s := LCmdIntf.GetOptionValue('v', 'volume'); DebugLn('** Command line ** volume = [', s, ']');
           s := Trim(s);
           LVolume := StrToIntDef(s, Pred(CDefaultVolume));
           LVolume := Min(LVolume, CMaxVolume);
@@ -543,7 +570,7 @@ begin
           LArr := LCmdIntf.GetNonOptions('a:b:c:f:g:l:m:p:r:s:t:u:v:w:', ['autoplay:', 'black:', 'chessboard:', 'font:', 'green:', 'language:', 'marblecolors:', 'position:', 'red:', 'size:', 'time:', 'upsidedown:', 'volume:', 'white:']);
         except
           on E: Exception do
-            WriteLn('EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
+            DebugLn('** Command line ** EXCEPTION ' + {$I %FILE%} + ' (' + {$I %LINE%} + '): ' + E.Message);
         end;
         if Length(LArr) = 1 then
         begin
@@ -552,7 +579,7 @@ begin
       end;
     end;
   end else
-    Log('Cannot process command line parameters');
+    DebugLn('** Command line ** Cannot process parameters');
   
   FFenFileName := Concat(LConfigFilesPath, 'eschecs.fen');
   

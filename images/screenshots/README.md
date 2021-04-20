@@ -1,26 +1,50 @@
 
 # Screenshots
 
-Style Simple, font Alpha.
+```
+--chessboard=simple --font=alpha
+```
 
 ![alt text](eschecs500a.png)
 
-Style Simple, font Condal.
+```
+--chessboard=simple --font=condal
+```
 
 ![alt text](eschecs500b.png)
 
-Style Marble Original, font Mark.
+```
+--chessboard=marbleoriginal --font=mark
+```
 
 ![alt text](eschecs500c.png)
 
-Style Marble New, font Montreal.
+```
+--chessboard=marblenew --font=montreal
+```
 
 ![alt text](eschecs500d.png)
 
-Style Wood.
+```
+--chessboard=wood
+```
 
 ![alt text](eschecs500e.png)
 
-Style Wood, size 32.
+```
+--chessboard=wood --size=32
+```
 
 ![alt text](eschecs500f.png)
+
+```
+--chessboard=simple --white=FFFF00FF --black=FFA500FF
+```
+
+![alt text](eschecs510b.png)
+
+```
+--chessboard=marblecustom --marblecolors=FFFFFFFF,0080B3FF,0066FFFF,0047B3FF
+```
+
+![alt text](eschecs510a.png)
