@@ -11,6 +11,7 @@ uses
   BGRABitmap,
   BGRABitmapTypes,
   BGRAGradients,
+ {BGRAGraphics,}
   ChessTypes;
 
 type
@@ -32,6 +33,25 @@ implementation
 
 const
   CPicturesPath = 'images/pieces/%s/%d/';
+  CLogName = 'images.log';
+  
+var
+  LLogName: TFileName;
+  
+procedure Log(const ALine: string);
+var
+  LLog: TextFile;
+  LTime: string;
+begin
+  Assign(LLog, LLogName);
+  if FileExists(LLogName) then
+    Append(LLog)
+  else
+    Rewrite(LLog);
+  LTime := DateTimeToStr(Now);
+  WriteLn(LLog, LTime, ' ', ALine);
+  Close(LLog);
+end;
 
 function Interp256(value1, value2, position: integer): integer; inline; overload;
 begin
@@ -135,8 +155,13 @@ begin
           Format(CPicturesPath, ['wood', AScale]),
           'board.png'
         );
-        Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
-        result := TBGRABitmap.Create(LFileName);
+        if FileExists(LFileName) then
+          result := TBGRABitmap.Create(LFileName)
+        else
+        begin
+          Log(Format('File not found: %s', [LFileName]));
+          result := TBGRABitmap.Create(8 * AScale, 8 * AScale, BGRAWhite);
+        end;
       end;
   end;
 end;
@@ -145,10 +170,16 @@ procedure CreatePictures(const AStyle: TBoardStyle; const AScale: integer);
 const
   CColorChars: array[TPieceColorStrict] of char = ('w', 'b');
   CTypeChars: array[TPieceTypeStrict] of char = ('p', 'n', 'b', 'r', 'q', 'k');
+ {CChessFontChars: array[TPieceColorStrict, TPieceTypeStrict] of char = (
+    ('p', 'n', 'b', 'r', 'q', 'k'),
+    ('o', 'm', 'v', 't', 'w', 'l')
+  );}
 var
   c: TPieceColorStrict;
   t: TPieceTypeStrict;
   LFileName: string;
+ {LChar: string;
+  LSize: TSize;}
 begin
   for c := pcWhite to pcBlack do
     for t := ptPawn to ptKing do
@@ -160,8 +191,25 @@ begin
         CTypeChars[t],
         '.png'
       );
-      Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
-      LPieceImage[c, t] := TBGRABitmap.Create(LFileName);
+      
+      if FileExists(LFileName) then
+        LPieceImage[c, t] := TBGRABitmap.Create(LFileName)
+      else
+      begin
+        Log(Format('File not found: %s', [LFileName])); 
+        LPieceImage[c, t] := TBGRABitmap.Create(AScale, AScale, BGRAPixelTransparent);
+       {TBGRABitmap.AddFreeTypeFontFolder(GetCurrentDir);
+        LChar := CChessFontChars[c, t];
+        with LPieceImage[c, t] do
+        begin         
+          FontName := 'Chess Alfonso-X';
+          FontAntialias := TRUE;
+          FontHeight := AScale div 2;
+          FontStyle :=  [fsBold];
+          LSize := TextSize(LChar);
+          TextOut((AScale - LSize.cx) / 2, (AScale - LSize.cy) / 2, LChar, BGRABlack);
+        end;}
+      end;
     end;
   LChessboard := CreateChessboard(AStyle, AScale);
 end;
@@ -178,4 +226,6 @@ begin
   LChessboard.Free;
 end;
 
+begin
+  LLogName := ExtractFilePath(ParamStr(0)) + CLogName;
 end.

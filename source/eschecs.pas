@@ -149,16 +149,15 @@ const
   
 var
   LListener: TThread;
+  LLogName: TFileName;
   
 procedure Log(const ALine: string); overload;
 var
   LLog: TextFile;
-  LFileName: string;
   LTime: string;
 begin
-  LFileName := Concat(LConfigFilesPath, CLogName);
-  Assign(LLog, LFileName);
-  if FileExists(LFileName) then
+  Assign(LLog, LLogName);
+  if FileExists(LLogName) then
     Append(LLog)
   else
     Rewrite(LLog);
@@ -170,14 +169,12 @@ end;
 procedure Log(const AText, AInsert: string); overload;
 var
   LLog: TextFile;
-  LFileName: string;
   LTime: string;
   LList: TStringList;
   i: integer;
 begin
-  LFileName := Concat(LConfigFilesPath, CLogName);
-  Assign(LLog, LFileName);
-  if FileExists(LFileName) then
+  Assign(LLog, LLogName);
+  if FileExists(LLogName) then
     Append(LLog)
   else
     Rewrite(LLog);
@@ -610,28 +607,44 @@ begin
   FMenuBar.SetPosition(0, 0, 9 * LScale, 24);
   
   FXLegend := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/x/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
-  LLegend := TBGRABitmap.Create(LFileName);
-  FXLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
-  LLegend.Free;
+  LFileName := Format('%simages/legend/x/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
+  if FileExists(LFileName) then
+  begin 
+    LLegend := TBGRABitmap.Create(LFileName);
+    FXLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
+    LLegend.Free;
+  end else
+    Log(Format('File not found: %s', [LFileName]));
   
   FYLegend := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/y/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
-  LLegend := TBGRABitmap.Create(LFileName);
-  FYLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
-  LLegend.Free;
+  LFileName := Format('%simages/legend/y/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
+  if FileExists(LFileName) then
+  begin
+    LLegend := TBGRABitmap.Create(LFileName);
+    FYLegend.PutImage(0, 0, LLegend, dmDrawWithTransparency);
+    LLegend.Free;
+  end else
+    Log(Format('File not found: %s', [LFileName]));
   
   FXLegendInv := TBGRABitmap.Create(8 * LScale, LScale div 2, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/x/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName])); 
-  LLegend := TBGRABitmap.Create(LFileName);
-  FXLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
-  LLegend.Free;
+  LFileName := Format('%simages/legend/x/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
+  if FileExists(LFileName) then
+  begin
+    LLegend := TBGRABitmap.Create(LFileName);
+    FXLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
+    LLegend.Free;
+  end else
+    Log(Format('File not found: %s', [LFileName]));
   
   FYLegendInv := TBGRABitmap.Create(LScale div 2, 8 * LScale, ColorToBGRA(clWindowBackground));
-  LFileName := Format('%simages/legend/y/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]); Assert(FileExists(LFileName), Format('File not found: %s', [LFileName]));
-  LLegend := TBGRABitmap.Create(LFileName);
-  FYLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
-  LLegend.Free;
+  LFileName := Format('%simages/legend/y/inv/%d.png', [ExtractFilePath(ParamStr(0)), LScale]);
+  if FileExists(LFileName) then
+  begin
+    LLegend := TBGRABitmap.Create(LFileName);
+    FYLegendInv.PutImage(0, 0, LLegend, dmDrawWithTransparency);
+    LLegend.Free;
+  end else
+    Log(Format('File not found: %s', [LFileName]));
   
   FTopLegendWidget.SetPosition(LScale div 2, CMenuBarHeight, 8 * LScale, LScale div 2);
   FLeftLegendWidget.SetPosition(0, CMenuBarHeight + LScale div 2, LScale div 2, 8 * LScale);
@@ -652,8 +665,6 @@ begin
   FWaitingForAnimation := FALSE;
   FWaitingForReadyOk := 0;
   FWaitingForUserMove := TRUE;
-  
-  Log(Format('Eschecs %s %s %s %s %s FPC %s fpGUI %s BGRABitmap %s', [CVersion, {$I %DATE%}, {$I %TIME%}, {$I %FPCTARGETCPU%}, {$I %FPCTARGETOS%}, {$I %FPCVERSION%}, FPGUI_VERSION, BGRABitmapVersionStr]));
   
   FCheckTimeElapsed := FALSE;
   FTimer := TfpgTimer.Create(10);
@@ -1267,13 +1278,17 @@ end;
 
 procedure MainProc;
 begin
-  Assert(DirectoryExists(LConfigFilesPath), Format('Directory not found: %s', [LConfigFilesPath]));
+  LLogName := ExtractFilePath(ParamStr(0)) + CLogName;
+  Log(Format('Eschecs %s %s %s %s %s FPC %s fpGUI %s BGRABitmap %s', [CVersion, {$I %DATE%}, {$I %TIME%}, {$I %FPCTARGETCPU%}, {$I %FPCTARGETOS%}, {$I %FPCVERSION%}, FPGUI_VERSION, BGRABitmapVersionStr]));
+  if not DirectoryExists(LConfigFilesPath) then Log(Format('Directory not found: %s', [LConfigFilesPath]));
   
   try
     fpgApplication.Initialize;
     fpgImages.AddMaskedBMP('vfd.eschecs', @vfd_eschecs, SizeOf(vfd_eschecs), 0, 0);
+    (*
     if fpgStyleManager.SetStyle('eschecs') then
       fpgStyle := fpgStyleManager.Style;
+    *)
     fpgApplication.CreateForm(TMainForm, LForm);
     fpgApplication.MainForm := LForm;
     LForm.Show;
