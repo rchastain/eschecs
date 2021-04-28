@@ -28,22 +28,20 @@ The behaviour and the appearance of *Eschecs* can be set using the following com
 | Parameter name | Parameter value |
 | --- | --- |
 | `-p <v>`, `--position=<v>` | The position to be loaded, in FEN format. |
-| `-a <v>`, `--autoplay=<v>` | The computer will be the second player. Possible values: **false**, **true**. |
+| `-a <v>`, `--autoplay=<v>` | The computer will be the second player. |
 | `-t <v>`, `--time=<v>` | Time allowed for the computer move, in milliseconds. |
-| `-u <v>`, `--upsidedown=<v>` | Draw the chessboard upside down. Possible values: **false**, **true**. |
-| `-c <v>`, `--chessboard=<v>` | Appearance of the chessboard. Possible values: **simple**, **marble**, **marblenew**, **marblecustom**, **wood**. |
-| `-m <v>`, `--marblecolors=<v>` | Marble colors, in **RRGGBBAA,RRGGBBAA,RRGGBBAA,RRGGBBAA** format. |
+| `-u <v>`, `--upsidedown=<v>` | Draw the chessboard upside down. |
+| `-c <v>`, `--chessboard=<v>` | Appearance of the chessboard. |
+| `-m <v>`, `--marblecolors=<v>` | Marble colors. |
 | `-f <v>`, `--font=<v>` | Piece set. See below possible values. |
 | `-l <v>`, `--language=<v>` | Language. See below possible values. |
-| `-s <v>`, `--size=<v>` | Size of the square. See below possible values for each font. |
-| `-w <v>`, `--white=<v>` | Color of white squares, in **RRGGBBAA** format. |
+| `-s <v>`, `--size=<v>` | Size of the square. See below possible values. |
+| `-w <v>`, `--white=<v>` | Color of white squares. |
 | `-b <v>`, `--black=<v>` | Color of black squares, same format. |
 | `-g <v>`, `--green=<v>` | Color for legal target squares. |
 | `-r <v>`, `--red=<v>` | Color for the square of a king being in check. |
 
-See *start.sh* for command line examples.
-
-The settings will be automatically saved when you close the application, and reloaded when you start it.
+See *start.sh* for more precise information about parameters possible values.
 
 ### Available fonts and sizes
 

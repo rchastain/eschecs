@@ -2,13 +2,13 @@
 # Screenshots
 
 ```
---chessboard=simple --font=alpha
+--chessboard=simple --font=alpha --size=40
 ```
 
 ![alt text](eschecs500a.png)
 
 ```
---chessboard=simple --font=condal
+--chessboard=simple --font=condal --size=50
 ```
 
 ![alt text](eschecs500b.png)
@@ -20,13 +20,13 @@
 ![alt text](eschecs500c.png)
 
 ```
---chessboard=marblenew --font=montreal
+--chessboard=marblenew --font=montreal --size=60
 ```
 
 ![alt text](eschecs500d.png)
 
 ```
---chessboard=wood
+--chessboard=wood --size=70
 ```
 
 ![alt text](eschecs500e.png)
