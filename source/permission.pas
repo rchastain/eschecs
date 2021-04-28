@@ -33,11 +33,13 @@ begin
 end;
 
 function MakeFileExecutable(const AFileName: string): boolean;
+{$IFDEF UNIX}
 const
   CPermission: TMode = 
     S_IRWXO or // Read, write, execute by others.
     S_IRWXG or // Read, write, execute by groups.
     S_IRWXU;   // Read, write, execute by user.
+{$ENDIF}
 begin
 {$IFDEF UNIX}
   result := FpChmod(AFileName, {&777}CPermission) = 0;
