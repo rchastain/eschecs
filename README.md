@@ -85,20 +85,23 @@ Thanks to the translators:
 
 ## Technical informations
 
-*Eschecs* is a Pascal program. If you wish to compile it yourself, you will need the Free Pascal compiler, and the following libraries:
+*Eschecs* is a Pascal program. If you wish to compile it yourself, you need the Free Pascal compiler.
 
-* [fpGUI](https://github.com/graemeg/fpGUI)
-* [BGRABitmap](https://github.com/bgrabitmap/bgrabitmap)
-* LazUtils from the [Lazarus](https://sourceforge.net/projects/lazarus/) library
-* [uos](https://github.com/fredvs/uos)
+If Free Pascal is installed, you can download and build *Eschecs* as follows:
 
-An easy method to build the program is to open a terminal in *source* folder and type `make`. But before doing that, you will have to edit libraries path in *extrafpc.cfg*. (The provided *Makefile* has been made for Linux. It you try to compile on another OS, you could have to retouch it.)
+```
+git clone --recurse-submodules https://github.com/rchastain/eschecs.git
+cd eschecs/source
+make
+```
 
-You can also create a Lazarus or an MSEide project.
+Please notice that the *Makefile* included in this repository has been made for Linux. It you try to compile on another OS, you could have to retouch it.
+
+You can also create a Lazarus or an MSEide project, or even write a simple script. In that case you can look into source/extrafpc.cfg to see which directories you need to add to your project options. 
 
 ## Authors
 
-*Eschecs* is a Pascal program by Roland Chastain, with contributions by Johann Elsass and Fred van Stappen.
+*Eschecs* is a program written by Roland Chastain, with contributions by Johann Elsass and Fred van Stappen.
 
 ## Credits
 
@@ -120,3 +123,12 @@ The sound effects come from [Lichess][1], the well-known chess server by Thibaul
 
 [1]: https://github.com/ornicar/lila/tree/master/public/sound
 [2]: https://opengameart.org/content/512-sound-effects-8-bit-style
+
+### Libraries
+
+*Eschecs* uses the following libraries.
+
+* [fpGUI](https://github.com/graemeg/fpGUI)
+* [BGRABitmap](https://github.com/bgrabitmap/bgrabitmap)
+* [LazUtils](https://sourceforge.net/projects/lazarus/)
+* [uos](https://github.com/fredvs/uos)
