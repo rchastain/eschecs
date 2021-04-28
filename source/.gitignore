@@ -1,9 +1,9 @@
 *.cmd
 *.lpi
+*.lps
 *.o
 *.or
 *.ppu
 *.prj
-*.res
 *.rsj
 *.sh
