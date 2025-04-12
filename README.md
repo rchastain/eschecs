@@ -6,6 +6,6 @@ UCI chess GUI written in Pascal.
 
 ![Screenshot](eschecs512.png)
 
-## Homepage
+## Migration warning
 
-The project has been moved to [GitLab](https://gitlab.com/rchastain/eschecs).
+The project has moved to [Codeberg](https://codeberg.org/rchastain/eschecs).
